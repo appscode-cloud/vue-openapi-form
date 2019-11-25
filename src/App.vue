@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <div class="container vue-form-schema">
-      <vue-form-schema :schema="jsonSchema" :model="model" />
+      <vue-form-schema :schema="jsonSchema" v-model="model" />
     </div>
   </div>
 </template>
@@ -101,11 +101,19 @@ export default {
             type: "array",
             title: "A list of strings",
             items: {
-              type: "string",
-              default: "bazinga",
-              ui: {
-                tag: "input",
-                type: "text"
+              type: "array",
+              title: "A list of strings",
+              items: {
+                type: "array",
+                title: "A list of strings",
+                items: {
+                  type: "string",
+                  default: "bazinga",
+                  ui: {
+                    tag: "input",
+                    type: "text"
+                  }
+                }
               }
             }
           }
@@ -122,7 +130,16 @@ export default {
         bio: "Roundhouse kicking asses since 1940",
         password: "noneed",
         telephone: "01716303505",
-        listOfStrings: ["Happy", "Birthday"]
+        listOfStrings: [
+          [
+            ["Happy", "masud"],
+            ["Birthday", "no"]
+          ],
+          [
+            ["to", "here"],
+            ["someone", "hsow", "me"]
+          ]
+        ]
       }
     };
   }

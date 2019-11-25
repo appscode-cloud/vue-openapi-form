@@ -29,37 +29,19 @@
 </template>
 
 <script>
+import { model } from "@/mixins/model.js";
+
 export default {
   props: {
     schema: {
       type: Object,
       default: () => ({})
     },
-    model: {
-      default: null
+    value: {
+      default: ""
     }
   },
 
-  data() {
-    return {
-      modelData: null
-    };
-  },
-
-  methods: {
-    initModelData() {
-      this.modelData = this.model;
-    }
-  },
-
-  created() {
-    this.initModelData();
-  },
-
-  watch: {
-    model() {
-      this.initModelData();
-    }
-  }
+  mixins: [model]
 };
 </script>
