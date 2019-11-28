@@ -1,29 +1,57 @@
 <template>
   <div class="field">
-    <label class="label">{{ schema.title }}</label>
-    <div v-if="schema.ui.tag === 'input'" class="control has-icons-right">
-      <input
-        class="input"
-        :type="schema.ui.type"
-        :placeholder="schema.ui.placeholder || ''"
-        v-model="modelData"
-      />
-      <!-- <span class="icon is-small is-right">
+    <template v-if="ui.tag === 'input'">
+      <template v-if="ui.type === 'checkbox'">
+        <input
+          :id="schema.title.replace(' ', '-')"
+          type="checkbox"
+          name="switchRoundedDefault"
+          class="switch is-rounded"
+          v-model="modelData"
+        />
+        <label class="label" :for="schema.title.replace(' ', '-')">{{
+          schema.title
+        }}</label>
+      </template>
+      <template v-else>
+        <label class="label">{{ schema.title }}</label>
+        <div v-if="ui.tag === 'input'" class="control has-icons-right">
+          <input
+            class="input"
+            :type="ui.type"
+            :placeholder="ui.placeholder || ''"
+            v-model="modelData"
+          />
+          <!-- <span class="icon is-small is-right">
         <i class="fas fa-check"></i>
       </span> -->
-    </div>
+        </div>
+      </template>
+    </template>
 
-    <div v-if="schema.ui.tag === 'textarea'" class="control has-icons-right">
-      <textarea
-        class="input"
-        :type="schema.ui.type"
-        :placeholder="schema.ui.placeholder || ''"
-        v-model="modelData"
-      />
-      <!-- <span class="icon is-small is-right">
+    <template v-if="ui.tag === 'textarea'">
+      <div class="control has-icons-right">
+        <textarea
+          class="input"
+          :type="ui.type"
+          :placeholder="ui.placeholder || ''"
+          v-model="modelData"
+        />
+        <!-- <span class="icon is-small is-right">
         <i class="fas fa-check"></i>
       </span> -->
-    </div>
+      </div>
+    </template>
+
+    <!-- <div v-if="ui.tag === 'checkbox'" class="field">
+      <label>Switch rounded default</label>
+      <input
+        type="checkbox"
+        name="switchRoundedDefault"
+        class="switch is-rounded"
+        v-model="modelData"
+      />
+    </div> -->
     <!-- <p class="help is-danger">This username is available</p> -->
   </div>
 </template>
@@ -42,6 +70,14 @@ export default {
     }
   },
 
-  mixins: [model]
+  mixins: [model],
+
+  computed: {
+    ui() {
+      if (!this.schema.ui) console.log(this.schema);
+
+      return this.schema.ui || { tag: "input", type: "text" };
+    }
+  }
 };
 </script>

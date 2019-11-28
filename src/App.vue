@@ -1,147 +1,52 @@
 <template>
   <div id="app">
     <div class="container vue-form-schema">
-      <vue-form-schema :schema="jsonSchema" v-model="model" />
+      <!-- <vue-form-schema :schema="extendedSchema" v-model="model" /> -->
+      <key-value-pairs
+        :schema="extendedSchema.properties.matchLabels"
+        v-model="model.matchLabels"
+      />
     </div>
   </div>
 </template>
 
 <script>
-import VueFormSchema from "@/components/VueFormSchema.vue";
+// import VueFormSchema from "@/components/VueFormSchema.vue";
+import Schema from "@/json-schema";
+import ExtendSchema from "@/functional-components/extend-schema";
 
 export default {
   name: "app",
   components: {
-    VueFormSchema
+    // VueFormSchema,
+    "key-value-pairs": () => import("@/components/KeyValuePairs")
   },
   data() {
     return {
-      jsonSchema: {
-        title: "A registration form",
-        description: "A simple form example.",
-        type: "object",
-        properties: {
-          firstName: {
-            type: "string",
-            title: "First name",
-            default: "Chuck",
-            ui: {
-              tag: "input",
-              type: "text"
-            }
-          },
-          lastName: {
-            type: "string",
-            title: "Last name",
-            ui: {
-              tag: "input",
-              type: "text"
-            }
-          },
-          job: {
-            title: "Job description",
-            description: "Fillup your job informations",
-            type: "object",
-            properties: {
-              jobTitle: {
-                type: "string",
-                title: "Job Title",
-                default: "Software Engineer",
-                ui: {
-                  tag: "input",
-                  type: "text"
-                }
-              },
-              salary: {
-                type: "string",
-                title: "Salary",
-                default: "200",
-                ui: {
-                  tag: "input",
-                  type: "number"
-                }
-              }
-            }
-          },
-          age: {
-            type: "integer",
-            title: "Age",
-            ui: {
-              tag: "input",
-              type: "number"
-            }
-          },
-          bio: {
-            type: "string",
-            title: "Bio",
-            ui: {
-              tag: "textarea",
-              type: "text"
-            }
-          },
-          password: {
-            type: "string",
-            title: "Password",
-            minLength: 3,
-            ui: {
-              tag: "input",
-              type: "password"
-            }
-          },
-          telephone: {
-            type: "string",
-            title: "Telephone",
-            minLength: 10,
-            ui: {
-              tag: "input",
-              type: "text"
-            }
-          },
-          listOfStrings: {
-            type: "array",
-            title: "A list of strings",
-            items: {
-              type: "array",
-              title: "A list of strings",
-              items: {
-                type: "array",
-                title: "A list of strings",
-                items: {
-                  type: "string",
-                  default: "bazinga",
-                  ui: {
-                    tag: "input",
-                    type: "text"
-                  }
-                }
-              }
-            }
-          }
-        }
-      },
+      jsonSchema: Schema,
       model: {
-        firstName: "Chuck",
-        lastName: "Norris",
-        job: {
-          jobTitle: "Software Enginner",
-          salary: 200
-        },
-        age: 75,
-        bio: "Roundhouse kicking asses since 1940",
-        password: "noneed",
-        telephone: "01716303505",
-        listOfStrings: [
-          [
-            ["Happy", "masud"],
-            ["Birthday", "no"]
-          ],
-          [
-            ["to", "here"],
-            ["someone", "hsow", "me"]
-          ]
-        ]
+        matchLabels: {
+          firstName: "chuck",
+          lastName: "norris"
+        }
       }
     };
+  },
+  computed: {
+    extendedSchema() {
+      // return ExtendSchema(this.jsonSchema);
+      return ExtendSchema({
+        type: "object",
+        properties: {
+          matchLabels: {
+            additionalProperties: {
+              type: "string"
+            },
+            type: "object"
+          }
+        }
+      });
+    }
   }
 };
 </script>
@@ -153,7 +58,7 @@ export default {
 .vue-schema-form-object {
   padding: 1rem;
   border-radius: 20px;
-  box-shadow: 0px 0px 5px 0px blue;
+  box-shadow: 0px 0px 5px 0px rgb(68, 0, 255);
   margin-top: 2rem;
   margin-bottom: 2rem;
 }
@@ -161,7 +66,15 @@ export default {
 .vue-schema-form-array {
   padding: 1rem;
   border-radius: 20px;
-  box-shadow: 0px 0px 5px 0px green;
+  box-shadow: 0px 0px 5px 0px rgb(0, 124, 128);
+  margin-top: 2rem;
+  margin-bottom: 2rem;
+}
+
+.vue-schema-form-key-value-pairs {
+  padding: 1rem;
+  border-radius: 20px;
+  box-shadow: 0px 0px 5px 0px rgb(119, 128, 0);
   margin-top: 2rem;
   margin-bottom: 2rem;
 }
