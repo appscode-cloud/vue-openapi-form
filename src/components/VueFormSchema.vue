@@ -29,11 +29,7 @@
       v-model="modelData"
     />
     <!-- declared in tabs component -->
-    <json-form
-      v-else
-      :isSelfFolded="isRoot ? false : isFolded"
-      v-model="modelData"
-    />
+    <json-form v-else v-model="modelData" />
   </form>
 </template>
 

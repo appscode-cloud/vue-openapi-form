@@ -13,7 +13,7 @@ import "codemirror/mode/javascript/javascript.js";
 export default {
   props: {
     value: {
-      type: Object,
+      type: null,
       default: () => ({})
     }
   },
@@ -40,6 +40,17 @@ export default {
   methods: {
     initValueString() {
       this.valueString = JSON.stringify(this.value, null, 2);
+    },
+
+    updateModelData(data) {
+      let ans = null;
+      try {
+        ans = JSON.parse(data);
+      } catch {
+        ans = this.modelData;
+      }
+
+      return ans;
     }
   },
 
@@ -53,7 +64,7 @@ export default {
     },
 
     valueString(n) {
-      this.modelData = JSON.parse(n);
+      this.modelData = this.updateModelData(n);
     }
   }
 };

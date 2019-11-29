@@ -1,122 +1,138 @@
 <template>
   <div class="vue-schema-form-key-value-pairs" :key="updatePass">
-    <h4 class="title is-5">{{ schema.title || "Array Item Description" }}</h4>
+    <div class="level">
+      <div class="level-left">
+        <h4 class="title is-5">
+          {{ schema.title || "Array Item Description" }}
+        </h4>
+      </div>
+      <div class="level-right">
+        <tabs v-model="formShow" />
+      </div>
+    </div>
     <hr />
-    <div
-      class="columns is-multiline"
-      v-for="(prop, index) in keyValueArray"
-      :key="index"
-    >
-      <div class="column is-3">
-        <div class="field">
-          <label class="label">Key</label>
-          <div class="control has-icons right">
-            <input class="input" type="text" v-model="prop.key" />
+    <template v-if="formShow">
+      <div
+        class="columns is-multiline"
+        v-for="(prop, index) in keyValueArray"
+        :key="index"
+      >
+        <div class="column is-3">
+          <div class="field">
+            <label class="label">Key</label>
+            <div class="control has-icons right">
+              <input class="input" type="text" v-model="prop.key" />
+            </div>
+          </div>
+        </div>
+        <div class="column is-8">
+          <template v-if="additionalProperties.type === 'object'">
+            <vue-form-schema
+              :schema="additionalProperties"
+              :type="additionalProperties.type"
+              v-model="prop.value"
+            />
+          </template>
+          <template v-else-if="additionalProperties.type === 'key-value-pairs'">
+            <key-value-pairs
+              :schema="additionalProperties"
+              :type="additionalProperties.type"
+              v-model="prop.value"
+            />
+          </template>
+          <template v-else-if="additionalProperties.type === 'array'">
+            <array-input
+              :schema="additionalProperties"
+              :type="additionalProperties.type"
+              v-model="prop.value"
+            />
+          </template>
+          <template v-else>
+            <simple-input
+              :schema="additionalProperties"
+              :type="additionalProperties.type"
+              v-model="prop.value"
+            />
+          </template>
+        </div>
+
+        <div class="column is-1">
+          <div class="buttons">
+            <button
+              class="button is-rounded is-danger ac-key-value-action-button"
+              @click.prevent="deleteProp(index)"
+            >
+              <span class="icon is-small">
+                <i class="fa fa-trash"></i>
+              </span>
+            </button>
           </div>
         </div>
       </div>
-      <div class="column is-8">
-        <template v-if="additionalProperties.type === 'object'">
-          <vue-form-schema
-            :schema="additionalProperties"
-            :type="additionalProperties.type"
-            v-model="prop.value"
-          />
-        </template>
-        <template v-else-if="additionalProperties.type === 'key-value-pairs'">
-          <key-value-pairs
-            :schema="additionalProperties"
-            :type="additionalProperties.type"
-            v-model="prop.value"
-          />
-        </template>
-        <template v-else-if="additionalProperties.type === 'array'">
-          <array-input
-            :schema="additionalProperties"
-            :type="additionalProperties.type"
-            v-model="prop.value"
-          />
-        </template>
-        <template v-else>
-          <simple-input
-            :schema="additionalProperties"
-            :type="additionalProperties.type"
-            v-model="prop.value"
-          />
-        </template>
-      </div>
 
-      <div class="column is-1">
-        <div class="buttons">
-          <button
-            class="button is-rounded is-danger ac-key-value-action-button"
-            @click.prevent="deleteProp(index)"
-          >
-            <span class="icon is-small">
-              <i class="fa fa-trash"></i>
-            </span>
-          </button>
+      <div class="columns is-multiline">
+        <div class="column is-3">
+          <div class="field">
+            <label class="label">Key</label>
+            <div class="control has-icons right">
+              <input class="input" type="text" v-model="newKey" />
+            </div>
+          </div>
         </div>
-      </div>
-    </div>
-
-    <div class="columns is-multiline">
-      <div class="column is-3">
-        <div class="field">
-          <label class="label">Key</label>
-          <div class="control has-icons right">
-            <input class="input" type="text" v-model="newKey" />
+        <div class="column is-8">
+          <template v-if="additionalProperties.type === 'object'">
+            <vue-form-schema
+              :schema="additionalProperties"
+              :type="additionalProperties.type"
+              v-model="newValue"
+            />
+          </template>
+          <template v-else-if="additionalProperties.type === 'key-value-pairs'">
+            <key-value-pairs
+              :schema="additionalProperties"
+              :type="additionalProperties.type"
+              v-model="newValue"
+            />
+          </template>
+          <template v-else-if="additionalProperties.type === 'array'">
+            <array-input
+              :schema="additionalProperties"
+              :type="additionalProperties.type"
+              v-model="newValue"
+            />
+          </template>
+          <template v-else>
+            <simple-input
+              :schema="additionalProperties"
+              :type="additionalProperties.type"
+              v-model="newValue"
+            />
+          </template>
+        </div>
+        <div class="column is-1">
+          <div class="buttons">
+            <button
+              class="button is-rounded is-success ac-key-value-action-button"
+              @click.prevent="addProp()"
+            >
+              <span class="icon is-small">
+                <i class="fa fa-plus"></i>
+              </span>
+            </button>
           </div>
         </div>
       </div>
-      <div class="column is-8">
-        <template v-if="additionalProperties.type === 'object'">
-          <vue-form-schema
-            :schema="additionalProperties"
-            :type="additionalProperties.type"
-            v-model="newValue"
-          />
-        </template>
-        <template v-else-if="additionalProperties.type === 'key-value-pairs'">
-          <key-value-pairs
-            :schema="additionalProperties"
-            :type="additionalProperties.type"
-            v-model="newValue"
-          />
-        </template>
-        <template v-else-if="additionalProperties.type === 'array'">
-          <array-input
-            :schema="additionalProperties"
-            :type="additionalProperties.type"
-            v-model="newValue"
-          />
-        </template>
-        <template v-else>
-          <simple-input
-            :schema="additionalProperties"
-            :type="additionalProperties.type"
-            v-model="newValue"
-          />
-        </template>
-      </div>
-      <div class="column is-1">
-        <div class="buttons">
-          <button
-            class="button is-rounded is-success ac-key-value-action-button"
-            @click.prevent="addProp()"
-          >
-            <span class="icon is-small">
-              <i class="fa fa-plus"></i>
-            </span>
-          </button>
-        </div>
-      </div>
-    </div>
+    </template>
+    <template v-else>
+      <!-- declared in tabs component -->
+      <json-form v-model="modelData" />
+    </template>
   </div>
 </template>
 
 <script>
 import { model } from "@/mixins/model.js";
+import tabs from "@/mixins/tabs.js";
 
 export default {
   props: {
@@ -130,7 +146,7 @@ export default {
     }
   },
 
-  mixins: [model],
+  mixins: [model, tabs],
 
   components: {
     "vue-form-schema": () => import("@/components/VueFormSchema"),
