@@ -86,7 +86,7 @@ export default {
           create: true,
           name: null
         },
-        tolerations: {}
+        tolerations: []
       }
     };
   },
@@ -112,6 +112,7 @@ export default {
 <style lang="scss">
 @import "~font-awesome/css/font-awesome.min.css";
 @import "@/assets/scss/main.scss";
+@import "~codemirror/lib/codemirror.css";
 
 .vue-schema-form-object {
   padding: 1rem;
@@ -144,5 +145,11 @@ export default {
 .buttons .ac-key-value-action-button {
   margin-bottom: -3.375rem;
   margin-top: 1.9rem;
+}
+
+.form-json-toggle-tabs,
+.tabs:not(:last-child) {
+  margin-bottom: 0;
+  margin-right: 2rem;
 }
 </style>

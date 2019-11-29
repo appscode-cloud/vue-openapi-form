@@ -7,8 +7,14 @@
         </h4>
       </div>
       <div class="level-right">
+        <tabs v-model="formShow" />
+
         <div v-if="!isRoot" class="buttons">
-          <button class="button" @click.prevent="toggleFold()">
+          <button
+            class="button"
+            :disabled="!formShow"
+            @click.prevent="toggleFold()"
+          >
             {{ isFolded ? "Expand" : "Collapse" }}
           </button>
         </div>
@@ -16,8 +22,15 @@
     </div>
     <hr />
     <object-form
+      v-if="formShow"
       :properties="schema.properties"
       :type="schema.type"
+      :isSelfFolded="isRoot ? false : isFolded"
+      v-model="modelData"
+    />
+    <!-- declared in tabs component -->
+    <json-form
+      v-else
       :isSelfFolded="isRoot ? false : isFolded"
       v-model="modelData"
     />
@@ -27,6 +40,7 @@
 <script>
 import { model } from "@/mixins/model.js";
 import fold from "@/mixins/fold.js";
+import tabs from "@/mixins/tabs.js";
 
 export default {
   props: {
@@ -44,7 +58,7 @@ export default {
     }
   },
 
-  mixins: [model, fold],
+  mixins: [model, fold, tabs],
 
   components: {
     "object-form": () => import("@/components/ObjectForm")
