@@ -1,7 +1,11 @@
 <template>
   <div id="app">
     <div class="container vue-form-schema">
-      <vue-form-schema :schema="extendedSchema" v-model="model" />
+      <vue-form-schema
+        :isRoot="true"
+        :schema="extendedSchema"
+        v-model="model"
+      />
       <!-- <key-value-pairs
         :schema="extendedSchema.properties.matchLabels"
         v-model="model.matchLabels"

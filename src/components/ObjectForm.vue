@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div :class="{ 'is-hidden': isSelfFolded }">
     <template v-for="key in Object.keys(properties)">
       <vue-form-schema
         v-if="properties[key].type === 'object'"
@@ -35,6 +35,7 @@
 
 <script>
 import { model } from "@/mixins/model.js";
+import fold from "@/mixins/fold.js";
 
 export default {
   props: {
@@ -48,7 +49,7 @@ export default {
     }
   },
 
-  mixins: [model],
+  mixins: [model, fold],
 
   components: {
     "vue-form-schema": () => import("@/components/VueFormSchema"),
