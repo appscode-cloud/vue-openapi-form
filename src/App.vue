@@ -1,25 +1,25 @@
 <template>
   <div id="app">
     <div class="container vue-form-schema">
-      <!-- <vue-form-schema :schema="extendedSchema" v-model="model" /> -->
-      <key-value-pairs
+      <vue-form-schema :schema="extendedSchema" v-model="model" />
+      <!-- <key-value-pairs
         :schema="extendedSchema.properties.matchLabels"
         v-model="model.matchLabels"
-      />
+      /> -->
     </div>
   </div>
 </template>
 
 <script>
-// import VueFormSchema from "@/components/VueFormSchema.vue";
+import VueFormSchema from "@/components/VueFormSchema.vue";
 import Schema from "@/json-schema";
 import ExtendSchema from "@/functional-components/extend-schema";
 
 export default {
   name: "app",
   components: {
-    // VueFormSchema,
-    "key-value-pairs": () => import("@/components/KeyValuePairs")
+    VueFormSchema
+    // "key-value-pairs": () => import("@/components/KeyValuePairs")
   },
   data() {
     return {
@@ -34,18 +34,18 @@ export default {
   },
   computed: {
     extendedSchema() {
-      // return ExtendSchema(this.jsonSchema);
-      return ExtendSchema({
-        type: "object",
-        properties: {
-          matchLabels: {
-            additionalProperties: {
-              type: "string"
-            },
-            type: "object"
-          }
-        }
-      });
+      return ExtendSchema(this.jsonSchema);
+      // return ExtendSchema({
+      //   type: "object",
+      //   properties: {
+      //     matchLabels: {
+      //       additionalProperties: {
+      //         type: "string"
+      //       },
+      //       type: "object"
+      //     }
+      //   }
+      // });
     }
   }
 };
@@ -81,5 +81,10 @@ export default {
 
 .buttons .ac-list-action-button {
   margin-bottom: -3.375rem;
+}
+
+.buttons .ac-key-value-action-button {
+  margin-bottom: -3.375rem;
+  margin-top: 1.9rem;
 }
 </style>

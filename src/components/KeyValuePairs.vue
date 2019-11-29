@@ -1,5 +1,5 @@
 <template>
-  <div class="vue-schema-form-key-value-pairs">
+  <div class="vue-schema-form-key-value-pairs" :key="updatePass">
     <h4 class="title">{{ schema.title }}</h4>
     <hr />
     <div
@@ -7,7 +7,7 @@
       v-for="(prop, index) in keyValueArray"
       :key="index"
     >
-      <div class="column is-5">
+      <div class="column is-3">
         <div class="field">
           <label class="label">Key</label>
           <div class="control has-icons right">
@@ -15,7 +15,7 @@
           </div>
         </div>
       </div>
-      <div class="column is-5">
+      <div class="column is-8">
         <template v-if="additionalProperties.type === 'object'">
           <vue-form-schema
             :schema="additionalProperties"
@@ -37,6 +37,65 @@
             v-model="prop.value"
           />
         </template>
+      </div>
+
+      <div class="column is-1">
+        <div class="buttons">
+          <button
+            class="button is-rounded is-danger ac-key-value-action-button"
+            @click.prevent="deleteProp(index)"
+          >
+            <span class="icon is-small">
+              <i class="fa fa-trash"></i>
+            </span>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div class="columns is-multiline">
+      <div class="column is-3">
+        <div class="field">
+          <label class="label">Key</label>
+          <div class="control has-icons right">
+            <input class="input" type="text" v-model="newKey" />
+          </div>
+        </div>
+      </div>
+      <div class="column is-8">
+        <template v-if="additionalProperties.type === 'object'">
+          <vue-form-schema
+            :schema="additionalProperties"
+            type="object"
+            v-model="newValue"
+          />
+        </template>
+        <template v-else-if="additionalProperties.type === 'array'">
+          <array-input
+            :schema="additionalProperties"
+            type="array"
+            v-model="newValue"
+          />
+        </template>
+        <template v-else>
+          <simple-input
+            :schema="additionalProperties"
+            type="string"
+            v-model="newValue"
+          />
+        </template>
+      </div>
+      <div class="column is-1">
+        <div class="buttons">
+          <button
+            class="button is-rounded is-success ac-key-value-action-button"
+            @click.prevent="addProp()"
+          >
+            <span class="icon is-small">
+              <i class="fa fa-plus"></i>
+            </span>
+          </button>
+        </div>
       </div>
     </div>
   </div>
@@ -69,7 +128,9 @@ export default {
     return {
       newData: null,
       updatePass: 0,
-      keyValueArray: []
+      keyValueArray: [],
+      newKey: "",
+      newValue: null
     };
   },
 
@@ -99,6 +160,23 @@ export default {
         );
       });
       return result;
+    },
+
+    addProp() {
+      this.keyValueArray.push({
+        key: this.newKey,
+        value: this.newValue
+      });
+
+      this.newKey = "";
+      this.newValue = null;
+
+      this.updatePass += 1;
+    },
+
+    deleteProp(index) {
+      this.$delete(this.keyValueArray, index);
+      this.updatePass += 1;
     }
   },
 
