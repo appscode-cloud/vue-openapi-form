@@ -1,6 +1,6 @@
 <template>
   <div class="vue-schema-form-key-value-pairs" :key="updatePass">
-    <h4 class="title">{{ schema.title }}</h4>
+    <h4 class="title is-5">{{ schema.title || "Array Item Description" }}</h4>
     <hr />
     <div
       class="columns is-multiline"
@@ -19,21 +19,28 @@
         <template v-if="additionalProperties.type === 'object'">
           <vue-form-schema
             :schema="additionalProperties"
-            type="object"
+            :type="additionalProperties.type"
+            v-model="prop.value"
+          />
+        </template>
+        <template v-else-if="additionalProperties.type === 'key-value-pairs'">
+          <key-value-pairs
+            :schema="additionalProperties"
+            :type="additionalProperties.type"
             v-model="prop.value"
           />
         </template>
         <template v-else-if="additionalProperties.type === 'array'">
           <array-input
             :schema="additionalProperties"
-            type="array"
+            :type="additionalProperties.type"
             v-model="prop.value"
           />
         </template>
         <template v-else>
           <simple-input
             :schema="additionalProperties"
-            type="string"
+            :type="additionalProperties.type"
             v-model="prop.value"
           />
         </template>
@@ -66,21 +73,28 @@
         <template v-if="additionalProperties.type === 'object'">
           <vue-form-schema
             :schema="additionalProperties"
-            type="object"
+            :type="additionalProperties.type"
+            v-model="newValue"
+          />
+        </template>
+        <template v-else-if="additionalProperties.type === 'key-value-pairs'">
+          <key-value-pairs
+            :schema="additionalProperties"
+            :type="additionalProperties.type"
             v-model="newValue"
           />
         </template>
         <template v-else-if="additionalProperties.type === 'array'">
           <array-input
             :schema="additionalProperties"
-            type="array"
+            :type="additionalProperties.type"
             v-model="newValue"
           />
         </template>
         <template v-else>
           <simple-input
             :schema="additionalProperties"
-            type="string"
+            :type="additionalProperties.type"
             v-model="newValue"
           />
         </template>
@@ -121,7 +135,8 @@ export default {
   components: {
     "vue-form-schema": () => import("@/components/VueFormSchema"),
     "array-input": () => import("@/components/ArrayInput"),
-    "simple-input": () => import("@/components/SimpleInput")
+    "simple-input": () => import("@/components/SimpleInput"),
+    "key-value-pairs": () => import("@/components/KeyValuePairs")
   },
 
   data() {

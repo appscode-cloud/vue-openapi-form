@@ -4,28 +4,28 @@
       <vue-form-schema
         v-if="properties[key].type === 'object'"
         :key="key"
-        type="object"
+        :type="properties[key].type"
         :schema="properties[key]"
         v-model="modelData[key]"
       />
       <key-value-pairs
         v-else-if="properties[key].type === 'key-value-pairs'"
         :key="key"
-        type="key-value-pairs"
+        :type="properties[key].type"
         :schema="properties[key]"
         v-model="modelData[key]"
       />
       <array-input
         v-else-if="properties[key].type === 'array'"
         :key="key"
-        type="array"
+        :type="properties[key].type"
         :schema="properties[key]"
         v-model="modelData[key]"
       />
       <simple-input
         v-else
         :key="key"
-        type="string"
+        :type="properties[key].type"
         :schema="properties[key]"
         v-model="modelData[key]"
       />

@@ -25,10 +25,64 @@ export default {
     return {
       jsonSchema: Schema,
       model: {
-        matchLabels: {
-          firstName: "chuck",
-          lastName: "norris"
-        }
+        affinity: {},
+        annotations: {},
+        apiserver: {
+          bypassValidatingWebhookXray: false,
+          ca: "not-ca-cert",
+          disableStatusSubresource: false,
+          enableMutatingWebhook: true,
+          enableValidatingWebhook: true,
+          groupPriorityMinimum: 10000,
+          healthcheck: {
+            enabled: true
+          },
+          useKubeapiserverFqdnForAks: true,
+          versionPriority: 15
+        },
+        cleaner: {
+          registry: "appscode",
+          repository: "kubectl",
+          tag: "v1.12"
+        },
+        criticalAddon: false,
+        enableAnalytics: true,
+        imagePullPolicy: "IfNotPresent",
+        logLevel: 3,
+        monitoring: {
+          agent: "none",
+          backup: false,
+          operator: false,
+          prometheus: {
+            namespace: ""
+          },
+          serviceMonitor: {
+            labels: {}
+          }
+        },
+        nodeSelector: {
+          "beta.kubernetes.io/arch": "amd64",
+          "beta.kubernetes.io/os": "linux"
+        },
+        operator: {
+          registry: "appscode",
+          repository: "stash",
+          tag: "0.8.3"
+        },
+        pushgateway: {
+          registry: "prom",
+          repository: "pushgateway",
+          tag: "v0.5.2"
+        },
+        rbac: {
+          create: true
+        },
+        replicaCount: 1,
+        serviceAccount: {
+          create: true,
+          name: null
+        },
+        tolerations: {}
       }
     };
   },

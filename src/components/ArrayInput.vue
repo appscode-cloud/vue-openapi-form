@@ -1,6 +1,6 @@
 <template>
   <div class="vue-schema-form-array" :key="updatePass">
-    <h4 class="title">{{ schema.title }}</h4>
+    <h4 class="title is-5">{{ schema.title || "Array Item Description" }}</h4>
     <hr />
     <div
       class="columns is-multiline"
@@ -11,21 +11,28 @@
         <template v-if="items.type === 'object'">
           <vue-form-schema
             :schema="items"
-            type="object"
+            :type="items.type"
+            v-model="modelData[index]"
+          />
+        </template>
+        <template v-else-if="items.type === 'key-value-pairs'">
+          <key-value-pairs
+            :schema="items"
+            :type="items.type"
             v-model="modelData[index]"
           />
         </template>
         <template v-else-if="items.type === 'array'">
           <array-input
             :schema="items"
-            type="array"
+            :type="items.type"
             v-model="modelData[index]"
           />
         </template>
         <template v-else>
           <simple-input
             :schema="items"
-            type="string"
+            :type="items.type"
             v-model="modelData[index]"
           />
         </template>
@@ -64,13 +71,24 @@
     <div class="columns is-multiline">
       <div class="column is-10">
         <template v-if="items.type === 'object'">
-          <vue-form-schema :schema="items" type="object" v-model="newData" />
+          <vue-form-schema
+            :schema="items"
+            :type="items.type"
+            v-model="newData"
+          />
+        </template>
+        <template v-else-if="items.type === 'key-value-pairs'">
+          <key-value-pairs
+            :schema="items"
+            :type="items.type"
+            v-model="newData"
+          />
         </template>
         <template v-else-if="items.type === 'array'">
-          <array-input :schema="items" type="array" v-model="newData" />
+          <array-input :schema="items" :type="items.type" v-model="newData" />
         </template>
         <template v-else>
-          <simple-input :schema="items" type="string" v-model="newData" />
+          <simple-input :schema="items" :type="items.type" v-model="newData" />
         </template>
       </div>
       <div class="column is-2">
@@ -109,7 +127,8 @@ export default {
   components: {
     "vue-form-schema": () => import("@/components/VueFormSchema"),
     "array-input": () => import("@/components/ArrayInput"),
-    "simple-input": () => import("@/components/SimpleInput")
+    "simple-input": () => import("@/components/SimpleInput"),
+    "key-value-pairs": () => import("@/components/KeyValuePairs")
   },
 
   data() {

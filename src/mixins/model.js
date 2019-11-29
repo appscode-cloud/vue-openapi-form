@@ -19,6 +19,7 @@ export const model = {
     initWithBlank() {
       if (this.type === "object" || this.type === "key-value-pairs") return {};
       else if (this.type === "array") return [];
+      else if (this.type === "boolean") return false;
       else return "";
     }
   },

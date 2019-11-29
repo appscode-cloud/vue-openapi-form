@@ -35,7 +35,7 @@ const recurse = function(schema, title) {
           { type: "key-value-pairs" }
         );
 
-        console.log({ newSchema });
+        // console.log({ newSchema });
 
         newSchema.additionalProperties = Object.assign(
           {},

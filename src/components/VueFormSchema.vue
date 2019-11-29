@@ -1,10 +1,10 @@
 <template>
   <form class="vue-schema-form-object">
-    <h4 class="title">{{ schema.title }}</h4>
+    <h4 class="title is-5">{{ schema.title || "Array Item Description" }}</h4>
     <hr />
     <object-form
       :properties="schema.properties"
-      type="object"
+      :type="schema.type"
       v-model="modelData"
     />
   </form>
