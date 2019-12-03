@@ -25,6 +25,7 @@
       <simple-input
         v-else
         :key="key"
+        :required="isRequired(key)"
         :type="properties[key].type"
         :schema="properties[key]"
         v-model="modelData[key]"
@@ -46,6 +47,10 @@ export default {
     value: {
       type: Object,
       default: () => ({})
+    },
+    required: {
+      type: Array,
+      default: () => []
     }
   },
 
@@ -67,6 +72,10 @@ export default {
   methods: {
     initModelData() {
       this.modelData = this.value;
+    },
+
+    isRequired(key) {
+      return this.required.includes(key);
     }
   },
 

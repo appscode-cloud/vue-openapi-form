@@ -24,6 +24,7 @@
     <object-form
       v-if="formShow"
       :properties="schema.properties"
+      :required="schema.required"
       :type="schema.type"
       :isSelfFolded="isRoot ? false : isFolded"
       v-model="modelData"

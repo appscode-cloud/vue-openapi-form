@@ -152,4 +152,15 @@ export default {
   margin-bottom: 0;
   margin-right: 2rem;
 }
+
+.control.has-icons-right .icon.is-success {
+  color: green;
+}
+.control.has-icons-right .icon.is-warning {
+  color: red;
+}
+
+p.is-warning {
+  color: red;
+}
 </style>
