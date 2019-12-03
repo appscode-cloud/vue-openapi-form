@@ -78,46 +78,58 @@
           </div>
         </div>
       </div>
-      <div class="columns is-multiline">
-        <div class="column is-10">
-          <template v-if="items.type === 'object'">
-            <vue-form-schema
-              :schema="items"
-              :type="items.type"
-              v-model="newData"
-            />
-          </template>
-          <template v-else-if="items.type === 'key-value-pairs'">
-            <key-value-pairs
-              :schema="items"
-              :type="items.type"
-              v-model="newData"
-            />
-          </template>
-          <template v-else-if="items.type === 'array'">
-            <array-input :schema="items" :type="items.type" v-model="newData" />
-          </template>
-          <template v-else>
-            <simple-input
-              :schema="items"
-              :type="items.type"
-              v-model="newData"
-            />
-          </template>
-        </div>
-        <div class="column is-2">
-          <div class="buttons">
-            <button
-              class="button is-rounded is-success ac-list-action-button"
-              @click.prevent="addNewValue()"
-            >
-              <span class="icon is-small">
-                <i class="fa fa-plus"></i>
-              </span>
-            </button>
+      <validation-observer
+        :ref="`${schema.title}-new`"
+        v-slot="{ invalid }"
+        slim
+      >
+        <div class="columns is-multiline">
+          <div class="column is-10">
+            <template v-if="items.type === 'object'">
+              <vue-form-schema
+                :schema="items"
+                :type="items.type"
+                v-model="newData"
+              />
+            </template>
+            <template v-else-if="items.type === 'key-value-pairs'">
+              <key-value-pairs
+                :schema="items"
+                :type="items.type"
+                v-model="newData"
+              />
+            </template>
+            <template v-else-if="items.type === 'array'">
+              <array-input
+                :schema="items"
+                :type="items.type"
+                v-model="newData"
+              />
+            </template>
+            <template v-else>
+              <simple-input
+                :schema="items"
+                :required="true"
+                :type="items.type"
+                v-model="newData"
+              />
+            </template>
+          </div>
+          <div class="column is-2">
+            <div class="buttons">
+              <button
+                class="button is-rounded is-success ac-list-action-button"
+                @click.prevent="addNewValue()"
+                :disabled="invalid"
+              >
+                <span class="icon is-small">
+                  <i class="fa fa-plus"></i>
+                </span>
+              </button>
+            </div>
           </div>
         </div>
-      </div>
+      </validation-observer>
     </template>
     <template v-else>
       <!-- declared in tabs component -->
@@ -129,6 +141,7 @@
 <script>
 import { model } from "@/mixins/model.js";
 import tabs from "@/mixins/tabs.js";
+import validation from "@/mixins/validation.js";
 
 export default {
   props: {
@@ -142,7 +155,7 @@ export default {
     }
   },
 
-  mixins: [model, tabs],
+  mixins: [model, tabs, validation],
 
   components: {
     "vue-form-schema": () => import("@/components/VueFormSchema"),
