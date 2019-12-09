@@ -16,66 +16,71 @@
       <template v-else>
         <label class="label">{{ schema.title }}</label>
         <div v-if="ui.tag === 'input'" class="control has-icons-right">
-          <validation-provider
-            v-slot="{ errors, valid, invalid, validated }"
-            :rules="ruleString"
-            :name="schema.title"
-            slim
+          <input
+            class="input"
+            :type="ui.type"
+            :class="{
+              'is-success': validationOb.validated && validationOb.valid,
+              'is-danger': validationOb.validated && validationOb.invalid
+            }"
+            :placeholder="ui.placeholder || ''"
+            v-model="modelData"
+            @change="modelData = $event.target.value"
+          />
+          <template v-if="validationOb.validated">
+            <span
+              class="icon is-small is-right is-success"
+              v-if="validationOb.valid"
+            >
+              <i class="fa fa-check"></i>
+            </span>
+            <span
+              class="icon is-small is-right is-warning"
+              v-if="validationOb.invalid"
+            >
+              <i class="fa fa-times"></i>
+            </span>
+          </template>
+          <p
+            class="is-warning"
+            v-if="
+              validationOb &&
+                validationOb.errors &&
+                validationOb.errors.length > 0
+            "
           >
-            <input
-              class="input"
-              :type="ui.type"
-              :class="{
-                'is-success': validated && valid,
-                'is-danger': validated && invalid
-              }"
-              :placeholder="ui.placeholder || ''"
-              v-model="modelData"
-            />
-            <template v-if="validated">
-              <span class="icon is-small is-right is-success" v-if="valid">
-                <i class="fa fa-check"></i>
-              </span>
-              <span class="icon is-small is-right is-warning" v-if="invalid">
-                <i class="fa fa-times"></i>
-              </span>
-            </template>
-            <p class="is-warning" v-if="errors.length > 0">
-              <span class="warning"><i class="fa fa-warning"></i></span>
-              {{ errors[0] }}
-            </p>
-          </validation-provider>
+            <span class="warning"><i class="fa fa-warning"></i></span>
+            {{ validationOb.errors[0] }}
+          </p>
         </div>
       </template>
     </template>
 
     <template v-if="ui.tag === 'textarea'">
       <div class="control has-icons-right">
-        <validation-provider
-          v-slot="{ errors, valid, invalid, validated }"
-          :rules="ruleString"
-          :name="schema.title"
-          slim
-        >
-          <textarea
-            class="input"
-            :type="ui.type"
-            :placeholder="ui.placeholder || ''"
-            v-model="modelData"
-          />
-          <template v-if="validated">
-            <span class="icon is-small is-right is-success" v-if="valid">
-              <i class="fa fa-check"></i>
-            </span>
-            <span class="icon is-small is-right is-warning" v-if="invalid">
-              <i class="fa fa-times"></i>
-            </span>
-          </template>
-          <p class="is-warning" v-if="errors.length > 0">
-            <span class="warning"><i class="fa fa-warning"></i></span>
-            {{ errors[0] }}
-          </p>
-        </validation-provider>
+        <textarea
+          class="input"
+          :type="ui.type"
+          :class="{
+            'is-success': validationOb.validated && validationOb.valid,
+            'is-danger': validationOb.validated && validationOb.invalid
+          }"
+          :placeholder="ui.placeholder || ''"
+          v-model="modelData"
+          @change="modelData = $event.target.value"
+        />
+        <template v-if="validationOb.validated">
+          <span class="icon is-small is-right is-success" v-if="valid">
+            <i class="fa fa-check"></i>
+          </span>
+          <span class="icon is-small is-right is-warning" v-if="invalid">
+            <i class="fa fa-times"></i>
+          </span>
+        </template>
+        <p class="is-warning" v-if="validationOb.errors.length > 0">
+          <span class="warning"><i class="fa fa-warning"></i></span>
+          {{ validationOb.errors[0] }}
+        </p>
       </div>
     </template>
 
@@ -105,9 +110,9 @@ export default {
     value: {
       default: ""
     },
-    required: {
-      type: Boolean,
-      default: false
+    validationOb: {
+      type: Object,
+      default: () => ({})
     }
   },
 
@@ -118,12 +123,6 @@ export default {
       if (!this.schema.ui) console.log(this.schema);
 
       return this.schema.ui || { tag: "input", type: "text" };
-    },
-
-    ruleString() {
-      let ans = "";
-      if (this.required) ans += "required";
-      return ans;
     }
   }
 };

@@ -15,13 +15,22 @@
         :schema="properties[key]"
         v-model="modelData[key]"
       />
-      <array-input
+      <validation-provider
         v-else-if="properties[key].type === 'array'"
         :key="key"
-        :type="properties[key].type"
-        :schema="properties[key]"
-        v-model="modelData[key]"
-      />
+        v-slot="validationOb"
+        :rules="ruleArray(true)"
+        :name="`${properties[key].title}`"
+        :vid="`${properties[key].title}-vpid`"
+        slim
+      >
+        <array-input
+          :type="properties[key].type"
+          :schema="properties[key]"
+          :validationOb="validationOb"
+          v-model="modelData[key]"
+        />
+      </validation-provider>
       <simple-input
         v-else
         :key="key"
@@ -37,6 +46,7 @@
 <script>
 import { model } from "@/mixins/model.js";
 import fold from "@/mixins/fold.js";
+import validation from "@/mixins/validation.js";
 
 export default {
   props: {
@@ -54,39 +64,13 @@ export default {
     }
   },
 
-  mixins: [model, fold],
+  mixins: [model, fold, validation],
 
   components: {
     "vue-form-schema": () => import("@/components/VueFormSchema"),
     "array-input": () => import("@/components/ArrayInput"),
     "simple-input": () => import("@/components/SimpleInput"),
     "key-value-pairs": () => import("@/components/KeyValuePairs")
-  },
-
-  data() {
-    return {
-      modelData: {}
-    };
-  },
-
-  methods: {
-    initModelData() {
-      this.modelData = this.value;
-    },
-
-    isRequired(key) {
-      return this.required.includes(key);
-    }
-  },
-
-  created() {
-    this.initModelData();
-  },
-
-  watch: {
-    model() {
-      this.initModelData();
-    }
   }
 };
 </script>

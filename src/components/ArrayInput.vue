@@ -4,6 +4,10 @@
       <div class="level-left">
         <h4 class="title is-5">
           {{ schema.title || "Array Item Description" }}
+          <p class="is-warning" v-if="validationOb.errors.length > 0">
+            <span class="warning"><i class="fa fa-warning"></i></span>
+            {{ validationOb.errors[0] }}
+          </p>
         </h4>
       </div>
       <div class="level-right">
@@ -40,11 +44,21 @@
             />
           </template>
           <template v-else>
-            <simple-input
-              :schema="items"
-              :type="items.type"
-              v-model="modelData[index]"
-            />
+            <validation-provider
+              v-slot="validationOb"
+              :rules="ruleString(true)"
+              :name="`${items.title}-${index}`"
+              :vid="`${items.title}-${index}`"
+              slim
+            >
+              <simple-input
+                :schema="items"
+                :type="items.type"
+                :required="true"
+                :validationOb="validationOb"
+                v-model="modelData[index]"
+              />
+            </validation-provider>
           </template>
         </div>
         <div class="column is-2">
@@ -80,6 +94,7 @@
       </div>
       <validation-observer
         :ref="`${schema.title}-new`"
+        :vid="`${schema.title}-new`"
         v-slot="{ invalid }"
         slim
       >
@@ -107,12 +122,21 @@
               />
             </template>
             <template v-else>
-              <simple-input
-                :schema="items"
-                :required="true"
-                :type="items.type"
-                v-model="newData"
-              />
+              <validation-provider
+                v-slot="validationOb"
+                :rules="ruleString(true)"
+                :name="`${schema.title} Array Input`"
+                :vid="`${schema.title} Array Input`"
+                slim
+              >
+                <simple-input
+                  :schema="items"
+                  :required="true"
+                  :type="items.type"
+                  :validationOb="validationOb"
+                  v-model="newData"
+                />
+              </validation-provider>
             </template>
           </div>
           <div class="column is-2">
@@ -152,6 +176,10 @@ export default {
     value: {
       type: null,
       default: () => []
+    },
+    validationOb: {
+      type: Object,
+      default: () => ({})
     }
   },
 
@@ -174,6 +202,13 @@ export default {
   computed: {
     items() {
       return this.schema.items || {};
+    },
+
+    ruleOb() {
+      let ans = {};
+      if (this.required)
+        ans = Object.assign({}, { ...ans }, { requiredArray: true });
+      return ans;
     }
   },
 
@@ -194,6 +229,19 @@ export default {
     deleteValue(index) {
       this.$delete(this.modelData, index);
       this.updatePass += 1;
+    }
+  },
+
+  watch: {
+    modelData: {
+      immediate: true,
+      deep: true,
+      handler(newVal, oldVal) {
+        console.log({ newVal, oldVal });
+        if (oldVal !== null && oldVal !== undefined) {
+          this.$emit("input", newVal);
+        }
+      }
     }
   }
 };
