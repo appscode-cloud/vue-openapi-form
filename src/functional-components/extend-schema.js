@@ -89,6 +89,6 @@ const recurse = function(schema, title) {
   return newSchema;
 };
 
-export default function(schema) {
-  return recurse(schema, "Stash install form");
+export default function(schema, title) {
+  return recurse(schema, title + " Form");
 }
