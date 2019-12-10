@@ -129,8 +129,10 @@ export default {
       deep: true,
       immediate: true,
       handler(newVal) {
-        this.jsonSchema = ExtendSchema(newVal.schema, newVal.title);
-        this.model = newVal.model;
+        this.jsonSchema = JSON.parse(
+          JSON.stringify(ExtendSchema(newVal.schema, newVal.title))
+        );
+        this.model = JSON.parse(JSON.stringify(newVal.model));
       }
     }
   }
