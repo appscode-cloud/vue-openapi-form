@@ -92,7 +92,7 @@
           </div>
         </div>
       </div>
-      <validation-observer
+      <custom-observer
         :ref="`${schema.title}-new`"
         :vid="`${schema.title}-new`"
         v-slot="{ invalid }"
@@ -128,6 +128,7 @@
                 :rules="ruleString(true)"
                 :name="`${schema.title} Array Input`"
                 :vid="`${schema.title} Array Input`"
+                :disabled="true"
                 slim
               >
                 <simple-input
@@ -154,7 +155,7 @@
             </div>
           </div>
         </div>
-      </validation-observer>
+      </custom-observer>
     </template>
     <template v-else>
       <!-- declared in tabs component -->

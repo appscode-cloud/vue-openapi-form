@@ -1,14 +1,16 @@
 <template>
   <div id="app">
     <div class="container vue-form-schema">
-      <validation-observer v-slot="{ invalid }" slim>
+      <validation-observer ref="mainObserver" slim>
         <vue-form-schema
           :isRoot="true"
           :schema="extendedSchema"
           v-model="model"
         />
         <div class="buttons">
-          <button class="button is-primary" :disabled="invalid">Submit</button>
+          <button class="button is-primary" @click.prevent="submit">
+            Submit
+          </button>
         </div>
       </validation-observer>
       <!-- <key-value-pairs
@@ -31,6 +33,14 @@ export default {
     VueFormSchema,
     ValidationObserver
     // "key-value-pairs": () => import("@/components/KeyValuePairs")
+  },
+  methods: {
+    async submit() {
+      const isValid = await this.$refs.mainObserver.validate();
+      if (isValid) {
+        console.log("validated");
+      }
+    }
   },
   data() {
     return {

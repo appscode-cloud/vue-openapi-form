@@ -1,4 +1,5 @@
 import { ValidationObserver, ValidationProvider } from "vee-validate";
+import CustomObserver from "@/components/CustomObserver";
 
 export default {
   props: {
@@ -10,7 +11,8 @@ export default {
 
   components: {
     ValidationObserver,
-    ValidationProvider
+    ValidationProvider,
+    CustomObserver
   },
 
   methods: {
