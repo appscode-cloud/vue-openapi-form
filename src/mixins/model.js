@@ -45,7 +45,6 @@ export const model = {
       immediate: true,
       deep: true,
       handler(newVal, oldVal) {
-        console.log({ newVal, oldVal });
         if (oldVal !== null && oldVal !== undefined) {
           this.$emit("input", newVal);
         }

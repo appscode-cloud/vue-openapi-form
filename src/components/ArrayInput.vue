@@ -96,6 +96,7 @@
         :ref="`${schema.title}-new`"
         :vid="`${schema.title}-new`"
         v-slot="{ invalid }"
+        :disabled="true"
         slim
       >
         <div class="columns is-multiline">
@@ -237,7 +238,6 @@ export default {
       immediate: true,
       deep: true,
       handler(newVal, oldVal) {
-        console.log({ newVal, oldVal });
         if (oldVal !== null && oldVal !== undefined) {
           this.$emit("input", newVal);
         }

@@ -1,9 +1,17 @@
-import { extend, setInteractionMode } from "vee-validate";
+import { extend, configure } from "vee-validate";
 import { required } from "vee-validate/dist/rules";
 import en from "vee-validate/dist/locale/en.json";
 
+const config = {
+  bails: true,
+  skipOptional: true,
+  mode: "aggressive",
+  useConstraintAttrs: true,
+  inject: false
+};
+
 export const initVeeValidate = function() {
-  setInteractionMode("aggressive");
+  configure(config);
 
   extend("required", { ...required, message: en.messages.required });
   extend("requiredArray", {

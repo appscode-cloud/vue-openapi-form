@@ -1,11 +1,16 @@
 <template>
   <div id="app">
     <div class="container vue-form-schema">
-      <vue-form-schema
-        :isRoot="true"
-        :schema="extendedSchema"
-        v-model="model"
-      />
+      <validation-observer v-slot="{ invalid }" slim>
+        <vue-form-schema
+          :isRoot="true"
+          :schema="extendedSchema"
+          v-model="model"
+        />
+        <div class="buttons">
+          <button class="button is-primary" :disabled="invalid">Submit</button>
+        </div>
+      </validation-observer>
       <!-- <key-value-pairs
         :schema="extendedSchema.properties.matchLabels"
         v-model="model.matchLabels"
@@ -18,11 +23,13 @@
 import VueFormSchema from "@/components/VueFormSchema.vue";
 import Schema from "@/json-schema";
 import ExtendSchema from "@/functional-components/extend-schema";
+import { ValidationObserver } from "vee-validate";
 
 export default {
   name: "app",
   components: {
-    VueFormSchema
+    VueFormSchema,
+    ValidationObserver
     // "key-value-pairs": () => import("@/components/KeyValuePairs")
   },
   data() {
