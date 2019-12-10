@@ -51,7 +51,7 @@ const recurse = function(schema, title) {
       }
     } catch (e) {
       // console.log(schema);
-      console.log(e);
+      // console.log(e);
     }
   } else if (schema.type === "array") {
     let newItems = {};
