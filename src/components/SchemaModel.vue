@@ -4,7 +4,7 @@
       <h3 class="title">Schema</h3>
       <codemirror v-model="schema" :options="cmOptions" />
 
-      <p class="is-warning" v-if="schemaError">
+      <p class="is-warning mt-10" v-if="schemaError">
         <span class="warning"><i class="fa fa-warning"></i></span>
         The format is not correct
       </p>
@@ -13,7 +13,7 @@
       <h3 class="title">Model</h3>
       <codemirror v-model="model" :options="cmOptions" />
 
-      <p class="is-warning" v-if="modelError">
+      <p class="is-warning mt-10" v-if="modelError">
         <span class="warning"><i class="fa fa-warning"></i></span>
         The format is not correct
       </p>
@@ -82,7 +82,9 @@ export default {
         this.modelError = true;
       }
 
-      this.$emit("submit", newOb);
+      if (!this.schemaError && !this.modelError) {
+        this.$emit("submit", newOb);
+      }
     }
   },
 
@@ -91,6 +93,13 @@ export default {
   },
 
   watch: {
+    schemaModel: {
+      deep: true,
+      immediate: true,
+      handler() {
+        this.initSchemaModel();
+      }
+    },
     schema() {
       this.schemaError = false;
     },
