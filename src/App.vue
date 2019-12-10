@@ -17,7 +17,6 @@
                 <label for="schema-selection">Select Schema</label>
                 <div class="select is-fullwidth">
                   <select id="schema-selection" v-model="selectedJsonSchema">
-                    <option value="">Select dropdown</option>
                     <option
                       v-for="jsonSchema in jsonSchemas"
                       :key="jsonSchema.title"
