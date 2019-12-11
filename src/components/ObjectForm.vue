@@ -2,7 +2,8 @@
   <div :class="{ 'is-hidden': isSelfFolded }">
     <validation-observer
       :ref="`${title.replace(/ /g, '-')}Observer`"
-      :vid="`${title.replace(/ /g, '-')}-void`"
+      :vid="`${title.replace(/ /g, '-')}-observer`"
+      v-slot="{ errors: observerErrors }"
     >
       <template v-for="key in Object.keys(properties)">
         <validation-provider
@@ -11,13 +12,13 @@
           v-slot="{ errors }"
           :rules="ruleObject(isRequired(key))"
           :name="`${properties[key].title}`"
-          :vid="`${properties[key].title}-vpid`"
+          :vid="`${properties[key].title.replace(/ /g, '-')}-provider`"
           slim
         >
           <vue-form-schema
             :type="properties[key].type"
             :schema="properties[key]"
-            :errors="errors"
+            :errors="[...errors, ...calcObserverError(observerErrors)]"
             v-model="modelData[key]"
           />
         </validation-provider>
@@ -34,13 +35,20 @@
           v-slot="validationOb"
           :rules="ruleArray(isRequired(key))"
           :name="`${properties[key].title}`"
-          :vid="`${properties[key].title}-vpid`"
+          :vid="`${properties[key].title.replace(/ /g, '-')}-provider`"
           slim
         >
           <array-input
             :type="properties[key].type"
             :schema="properties[key]"
-            :validationOb="validationOb"
+            :validationOb="
+              Object.assign(validationOb, {
+                errors: [
+                  ...validationOb.errors,
+                  ...calcObserverError(observerErrors)
+                ]
+              })
+            "
             v-model="modelData[key]"
           />
         </validation-provider>
@@ -50,7 +58,7 @@
           v-slot="validationOb"
           :rules="ruleString(isRequired(key))"
           :name="`${properties[key].title}`"
-          :vid="`${properties[key].title}`"
+          :vid="`${properties[key].title.replace(/ /g, '-')}-provider`"
           slim
         >
           <simple-input

@@ -55,7 +55,10 @@ export default {
     return {
       jsonSchema: Schema,
       model: {
-        additionalPodSecurityPolicies: { name: "sakib", namespace: "default" }
+        additionalPodSecurityPolicies: {
+          name: { firstName: "sakib", lastName: "" },
+          namespace: "default"
+        }
         // affinity: {},
         // annotations: {},
         // apiserver: {

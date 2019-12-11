@@ -3,7 +3,16 @@ export default {
     additionalPodSecurityPolicies: {
       properties: {
         name: {
-          type: "string"
+          properties: {
+            firstName: {
+              type: "string"
+            },
+            lastName: {
+              type: "string"
+            }
+          },
+          required: ["firstName", "lastName"],
+          type: "object"
         },
         namespace: {
           type: "string"
