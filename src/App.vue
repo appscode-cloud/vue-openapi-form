@@ -2,11 +2,19 @@
   <div id="app">
     <div class="container vue-form-schema">
       <validation-observer ref="mainObserver" slim>
-        <vue-form-schema
-          :isRoot="true"
-          :schema="extendedSchema"
-          v-model="model"
-        />
+        <validation-provider
+          v-slot="{ errors }"
+          :name="extendedSchema.title"
+          :vid="`${extendedSchema.title}-vpid`"
+          slim
+        >
+          <vue-form-schema
+            :isRoot="true"
+            :schema="extendedSchema"
+            :errors="errors"
+            v-model="model"
+          />
+        </validation-provider>
         <div class="buttons">
           <button class="button is-primary" @click.prevent="submit">
             Submit
@@ -25,13 +33,14 @@
 import VueFormSchema from "@/components/VueFormSchema.vue";
 import Schema from "@/json-schema";
 import ExtendSchema from "@/functional-components/extend-schema";
-import { ValidationObserver } from "vee-validate";
+import { ValidationObserver, ValidationProvider } from "vee-validate";
 
 export default {
   name: "app",
   components: {
     VueFormSchema,
-    ValidationObserver
+    ValidationObserver,
+    ValidationProvider
     // "key-value-pairs": () => import("@/components/KeyValuePairs")
   },
   methods: {
@@ -46,7 +55,7 @@ export default {
     return {
       jsonSchema: Schema,
       model: {
-        additionalPodSecurityPolicies: []
+        additionalPodSecurityPolicies: { name: "sakib", namespace: "default" }
         // affinity: {},
         // annotations: {},
         // apiserver: {

@@ -1,11 +1,18 @@
 export default {
   properties: {
     additionalPodSecurityPolicies: {
-      items: {
-        type: "string"
+      properties: {
+        name: {
+          type: "string"
+        },
+        namespace: {
+          type: "string"
+        }
       },
-      type: "array"
-    },
+      required: ["name"],
+      type: "object"
+    }
+
     // affinity: {
     //   description: "If specified, the pod's scheduling constraints",
     //   properties: {

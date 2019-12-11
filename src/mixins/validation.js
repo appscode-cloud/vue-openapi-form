@@ -26,6 +26,12 @@ export default {
       let ans = {};
       if (required) ans.required = true;
       return ans;
+    },
+
+    ruleObject(required) {
+      let ans = {};
+      if (required) ans.requiredOb = true;
+      return ans;
     }
   }
 };

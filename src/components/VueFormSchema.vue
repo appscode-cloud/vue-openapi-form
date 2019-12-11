@@ -4,6 +4,10 @@
       <div class="level-left">
         <h4 class="title is-5">
           {{ schema.title || "Array Item Description" }}
+          <p class="is-warning" v-if="errors.length > 0">
+            <span class="warning"><i class="fa fa-warning"></i></span>
+            {{ errors[0] }}
+          </p>
         </h4>
       </div>
       <div class="level-right">
@@ -24,6 +28,7 @@
     <object-form
       v-if="formShow"
       :properties="schema.properties"
+      :title="schema.title"
       :required="schema.required"
       :type="schema.type"
       :isSelfFolded="isRoot ? false : isFolded"
@@ -52,6 +57,10 @@ export default {
     isRoot: {
       type: Boolean,
       default: false
+    },
+    errors: {
+      type: Array,
+      default: () => []
     }
   },
 

@@ -22,4 +22,11 @@ export const initVeeValidate = function() {
       else return true;
     }
   });
+  extend("requiredOb", {
+    validate(value) {
+      if (Object.keys(value).length === 0)
+        return "{_field_} object must not be empty";
+      else return true;
+    }
+  });
 };

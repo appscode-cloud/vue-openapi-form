@@ -14,7 +14,6 @@ export const model = {
 
   methods: {
     initModelData() {
-      if (this.validationOb) this.validationOb.reset();
       if (
         (this.type === "object" || this.type === "key-value-pairs") &&
         Object.keys(this.value).length > 0
