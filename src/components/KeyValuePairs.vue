@@ -1,9 +1,20 @@
 <template>
-  <div class="vue-schema-form-key-value-pairs" :key="updatePass">
+  <validation-observer
+    tag="div"
+    :ref="`${schema.title.replace(/ /g, '-')}-observer`"
+    :vid="`${schema.title.replace(/ /g, '-')}-observer`"
+    v-slot="{ errors: observerErrors }"
+    class="vue-schema-form-key-value-pairs"
+    :key="updatePass"
+  >
     <div class="level">
       <div class="level-left">
         <h4 class="title is-5">
-          {{ schema.title || "Array Item Description" }}
+          {{ schema.title || "Array Item Description"
+          }}<!-- show errors-->
+          <component-errors
+            :errors="[...errors, ...calcObserverError(observerErrors)]"
+          />
         </h4>
       </div>
       <div class="level-right">
@@ -12,6 +23,7 @@
     </div>
     <hr />
     <template v-if="formShow">
+      <!-- existing key values -->
       <div
         class="columns is-multiline"
         v-for="(prop, index) in keyValueArray"
@@ -20,9 +32,36 @@
         <div class="column is-3">
           <div class="field">
             <label class="label">Key</label>
-            <div class="control has-icons right">
-              <input class="input" type="text" v-model="prop.key" />
-            </div>
+            <validation-provider
+              :vid="
+                `${schema.title.replace(/ /g, '-')}-key-${index + 1}-provider`
+              "
+              rules="required"
+              :name="`${schema.title.replace(/ /g, '-')}-key-${index + 1}`"
+              v-slot="{ errors, valid, invalid, validated }"
+              tag="div"
+              class="control has-icons-right"
+            >
+              <input
+                class="input"
+                type="text"
+                :class="{
+                  'is-success': validated && valid,
+                  'is-danger': validated && invalid
+                }"
+                v-model="prop.key"
+              />
+
+              <!-- right or wrong signs -->
+              <right-wrong-signs
+                v-if="validated"
+                :valid="valid"
+                :invalid="invalid"
+              />
+
+              <!-- error show -->
+              <component-errors :errors="errors" />
+            </validation-provider>
           </div>
         </div>
         <div class="column is-8">
@@ -48,11 +87,22 @@
             />
           </template>
           <template v-else>
-            <simple-input
-              :schema="additionalProperties"
-              :type="additionalProperties.type"
-              v-model="prop.value"
-            />
+            <validation-provider
+              v-slot="validationOb"
+              :rules="ruleString(true)"
+              :name="`${schema.title.replace(/ /g, '-')}-value-${index + 1}`"
+              :vid="
+                `${schema.title.replace(/ /g, '-')}-value-${index + 1}-provider`
+              "
+              slim
+            >
+              <simple-input
+                :schema="additionalProperties"
+                :type="additionalProperties.type"
+                :validationOb="validationOb"
+                v-model="prop.value"
+              />
+            </validation-provider>
           </template>
         </div>
 
@@ -175,7 +225,7 @@
       <!-- declared in tabs component -->
       <json-form v-model="modelData" />
     </template>
-  </div>
+  </validation-observer>
 </template>
 
 <script>
@@ -192,6 +242,10 @@ export default {
     value: {
       type: Object,
       default: () => ({})
+    },
+    errors: {
+      type: Array,
+      default: () => []
     }
   },
 
@@ -208,7 +262,7 @@ export default {
     return {
       newData: null,
       updatePass: 0,
-      keyValueArray: [],
+      keyValueArray: null,
       newKey: "",
       newValue: null
     };
@@ -271,9 +325,12 @@ export default {
 
   watch: {
     keyValueArray: {
+      immediate: true,
       deep: true,
-      handler(newVal) {
-        this.modelData = this.reconstructObject(newVal);
+      handler(newVal, oldVal) {
+        if (oldVal !== null && oldVal !== undefined) {
+          this.modelData = this.reconstructObject(newVal);
+        }
       }
     }
   }

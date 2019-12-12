@@ -1,7 +1,7 @@
 <template>
   <validation-observer
     tag="form"
-    :ref="`${schema.title.replace(/ /g, '-')}Observer`"
+    :ref="`${schema.title.replace(/ /g, '-')}-observer`"
     :vid="`${schema.title.replace(/ /g, '-')}-observer`"
     v-slot="{ errors: observerErrors }"
     class="vue-schema-form-object"

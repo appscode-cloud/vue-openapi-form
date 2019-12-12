@@ -17,13 +17,22 @@
           v-model="modelData[key]"
         />
       </validation-provider>
-      <key-value-pairs
+      <validation-provider
         v-else-if="properties[key].type === 'key-value-pairs'"
         :key="key"
-        :type="properties[key].type"
-        :schema="properties[key]"
-        v-model="modelData[key]"
-      />
+        v-slot="{ errors }"
+        :rules="ruleObject(isRequired(key))"
+        :name="`${properties[key].title}`"
+        :vid="`${properties[key].title.replace(/ /g, '-')}-provider`"
+        slim
+      >
+        <key-value-pairs
+          :type="properties[key].type"
+          :schema="properties[key]"
+          :errors="[...errors]"
+          v-model="modelData[key]"
+        />
+      </validation-provider>
       <validation-provider
         v-else-if="properties[key].type === 'array'"
         :key="key"
