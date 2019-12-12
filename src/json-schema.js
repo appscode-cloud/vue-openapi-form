@@ -16,9 +16,15 @@ export default {
         },
         namespace: {
           type: "string"
+        },
+        previousJobs: {
+          items: {
+            tyep: "string"
+          },
+          type: "array"
         }
       },
-      required: ["name"],
+      required: ["name", "previousJobs"],
       type: "object"
     },
     annotations: {

@@ -4,10 +4,7 @@
       <div class="level-left">
         <h4 class="title is-5">
           {{ schema.title || "Array Item Description" }}
-          <p class="is-warning" v-if="validationOb.errors.length > 0">
-            <span class="warning"><i class="fa fa-warning"></i></span>
-            {{ validationOb.errors[0] }}
-          </p>
+          <component-errors :errors="[...errors]" />
         </h4>
       </div>
       <div class="level-right">
@@ -47,8 +44,8 @@
             <validation-provider
               v-slot="validationOb"
               :rules="ruleString(true)"
-              :name="`${items.title}-${index}`"
-              :vid="`${items.title}-${index}`"
+              :name="`${items.title.replace(/ /g, '-')}-${index + 1}`"
+              :vid="`${items.title.replace(/ /g, '-')}-${index + 1}-provider`"
               slim
             >
               <simple-input
@@ -92,10 +89,9 @@
           </div>
         </div>
       </div>
-      <custom-observer
-        :ref="`${schema.title}-new`"
-        :vid="`${schema.title}-new`"
-        v-slot="{ invalid }"
+      <validation-observer
+        :ref="`${schema.title.replace(/ /g, '-')}-new`"
+        :vid="`${schema.title.replace(/ /g, '-')}-new-observer`"
         :disabled="true"
         slim
       >
@@ -126,9 +122,8 @@
               <validation-provider
                 v-slot="validationOb"
                 :rules="ruleString(true)"
-                :name="`${schema.title} Array Input`"
-                :vid="`${schema.title} Array Input`"
-                :disabled="true"
+                :name="`${schema.title.replace(/ /g, '-')}-new-value`"
+                :vid="`${schema.title.replace(/ /g, '-')}-new-value-provider`"
                 slim
               >
                 <simple-input
@@ -146,7 +141,6 @@
               <button
                 class="button is-rounded is-success ac-list-action-button"
                 @click.prevent="addNewValue()"
-                :disabled="invalid"
               >
                 <span class="icon is-small">
                   <i class="fa fa-plus"></i>
@@ -155,7 +149,7 @@
             </div>
           </div>
         </div>
-      </custom-observer>
+      </validation-observer>
     </template>
     <template v-else>
       <!-- declared in tabs component -->
@@ -179,9 +173,9 @@ export default {
       type: null,
       default: () => []
     },
-    validationOb: {
-      type: Object,
-      default: () => ({})
+    errors: {
+      type: Array,
+      default: () => []
     }
   },
 
@@ -222,10 +216,16 @@ export default {
       this.updatePass += 1;
     },
 
-    addNewValue() {
-      this.modelData.push(this.newData);
-      this.newData = null;
-      this.updatePass += 1;
+    async addNewValue() {
+      const observerRef = `${this.schema.title.replace(/ /g, "-")}-new`;
+      console.log(observerRef);
+      const isValid = await this.$refs[observerRef].validate();
+
+      if (isValid) {
+        this.modelData.push(this.newData);
+        this.newData = null;
+        this.updatePass += 1;
+      }
     },
 
     deleteValue(index) {

@@ -56,7 +56,7 @@ export default {
       jsonSchema: Schema,
       model: {
         additionalPodSecurityPolicies: {
-          name: { firstName: "sakib", lastName: "" },
+          name: { firstName: "sakib", lastName: "khan" },
           namespace: "default"
         },
         annotations: {}

@@ -36,7 +36,7 @@
       <validation-provider
         v-else-if="properties[key].type === 'array'"
         :key="key"
-        v-slot="validationOb"
+        v-slot="{ errors }"
         :rules="ruleArray(isRequired(key))"
         :name="`${properties[key].title}`"
         :vid="`${properties[key].title.replace(/ /g, '-')}-provider`"
@@ -45,7 +45,7 @@
         <array-input
           :type="properties[key].type"
           :schema="properties[key]"
-          :validationOb="validationOb"
+          :errors="errors"
           v-model="modelData[key]"
         />
       </validation-provider>
