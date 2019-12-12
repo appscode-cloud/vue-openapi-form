@@ -1,76 +1,70 @@
 <template>
   <div :class="{ 'is-hidden': isSelfFolded }">
-    <validation-observer
+    <!-- <validation-observer
       :ref="`${title.replace(/ /g, '-')}Observer`"
       :vid="`${title.replace(/ /g, '-')}-observer`"
       v-slot="{ errors: observerErrors }"
-    >
-      <template v-for="key in Object.keys(properties)">
-        <validation-provider
-          v-if="properties[key].type === 'object'"
-          :key="key"
-          v-slot="{ errors }"
-          :rules="ruleObject(isRequired(key))"
-          :name="`${properties[key].title}`"
-          :vid="`${properties[key].title.replace(/ /g, '-')}-provider`"
-          slim
-        >
-          <vue-form-schema
-            :type="properties[key].type"
-            :schema="properties[key]"
-            :errors="[...errors, ...calcObserverError(observerErrors)]"
-            v-model="modelData[key]"
-          />
-        </validation-provider>
-        <key-value-pairs
-          v-else-if="properties[key].type === 'key-value-pairs'"
+      slim
+    > -->
+    <template v-for="key in Object.keys(properties)">
+      <validation-provider
+        v-if="properties[key].type === 'object'"
+        :key="key"
+        v-slot="{ errors }"
+        :rules="ruleObject(isRequired(key))"
+        :name="`${properties[key].title}`"
+        :vid="`${properties[key].title.replace(/ /g, '-')}-provider`"
+        slim
+      >
+        <vue-form-schema
+          :type="properties[key].type"
+          :schema="properties[key]"
+          :errors="[...errors]"
+          v-model="modelData[key]"
+        />
+      </validation-provider>
+      <key-value-pairs
+        v-else-if="properties[key].type === 'key-value-pairs'"
+        :key="key"
+        :type="properties[key].type"
+        :schema="properties[key]"
+        v-model="modelData[key]"
+      />
+      <validation-provider
+        v-else-if="properties[key].type === 'array'"
+        :key="key"
+        v-slot="validationOb"
+        :rules="ruleArray(isRequired(key))"
+        :name="`${properties[key].title}`"
+        :vid="`${properties[key].title.replace(/ /g, '-')}-provider`"
+        slim
+      >
+        <array-input
+          :type="properties[key].type"
+          :schema="properties[key]"
+          :validationOb="validationOb"
+          v-model="modelData[key]"
+        />
+      </validation-provider>
+      <validation-provider
+        v-else
+        :key="key"
+        v-slot="validationOb"
+        :rules="ruleString(isRequired(key))"
+        :name="`${properties[key].title}`"
+        :vid="`${properties[key].title.replace(/ /g, '-')}-provider`"
+        slim
+      >
+        <simple-input
           :key="key"
           :type="properties[key].type"
           :schema="properties[key]"
+          :validationOb="validationOb"
           v-model="modelData[key]"
         />
-        <validation-provider
-          v-else-if="properties[key].type === 'array'"
-          :key="key"
-          v-slot="validationOb"
-          :rules="ruleArray(isRequired(key))"
-          :name="`${properties[key].title}`"
-          :vid="`${properties[key].title.replace(/ /g, '-')}-provider`"
-          slim
-        >
-          <array-input
-            :type="properties[key].type"
-            :schema="properties[key]"
-            :validationOb="
-              Object.assign(validationOb, {
-                errors: [
-                  ...validationOb.errors,
-                  ...calcObserverError(observerErrors)
-                ]
-              })
-            "
-            v-model="modelData[key]"
-          />
-        </validation-provider>
-        <validation-provider
-          v-else
-          :key="key"
-          v-slot="validationOb"
-          :rules="ruleString(isRequired(key))"
-          :name="`${properties[key].title}`"
-          :vid="`${properties[key].title.replace(/ /g, '-')}-provider`"
-          slim
-        >
-          <simple-input
-            :key="key"
-            :type="properties[key].type"
-            :schema="properties[key]"
-            :validationOb="validationOb"
-            v-model="modelData[key]"
-          />
-        </validation-provider>
-      </template>
-    </validation-observer>
+      </validation-provider>
+    </template>
+    <!-- </validation-observer> -->
   </div>
 </template>
 

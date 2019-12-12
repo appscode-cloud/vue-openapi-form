@@ -1,13 +1,20 @@
 <template>
-  <form class="vue-schema-form-object">
+  <validation-observer
+    tag="form"
+    :ref="`${schema.title.replace(/ /g, '-')}Observer`"
+    :vid="`${schema.title.replace(/ /g, '-')}-observer`"
+    v-slot="{ errors: observerErrors }"
+    class="vue-schema-form-object"
+  >
+    <!-- {{ calcObserverError(observerErrors) }} -->
     <div class="level">
       <div class="level-left">
         <h4 class="title is-5">
           {{ schema.title || "Array Item Description" }}
-          <p class="is-warning" v-if="errors.length > 0">
-            <span class="warning"><i class="fa fa-warning"></i></span>
-            {{ errors[0] }}
-          </p>
+          <!-- show errors-->
+          <component-errors
+            :errors="[...errors, ...calcObserverError(observerErrors)]"
+          />
         </h4>
       </div>
       <div class="level-right">
@@ -36,13 +43,14 @@
     />
     <!-- declared in tabs component -->
     <json-form v-else v-model="modelData" />
-  </form>
+  </validation-observer>
 </template>
 
 <script>
 import { model } from "@/mixins/model.js";
 import fold from "@/mixins/fold.js";
 import tabs from "@/mixins/tabs.js";
+import validation from "@/mixins/validation.js";
 
 export default {
   props: {
@@ -64,7 +72,7 @@ export default {
     }
   },
 
-  mixins: [model, fold, tabs],
+  mixins: [model, fold, tabs, validation],
 
   components: {
     "object-form": () => import("@/components/ObjectForm")

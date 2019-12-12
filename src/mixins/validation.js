@@ -1,5 +1,6 @@
 import { ValidationObserver, ValidationProvider } from "vee-validate";
 import CustomObserver from "@/components/CustomObserver";
+import ComponentErrors from "@/components/ComponentErrors";
 
 export default {
   props: {
@@ -12,7 +13,8 @@ export default {
   components: {
     ValidationObserver,
     ValidationProvider,
-    CustomObserver
+    CustomObserver,
+    ComponentErrors
   },
 
   methods: {
