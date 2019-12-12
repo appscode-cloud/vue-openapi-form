@@ -20,6 +20,12 @@ export default {
       },
       required: ["name"],
       type: "object"
+    },
+    annotations: {
+      additionalProperties: {
+        type: "string"
+      },
+      type: "object"
     }
 
     // affinity: {

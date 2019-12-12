@@ -70,15 +70,55 @@
         </div>
       </div>
 
-      <div class="columns is-multiline">
+      <validation-observer
+        :ref="`${schema.title}-new`"
+        :vid="`${schema.title}-new-observer`"
+        :disabled="true"
+        tag="div"
+        class="columns is-multiline"
+      >
+        <!-- key input -->
         <div class="column is-3">
           <div class="field">
             <label class="label">Key</label>
-            <div class="control has-icons right">
-              <input class="input" type="text" v-model="newKey" />
-            </div>
+            <validation-provider
+              :vid="`${schema.title}-key-provider`"
+              rules="required"
+              :name="`${schema.title}-key`"
+              v-slot="{ errors, valid, invalid, validated }"
+              tag="div"
+              class="control has-icons-right"
+            >
+              <input
+                class="input"
+                type="text"
+                :class="{
+                  'is-success': validated && valid,
+                  'is-danger': validated && invalid
+                }"
+                v-model="newKey"
+              />
+
+              <!-- right or wrong signs -->
+              <template v-if="validated">
+                <span class="icon is-small is-right is-success" v-if="valid">
+                  <i class="fa fa-check"></i>
+                </span>
+                <span class="icon is-small is-right is-warning" v-if="invalid">
+                  <i class="fa fa-times"></i>
+                </span>
+              </template>
+
+              <!-- error show -->
+              <p class="is-warning" v-if="errors && errors.length > 0">
+                <span class="warning"><i class="fa fa-warning"></i></span>
+                {{ errors[0] }}
+              </p>
+            </validation-provider>
           </div>
         </div>
+
+        <!-- value input -->
         <div class="column is-8">
           <template v-if="additionalProperties.type === 'object'">
             <vue-form-schema
@@ -121,7 +161,7 @@
             </button>
           </div>
         </div>
-      </div>
+      </validation-observer>
     </template>
     <template v-else>
       <!-- declared in tabs component -->
@@ -133,6 +173,7 @@
 <script>
 import { model } from "@/mixins/model.js";
 import tabs from "@/mixins/tabs.js";
+import validation from "@/mixins/validation.js";
 
 export default {
   props: {
@@ -146,7 +187,7 @@ export default {
     }
   },
 
-  mixins: [model, tabs],
+  mixins: [model, tabs, validation],
 
   components: {
     "vue-form-schema": () => import("@/components/VueFormSchema"),

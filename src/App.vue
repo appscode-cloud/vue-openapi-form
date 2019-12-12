@@ -58,7 +58,8 @@ export default {
         additionalPodSecurityPolicies: {
           name: { firstName: "sakib", lastName: "" },
           namespace: "default"
-        }
+        },
+        annotations: {}
         // affinity: {},
         // annotations: {},
         // apiserver: {
