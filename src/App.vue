@@ -57,9 +57,10 @@ export default {
       model: {
         additionalPodSecurityPolicies: {
           name: { firstName: "sakib", lastName: "khan" },
-          namespace: "default"
+          namespace: "default",
+          previousJobs: [{ name: "appscode", position: "software" }]
         },
-        annotations: {}
+        annotations: { haha: "hoho" }
         // affinity: {},
         // annotations: {},
         // apiserver: {

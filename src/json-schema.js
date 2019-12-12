@@ -19,7 +19,15 @@ export default {
         },
         previousJobs: {
           items: {
-            tyep: "string"
+            properties: {
+              name: {
+                type: "string"
+              },
+              position: {
+                type: "string"
+              }
+            },
+            type: "object"
           },
           type: "array"
         }

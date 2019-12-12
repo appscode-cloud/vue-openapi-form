@@ -13,7 +13,7 @@
         <vue-form-schema
           :type="properties[key].type"
           :schema="properties[key]"
-          :errors="[...errors]"
+          :errors="errors"
           v-model="modelData[key]"
         />
       </validation-provider>
@@ -29,7 +29,7 @@
         <key-value-pairs
           :type="properties[key].type"
           :schema="properties[key]"
-          :errors="[...errors]"
+          :errors="errors"
           v-model="modelData[key]"
         />
       </validation-provider>

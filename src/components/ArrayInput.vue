@@ -1,10 +1,19 @@
 <template>
-  <div class="vue-schema-form-array" :key="updatePass">
+  <validation-observer
+    tag="div"
+    :ref="`${schema.title.replace(/ /g, '-')}-observer`"
+    :vid="`${schema.title.replace(/ /g, '-')}-observer`"
+    v-slot="{ errors: observerErrors }"
+    class="vue-schema-form-array"
+    :key="updatePass"
+  >
     <div class="level">
       <div class="level-left">
         <h4 class="title is-5">
           {{ schema.title || "Array Item Description" }}
-          <component-errors :errors="[...errors]" />
+          <component-errors
+            :errors="[...errors, ...calcObserverError(observerErrors)]"
+          />
         </h4>
       </div>
       <div class="level-right">
@@ -13,6 +22,7 @@
     </div>
     <hr />
     <template v-if="formShow">
+      <!-- existing values form -->
       <div
         class="columns is-multiline"
         v-for="(item, index) in modelData"
@@ -20,36 +30,75 @@
       >
         <div class="column is-10">
           <template v-if="items.type === 'object'">
-            <vue-form-schema
-              :schema="items"
-              :type="items.type"
-              v-model="modelData[index]"
-            />
+            <validation-provider
+              v-slot="{ errors }"
+              :rules="ruleObject(true)"
+              :name="`${schema.title.replace(/ /g, '-')}-${index + 1}`"
+              :vid="`${schema.title.replace(/ /g, '-')}-${index + 1}-provider`"
+              slim
+            >
+              <vue-form-schema
+                :schema="{
+                  ...items,
+                  ...{ title: `${schema.title} ${index + 1}` }
+                }"
+                :type="items.type"
+                :errors="errors"
+                v-model="modelData[index]"
+              />
+            </validation-provider>
           </template>
           <template v-else-if="items.type === 'key-value-pairs'">
-            <key-value-pairs
-              :schema="items"
-              :type="items.type"
-              v-model="modelData[index]"
-            />
+            <validation-provider
+              v-slot="{ errors }"
+              :rules="ruleObject(true)"
+              :name="`${schema.title.replace(/ /g, '-')}-${index + 1}`"
+              :vid="`${schema.title.replace(/ /g, '-')}-${index + 1}-provider`"
+              slim
+            >
+              <key-value-pairs
+                :errors="errors"
+                :schema="{
+                  ...items,
+                  ...{ title: `${schema.title} ${index + 1}` }
+                }"
+                :type="items.type"
+                v-model="modelData[index]"
+              />
+            </validation-provider>
           </template>
           <template v-else-if="items.type === 'array'">
-            <array-input
-              :schema="items"
-              :type="items.type"
-              v-model="modelData[index]"
-            />
+            <validation-provider
+              v-slot="{ errors }"
+              :rules="ruleArray(true)"
+              :name="`${schema.title.replace(/ /g, '-')}-${index + 1}`"
+              :vid="`${schema.title.replace(/ /g, '-')}-${index + 1}-provider`"
+              slim
+            >
+              <array-input
+                :schema="{
+                  ...items,
+                  ...{ title: `${schema.title} ${index + 1}` }
+                }"
+                :type="items.type"
+                :errors="errors"
+                v-model="modelData[index]"
+              />
+            </validation-provider>
           </template>
           <template v-else>
             <validation-provider
               v-slot="validationOb"
               :rules="ruleString(true)"
-              :name="`${items.title.replace(/ /g, '-')}-${index + 1}`"
-              :vid="`${items.title.replace(/ /g, '-')}-${index + 1}-provider`"
+              :name="`${schema.title.replace(/ /g, '-')}-${index + 1}`"
+              :vid="`${schema.title.replace(/ /g, '-')}-${index + 1}-provider`"
               slim
             >
               <simple-input
-                :schema="items"
+                :schema="{
+                  ...items,
+                  ...{ title: `${schema.title} ${index + 1}` }
+                }"
                 :type="items.type"
                 :required="true"
                 :validationOb="validationOb"
@@ -89,6 +138,8 @@
           </div>
         </div>
       </div>
+
+      <!-- new value input form -->
       <validation-observer
         :ref="`${schema.title.replace(/ /g, '-')}-new`"
         :vid="`${schema.title.replace(/ /g, '-')}-new-observer`"
@@ -98,25 +149,52 @@
         <div class="columns is-multiline">
           <div class="column is-10">
             <template v-if="items.type === 'object'">
-              <vue-form-schema
-                :schema="items"
-                :type="items.type"
-                v-model="newData"
-              />
+              <validation-provider
+                v-slot="{ errors }"
+                :rules="ruleObject(true)"
+                :name="`${schema.title.replace(/ /g, '-')}-new-value`"
+                :vid="`${schema.title.replace(/ /g, '-')}-new-value-provider`"
+                slim
+              >
+                <vue-form-schema
+                  :schema="items"
+                  :type="items.type"
+                  :errors="errors"
+                  v-model="newData"
+                />
+              </validation-provider>
             </template>
             <template v-else-if="items.type === 'key-value-pairs'">
-              <key-value-pairs
-                :schema="items"
-                :type="items.type"
-                v-model="newData"
-              />
+              <validation-provider
+                v-slot="{ errors }"
+                :rules="ruleObject(true)"
+                :name="`${schema.title.replace(/ /g, '-')}-new-value`"
+                :vid="`${schema.title.replace(/ /g, '-')}-new-value-provider`"
+                slim
+              >
+                <key-value-pairs
+                  :schema="items"
+                  :errors="errors"
+                  :type="items.type"
+                  v-model="newData"
+                />
+              </validation-provider>
             </template>
             <template v-else-if="items.type === 'array'">
-              <array-input
-                :schema="items"
-                :type="items.type"
-                v-model="newData"
-              />
+              <validation-provider
+                v-slot="{ errors }"
+                :rules="ruleArray(true)"
+                :name="`${schema.title.replace(/ /g, '-')}-new-value`"
+                :vid="`${schema.title.replace(/ /g, '-')}-new-value-provider`"
+                slim
+              >
+                <array-input
+                  :schema="items"
+                  :errors="errors"
+                  :type="items.type"
+                  v-model="newData"
+                />
+              </validation-provider>
             </template>
             <template v-else>
               <validation-provider
@@ -155,7 +233,7 @@
       <!-- declared in tabs component -->
       <json-form v-model="modelData" />
     </template>
-  </div>
+  </validation-observer>
 </template>
 
 <script>
@@ -231,18 +309,6 @@ export default {
     deleteValue(index) {
       this.$delete(this.modelData, index);
       this.updatePass += 1;
-    }
-  },
-
-  watch: {
-    modelData: {
-      immediate: true,
-      deep: true,
-      handler(newVal, oldVal) {
-        if (oldVal !== null && oldVal !== undefined) {
-          this.$emit("input", newVal);
-        }
-      }
     }
   }
 };
