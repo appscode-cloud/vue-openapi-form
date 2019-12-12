@@ -70,21 +70,21 @@
         </div>
       </div>
 
+      <!-- key input -->
       <validation-observer
-        :ref="`${schema.title}-new`"
-        :vid="`${schema.title}-new-observer`"
+        :ref="`${schema.title.replace(/ /g, '-')}-new`"
+        :vid="`${schema.title.replace(/ /g, '-')}-new-observer`"
         :disabled="true"
         tag="div"
         class="columns is-multiline"
       >
-        <!-- key input -->
         <div class="column is-3">
           <div class="field">
             <label class="label">Key</label>
             <validation-provider
-              :vid="`${schema.title}-key-provider`"
+              :vid="`${schema.title.replace(/ /g, '-')}-key-provider`"
               rules="required"
-              :name="`${schema.title}-key`"
+              :name="`${schema.title.replace(/ /g, '-')}-key`"
               v-slot="{ errors, valid, invalid, validated }"
               tag="div"
               class="control has-icons-right"
@@ -100,26 +100,22 @@
               />
 
               <!-- right or wrong signs -->
-              <template v-if="validated">
-                <span class="icon is-small is-right is-success" v-if="valid">
-                  <i class="fa fa-check"></i>
-                </span>
-                <span class="icon is-small is-right is-warning" v-if="invalid">
-                  <i class="fa fa-times"></i>
-                </span>
-              </template>
+              <right-wrong-signs
+                v-if="validated"
+                :valid="valid"
+                :invalid="invalid"
+              />
 
               <!-- error show -->
-              <p class="is-warning" v-if="errors && errors.length > 0">
-                <span class="warning"><i class="fa fa-warning"></i></span>
-                {{ errors[0] }}
-              </p>
+              <component-errors :errors="errors" />
             </validation-provider>
           </div>
         </div>
 
-        <!-- value input -->
+        <!-- new value input -->
+
         <div class="column is-8">
+          <!-- if value is object -->
           <template v-if="additionalProperties.type === 'object'">
             <vue-form-schema
               :schema="additionalProperties"
@@ -127,6 +123,7 @@
               v-model="newValue"
             />
           </template>
+          <!-- if value is key value pairs -->
           <template v-else-if="additionalProperties.type === 'key-value-pairs'">
             <key-value-pairs
               :schema="additionalProperties"
@@ -134,6 +131,7 @@
               v-model="newValue"
             />
           </template>
+          <!-- if value is array -->
           <template v-else-if="additionalProperties.type === 'array'">
             <array-input
               :schema="additionalProperties"
@@ -141,12 +139,22 @@
               v-model="newValue"
             />
           </template>
+          <!-- if value is simple input -->
           <template v-else>
-            <simple-input
-              :schema="additionalProperties"
-              :type="additionalProperties.type"
-              v-model="newValue"
-            />
+            <validation-provider
+              v-slot="validationOb"
+              rules="required"
+              :name="`${schema.title.replace(/ /g, '-')}-value`"
+              :vid="`${schema.title.replace(/ /g, '-')}-value-provider`"
+              slim
+            >
+              <simple-input
+                :schema="additionalProperties"
+                :type="additionalProperties.type"
+                :validationOb="validationOb"
+                v-model="newValue"
+              />
+            </validation-provider>
           </template>
         </div>
         <div class="column is-1">
@@ -234,16 +242,21 @@ export default {
       return result;
     },
 
-    addProp() {
-      this.keyValueArray.push({
-        key: this.newKey,
-        value: this.newValue
-      });
+    async addProp() {
+      const observerRef = `${this.schema.title.replace(/ /g, "-")}-new`;
+      const isValid = await this.$refs[observerRef].validate();
 
-      this.newKey = "";
-      this.newValue = null;
+      if (isValid) {
+        this.keyValueArray.push({
+          key: this.newKey,
+          value: this.newValue
+        });
 
-      this.updatePass += 1;
+        this.newKey = "";
+        this.newValue = null;
+
+        this.updatePass += 1;
+      }
     },
 
     deleteProp(index) {

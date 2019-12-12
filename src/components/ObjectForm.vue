@@ -1,11 +1,5 @@
 <template>
   <div :class="{ 'is-hidden': isSelfFolded }">
-    <!-- <validation-observer
-      :ref="`${title.replace(/ /g, '-')}Observer`"
-      :vid="`${title.replace(/ /g, '-')}-observer`"
-      v-slot="{ errors: observerErrors }"
-      slim
-    > -->
     <template v-for="key in Object.keys(properties)">
       <validation-provider
         v-if="properties[key].type === 'object'"
@@ -64,7 +58,6 @@
         />
       </validation-provider>
     </template>
-    <!-- </validation-observer> -->
   </div>
 </template>
 
