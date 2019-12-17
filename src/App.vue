@@ -84,7 +84,7 @@
 </template>
 
 <script>
-import VueFormSchema from "@/components/VueFormSchema.vue";
+import VueFormSchema from "../dist/vue-form-schema.esm";
 import Schemas from "@/json-schema";
 import ExtendSchema from "@/functional-components/extend-schema";
 import { ValidationObserver, ValidationProvider } from "vee-validate";

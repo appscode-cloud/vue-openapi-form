@@ -45,7 +45,7 @@ export default {
         let newKey = key.charAt(0).toUpperCase() + key.slice(1);
 
         // remove the observer or provider word and replace '-' with ''
-        let split = newKey.split("-");
+        let split = newKey.split("-") || "";
         if (split.length > 0) {
           const lastW = split[split.length - 1];
           if (lastW === "provider" || lastW === "observer") split.pop();
