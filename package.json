@@ -1,11 +1,11 @@
 {
-  "name": "vue-form-schema",
+  "name": "@appscode/vue-openapi-form",
   "version": "0.1.0",
-  "main": "dist/vue-form-schema.umd.js",
-  "module": "dist/vue-form-schema.esm.js",
-  "unpkg": "dist/vue-form-schema.min.js",
+  "main": "dist/vue-openapi-form.umd.js",
+  "module": "dist/vue-openapi-form.esm.js",
+  "unpkg": "dist/vue-openapi-form.min.js",
   "browser": {
-    "./sfc": "src/vue-form-schema.vue"
+    "./sfc": "src/vue-openapi-form.vue"
   },
   "private": true,
   "scripts": {
@@ -13,9 +13,9 @@
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint",
     "pkg": "npm run pkg:umd & npm run pkg:es & npm run pkg:unpkg",
-    "pkg:umd": "rollup --config pkg/rollup.config.js --format umd --file dist/vue-form-schema.umd.js",
-    "pkg:es": "rollup --config pkg/rollup.config.js --format es --file dist/vue-form-schema.esm.js",
-    "pkg:unpkg": "rollup --config pkg/rollup.config.js --format iife --file dist/vue-form-schema.min.js"
+    "pkg:umd": "rollup --config pkg/rollup.config.js --format umd --file dist/vue-openapi-form.umd.js",
+    "pkg:es": "rollup --config pkg/rollup.config.js --format es --file dist/vue-openapi-form.esm.js",
+    "pkg:unpkg": "rollup --config pkg/rollup.config.js --format iife --file dist/vue-openapi-form.min.js"
   },
   "dependencies": {
     "bulma": "^0.8.0",
@@ -45,5 +45,22 @@
     "rollup-plugin-uglify-es": "0.0.1",
     "sass-loader": "^8.0.0",
     "vue-template-compiler": "^2.6.10"
-  }
+  },
+  "description": "A Vue component to generate html form using OpenAPI v3 schema",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/appscode/vue-openapi-form.git"
+  },
+  "keywords": [
+    "json-schema",
+    "vue",
+    "openapi",
+    "kubernetes"
+  ],
+  "author": "support@appscode.com",
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/appscode/vue-openapi-form/issues"
+  },
+  "homepage": "https://github.com/appscode/vue-openapi-form#readme"
 }
