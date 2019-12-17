@@ -1,11 +1,21 @@
 {
   "name": "vue-form-schema",
   "version": "0.1.0",
+  "main": "dist/vue-form-schema.umd.js",
+  "module": "dist/vue-form-schema.esm.js",
+  "unpkg": "dist/vue-form-schema.min.js",
+  "browser": {
+    "./sfc": "src/vue-form-schema.vue"
+  },
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
-    "lint": "vue-cli-service lint"
+    "lint": "vue-cli-service lint",
+    "pkg": "npm run pkg:umd & npm run pkg:es & npm run pkg:unpkg",
+    "pkg:umd": "rollup --config pkg/rollup.config.js --format umd --file dist/vue-form-schema.umd.js",
+    "pkg:es": "rollup --config pkg/rollup.config.js --format es --file dist/vue-form-schema.esm.js",
+    "pkg:unpkg": "rollup --config pkg/rollup.config.js --format iife --file dist/vue-form-schema.min.js"
   },
   "dependencies": {
     "bulma": "^0.8.0",
@@ -28,6 +38,11 @@
     "eslint-plugin-vue": "^5.0.0",
     "node-sass": "^4.12.0",
     "prettier": "^1.18.2",
+    "rollup": "^1.17.0",
+    "rollup-plugin-buble": "^0.19.8",
+    "rollup-plugin-commonjs": "^10.0.1",
+    "rollup-plugin-vue": "^5.0.1",
+    "rollup-plugin-uglify-es": "0.0.1",
     "sass-loader": "^8.0.0",
     "vue-template-compiler": "^2.6.10"
   }
