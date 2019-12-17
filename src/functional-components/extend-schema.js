@@ -83,7 +83,7 @@ const recurse = function(schema, title) {
       }
     );
 
-    // if (schema.type === "boolean") console.log(newSchema);
+    // if (schema.type === "boolean") // console.log(newSchema);
   }
 
   return newSchema;

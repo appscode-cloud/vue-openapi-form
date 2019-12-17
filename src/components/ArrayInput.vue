@@ -308,7 +308,7 @@ export default {
 
     async addNewValue() {
       const observerRef = `${this.schema.title.replace(/ /g, "-")}-new`;
-      console.log(observerRef);
+      // console.log(observerRef);
       const isValid = await this.$refs[observerRef].validate();
 
       if (isValid) {

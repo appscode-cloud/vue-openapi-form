@@ -67,8 +67,8 @@ export default {
               ...errors[key].map(err => `${newTitle}: ${err}`)
             ];
           } catch (e) {
-            console.log(e);
-            console.log({ errors: errors[key], newTitle });
+            // console.log(e);
+            // console.log({ errors: errors[key], newTitle });
           }
         } else {
           // this is a vaidation observer, so we have to make recursive call
@@ -78,8 +78,8 @@ export default {
               ...this.calcObserverError(errors[key], newTitle)
             ];
           } catch (e) {
-            console.log(e);
-            console.log({ errors: errors[key], newTitle });
+            // console.log(e);
+            // console.log({ errors: errors[key], newTitle });
           }
         }
 

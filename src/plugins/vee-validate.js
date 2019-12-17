@@ -16,7 +16,7 @@ export const initVeeValidate = function() {
   extend("required", { ...required, message: en.messages.required });
   extend("requiredArray", {
     validate(value) {
-      console.log({ value });
+      // console.log({ value });
       if (value.length < 2)
         return "{_field_} array must contain more than one element";
       else return true;
