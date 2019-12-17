@@ -1,6 +1,7 @@
 <template>
   <div :class="{ 'is-hidden': isSelfFolded }">
     <template v-for="key in Object.keys(properties)">
+      <!-- if the property is another object -->
       <validation-provider
         v-if="properties[key].type === 'object'"
         :key="key"
@@ -17,6 +18,7 @@
           v-model="modelData[key]"
         />
       </validation-provider>
+      <!-- if the property is additional property (key-value-pairs) -->
       <validation-provider
         v-else-if="properties[key].type === 'key-value-pairs'"
         :key="key"
@@ -33,6 +35,7 @@
           v-model="modelData[key]"
         />
       </validation-provider>
+      <!-- if the property is array -->
       <validation-provider
         v-else-if="properties[key].type === 'array'"
         :key="key"
@@ -49,6 +52,7 @@
           v-model="modelData[key]"
         />
       </validation-provider>
+      <!-- if the property is simple string, number -->
       <validation-provider
         v-else
         :key="key"

@@ -66,25 +66,58 @@
         </div>
         <div class="column is-8">
           <template v-if="additionalProperties.type === 'object'">
-            <vue-form-schema
-              :schema="additionalProperties"
-              :type="additionalProperties.type"
-              v-model="prop.value"
-            />
+            <validation-provider
+              v-slot="{ errors }"
+              :rules="ruleObject(true)"
+              :name="`${schema.title.replace(/ /g, '-')}-value-${index + 1}`"
+              :vid="
+                `${schema.title.replace(/ /g, '-')}-value-${index + 1}-provider`
+              "
+              slim
+            >
+              <vue-form-schema
+                :schema="additionalProperties"
+                :type="additionalProperties.type"
+                :errors="errors"
+                v-model="prop.value"
+              />
+            </validation-provider>
           </template>
           <template v-else-if="additionalProperties.type === 'key-value-pairs'">
-            <key-value-pairs
-              :schema="additionalProperties"
-              :type="additionalProperties.type"
-              v-model="prop.value"
-            />
+            <validation-provider
+              v-slot="{ errors }"
+              :rules="ruleObject(true)"
+              :name="`${schema.title.replace(/ /g, '-')}-value-${index + 1}`"
+              :vid="
+                `${schema.title.replace(/ /g, '-')}-value-${index + 1}-provider`
+              "
+              slim
+            >
+              <key-value-pairs
+                :schema="additionalProperties"
+                :type="additionalProperties.type"
+                :errors="errors"
+                v-model="prop.value"
+              />
+            </validation-provider>
           </template>
           <template v-else-if="additionalProperties.type === 'array'">
-            <array-input
-              :schema="additionalProperties"
-              :type="additionalProperties.type"
-              v-model="prop.value"
-            />
+            <validation-provider
+              v-slot="{ errors }"
+              :rules="ruleArray(true)"
+              :name="`${schema.title.replace(/ /g, '-')}-value-${index + 1}`"
+              :vid="
+                `${schema.title.replace(/ /g, '-')}-value-${index + 1}-provider`
+              "
+              slim
+            >
+              <array-input
+                :schema="additionalProperties"
+                :type="additionalProperties.type"
+                :errors="errors"
+                v-model="prop.value"
+              />
+            </validation-provider>
           </template>
           <template v-else>
             <validation-provider
@@ -167,27 +200,54 @@
         <div class="column is-8">
           <!-- if value is object -->
           <template v-if="additionalProperties.type === 'object'">
-            <vue-form-schema
-              :schema="additionalProperties"
-              :type="additionalProperties.type"
-              v-model="newValue"
-            />
+            <validation-provider
+              v-slot="{ errors }"
+              rules="required"
+              :name="`${schema.title.replace(/ /g, '-')}-value`"
+              :vid="`${schema.title.replace(/ /g, '-')}-value-provider`"
+              slim
+            >
+              <vue-form-schema
+                :schema="additionalProperties"
+                :type="additionalProperties.type"
+                :errors="errors"
+                v-model="newValue"
+              />
+            </validation-provider>
           </template>
           <!-- if value is key value pairs -->
           <template v-else-if="additionalProperties.type === 'key-value-pairs'">
-            <key-value-pairs
-              :schema="additionalProperties"
-              :type="additionalProperties.type"
-              v-model="newValue"
-            />
+            <validation-provider
+              v-slot="{ errors }"
+              rules="required"
+              :name="`${schema.title.replace(/ /g, '-')}-value`"
+              :vid="`${schema.title.replace(/ /g, '-')}-value-provider`"
+              slim
+            >
+              <key-value-pairs
+                :schema="additionalProperties"
+                :type="additionalProperties.type"
+                :errors="errors"
+                v-model="newValue"
+              />
+            </validation-provider>
           </template>
           <!-- if value is array -->
           <template v-else-if="additionalProperties.type === 'array'">
-            <array-input
-              :schema="additionalProperties"
-              :type="additionalProperties.type"
-              v-model="newValue"
-            />
+            <validation-provider
+              v-slot="{ errors }"
+              rules="required"
+              :name="`${schema.title.replace(/ /g, '-')}-value`"
+              :vid="`${schema.title.replace(/ /g, '-')}-value-provider`"
+              slim
+            >
+              <array-input
+                :schema="additionalProperties"
+                :type="additionalProperties.type"
+                :errors="errors"
+                v-model="newValue"
+              />
+            </validation-provider>
           </template>
           <!-- if value is simple input -->
           <template v-else>

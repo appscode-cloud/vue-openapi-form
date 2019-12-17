@@ -32,6 +32,7 @@
       </div>
     </div>
     <hr />
+    <!-- form for all the object's properties -->
     <object-form
       v-if="formShow"
       :properties="schema.properties"
