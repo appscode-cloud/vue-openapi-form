@@ -23,10 +23,12 @@ export default [
               yearWorked: {
                 type: "number"
               }
-            }
+            },
+            required: ["companyName", "position", "yearWorked"]
           }
         }
       },
+      required: ["name", "age", "previousJobs"],
       type: "object"
     },
     model: {

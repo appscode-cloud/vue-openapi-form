@@ -65,6 +65,11 @@
                     :key="JSON.stringify(selectedJsonSchema)"
                   />
                 </validation-provider>
+                <div class="buttons">
+                  <button class="button is-primary" @click.prevent="submit">
+                    Submit
+                  </button>
+                </div>
               </validation-observer>
               <!-- <key-value-pairs
         :schema="extendedSchema.properties.matchLabels"

@@ -157,7 +157,10 @@
                 slim
               >
                 <vue-form-schema
-                  :schema="items"
+                  :schema="{
+                    ...items,
+                    ...{ title: `${schema.title} new value` }
+                  }"
                   :type="items.type"
                   :errors="errors"
                   v-model="newData"
@@ -173,7 +176,10 @@
                 slim
               >
                 <key-value-pairs
-                  :schema="items"
+                  :schema="{
+                    ...items,
+                    ...{ title: `${schema.title} new value` }
+                  }"
                   :errors="errors"
                   :type="items.type"
                   v-model="newData"
@@ -189,7 +195,10 @@
                 slim
               >
                 <array-input
-                  :schema="items"
+                  :schema="{
+                    ...items,
+                    ...{ title: `${schema.title} new value` }
+                  }"
                   :errors="errors"
                   :type="items.type"
                   v-model="newData"
@@ -205,7 +214,10 @@
                 slim
               >
                 <simple-input
-                  :schema="items"
+                  :schema="{
+                    ...items,
+                    ...{ title: `${schema.title} new value` }
+                  }"
                   :required="true"
                   :type="items.type"
                   :validationOb="validationOb"
