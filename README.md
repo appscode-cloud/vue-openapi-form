@@ -1,5 +1,12 @@
 # vue-form-schema
 
+## Validation structure
+
+The Object and Array type components are wrapped inside `ValidationProvider` and a `ValidationObserver`. The 
+- `ValidationProvider` ensures that the Object/Array itself is not empty if required. And also other validations if necessary.
+- `ValidationObserver` ensures to report all the errors occuring in it's nested child components.
+
+
 ## Project setup
 ```
 npm install

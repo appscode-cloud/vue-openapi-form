@@ -1,11 +1,26 @@
 <template>
   <div id="app">
     <div class="container vue-form-schema">
-      <vue-form-schema
-        :isRoot="true"
-        :schema="extendedSchema"
-        v-model="model"
-      />
+      <validation-observer ref="mainObserver" slim>
+        <validation-provider
+          v-slot="{ errors }"
+          :name="extendedSchema.title"
+          :vid="`${extendedSchema.title}-vpid`"
+          slim
+        >
+          <vue-form-schema
+            :isRoot="true"
+            :schema="extendedSchema"
+            :errors="errors"
+            v-model="model"
+          />
+        </validation-provider>
+        <div class="buttons">
+          <button class="button is-primary" @click.prevent="submit">
+            Submit
+          </button>
+        </div>
+      </validation-observer>
       <!-- <key-value-pairs
         :schema="extendedSchema.properties.matchLabels"
         v-model="model.matchLabels"
@@ -18,75 +33,92 @@
 import VueFormSchema from "@/components/VueFormSchema.vue";
 import Schema from "@/json-schema";
 import ExtendSchema from "@/functional-components/extend-schema";
+import { ValidationObserver, ValidationProvider } from "vee-validate";
 
 export default {
   name: "app",
   components: {
-    VueFormSchema
+    VueFormSchema,
+    ValidationObserver,
+    ValidationProvider
     // "key-value-pairs": () => import("@/components/KeyValuePairs")
+  },
+  methods: {
+    async submit() {
+      const isValid = await this.$refs.mainObserver.validate();
+      if (isValid) {
+        console.log("validated");
+      }
+    }
   },
   data() {
     return {
       jsonSchema: Schema,
       model: {
-        affinity: {},
-        annotations: {},
-        apiserver: {
-          bypassValidatingWebhookXray: false,
-          ca: "not-ca-cert",
-          disableStatusSubresource: false,
-          enableMutatingWebhook: true,
-          enableValidatingWebhook: true,
-          groupPriorityMinimum: 10000,
-          healthcheck: {
-            enabled: true
-          },
-          useKubeapiserverFqdnForAks: true,
-          versionPriority: 15
+        additionalPodSecurityPolicies: {
+          name: { firstName: "sakib", lastName: "khan" },
+          namespace: "default",
+          previousJobs: [{ name: "appscode", position: "software" }]
         },
-        cleaner: {
-          registry: "appscode",
-          repository: "kubectl",
-          tag: "v1.12"
-        },
-        criticalAddon: false,
-        enableAnalytics: true,
-        imagePullPolicy: "IfNotPresent",
-        logLevel: 3,
-        monitoring: {
-          agent: "none",
-          backup: false,
-          operator: false,
-          prometheus: {
-            namespace: ""
-          },
-          serviceMonitor: {
-            labels: {}
-          }
-        },
-        nodeSelector: {
-          "beta.kubernetes.io/arch": "amd64",
-          "beta.kubernetes.io/os": "linux"
-        },
-        operator: {
-          registry: "appscode",
-          repository: "stash",
-          tag: "0.8.3"
-        },
-        pushgateway: {
-          registry: "prom",
-          repository: "pushgateway",
-          tag: "v0.5.2"
-        },
-        rbac: {
-          create: true
-        },
-        replicaCount: 1,
-        serviceAccount: {
-          create: true,
-          name: null
-        },
-        tolerations: []
+        annotations: { haha: "hoho" }
+        // affinity: {},
+        // annotations: {},
+        // apiserver: {
+        //   bypassValidatingWebhookXray: false,
+        //   ca: "not-ca-cert",
+        //   disableStatusSubresource: false,
+        //   enableMutatingWebhook: true,
+        //   enableValidatingWebhook: true,
+        //   groupPriorityMinimum: 10000,
+        //   healthcheck: {
+        //     enabled: true
+        //   },
+        //   useKubeapiserverFqdnForAks: true,
+        //   versionPriority: 15
+        // },
+        // cleaner: {
+        //   registry: "appscode",
+        //   repository: "kubectl",
+        //   tag: "v1.12"
+        // },
+        // criticalAddon: false,
+        // enableAnalytics: true,
+        // imagePullPolicy: "IfNotPresent",
+        // logLevel: 3,
+        // monitoring: {
+        //   agent: "none",
+        //   backup: false,
+        //   operator: false,
+        //   prometheus: {
+        //     namespace: ""
+        //   },
+        //   serviceMonitor: {
+        //     labels: {}
+        //   }
+        // },
+        // nodeSelector: {
+        //   "beta.kubernetes.io/arch": "amd64",
+        //   "beta.kubernetes.io/os": "linux"
+        // },
+        // operator: {
+        //   registry: "appscode",
+        //   repository: "stash",
+        //   tag: "0.8.3"
+        // },
+        // pushgateway: {
+        //   registry: "prom",
+        //   repository: "pushgateway",
+        //   tag: "v0.5.2"
+        // },
+        // rbac: {
+        //   create: true
+        // },
+        // replicaCount: 1,
+        // serviceAccount: {
+        //   create: true,
+        //   name: null
+        // },
+        // tolerations: []
       }
     };
   },
@@ -151,5 +183,16 @@ export default {
 .tabs:not(:last-child) {
   margin-bottom: 0;
   margin-right: 2rem;
+}
+
+.control.has-icons-right .icon.is-success {
+  color: green;
+}
+.control.has-icons-right .icon.is-warning {
+  color: red;
+}
+
+p.is-warning {
+  color: red;
 }
 </style>

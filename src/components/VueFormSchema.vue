@@ -1,9 +1,20 @@
 <template>
-  <form class="vue-schema-form-object">
+  <validation-observer
+    tag="form"
+    :ref="`${schema.title.replace(/ /g, '-')}-observer`"
+    :vid="`${schema.title.replace(/ /g, '-')}-observer`"
+    v-slot="{ errors: observerErrors }"
+    class="vue-schema-form-object"
+  >
+    <!-- {{ calcObserverError(observerErrors) }} -->
     <div class="level">
       <div class="level-left">
         <h4 class="title is-5">
           {{ schema.title || "Array Item Description" }}
+          <!-- show errors-->
+          <component-errors
+            :errors="[...errors, ...calcObserverError(observerErrors)]"
+          />
         </h4>
       </div>
       <div class="level-right">
@@ -21,22 +32,26 @@
       </div>
     </div>
     <hr />
+    <!-- form for all the object's properties -->
     <object-form
       v-if="formShow"
       :properties="schema.properties"
+      :title="schema.title"
+      :required="schema.required"
       :type="schema.type"
       :isSelfFolded="isRoot ? false : isFolded"
       v-model="modelData"
     />
     <!-- declared in tabs component -->
     <json-form v-else v-model="modelData" />
-  </form>
+  </validation-observer>
 </template>
 
 <script>
 import { model } from "@/mixins/model.js";
 import fold from "@/mixins/fold.js";
 import tabs from "@/mixins/tabs.js";
+import validation from "@/mixins/validation.js";
 
 export default {
   props: {
@@ -51,10 +66,14 @@ export default {
     isRoot: {
       type: Boolean,
       default: false
+    },
+    errors: {
+      type: Array,
+      default: () => []
     }
   },
 
-  mixins: [model, fold, tabs],
+  mixins: [model, fold, tabs, validation],
 
   components: {
     "object-form": () => import("@/components/ObjectForm")

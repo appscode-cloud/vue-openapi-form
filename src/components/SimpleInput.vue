@@ -19,12 +19,39 @@
           <input
             class="input"
             :type="ui.type"
+            :class="{
+              'is-success': validationOb.validated && validationOb.valid,
+              'is-danger': validationOb.validated && validationOb.invalid
+            }"
             :placeholder="ui.placeholder || ''"
             v-model="modelData"
+            @change="modelData = $event.target.value"
           />
-          <!-- <span class="icon is-small is-right">
-        <i class="fas fa-check"></i>
-      </span> -->
+          <template v-if="validationOb.validated">
+            <span
+              class="icon is-small is-right is-success"
+              v-if="validationOb.valid"
+            >
+              <i class="fa fa-check"></i>
+            </span>
+            <span
+              class="icon is-small is-right is-warning"
+              v-if="validationOb.invalid"
+            >
+              <i class="fa fa-times"></i>
+            </span>
+          </template>
+          <p
+            class="is-warning"
+            v-if="
+              validationOb &&
+                validationOb.errors &&
+                validationOb.errors.length > 0
+            "
+          >
+            <span class="warning"><i class="fa fa-warning"></i></span>
+            {{ validationOb.errors[0] }}
+          </p>
         </div>
       </template>
     </template>
@@ -34,12 +61,26 @@
         <textarea
           class="input"
           :type="ui.type"
+          :class="{
+            'is-success': validationOb.validated && validationOb.valid,
+            'is-danger': validationOb.validated && validationOb.invalid
+          }"
           :placeholder="ui.placeholder || ''"
           v-model="modelData"
+          @change="modelData = $event.target.value"
         />
-        <!-- <span class="icon is-small is-right">
-        <i class="fas fa-check"></i>
-      </span> -->
+        <template v-if="validationOb.validated">
+          <span class="icon is-small is-right is-success" v-if="valid">
+            <i class="fa fa-check"></i>
+          </span>
+          <span class="icon is-small is-right is-warning" v-if="invalid">
+            <i class="fa fa-times"></i>
+          </span>
+        </template>
+        <p class="is-warning" v-if="validationOb.errors.length > 0">
+          <span class="warning"><i class="fa fa-warning"></i></span>
+          {{ validationOb.errors[0] }}
+        </p>
       </div>
     </template>
 
@@ -58,6 +99,7 @@
 
 <script>
 import { model } from "@/mixins/model.js";
+import validation from "@/mixins/validation.js";
 
 export default {
   props: {
@@ -67,10 +109,14 @@ export default {
     },
     value: {
       default: ""
+    },
+    validationOb: {
+      type: Object,
+      default: () => ({})
     }
   },
 
-  mixins: [model],
+  mixins: [model, validation],
 
   computed: {
     ui() {

@@ -1,9 +1,20 @@
 <template>
-  <div class="vue-schema-form-key-value-pairs" :key="updatePass">
+  <validation-observer
+    tag="div"
+    :ref="`${schema.title.replace(/ /g, '-')}-observer`"
+    :vid="`${schema.title.replace(/ /g, '-')}-observer`"
+    v-slot="{ errors: observerErrors }"
+    class="vue-schema-form-key-value-pairs"
+    :key="updatePass"
+  >
     <div class="level">
       <div class="level-left">
         <h4 class="title is-5">
-          {{ schema.title || "Array Item Description" }}
+          {{ schema.title || "Array Item Description"
+          }}<!-- show errors-->
+          <component-errors
+            :errors="[...errors, ...calcObserverError(observerErrors)]"
+          />
         </h4>
       </div>
       <div class="level-right">
@@ -12,6 +23,7 @@
     </div>
     <hr />
     <template v-if="formShow">
+      <!-- existing key values -->
       <div
         class="columns is-multiline"
         v-for="(prop, index) in keyValueArray"
@@ -20,39 +32,110 @@
         <div class="column is-3">
           <div class="field">
             <label class="label">Key</label>
-            <div class="control has-icons right">
-              <input class="input" type="text" v-model="prop.key" />
-            </div>
+            <validation-provider
+              :vid="
+                `${schema.title.replace(/ /g, '-')}-key-${index + 1}-provider`
+              "
+              rules="required"
+              :name="`${schema.title.replace(/ /g, '-')}-key-${index + 1}`"
+              v-slot="{ errors, valid, invalid, validated }"
+              tag="div"
+              class="control has-icons-right"
+            >
+              <input
+                class="input"
+                type="text"
+                :class="{
+                  'is-success': validated && valid,
+                  'is-danger': validated && invalid
+                }"
+                v-model="prop.key"
+              />
+
+              <!-- right or wrong signs -->
+              <right-wrong-signs
+                v-if="validated"
+                :valid="valid"
+                :invalid="invalid"
+              />
+
+              <!-- error show -->
+              <component-errors :errors="errors" />
+            </validation-provider>
           </div>
         </div>
         <div class="column is-8">
           <template v-if="additionalProperties.type === 'object'">
-            <vue-form-schema
-              :schema="additionalProperties"
-              :type="additionalProperties.type"
-              v-model="prop.value"
-            />
+            <validation-provider
+              v-slot="{ errors }"
+              :rules="ruleObject(true)"
+              :name="`${schema.title.replace(/ /g, '-')}-value-${index + 1}`"
+              :vid="
+                `${schema.title.replace(/ /g, '-')}-value-${index + 1}-provider`
+              "
+              slim
+            >
+              <vue-form-schema
+                :schema="additionalProperties"
+                :type="additionalProperties.type"
+                :errors="errors"
+                v-model="prop.value"
+              />
+            </validation-provider>
           </template>
           <template v-else-if="additionalProperties.type === 'key-value-pairs'">
-            <key-value-pairs
-              :schema="additionalProperties"
-              :type="additionalProperties.type"
-              v-model="prop.value"
-            />
+            <validation-provider
+              v-slot="{ errors }"
+              :rules="ruleObject(true)"
+              :name="`${schema.title.replace(/ /g, '-')}-value-${index + 1}`"
+              :vid="
+                `${schema.title.replace(/ /g, '-')}-value-${index + 1}-provider`
+              "
+              slim
+            >
+              <key-value-pairs
+                :schema="additionalProperties"
+                :type="additionalProperties.type"
+                :errors="errors"
+                v-model="prop.value"
+              />
+            </validation-provider>
           </template>
           <template v-else-if="additionalProperties.type === 'array'">
-            <array-input
-              :schema="additionalProperties"
-              :type="additionalProperties.type"
-              v-model="prop.value"
-            />
+            <validation-provider
+              v-slot="{ errors }"
+              :rules="ruleArray(true)"
+              :name="`${schema.title.replace(/ /g, '-')}-value-${index + 1}`"
+              :vid="
+                `${schema.title.replace(/ /g, '-')}-value-${index + 1}-provider`
+              "
+              slim
+            >
+              <array-input
+                :schema="additionalProperties"
+                :type="additionalProperties.type"
+                :errors="errors"
+                v-model="prop.value"
+              />
+            </validation-provider>
           </template>
           <template v-else>
-            <simple-input
-              :schema="additionalProperties"
-              :type="additionalProperties.type"
-              v-model="prop.value"
-            />
+            <validation-provider
+              v-slot="validationOb"
+              :rules="ruleString(true)"
+              :name="`${schema.title.replace(/ /g, '-')}-value-${index + 1}`"
+              :vid="
+                `${schema.title.replace(/ /g, '-')}-value-${index + 1}-provider`
+              "
+              slim
+            >
+              <simple-input
+                :schema="additionalProperties"
+                :type="additionalProperties.type"
+                :validationOb="validationOb"
+                v-model="prop.value"
+              />
+            </validation-provider>
           </template>
         </div>
 
@@ -70,43 +153,118 @@
         </div>
       </div>
 
-      <div class="columns is-multiline">
+      <!-- key input -->
+      <validation-observer
+        :ref="`${schema.title.replace(/ /g, '-')}-new`"
+        :vid="`${schema.title.replace(/ /g, '-')}-new-observer`"
+        :disabled="true"
+        tag="div"
+        class="columns is-multiline"
+      >
         <div class="column is-3">
           <div class="field">
             <label class="label">Key</label>
-            <div class="control has-icons right">
-              <input class="input" type="text" v-model="newKey" />
-            </div>
+            <validation-provider
+              :vid="`${schema.title.replace(/ /g, '-')}-key-provider`"
+              rules="required"
+              :name="`${schema.title.replace(/ /g, '-')}-key`"
+              v-slot="{ errors, valid, invalid, validated }"
+              tag="div"
+              class="control has-icons-right"
+            >
+              <input
+                class="input"
+                type="text"
+                :class="{
+                  'is-success': validated && valid,
+                  'is-danger': validated && invalid
+                }"
+                v-model="newKey"
+              />
+
+              <!-- right or wrong signs -->
+              <right-wrong-signs
+                v-if="validated"
+                :valid="valid"
+                :invalid="invalid"
+              />
+
+              <!-- error show -->
+              <component-errors :errors="errors" />
+            </validation-provider>
           </div>
         </div>
+
+        <!-- new value input -->
+
         <div class="column is-8">
+          <!-- if value is object -->
           <template v-if="additionalProperties.type === 'object'">
-            <vue-form-schema
-              :schema="additionalProperties"
-              :type="additionalProperties.type"
-              v-model="newValue"
-            />
+            <validation-provider
+              v-slot="{ errors }"
+              rules="required"
+              :name="`${schema.title.replace(/ /g, '-')}-value`"
+              :vid="`${schema.title.replace(/ /g, '-')}-value-provider`"
+              slim
+            >
+              <vue-form-schema
+                :schema="additionalProperties"
+                :type="additionalProperties.type"
+                :errors="errors"
+                v-model="newValue"
+              />
+            </validation-provider>
           </template>
+          <!-- if value is key value pairs -->
           <template v-else-if="additionalProperties.type === 'key-value-pairs'">
-            <key-value-pairs
-              :schema="additionalProperties"
-              :type="additionalProperties.type"
-              v-model="newValue"
-            />
+            <validation-provider
+              v-slot="{ errors }"
+              rules="required"
+              :name="`${schema.title.replace(/ /g, '-')}-value`"
+              :vid="`${schema.title.replace(/ /g, '-')}-value-provider`"
+              slim
+            >
+              <key-value-pairs
+                :schema="additionalProperties"
+                :type="additionalProperties.type"
+                :errors="errors"
+                v-model="newValue"
+              />
+            </validation-provider>
           </template>
+          <!-- if value is array -->
           <template v-else-if="additionalProperties.type === 'array'">
-            <array-input
-              :schema="additionalProperties"
-              :type="additionalProperties.type"
-              v-model="newValue"
-            />
+            <validation-provider
+              v-slot="{ errors }"
+              rules="required"
+              :name="`${schema.title.replace(/ /g, '-')}-value`"
+              :vid="`${schema.title.replace(/ /g, '-')}-value-provider`"
+              slim
+            >
+              <array-input
+                :schema="additionalProperties"
+                :type="additionalProperties.type"
+                :errors="errors"
+                v-model="newValue"
+              />
+            </validation-provider>
           </template>
+          <!-- if value is simple input -->
           <template v-else>
-            <simple-input
-              :schema="additionalProperties"
-              :type="additionalProperties.type"
-              v-model="newValue"
-            />
+            <validation-provider
+              v-slot="validationOb"
+              rules="required"
+              :name="`${schema.title.replace(/ /g, '-')}-value`"
+              :vid="`${schema.title.replace(/ /g, '-')}-value-provider`"
+              slim
+            >
+              <simple-input
+                :schema="additionalProperties"
+                :type="additionalProperties.type"
+                :validationOb="validationOb"
+                v-model="newValue"
+              />
+            </validation-provider>
           </template>
         </div>
         <div class="column is-1">
@@ -121,18 +279,19 @@
             </button>
           </div>
         </div>
-      </div>
+      </validation-observer>
     </template>
     <template v-else>
       <!-- declared in tabs component -->
       <json-form v-model="modelData" />
     </template>
-  </div>
+  </validation-observer>
 </template>
 
 <script>
 import { model } from "@/mixins/model.js";
 import tabs from "@/mixins/tabs.js";
+import validation from "@/mixins/validation.js";
 
 export default {
   props: {
@@ -143,10 +302,14 @@ export default {
     value: {
       type: Object,
       default: () => ({})
+    },
+    errors: {
+      type: Array,
+      default: () => []
     }
   },
 
-  mixins: [model, tabs],
+  mixins: [model, tabs, validation],
 
   components: {
     "vue-form-schema": () => import("@/components/VueFormSchema"),
@@ -159,7 +322,7 @@ export default {
     return {
       newData: null,
       updatePass: 0,
-      keyValueArray: [],
+      keyValueArray: null,
       newKey: "",
       newValue: null
     };
@@ -193,16 +356,21 @@ export default {
       return result;
     },
 
-    addProp() {
-      this.keyValueArray.push({
-        key: this.newKey,
-        value: this.newValue
-      });
+    async addProp() {
+      const observerRef = `${this.schema.title.replace(/ /g, "-")}-new`;
+      const isValid = await this.$refs[observerRef].validate();
 
-      this.newKey = "";
-      this.newValue = null;
+      if (isValid) {
+        this.keyValueArray.push({
+          key: this.newKey,
+          value: this.newValue
+        });
 
-      this.updatePass += 1;
+        this.newKey = "";
+        this.newValue = null;
+
+        this.updatePass += 1;
+      }
     },
 
     deleteProp(index) {
@@ -217,9 +385,12 @@ export default {
 
   watch: {
     keyValueArray: {
+      immediate: true,
       deep: true,
-      handler(newVal) {
-        this.modelData = this.reconstructObject(newVal);
+      handler(newVal, oldVal) {
+        if (oldVal !== null && oldVal !== undefined) {
+          this.modelData = this.reconstructObject(newVal);
+        }
       }
     }
   }
