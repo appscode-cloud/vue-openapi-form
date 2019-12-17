@@ -37,7 +37,7 @@
               :vid="`${schema.title.replace(/ /g, '-')}-${index + 1}-provider`"
               slim
             >
-              <vue-form-schema
+              <vue-openapi-form
                 :schema="{
                   ...items,
                   ...{ title: `${schema.title} ${index + 1}` }
@@ -156,7 +156,7 @@
                 :vid="`${schema.title.replace(/ /g, '-')}-new-value-provider`"
                 slim
               >
-                <vue-form-schema
+                <vue-openapi-form
                   :schema="{
                     ...items,
                     ...{ title: `${schema.title} new value` }
@@ -272,7 +272,7 @@ export default {
   mixins: [model, tabs, validation],
 
   components: {
-    "vue-form-schema": () => import("@/components/VueFormSchema"),
+    "vue-openapi-form": () => import("@/components/VueOpenapiForm"),
     "array-input": () => import("@/components/ArrayInput"),
     "simple-input": () => import("@/components/SimpleInput"),
     "key-value-pairs": () => import("@/components/KeyValuePairs")

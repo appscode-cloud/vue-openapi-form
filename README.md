@@ -1,4 +1,4 @@
-# vue-form-schema
+# vue-openapi-form
 
 ## Validation structure
 

@@ -4,7 +4,7 @@ import buble from "rollup-plugin-buble"; // Transpile/polyfill with reasonable b
 export default {
   input: "src/wrapper.js", // Path relative to package.json
   output: {
-    name: "VueFormSchema",
+    name: "VueOpenapiForm",
     exports: "named"
   },
   plugins: [

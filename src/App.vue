@@ -48,7 +48,7 @@
             </div>
           </div>
           <div class="column is-7">
-            <div class="container vue-form-schema">
+            <div class="container vue-openapi-form">
               <!-- key is required to properly update the new form when schema changes -->
 
               <validation-observer ref="mainObserver" slim>
@@ -58,7 +58,7 @@
                   :vid="`${jsonSchema.title}-vpid`"
                   slim
                 >
-                  <vue-form-schema
+                  <vue-openapi-form
                     :isRoot="true"
                     :schema="jsonSchema"
                     v-model="model"
@@ -84,7 +84,7 @@
 </template>
 
 <script>
-import VueFormSchema from "../dist/vue-form-schema.esm";
+import VueOpenapiForm from "../dist/vue-openapi-form.esm";
 import Schemas from "@/json-schema";
 import ExtendSchema from "@/functional-components/extend-schema";
 import { ValidationObserver, ValidationProvider } from "vee-validate";
@@ -93,7 +93,7 @@ import SchemaModel from "@/components/SchemaModel";
 export default {
   name: "app",
   components: {
-    VueFormSchema,
+    VueOpenapiForm,
     ValidationObserver,
     ValidationProvider,
     SchemaModel

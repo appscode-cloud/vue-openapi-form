@@ -75,7 +75,7 @@
               "
               slim
             >
-              <vue-form-schema
+              <vue-openapi-form
                 :schema="additionalProperties"
                 :type="additionalProperties.type"
                 :errors="errors"
@@ -207,7 +207,7 @@
               :vid="`${schema.title.replace(/ /g, '-')}-value-provider`"
               slim
             >
-              <vue-form-schema
+              <vue-openapi-form
                 :schema="additionalProperties"
                 :type="additionalProperties.type"
                 :errors="errors"
@@ -312,7 +312,7 @@ export default {
   mixins: [model, tabs, validation],
 
   components: {
-    "vue-form-schema": () => import("@/components/VueFormSchema"),
+    "vue-openapi-form": () => import("@/components/VueOpenapiForm"),
     "array-input": () => import("@/components/ArrayInput"),
     "simple-input": () => import("@/components/SimpleInput"),
     "key-value-pairs": () => import("@/components/KeyValuePairs")

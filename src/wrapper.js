@@ -1,11 +1,11 @@
 // Import vue component
-import component from "./components/VueFormSchema.vue";
+import component from "./components/VueOpenapiForm.vue";
 
 // Declare install function executed by Vue.use()
 export function install(Vue) {
   if (install.installed) return;
   install.installed = true;
-  Vue.component("VueFormSchema", component);
+  Vue.component("VueOpenapiForm", component);
 }
 
 // Create module definition for Vue.use()

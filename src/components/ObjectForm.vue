@@ -11,7 +11,7 @@
         :vid="`${properties[key].title.replace(/ /g, '-')}-provider`"
         slim
       >
-        <vue-form-schema
+        <vue-openapi-form
           :type="properties[key].type"
           :schema="properties[key]"
           :errors="errors"
@@ -102,7 +102,7 @@ export default {
   mixins: [model, fold, validation],
 
   components: {
-    "vue-form-schema": () => import("@/components/VueFormSchema"),
+    "vue-openapi-form": () => import("@/components/VueOpenapiForm"),
     "array-input": () => import("@/components/ArrayInput"),
     "simple-input": () => import("@/components/SimpleInput"),
     "key-value-pairs": () => import("@/components/KeyValuePairs")
