@@ -120,8 +120,6 @@ export default {
 
   computed: {
     ui() {
-      if (!this.schema.ui) console.log(this.schema);
-
       return this.schema.ui || { tag: "input", type: "text" };
     }
   }

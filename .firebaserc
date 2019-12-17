@@ -1,0 +1,14 @@
+{
+  "projects": {
+    "default": "byte-builders"
+  },
+  "targets": {
+    "byte-builders": {
+      "hosting": {
+        "form": [
+          "byte-builders-form"
+        ]
+      }
+    }
+  }
+}

@@ -24,7 +24,7 @@ export const model = {
           this.modelData = this.value;
         else if (this.type === "boolean" && this.value !== null)
           this.modelData = this.value;
-        else if (this.type === "string" && this.value)
+        else if (this.type === "string" || this.type === "number")
           this.modelData = this.value;
         else this.modelData = this.initWithBlank();
       } else this.modelData = this.initWithBlank();

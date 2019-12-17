@@ -1,141 +1,144 @@
 <template>
   <div id="app">
-    <div class="container vue-form-schema">
-      <validation-observer ref="mainObserver" slim>
-        <validation-provider
-          v-slot="{ errors }"
-          :name="extendedSchema.title"
-          :vid="`${extendedSchema.title}-vpid`"
-          slim
-        >
-          <vue-form-schema
-            :isRoot="true"
-            :schema="extendedSchema"
-            :errors="errors"
-            v-model="model"
-          />
-        </validation-provider>
-        <div class="buttons">
-          <button class="button is-primary" @click.prevent="submit">
-            Submit
-          </button>
+    <div class="vue-form-scema-body">
+      <div class="container is-fluid">
+        <div class="columns">
+          <div class="column">
+            <div class="section-title has-text-centered">
+              <h2>Vue Form Schema</h2>
+              <p>Made with Vue, Bulma and Vee-validate</p>
+            </div>
+          </div>
         </div>
-      </validation-observer>
-      <!-- <key-value-pairs
+        <div class="columns is-multiline">
+          <div class="column is-5">
+            <div class="container">
+              <div class="select-box-wrapper" v-if="!modifiedSchema">
+                <label for="schema-selection">Select Schema</label>
+                <div class="select is-fullwidth">
+                  <select id="schema-selection" v-model="selectedJsonSchema">
+                    <option
+                      v-for="jsonSchema in jsonSchemas"
+                      :key="jsonSchema.title"
+                      :value="jsonSchema"
+                    >
+                      {{ jsonSchema.title }}
+                    </option>
+                  </select>
+                </div>
+              </div>
+              <div class="level" v-else>
+                <div class="level-left">
+                  Schema has been modified
+                </div>
+                <div class="level-right">
+                  <button
+                    class="button is-warning"
+                    @click.prevent="resetForm()"
+                  >
+                    Reset
+                  </button>
+                </div>
+              </div>
+              <schema-model
+                :key="JSON.stringify(selectedJsonSchema)"
+                :schemaModel="selectedJsonSchema"
+                @submit="updateSchema"
+              />
+            </div>
+          </div>
+          <div class="column is-7">
+            <div class="container vue-form-schema">
+              <!-- key is required to properly update the new form when schema changes -->
+
+              <validation-observer ref="mainObserver" slim>
+                <validation-provider
+                  v-slot="{ errors }"
+                  :name="jsonSchema.title"
+                  :vid="`${jsonSchema.title}-vpid`"
+                  slim
+                >
+                  <vue-form-schema
+                    :isRoot="true"
+                    :schema="jsonSchema"
+                    v-model="model"
+                    :key="JSON.stringify(selectedJsonSchema)"
+                  />
+                </validation-provider>
+                <div class="buttons">
+                  <button class="button is-primary" @click.prevent="submit">
+                    Submit
+                  </button>
+                </div>
+              </validation-observer>
+              <!-- <key-value-pairs
         :schema="extendedSchema.properties.matchLabels"
         v-model="model.matchLabels"
       /> -->
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
 import VueFormSchema from "@/components/VueFormSchema.vue";
-import Schema from "@/json-schema";
+import Schemas from "@/json-schema";
 import ExtendSchema from "@/functional-components/extend-schema";
 import { ValidationObserver, ValidationProvider } from "vee-validate";
+import SchemaModel from "@/components/SchemaModel";
 
 export default {
   name: "app",
   components: {
     VueFormSchema,
     ValidationObserver,
-    ValidationProvider
+    ValidationProvider,
+    SchemaModel
     // "key-value-pairs": () => import("@/components/KeyValuePairs")
   },
+
+  data() {
+    return {
+      jsonSchemas: Schemas,
+      selectedJsonSchema: Schemas[0],
+      jsonSchema: {},
+      model: {},
+      modifiedSchema: false
+    };
+  },
+
   methods: {
     async submit() {
       const isValid = await this.$refs.mainObserver.validate();
       if (isValid) {
         console.log("validated");
       }
+    },
+
+    updateSchema(e) {
+      this.modifiedSchema = true;
+      this.selectedJsonSchema = e;
+    },
+
+    resetForm() {
+      this.modifiedSchema = false;
+      this.selectedJsonSchema = Schemas[0];
     }
   },
-  data() {
-    return {
-      jsonSchema: Schema,
-      model: {
-        additionalPodSecurityPolicies: {
-          name: { firstName: "sakib", lastName: "khan" },
-          namespace: "default",
-          previousJobs: [{ name: "appscode", position: "software" }]
-        },
-        annotations: { haha: "hoho" }
-        // affinity: {},
-        // annotations: {},
-        // apiserver: {
-        //   bypassValidatingWebhookXray: false,
-        //   ca: "not-ca-cert",
-        //   disableStatusSubresource: false,
-        //   enableMutatingWebhook: true,
-        //   enableValidatingWebhook: true,
-        //   groupPriorityMinimum: 10000,
-        //   healthcheck: {
-        //     enabled: true
-        //   },
-        //   useKubeapiserverFqdnForAks: true,
-        //   versionPriority: 15
-        // },
-        // cleaner: {
-        //   registry: "appscode",
-        //   repository: "kubectl",
-        //   tag: "v1.12"
-        // },
-        // criticalAddon: false,
-        // enableAnalytics: true,
-        // imagePullPolicy: "IfNotPresent",
-        // logLevel: 3,
-        // monitoring: {
-        //   agent: "none",
-        //   backup: false,
-        //   operator: false,
-        //   prometheus: {
-        //     namespace: ""
-        //   },
-        //   serviceMonitor: {
-        //     labels: {}
-        //   }
-        // },
-        // nodeSelector: {
-        //   "beta.kubernetes.io/arch": "amd64",
-        //   "beta.kubernetes.io/os": "linux"
-        // },
-        // operator: {
-        //   registry: "appscode",
-        //   repository: "stash",
-        //   tag: "0.8.3"
-        // },
-        // pushgateway: {
-        //   registry: "prom",
-        //   repository: "pushgateway",
-        //   tag: "v0.5.2"
-        // },
-        // rbac: {
-        //   create: true
-        // },
-        // replicaCount: 1,
-        // serviceAccount: {
-        //   create: true,
-        //   name: null
-        // },
-        // tolerations: []
+
+  watch: {
+    selectedJsonSchema: {
+      deep: true,
+      immediate: true,
+      handler(newVal) {
+        this.jsonSchema = JSON.parse(
+          JSON.stringify(ExtendSchema(newVal.schema, newVal.title))
+        );
+        this.model = JSON.parse(JSON.stringify(newVal.model));
       }
-    };
-  },
-  computed: {
-    extendedSchema() {
-      return ExtendSchema(this.jsonSchema);
-      // return ExtendSchema({
-      //   type: "object",
-      //   properties: {
-      //     matchLabels: {
-      //       additionalProperties: {
-      //         type: "string"
-      //       },
-      //       type: "object"
-      //     }
-      //   }
-      // });
     }
   }
 };
@@ -146,26 +149,63 @@ export default {
 @import "@/assets/scss/main.scss";
 @import "~codemirror/lib/codemirror.css";
 
+.section-title {
+  h2 {
+    font-size: 32px;
+    font-weight: 700;
+  }
+  p {
+    font-size: 18px;
+    color: #666;
+  }
+}
+
+.vue-form-scema-body {
+  padding: 30px 0;
+}
+
+label {
+  font-size: 16px;
+  color: #333;
+  margin-bottom: 10px;
+  display: block;
+  font-weight: 500;
+}
+
+@for $i from 1 through 100 {
+  .mt-#{$i} {
+    margin-top: #{$i}px;
+  }
+}
+
+.schema-input,
+.model-input {
+  margin-top: 30px;
+  h3 {
+    font-size: 24px;
+  }
+}
+
 .vue-schema-form-object {
   padding: 1rem;
-  border-radius: 20px;
-  box-shadow: 0px 0px 5px 0px rgb(68, 0, 255);
+  border-radius: 4px;
+  box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.16);
   margin-top: 2rem;
   margin-bottom: 2rem;
 }
 
 .vue-schema-form-array {
   padding: 1rem;
-  border-radius: 20px;
-  box-shadow: 0px 0px 5px 0px rgb(0, 124, 128);
+  border-radius: 4px;
+  box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.16);
   margin-top: 2rem;
   margin-bottom: 2rem;
 }
 
 .vue-schema-form-key-value-pairs {
   padding: 1rem;
-  border-radius: 20px;
-  box-shadow: 0px 0px 5px 0px rgb(119, 128, 0);
+  border-radius: 4px;
+  box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.16);
   margin-top: 2rem;
   margin-bottom: 2rem;
 }
