@@ -6,6 +6,7 @@
         require("@/mixins/fold.js"),
         require("@/mixins/tabs.js"),
         require("@/mixins/validation.js"),
+        require("@/components/ObjectForm"),
         require("vue-runtime-helpers")
       )
     : typeof define === "function" && define.amd
@@ -15,6 +16,7 @@
         "@/mixins/fold.js",
         "@/mixins/tabs.js",
         "@/mixins/validation.js",
+        "@/components/ObjectForm",
         "vue-runtime-helpers"
       ], factory)
     : ((global = global || self),
@@ -24,6 +26,7 @@
         global.fold,
         global.tabs,
         global.validation,
+        global.ObjectForm,
         global.vueRuntimeHelpers
       ));
 })(this, function(
@@ -32,6 +35,7 @@
   fold,
   tabs,
   validation,
+  ObjectForm,
   vueRuntimeHelpers
 ) {
   "use strict";
@@ -42,6 +46,10 @@
     validation && validation.hasOwnProperty("default")
       ? validation["default"]
       : validation;
+  ObjectForm =
+    ObjectForm && ObjectForm.hasOwnProperty("default")
+      ? ObjectForm["default"]
+      : ObjectForm;
 
   //
 
@@ -74,9 +82,7 @@
     mixins: [model_js.model, fold, tabs, validation],
 
     components: {
-      "object-form": function() {
-        return import("@/components/ObjectForm");
-      }
+      ObjectForm: ObjectForm
     }
   };
 

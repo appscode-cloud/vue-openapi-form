@@ -2,6 +2,7 @@ import { model } from "@/mixins/model.js";
 import fold from "@/mixins/fold.js";
 import tabs from "@/mixins/tabs.js";
 import validation from "@/mixins/validation.js";
+import ObjectForm from "@/components/ObjectForm";
 import { normalizeComponent } from "vue-runtime-helpers";
 
 //
@@ -35,9 +36,7 @@ var script = {
   mixins: [model, fold, tabs, validation],
 
   components: {
-    "object-form": function() {
-      return import("@/components/ObjectForm");
-    }
+    ObjectForm: ObjectForm
   }
 };
 
