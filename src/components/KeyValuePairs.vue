@@ -293,11 +293,6 @@ import { model } from "@/mixins/model.js";
 import tabs from "@/mixins/tabs.js";
 import validation from "@/mixins/validation.js";
 
-import VueOpenapiForm from "@/components/VueOpenapiForm";
-import ArrayInput from "@/components/ArrayInput";
-import SimpleInput from "@/components/SimpleInput";
-import KeyValuePairs from "@/components/KeyValuePairs";
-
 export default {
   props: {
     schema: {
@@ -317,10 +312,10 @@ export default {
   mixins: [model, tabs, validation],
 
   components: {
-    VueOpenapiForm,
-    ArrayInput,
-    SimpleInput,
-    KeyValuePairs
+    "vue-openapi-form": () => import("./VueOpenapiForm.vue"),
+    "array-input": () => import("./ArrayInput.vue"),
+    "simple-input": () => import("./SimpleInput.vue"),
+    "key-value-pairs": () => import("./KeyValuePairs.vue")
   },
 
   data() {

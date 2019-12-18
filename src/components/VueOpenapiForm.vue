@@ -53,8 +53,6 @@ import fold from "@/mixins/fold.js";
 import tabs from "@/mixins/tabs.js";
 import validation from "@/mixins/validation.js";
 
-import ObjectForm from "@/components/ObjectForm";
-
 export default {
   props: {
     schema: {
@@ -78,7 +76,7 @@ export default {
   mixins: [model, fold, tabs, validation],
 
   components: {
-    ObjectForm
+    "object-form": () => import("./ObjectForm.vue")
   }
 };
 </script>
