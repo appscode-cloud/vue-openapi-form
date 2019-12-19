@@ -1,55 +1,13 @@
-(function(global, factory) {
-  typeof exports === "object" && typeof module !== "undefined"
-    ? factory(
-        exports,
-        require("@/mixins/model.js"),
-        require("@/mixins/fold.js"),
-        require("@/mixins/tabs.js"),
-        require("@/mixins/validation.js"),
-        require("@/components/ObjectForm"),
-        require("vue-runtime-helpers")
-      )
-    : typeof define === "function" && define.amd
-    ? define([
-        "exports",
-        "@/mixins/model.js",
-        "@/mixins/fold.js",
-        "@/mixins/tabs.js",
-        "@/mixins/validation.js",
-        "@/components/ObjectForm",
-        "vue-runtime-helpers"
-      ], factory)
-    : ((global = global || self),
-      factory(
-        (global.VueOpenapiForm = {}),
-        global.model_js,
-        global.fold,
-        global.tabs,
-        global.validation,
-        global.ObjectForm,
-        global.vueRuntimeHelpers
-      ));
-})(this, function(
-  exports,
-  model_js,
-  fold,
-  tabs,
-  validation,
-  ObjectForm,
-  vueRuntimeHelpers
-) {
-  "use strict";
+(function (global, factory) {
+  typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports, require('@appscode/vue-openapi-form/src/mixins/model.js'), require('@appscode/vue-openapi-form/src/mixins/fold.js'), require('@appscode/vue-openapi-form/src/mixins/tabs.js'), require('@appscode/vue-openapi-form/src/mixins/validation.js'), require('@appscode/vue-openapi-form/src/components/ObjectForm'), require('vue-runtime-helpers')) :
+  typeof define === 'function' && define.amd ? define(['exports', '@appscode/vue-openapi-form/src/mixins/model.js', '@appscode/vue-openapi-form/src/mixins/fold.js', '@appscode/vue-openapi-form/src/mixins/tabs.js', '@appscode/vue-openapi-form/src/mixins/validation.js', '@appscode/vue-openapi-form/src/components/ObjectForm', 'vue-runtime-helpers'], factory) :
+  (global = global || self, factory(global.VueOpenapiForm = {}, global.model_js, global.fold, global.tabs, global.validation, global.ObjectForm, global.vueRuntimeHelpers));
+}(this, (function (exports, model_js, fold, tabs, validation, ObjectForm, vueRuntimeHelpers) { 'use strict';
 
-  fold = fold && fold.hasOwnProperty("default") ? fold["default"] : fold;
-  tabs = tabs && tabs.hasOwnProperty("default") ? tabs["default"] : tabs;
-  validation =
-    validation && validation.hasOwnProperty("default")
-      ? validation["default"]
-      : validation;
-  ObjectForm =
-    ObjectForm && ObjectForm.hasOwnProperty("default")
-      ? ObjectForm["default"]
-      : ObjectForm;
+  fold = fold && fold.hasOwnProperty('default') ? fold['default'] : fold;
+  tabs = tabs && tabs.hasOwnProperty('default') ? tabs['default'] : tabs;
+  validation = validation && validation.hasOwnProperty('default') ? validation['default'] : validation;
+  ObjectForm = ObjectForm && ObjectForm.hasOwnProperty('default') ? ObjectForm['default'] : ObjectForm;
 
   //
 
@@ -57,15 +15,11 @@
     props: {
       schema: {
         type: Object,
-        default: function() {
-          return {};
-        }
+        default: function () { return ({}); }
       },
       value: {
         type: Object,
-        default: function() {
-          return {};
-        }
+        default: function () { return ({}); }
       },
       isRoot: {
         type: Boolean,
@@ -73,9 +27,7 @@
       },
       errors: {
         type: Array,
-        default: function() {
-          return [];
-        }
+        default: function () { return []; }
       }
     },
 
@@ -155,7 +107,7 @@
                               on: {
                                 click: function($event) {
                                   $event.preventDefault();
-                                  return _vm.toggleFold();
+                                  return _vm.toggleFold()
                                 }
                               }
                             },
@@ -202,49 +154,49 @@
                       expression: "modelData"
                     }
                   })
-            ];
+            ]
           }
         }
       ])
-    });
+    })
   };
   var __vue_staticRenderFns__ = [];
   __vue_render__._withStripped = true;
 
-  /* style */
-  var __vue_inject_styles__ = undefined;
-  /* scoped */
-  var __vue_scope_id__ = undefined;
-  /* module identifier */
-  var __vue_module_identifier__ = undefined;
-  /* functional template */
-  var __vue_is_functional_template__ = false;
-  /* style inject */
+    /* style */
+    var __vue_inject_styles__ = undefined;
+    /* scoped */
+    var __vue_scope_id__ = undefined;
+    /* module identifier */
+    var __vue_module_identifier__ = undefined;
+    /* functional template */
+    var __vue_is_functional_template__ = false;
+    /* style inject */
+    
+    /* style inject SSR */
+    
+    /* style inject shadow dom */
+    
 
-  /* style inject SSR */
-
-  /* style inject shadow dom */
-
-  var __vue_component__ = vueRuntimeHelpers.normalizeComponent(
-    { render: __vue_render__, staticRenderFns: __vue_staticRenderFns__ },
-    __vue_inject_styles__,
-    __vue_script__,
-    __vue_scope_id__,
-    __vue_is_functional_template__,
-    __vue_module_identifier__,
-    false,
-    undefined,
-    undefined,
-    undefined
-  );
+    
+    var __vue_component__ = vueRuntimeHelpers.normalizeComponent(
+      { render: __vue_render__, staticRenderFns: __vue_staticRenderFns__ },
+      __vue_inject_styles__,
+      __vue_script__,
+      __vue_scope_id__,
+      __vue_is_functional_template__,
+      __vue_module_identifier__,
+      false,
+      undefined,
+      undefined,
+      undefined
+    );
 
   // Import vue component
 
   // Declare install function executed by Vue.use()
   function install(Vue) {
-    if (install.installed) {
-      return;
-    }
+    if (install.installed) { return; }
     install.installed = true;
     Vue.component("VueOpenapiForm", __vue_component__);
   }
@@ -268,5 +220,6 @@
   exports.default = __vue_component__;
   exports.install = install;
 
-  Object.defineProperty(exports, "__esModule", { value: true });
-});
+  Object.defineProperty(exports, '__esModule', { value: true });
+
+})));

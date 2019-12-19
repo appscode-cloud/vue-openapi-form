@@ -1,9 +1,9 @@
-import { model } from "@/mixins/model.js";
-import fold from "@/mixins/fold.js";
-import tabs from "@/mixins/tabs.js";
-import validation from "@/mixins/validation.js";
-import ObjectForm from "@/components/ObjectForm";
-import { normalizeComponent } from "vue-runtime-helpers";
+import { model } from '@appscode/vue-openapi-form/src/mixins/model.js';
+import fold from '@appscode/vue-openapi-form/src/mixins/fold.js';
+import tabs from '@appscode/vue-openapi-form/src/mixins/tabs.js';
+import validation from '@appscode/vue-openapi-form/src/mixins/validation.js';
+import ObjectForm from '@appscode/vue-openapi-form/src/components/ObjectForm';
+import { normalizeComponent } from 'vue-runtime-helpers';
 
 //
 
@@ -11,15 +11,11 @@ var script = {
   props: {
     schema: {
       type: Object,
-      default: function() {
-        return {};
-      }
+      default: function () { return ({}); }
     },
     value: {
       type: Object,
-      default: function() {
-        return {};
-      }
+      default: function () { return ({}); }
     },
     isRoot: {
       type: Boolean,
@@ -27,9 +23,7 @@ var script = {
     },
     errors: {
       type: Array,
-      default: function() {
-        return [];
-      }
+      default: function () { return []; }
     }
   },
 
@@ -109,7 +103,7 @@ var __vue_render__ = function() {
                             on: {
                               click: function($event) {
                                 $event.preventDefault();
-                                return _vm.toggleFold();
+                                return _vm.toggleFold()
                               }
                             }
                           },
@@ -156,49 +150,49 @@ var __vue_render__ = function() {
                     expression: "modelData"
                   }
                 })
-          ];
+          ]
         }
       }
     ])
-  });
+  })
 };
 var __vue_staticRenderFns__ = [];
 __vue_render__._withStripped = true;
 
-/* style */
-var __vue_inject_styles__ = undefined;
-/* scoped */
-var __vue_scope_id__ = undefined;
-/* module identifier */
-var __vue_module_identifier__ = undefined;
-/* functional template */
-var __vue_is_functional_template__ = false;
-/* style inject */
+  /* style */
+  var __vue_inject_styles__ = undefined;
+  /* scoped */
+  var __vue_scope_id__ = undefined;
+  /* module identifier */
+  var __vue_module_identifier__ = undefined;
+  /* functional template */
+  var __vue_is_functional_template__ = false;
+  /* style inject */
+  
+  /* style inject SSR */
+  
+  /* style inject shadow dom */
+  
 
-/* style inject SSR */
-
-/* style inject shadow dom */
-
-var __vue_component__ = normalizeComponent(
-  { render: __vue_render__, staticRenderFns: __vue_staticRenderFns__ },
-  __vue_inject_styles__,
-  __vue_script__,
-  __vue_scope_id__,
-  __vue_is_functional_template__,
-  __vue_module_identifier__,
-  false,
-  undefined,
-  undefined,
-  undefined
-);
+  
+  var __vue_component__ = normalizeComponent(
+    { render: __vue_render__, staticRenderFns: __vue_staticRenderFns__ },
+    __vue_inject_styles__,
+    __vue_script__,
+    __vue_scope_id__,
+    __vue_is_functional_template__,
+    __vue_module_identifier__,
+    false,
+    undefined,
+    undefined,
+    undefined
+  );
 
 // Import vue component
 
 // Declare install function executed by Vue.use()
 function install(Vue) {
-  if (install.installed) {
-    return;
-  }
+  if (install.installed) { return; }
   install.installed = true;
   Vue.component("VueOpenapiForm", __vue_component__);
 }

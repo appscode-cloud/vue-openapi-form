@@ -48,12 +48,12 @@
 </template>
 
 <script>
-import { model } from "@/mixins/model.js";
-import fold from "@/mixins/fold.js";
-import tabs from "@/mixins/tabs.js";
-import validation from "@/mixins/validation.js";
+import { model } from "@appscode/vue-openapi-form/src/mixins/model.js";
+import fold from "@appscode/vue-openapi-form/src/mixins/fold.js";
+import tabs from "@appscode/vue-openapi-form/src/mixins/tabs.js";
+import validation from "@appscode/vue-openapi-form/src/mixins/validation.js";
 
-import ObjectForm from "@/components/ObjectForm";
+import ObjectForm from "@appscode/vue-openapi-form/src/components/ObjectForm";
 
 export default {
   props: {

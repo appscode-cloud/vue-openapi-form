@@ -5,7 +5,7 @@ export default {
     };
   },
   components: {
-    tabs: () => import("@/components/Tabs"),
-    "json-form": () => import("@/components/JsonForm")
+    tabs: () => import("@appscode/vue-openapi-form/src/components/Tabs"),
+    "json-form": () => import("@appscode/vue-openapi-form/src/components/JsonForm")
   }
 };

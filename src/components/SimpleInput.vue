@@ -98,8 +98,8 @@
 </template>
 
 <script>
-import { model } from "@/mixins/model.js";
-import validation from "@/mixins/validation.js";
+import { model } from "@appscode/vue-openapi-form/src/mixins/model.js";
+import validation from "@appscode/vue-openapi-form/src/mixins/validation.js";
 
 export default {
   props: {
