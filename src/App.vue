@@ -85,10 +85,10 @@
 
 <script>
 import VueOpenapiForm from "../dist/vue-openapi-form.esm";
-import Schemas from "@appscode/vue-openapi-form/src/json-schema";
-import ExtendSchema from "@appscode/vue-openapi-form/src/functional-components/extend-schema";
+import Schemas from "@/json-schema";
+import ExtendSchema from "@/functional-components/extend-schema";
 import { ValidationObserver, ValidationProvider } from "vee-validate";
-import SchemaModel from "@appscode/vue-openapi-form/src/components/SchemaModel";
+import SchemaModel from "@/components/SchemaModel";
 
 export default {
   name: "app",
@@ -97,7 +97,7 @@ export default {
     ValidationObserver,
     ValidationProvider,
     SchemaModel
-    // "key-value-pairs": () => import("@appscode/vue-openapi-form/src/components/KeyValuePairs")
+    // "key-value-pairs": () => import(s"@/components/KeyValuePairs")
   },
 
   data() {

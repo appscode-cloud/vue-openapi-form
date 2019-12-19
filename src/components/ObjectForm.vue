@@ -75,14 +75,14 @@
 </template>
 
 <script>
-import { model } from "@appscode/vue-openapi-form/src/mixins/model.js";
-import fold from "@appscode/vue-openapi-form/src/mixins/fold.js";
-import validation from "@appscode/vue-openapi-form/src/mixins/validation.js";
+import { model } from "../mixins/model.js";
+import fold from "../mixins/fold.js";
+import validation from "../mixins/validation.js";
 
-import VueOpenapiForm from "@appscode/vue-openapi-form/src/components/VueOpenapiForm";
-import ArrayInput from "@appscode/vue-openapi-form/src/components/ArrayInput";
-import SimpleInput from "@appscode/vue-openapi-form/src/components/SimpleInput";
-import KeyValuePairs from "@appscode/vue-openapi-form/src/components/KeyValuePairs";
+import VueOpenapiForm from "./VueOpenapiForm.vue";
+import ArrayInput from "./ArrayInput.vue";
+import SimpleInput from "./SimpleInput.vue";
+import KeyValuePairs from "./KeyValuePairs.vue";
 
 export default {
   props: {
