@@ -43,7 +43,7 @@
       v-model="modelData"
     />
     <!-- declared in tabs component -->
-    <json-form v-else v-model="modelData" />
+    <!-- <json-form v-else v-model="modelData" /> -->
   </validation-observer>
 </template>
 

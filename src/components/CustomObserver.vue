@@ -26,7 +26,7 @@ export default {
     // Save a bound reference to the validate function.
     const validate = this.$refs.observer.validate.bind(this.$refs.observer);
 
-    this.$refs.observer.validate = async () => {
+    this.$refs.observer.validate = async function() {
       // You want to wait for Vue to update the 'disabled' prop,
       await this.$nextTick();
 

@@ -283,7 +283,7 @@
     </template>
     <template v-else>
       <!-- declared in tabs component -->
-      <json-form v-model="modelData" />
+      <!-- <json-form v-model="modelData" /> -->
     </template>
   </validation-observer>
 </template>

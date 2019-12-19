@@ -1,3 +1,4 @@
+import babel from "rollup-plugin-babel";
 import resolve from "@rollup/plugin-node-resolve";
 import commonjs from "rollup-plugin-commonjs"; // Convert CommonJS modules to ES6
 import vue from "rollup-plugin-vue"; // Handle .vue SFC files
@@ -18,9 +19,18 @@ export default {
         "vue-codemirror": ["codemirror"]
       }
     }),
+
+    babel({
+      runtimeHelpers: true,
+      exclude: "node_modules/**",
+      plugins: [
+        "@babel/plugin-external-helpers",
+        "@babel/plugin-transform-runtime"
+      ]
+    }),
     vue({
       css: true, // Dynamically inject css as a <style> tag
-      compileTemplate: true // Explicitly convert template to render function
+      compileTemplate: true // Explicitly convert template to render function,
     }),
     buble() // Transpile to ES5
   ]
