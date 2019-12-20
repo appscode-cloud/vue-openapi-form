@@ -1,5 +1,9 @@
 // Import vue component
 import component from "./components/VueOpenapiForm.vue";
+import ExtendSchema from "./functional-components/extend-schema.js";
+
+// export ExtendSchema
+export const extendSchema = ExtendSchema;
 
 // Declare install function executed by Vue.use()
 export function install(Vue) {
