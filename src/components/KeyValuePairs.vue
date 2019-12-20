@@ -283,7 +283,7 @@
     </template>
     <template v-else>
       <!-- declared in tabs component -->
-      <!-- <json-form v-model="modelData" /> -->
+      <json-form v-model="modelData" />
     </template>
   </validation-observer>
 </template>
@@ -292,11 +292,6 @@
 import { model } from "../mixins/model.js";
 import tabs from "../mixins/tabs.js";
 import validation from "../mixins/validation.js";
-
-import VueOpenapiForm from "./VueOpenapiForm.vue";
-import ArrayInput from "./ArrayInput.vue";
-import SimpleInput from "./SimpleInput.vue";
-import KeyValuePairs from "./KeyValuePairs.vue";
 
 export default {
   props: {
@@ -317,10 +312,10 @@ export default {
   mixins: [model, tabs, validation],
 
   components: {
-    VueOpenapiForm,
-    ArrayInput,
-    SimpleInput,
-    KeyValuePairs
+    "vue-openapi-form": () => import("./VueOpenapiForm.vue"),
+    "array-input": () => import("./ArrayInput.vue"),
+    "simple-input": () => import("./SimpleInput.vue"),
+    "key-value-pairs": () => import("./KeyValuePairs.vue")
   },
 
   data() {

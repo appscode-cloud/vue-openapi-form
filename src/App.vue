@@ -84,7 +84,7 @@
 </template>
 
 <script>
-import VueOpenapiForm from "../dist/vue-openapi-form.esm";
+import VueOpenapiForm from "@/components/VueOpenapiForm";
 import Schemas from "@/json-schema";
 import ExtendSchema from "@/functional-components/extend-schema";
 import { ValidationObserver, ValidationProvider } from "vee-validate";

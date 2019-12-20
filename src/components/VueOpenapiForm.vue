@@ -43,7 +43,7 @@
       v-model="modelData"
     />
     <!-- declared in tabs component -->
-    <!-- <json-form v-else v-model="modelData" /> -->
+    <json-form v-else v-model="modelData" />
   </validation-observer>
 </template>
 
@@ -52,8 +52,6 @@ import { model } from "../mixins/model.js";
 import fold from "../mixins/fold.js";
 import tabs from "../mixins/tabs.js";
 import validation from "../mixins/validation.js";
-
-import ObjectForm from "./ObjectForm.vue";
 
 export default {
   props: {
@@ -78,7 +76,7 @@ export default {
   mixins: [model, fold, tabs, validation],
 
   components: {
-    ObjectForm
+    "object-form": () => import("./ObjectForm.vue")
   }
 };
 </script>

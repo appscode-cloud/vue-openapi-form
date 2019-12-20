@@ -79,11 +79,6 @@ import { model } from "../mixins/model.js";
 import fold from "../mixins/fold.js";
 import validation from "../mixins/validation.js";
 
-import VueOpenapiForm from "./VueOpenapiForm.vue";
-import ArrayInput from "./ArrayInput.vue";
-import SimpleInput from "./SimpleInput.vue";
-import KeyValuePairs from "./KeyValuePairs.vue";
-
 export default {
   props: {
     properties: {
@@ -107,10 +102,10 @@ export default {
   mixins: [model, fold, validation],
 
   components: {
-    VueOpenapiForm,
-    ArrayInput,
-    SimpleInput,
-    KeyValuePairs
+    "vue-openapi-form": () => import("./VueOpenapiForm.vue"),
+    "array-input": () => import("./ArrayInput.vue"),
+    "simple-input": () => import("./SimpleInput.vue"),
+    "key-value-pairs": () => import("./KeyValuePairs.vue")
   },
 
   methods: {
