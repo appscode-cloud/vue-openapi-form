@@ -97,7 +97,6 @@ export default {
     ValidationObserver,
     ValidationProvider,
     SchemaModel
-    // "key-value-pairs": () => import(s"@/components/KeyValuePairs")
   },
 
   data() {

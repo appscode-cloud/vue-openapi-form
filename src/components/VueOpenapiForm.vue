@@ -73,10 +73,6 @@ export default {
     }
   },
 
-  mixins: [model, fold, tabs, validation],
-
-  components: {
-    "object-form": () => import("./ObjectForm.vue")
-  }
+  mixins: [model, fold, tabs, validation]
 };
 </script>

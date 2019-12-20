@@ -311,13 +311,6 @@ export default {
 
   mixins: [model, tabs, validation],
 
-  components: {
-    "vue-openapi-form": () => import("./VueOpenapiForm.vue"),
-    "array-input": () => import("./ArrayInput.vue"),
-    "simple-input": () => import("./SimpleInput.vue"),
-    "key-value-pairs": () => import("./KeyValuePairs.vue")
-  },
-
   data() {
     return {
       newData: null,

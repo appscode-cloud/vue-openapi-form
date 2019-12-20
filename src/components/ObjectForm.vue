@@ -101,13 +101,6 @@ export default {
 
   mixins: [model, fold, validation],
 
-  components: {
-    "vue-openapi-form": () => import("./VueOpenapiForm.vue"),
-    "array-input": () => import("./ArrayInput.vue"),
-    "simple-input": () => import("./SimpleInput.vue"),
-    "key-value-pairs": () => import("./KeyValuePairs.vue")
-  },
-
   methods: {
     isRequired(key) {
       const item = this.required.find(itm => itm === key);

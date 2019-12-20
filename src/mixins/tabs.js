@@ -1,3 +1,6 @@
+import Tabs from "../components/Tabs.vue";
+import JsonForm from "../components/JsonForm.vue";
+
 export default {
   data() {
     return {
@@ -5,7 +8,7 @@ export default {
     };
   },
   components: {
-    tabs: () => import("../components/Tabs.vue"),
-    "json-form": () => import("../components/JsonForm.vue")
+    Tabs,
+    JsonForm
   }
 };
