@@ -27880,16 +27880,20 @@
 
 	// Import vue component
 
-	var extendSchema = ExtendSchema; // Declare install function executed by Vue.use()
+	var extendSchema = ExtendSchema; // export components
+
+	var objectForm = __vue_component__$5;
+	var arrayInput = __vue_component__$6;
+	var keyValuePairs = __vue_component__$7;
+	var simpleInput = __vue_component__$8; // Declare install function executed by Vue.use()
 
 	function install(Vue) {
 	  if (install.installed) { return; }
 	  install.installed = true;
-	  Vue.component("VueOpenapiForm", __vue_component__$4);
-	  Vue.component("object-form", __vue_component__$5);
-	  Vue.component("array-input", __vue_component__$6);
-	  Vue.component("key-value-pairs", __vue_component__$7);
-	  Vue.component("simple-input", __vue_component__$8);
+	  Vue.component("VueOpenapiForm", __vue_component__$4); // Vue.component("object-form", ObjectForm);
+	  // Vue.component("array-input", ArrayInput);
+	  // Vue.component("key-value-pairs", KeyValuePairs);
+	  // Vue.component("simple-input", SimpleInput);
 	} // Create module definition for Vue.use()
 
 	var plugin = {
@@ -27908,9 +27912,13 @@
 	  GlobalVue.use(plugin);
 	} // To allow use as module (npm/webpack/etc.) export component
 
+	exports.arrayInput = arrayInput;
 	exports.default = __vue_component__$4;
 	exports.extendSchema = extendSchema;
 	exports.install = install;
+	exports.keyValuePairs = keyValuePairs;
+	exports.objectForm = objectForm;
+	exports.simpleInput = simpleInput;
 
 	Object.defineProperty(exports, '__esModule', { value: true });
 
