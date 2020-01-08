@@ -171,11 +171,7 @@ label {
   font-weight: 500;
 }
 
-@for $i from 1 through 100 {
-  .mt-#{$i} {
-    margin-top: #{$i}px;
-  }
-}
+
 
 .schema-input,
 .model-input {
@@ -183,14 +179,6 @@ label {
   h3 {
     font-size: 24px;
   }
-}
-
-.vue-schema-form-object {
-  padding: 1rem;
-  border-radius: 4px;
-  box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.16);
-  margin-top: 2rem;
-  margin-bottom: 2rem;
 }
 
 .vue-schema-form-array {
@@ -209,9 +197,6 @@ label {
   margin-bottom: 2rem;
 }
 
-.buttons .ac-list-action-button {
-  margin-bottom: -3.375rem;
-}
 
 .buttons .ac-key-value-action-button {
   margin-bottom: -3.375rem;

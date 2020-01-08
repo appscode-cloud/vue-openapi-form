@@ -1,5 +1,5 @@
 <template>
-  <div class="field">
+  <div class="field ac-field">
     <template v-if="ui.tag === 'input'">
       <template v-if="ui.type === 'checkbox'">
         <input

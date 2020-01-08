@@ -1,0 +1,121 @@
+// title style
+.ac-level {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #e8e8e8;
+  padding: 7px 20px;
+  border-radius: 4px;
+  .ac-level-left {
+    display: flex;
+    align-items: center;
+    .ac-form-title {
+      h4 {
+        font-size: 14px;
+        font-weight: 700;
+      }
+    }
+  }
+}
+// collaps button style
+.collaps-button {
+  margin-right: 10px;
+  .button.button-circle {
+    background-color: transparent;
+    width: 20px;
+    height: 20px;
+    color: #3d3d65;
+    border-color: #3d3d65;
+    font-size: 8px;
+    border-radius: 50%;
+  }
+}
+// toggle button style
+.ac-toggle-buttons {
+  li {
+    a {
+      border: none !important;
+      font-size: 14px;
+      font-weight: 500;
+      padding: 4px 15px;
+      border-radius: 4px !important;
+    }
+  }
+}
+// form style
+.vue-schema-form-object {
+  padding: 15px;
+  border-radius: 4px;
+  box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.16);
+  margin-top: 30px;
+  margin-bottom: 30px;
+  position: relative;
+  z-index: 1;
+  &::after{
+    position: absolute;
+    content: "";
+    left: 42px;
+    top: 35px;
+    width: 5px;
+    height: calc(100% - 67px);
+    background-color: #333;
+  }
+  .ac-field{
+    position: relative;
+    z-index: 1;
+    margin-top: 20px;
+    margin-left: 50px;
+    &::before{
+      position: absolute;
+      content: "";
+      left: -20px;
+      top: 50%;
+      background-color: #000;
+      width: 100%;
+      height: 5px;
+      margin-top: -2.5px;
+    }
+    label{
+      font-size: 14px;
+      color: #808080;
+      position: absolute;
+      z-index: 2;
+      background-color: #fff;
+      top: -7px;
+      left: 15px;
+      font-weight: 400;
+      margin: 0;
+      line-height: 14px;
+  
+    }
+    input {
+      border: 1px solid $border-dark-color;
+      box-shadow: none;
+      font-size: 14px;
+      font-weight: 500;
+      height: 40px;
+      padding-left: 15px;
+      border-radius: 4px;
+      &:focus {
+        outline: none;
+        border-color: $primary-color;
+        box-shadow: none;
+      }
+    }
+  }
+}
+
+.ac-list-action-button{
+  background-color: #CCE2F2;
+}
+
+// form inner content 
+.form-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.form-left-item {
+  width: 100%;
+}

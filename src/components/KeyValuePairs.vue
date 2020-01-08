@@ -7,21 +7,22 @@
     class="vue-schema-form-key-value-pairs"
     :key="updatePass"
   >
-    <div class="level">
-      <div class="level-left">
-        <h4 class="title is-5">
-          {{ schema.title || "Array Item Description"
-          }}<!-- show errors-->
-          <component-errors
-            :errors="[...errors, ...calcObserverError(observerErrors)]"
-          />
-        </h4>
+    <div class="ac-level">
+      <div class="ac-level-left">
+        <div class="ac-form-title">
+          <h4>
+            {{ schema.title || "Array Item Description"
+            }}<!-- show errors-->
+            <component-errors
+              :errors="[...errors, ...calcObserverError(observerErrors)]"
+            />
+          </h4>
+        </div>
       </div>
-      <div class="level-right">
+      <div class="ac-level-right">
         <tabs v-model="formShow" />
       </div>
     </div>
-    <hr />
     <template v-if="formShow">
       <!-- existing key values -->
       <div
@@ -30,7 +31,7 @@
         :key="index"
       >
         <div class="column is-3">
-          <div class="field">
+          <div class="field ac-field">
             <label class="label">Key</label>
             <validation-provider
               :vid="
@@ -162,7 +163,7 @@
         class="columns is-multiline"
       >
         <div class="column is-3">
-          <div class="field">
+          <div class="field ac-field">
             <label class="label">Key</label>
             <validation-provider
               :vid="`${schema.title.replace(/ /g, '-')}-key-provider`"

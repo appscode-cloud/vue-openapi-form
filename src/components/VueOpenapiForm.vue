@@ -7,31 +7,36 @@
     class="vue-schema-form-object"
   >
     <!-- {{ calcObserverError(observerErrors) }} -->
-    <div class="level">
-      <div class="level-left">
-        <h4 class="title is-5">
-          {{ schema.title || "Array Item Description" }}
-          <!-- show errors-->
-          <component-errors
-            :errors="[...errors, ...calcObserverError(observerErrors)]"
-          />
-        </h4>
-      </div>
-      <div class="level-right">
-        <tabs v-model="formShow" />
-
-        <div v-if="!isRoot" class="buttons">
-          <button
-            class="button"
-            :disabled="!formShow"
-            @click.prevent="toggleFold()"
-          >
-            {{ isFolded ? "Expand" : "Collapse" }}
-          </button>
+    <div class="ac-level">
+      <div class="ac-level-left">
+        <div class="ac-collaps-button">
+          <div v-if="!isRoot" class="collaps-button">
+            <div
+              class="button button-circle"
+              :disabled="!formShow"
+              @click.prevent="toggleFold()"
+            >
+              <i
+                :class="['fa', isFolded ? 'fa-plus' : 'fa-minus']"
+                aria-hidden="true"
+              ></i>
+            </div>
+          </div>
+        </div>
+        <div class="ac-form-title">
+          <h4>
+            {{ schema.title || "Array Item Description" }}
+            <!-- show errors-->
+            <component-errors
+              :errors="[...errors, ...calcObserverError(observerErrors)]"
+            />
+          </h4>
         </div>
       </div>
+      <div class="ac-level-right">
+        <tabs v-model="formShow" />
+      </div>
     </div>
-    <hr />
     <!-- form for all the object's properties -->
     <object-form
       v-if="formShow"

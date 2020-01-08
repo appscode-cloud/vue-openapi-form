@@ -7,28 +7,29 @@
     class="vue-schema-form-array"
     :key="updatePass"
   >
-    <div class="level">
-      <div class="level-left">
-        <h4 class="title is-5">
-          {{ schema.title || "Array Item Description" }}
-          <component-errors
-            :errors="[...errors, ...calcObserverError(observerErrors)]"
-          />
-        </h4>
+    <div class="ac-level">
+      <div class="ac-level-left">
+        <div class="ac-form-title">
+          <h4>
+            {{ schema.title || "Array Item Description" }}
+            <component-errors
+              :errors="[...errors, ...calcObserverError(observerErrors)]"
+            />
+          </h4>
+        </div>
       </div>
-      <div class="level-right">
+      <div class="ac-level-right">
         <tabs v-model="formShow" />
       </div>
     </div>
-    <hr />
     <template v-if="formShow">
       <!-- existing values form -->
       <div
-        class="columns is-multiline"
+        class="form-container"
         v-for="(item, index) in modelData"
         :key="index"
       >
-        <div class="column is-10">
+        <div class="form-left-item">
           <template v-if="items.type === 'object'">
             <validation-provider
               v-slot="{ errors }"
@@ -107,7 +108,7 @@
             </validation-provider>
           </template>
         </div>
-        <div class="column is-2">
+        <div class="form-right-item">
           <div class="buttons">
             <button
               class="button is-rounded is-info ac-list-action-button"
