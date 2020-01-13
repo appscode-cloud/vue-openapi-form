@@ -26241,7 +26241,7 @@ var __vue_render__$6 = function() {
                               "button",
                               {
                                 staticClass:
-                                  "button is-rounded is-info ac-list-action-button",
+                                  "button is-info ac-list-action-button",
                                 attrs: { disabled: index === 0 },
                                 on: {
                                   click: function($event) {
@@ -26261,7 +26261,7 @@ var __vue_render__$6 = function() {
                               "button",
                               {
                                 staticClass:
-                                  "button is-rounded is-info ac-list-action-button",
+                                  "button is-info ac-list-action-button",
                                 attrs: {
                                   disabled: index === _vm.modelData.length - 1
                                 },

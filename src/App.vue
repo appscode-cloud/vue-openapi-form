@@ -182,17 +182,16 @@ label {
 }
 
 .vue-schema-form-array {
-  padding: 1rem;
-  border-radius: 4px;
-  box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.16);
-  margin-top: 2rem;
-  margin-bottom: 2rem;
+  // padding: 1rem;
+  // border-radius: 4px;
+  // background-color: #fff;
+  // margin-top: 2rem;
+  // margin-bottom: 2rem;
 }
 
 .vue-schema-form-key-value-pairs {
-  padding: 1rem;
+  background-color: #fff;
   border-radius: 4px;
-  box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.16);
   margin-top: 2rem;
   margin-bottom: 2rem;
 }

@@ -111,7 +111,7 @@
         <div class="form-right-item">
           <div class="buttons">
             <button
-              class="button is-rounded is-info ac-list-action-button"
+              class="button is-info ac-list-action-button"
               :disabled="index === 0"
               @click.prevent="swapElems(index - 1, index)"
             >
@@ -120,7 +120,7 @@
               </span>
             </button>
             <button
-              class="button is-rounded is-info ac-list-action-button"
+              class="button is-info ac-list-action-button"
               :disabled="index === modelData.length - 1"
               @click.prevent="swapElems(index, index + 1)"
             >
@@ -129,7 +129,7 @@
               </span>
             </button>
             <button
-              class="button is-rounded is-danger ac-list-action-button"
+              class="button is-danger ac-list-action-button"
               @click.prevent="deleteValue(index)"
             >
               <span class="icon is-small">
@@ -147,8 +147,8 @@
         :disabled="true"
         slim
       >
-        <div class="columns is-multiline">
-          <div class="column is-10">
+        <div class="ac-level-from-button">
+          <div class="ac-level-10">
             <template v-if="items.type === 'object'">
               <validation-provider
                 v-slot="{ errors }"
@@ -227,10 +227,10 @@
               </validation-provider>
             </template>
           </div>
-          <div class="column is-2">
+          <div class="ac-level-2">
             <div class="buttons">
               <button
-                class="button is-rounded is-success ac-list-action-button"
+                class="button is-success ac-list-action-button"
                 @click.prevent="addNewValue()"
               >
                 <span class="icon is-small">

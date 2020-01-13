@@ -143,7 +143,7 @@
         <div class="column is-1">
           <div class="buttons">
             <button
-              class="button is-rounded is-danger ac-key-value-action-button"
+              class="button is-danger ac-key-value-action-button"
               @click.prevent="deleteProp(index)"
             >
               <span class="icon is-small">
@@ -271,7 +271,7 @@
         <div class="column is-1">
           <div class="buttons">
             <button
-              class="button is-rounded is-success ac-key-value-action-button"
+              class="button is-success ac-key-value-action-button"
               @click.prevent="addProp()"
             >
               <span class="icon is-small">

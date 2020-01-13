@@ -1,3 +1,8 @@
+.vue-openapi-form {
+  border: 1px solid #e8e8e8;
+  border-radius: 4px;
+  padding: 15px;
+}
 // title style
 .ac-level {
   display: flex;
@@ -6,6 +11,19 @@
   background-color: #e8e8e8;
   padding: 7px 20px;
   border-radius: 4px;
+  position: relative;
+  z-index: 1;
+  &::before{
+      position: absolute;
+      content: "";
+      left: -15px;
+      top: 50%;
+      width: 15px;
+      height: 1px;
+      background: #ddd;
+      margin-top: -.5px;
+      z-index: -1;
+  }
   .ac-level-left {
     display: flex;
     align-items: center;
@@ -43,39 +61,59 @@
   }
 }
 // form style
-.vue-schema-form-object {
-  padding: 15px;
+.vue-schema-form-object,
+.vue-schema-form-array {
+  padding: 15px 0 15px 30px;
   border-radius: 4px;
-  box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.16);
-  margin-top: 30px;
-  margin-bottom: 30px;
+  // background-color: #fff;
+  // margin-top: 30px;
+  // margin-bottom: 30px;
   position: relative;
   z-index: 1;
   &::after{
     position: absolute;
     content: "";
-    left: 42px;
-    top: 35px;
-    width: 5px;
-    height: calc(100% - 67px);
-    background-color: #333;
+    background-color: #ddd;
+    left: 16px;
+    bottom: 38px;
+    width: 1px;
+    height: 100%;
+   
   }
-  .ac-field{
+  // &::after {
+  //   position: absolute;
+  //   content: "";
+  //   left: 45px;
+  //   top: 35px;
+  //   width: 1px;
+  //   height: calc(100% - 67px);
+  //   background-color: #e8e8e8;
+  // }
+  .ac-field {
     position: relative;
     z-index: 1;
     margin-top: 20px;
-    margin-left: 50px;
-    &::before{
+    margin-left: 30px;
+    &::before {
       position: absolute;
       content: "";
-      left: -20px;
+      left: -15px;
       top: 50%;
-      background-color: #000;
-      width: 100%;
-      height: 5px;
-      margin-top: -2.5px;
+      background-color: #e8e8e8;
+      width: 16px;
+      height: 1px;
+      margin-top: 2px;
     }
-    label{
+    &::after {
+      position: absolute;
+      content: "";
+      left: -15px;
+      top: -37px;
+      background-color: #e8e8e8;
+      width: 1px;
+      height: 60px;
+    }
+    label {
       font-size: 14px;
       color: #808080;
       position: absolute;
@@ -86,7 +124,6 @@
       font-weight: 400;
       margin: 0;
       line-height: 14px;
-  
     }
     input {
       border: 1px solid $border-dark-color;
@@ -104,18 +141,41 @@
     }
   }
 }
-
-.ac-list-action-button{
-  background-color: #CCE2F2;
+.ac-key-value-action-button,
+.ac-list-action-button {
+  margin: 0 !important;
+  &.is-success {
+    background-color: #cce2f2 !important;
+  }
 }
 
-// form inner content 
+// form inner content
 .form-container {
   display: flex;
-  align-items: center;
   justify-content: space-between;
+  .form-left-item {
+    flex-grow: 0;
+    flex-shrink: 0;
+    flex-basis: 80%;
+  }
+  .form-right-item {
+    margin-top: 10px;
+  }
 }
 
 .form-left-item {
   width: 100%;
+}
+
+.ac-level-from-button {
+  display: flex;
+  justify-content: space-between;
+  .ac-level-10 {
+    flex-grow: 0;
+    flex-shrink: 0;
+    flex-basis: 95%;
+  }
+  .ac-level-2 .buttons {
+    margin-top: 20px;
+  }
 }
