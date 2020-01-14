@@ -61,25 +61,25 @@
   }
 }
 // form style
-.vue-schema-form-object{
-  padding: 15px 0 15px 30px;
-  border-radius: 4px;
-  // background-color: #fff;
-  // margin-top: 30px;
-  // margin-bottom: 30px;
-  position: relative;
-  z-index: 1;
-  &::after{
-    position: absolute;
-    content: "";
-    background-color: #E8E8E8;
-    left: 16px;
-    bottom: 95px;
-    width: 1px;
-    height: 60px;
-  }
-}
-
+// .vue-schema-form-object{
+//   padding: 15px 0 15px 30px;
+//   border-radius: 4px;
+//   background-color: #fff;
+//   margin-top: 30px;
+//   margin-bottom: 30px;
+//   position: relative;
+//   z-index: 1;
+//   &::after{
+//     position: absolute;
+//     content: "";
+//     background-color: #E8E8E8;
+//     left: 16px;
+//     bottom: 95px;
+//     width: 1px;
+//     height: 60px;
+//   }
+// }
+.vue-schema-form-object,
 .vue-schema-form-array {
   padding: 15px 0 15px 30px;
   border-radius: 4px;
@@ -92,10 +92,10 @@
     position: absolute;
     content: "";
     background-color: #E8E8E8;
-    left: 16px;
-    bottom: 95px;
+    left: 15px;
+    bottom: -37px;
     width: 1px;
-    height: calc(100% - 60px);
+    height: 146%;
   }
   // &::after {
   //   position: absolute;
@@ -125,10 +125,10 @@
       position: absolute;
       content: "";
       left: -15px;
-      top: -37px;
+      top: -63px;
       background-color: #e8e8e8;
       width: 1px;
-      height: 60px;
+      height: 85px;
     }
     label {
       font-size: 14px;
@@ -158,6 +158,19 @@
     }
   }
 }
+
+.vue-schema-form-object.ac-last-child,
+.vue-schema-form-array.ac-last-child
+{
+  position: relative;
+  z-index: 1;
+  &::after {
+    position: absolute;
+    content: "";
+    height: 0;
+  }
+
+}
 .ac-key-value-action-button,
 .ac-list-action-button {
   margin: 0 !important;
@@ -173,10 +186,10 @@
   .form-left-item {
     flex-grow: 0;
     flex-shrink: 0;
-    flex-basis: 80%;
+    flex-basis: 86%;
   }
   .form-right-item {
-    margin-top: 10px;
+    margin-top: 15px;
   }
 }
 

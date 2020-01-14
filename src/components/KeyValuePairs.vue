@@ -26,7 +26,7 @@
     <template v-if="formShow">
       <!-- existing key values -->
       <div
-        class="columns is-multiline"
+        class="columns is-multiline is-gapless"
         v-for="(prop, index) in keyValueArray"
         :key="index"
       >
@@ -160,7 +160,7 @@
         :vid="`${schema.title.replace(/ /g, '-')}-new-observer`"
         :disabled="true"
         tag="div"
-        class="columns is-multiline"
+        class="columns is-multiline is-gapless ac-key-value-pairs"
       >
         <div class="column is-3">
           <div class="field ac-field">
