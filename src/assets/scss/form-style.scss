@@ -61,7 +61,25 @@
   }
 }
 // form style
-.vue-schema-form-object,
+.vue-schema-form-object{
+  padding: 15px 0 15px 30px;
+  border-radius: 4px;
+  // background-color: #fff;
+  // margin-top: 30px;
+  // margin-bottom: 30px;
+  position: relative;
+  z-index: 1;
+  &::after{
+    position: absolute;
+    content: "";
+    background-color: #E8E8E8;
+    left: 16px;
+    bottom: 95px;
+    width: 1px;
+    height: 60px;
+  }
+}
+
 .vue-schema-form-array {
   padding: 15px 0 15px 30px;
   border-radius: 4px;
@@ -73,12 +91,11 @@
   &::after{
     position: absolute;
     content: "";
-    background-color: #ddd;
+    background-color: #E8E8E8;
     left: 16px;
-    bottom: 38px;
+    bottom: 95px;
     width: 1px;
-    height: 100%;
-   
+    height: calc(100% - 60px);
   }
   // &::after {
   //   position: absolute;
