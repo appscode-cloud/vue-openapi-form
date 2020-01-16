@@ -9,7 +9,7 @@
           class="switch is-rounded"
           v-model="modelData"
         />
-        <label class="label" :for="schema.title.replace(' ', '-')">{{
+        <label class="switch-label" :for="schema.title.replace(' ', '-')">{{
           schema.title
         }}</label>
       </template>

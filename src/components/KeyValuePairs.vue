@@ -26,11 +26,11 @@
     <template v-if="formShow">
       <!-- existing key values -->
       <div
-        class="columns is-multiline is-gapless"
+        class="ac-key-value-pairs"
         v-for="(prop, index) in keyValueArray"
         :key="index"
       >
-        <div class="column is-3">
+        <div class="ac-is-3">
           <div class="field ac-field">
             <label class="label">Key</label>
             <validation-provider
@@ -65,7 +65,7 @@
             </validation-provider>
           </div>
         </div>
-        <div class="column is-8">
+        <div class="ac-is-8">
           <template v-if="additionalProperties.type === 'object'">
             <validation-provider
               v-slot="{ errors }"
@@ -140,7 +140,7 @@
           </template>
         </div>
 
-        <div class="column is-1">
+        <div class="ac-is-1">
           <div class="buttons">
             <button
               class="button is-danger ac-key-value-action-button"
@@ -160,9 +160,9 @@
         :vid="`${schema.title.replace(/ /g, '-')}-new-observer`"
         :disabled="true"
         tag="div"
-        class="columns is-multiline is-gapless ac-key-value-pairs"
+        class="ac-key-value-pairs"
       >
-        <div class="column is-3">
+        <div class="ac-is-3">
           <div class="field ac-field">
             <label class="label">Key</label>
             <validation-provider
@@ -198,7 +198,7 @@
 
         <!-- new value input -->
 
-        <div class="column is-8">
+        <div class="ac-is-8">
           <!-- if value is object -->
           <template v-if="additionalProperties.type === 'object'">
             <validation-provider
@@ -268,7 +268,7 @@
             </validation-provider>
           </template>
         </div>
-        <div class="column is-1">
+        <div class="ac-is-1">
           <div class="buttons">
             <button
               class="button is-success ac-key-value-action-button"
