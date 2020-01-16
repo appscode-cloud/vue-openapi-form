@@ -1,10 +1,20 @@
-.section-title{
+/*================================================
+            section title start
+================================================*/
+.section-title {
   padding: 30px 0;
-  h2{
+  h2 {
     font-size: 30px;
     margin-bottom: 15px;
   }
 }
+/*================================================
+            section title end
+================================================*/
+
+/*================================================
+           schema-input and model input start
+================================================*/
 .schema-input,
 .model-input {
   h3 {
@@ -13,227 +23,198 @@
     line-height: 30px;
   }
 }
+/*================================================
+           schema-input and model input end
+================================================*/
+
+/*================================================
+           vue-open-api from start
+================================================*/
 .vue-openapi-form {
   border: 1px solid #e8e8e8;
   border-radius: 4px;
   padding: 15px;
-}
-// title style
-.ac-level {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  background-color: #e8e8e8;
-  padding: 7px 20px;
-  border-radius: 4px;
-  position: relative;
-  z-index: 1;
-  &::before {
-    // position: absolute;
-    // content: "";
-    // left: -15px;
-    // top: 50%;
-    // width: 15px;
-    // height: 1px;
-    // background: #ddd;
-    // margin-top: -.5px;
-    // z-index: -1;
-  }
-  .ac-level-left {
+  // title style
+  .ac-level {
     display: flex;
+    justify-content: space-between;
     align-items: center;
-    .ac-form-title {
-      h4 {
-        font-size: 14px;
-        font-weight: 700;
-      }
-    }
-  }
-}
-// collaps button style
-.collaps-button {
-  margin-right: 10px;
-  .button.button-circle {
-    background-color: transparent;
-    width: 20px;
-    height: 20px;
-    color: #3d3d65;
-    border-color: #3d3d65;
-    font-size: 8px;
-    border-radius: 50%;
-  }
-}
-// toggle button style
-.ac-toggle-buttons {
-  li {
-    a {
-      border: none !important;
-      font-size: 14px;
-      font-weight: 500;
-      padding: 4px 15px;
-      border-radius: 4px !important;
-    }
-  }
-}
-
-.vue-schema-form-object,
-.vue-schema-form-array,
-.vue-schema-form-key-value-pairs {
-  padding: 15px 0 15px 30px;
-  border-radius: 4px;
-  position: relative;
-  z-index: 1;
-  &::after {
-    // position: absolute;
-    // content: "";
-    // background-color: #E8E8E8;
-    // left: 15px;
-    // bottom: -37px;
-    // width: 1px;
-    // height: 146%;
-  }
-  .ac-field {
+    background-color: #e8e8e8;
+    padding: 7px 20px;
+    border-radius: 4px;
     position: relative;
     z-index: 1;
-    margin-top: 20px;
-    margin-left: 30px;
-    &::before {
-      // position: absolute;
-      // content: "";
-      // left: -15px;
-      // top: 50%;
-      // background-color: #e8e8e8;
-      // width: 16px;
-      // height: 1px;
-      // margin-top: 2px;
-    }
-    &::after {
-      // position: absolute;
-      // content: "";
-      // left: -15px;
-      // top: -63px;
-      // background-color: #e8e8e8;
-      // width: 1px;
-      // height: 85px;
-    }
-    .label {
-      font-size: 14px;
-      color: #808080;
-      position: absolute;
-      z-index: 2;
-      background-color: #fff;
-      top: -7px;
-      left: 15px;
-      font-weight: 400;
-      margin: 0;
-      line-height: 14px;
-    }
-    input {
-      border: 1px solid $border-dark-color;
-      box-shadow: none;
-      font-size: 14px;
-      font-weight: 500;
-      height: 40px;
-      padding-left: 15px;
-      border-radius: 4px;
-      &:focus {
-        outline: none;
-        border-color: $primary-color;
-        box-shadow: none;
+    .ac-level-left {
+      display: flex;
+      align-items: center;
+      .ac-form-title {
+        h4 {
+          font-size: 14px;
+          font-weight: 700;
+        }
       }
     }
   }
-}
-
-.vue-schema-form-object.ac-last-child,
-.vue-schema-form-array.ac-last-child {
-  position: relative;
-  z-index: 1;
-  &::after {
-    position: absolute;
-    content: "";
-    height: 0;
-  }
-}
-.ac-key-value-action-button,
-.ac-list-action-button {
-  margin: 0 !important;
-  &.is-success {
-    background-color: #cce2f2 !important;
-    i.fa {
-      color: $primary-color;
+  // collaps button style
+  .collaps-button {
+    margin-right: 10px;
+    .button.button-circle {
+      background-color: transparent;
+      width: 20px;
+      height: 20px;
+      color: #3d3d65;
+      border-color: #3d3d65;
+      font-size: 8px;
+      border-radius: 50%;
     }
   }
-  &.is-danger {
-    background-color: #f9d5dd !important;
-    i.fa {
-      color: #e03056;
+  // toggle button style
+  .ac-toggle-buttons {
+    li {
+      a {
+        border: none !important;
+        font-size: 14px;
+        font-weight: 500;
+        padding: 4px 15px;
+        border-radius: 4px !important;
+      }
+    }
+  }
+
+  // array and obj style
+  .vue-schema-form-object,
+  .vue-schema-form-array,
+  .vue-schema-form-key-value-pairs {
+    padding: 15px 0 15px 30px;
+    border-radius: 4px;
+    position: relative;
+    z-index: 1;
+
+    .ac-field {
+      position: relative;
+      z-index: 1;
+      margin-top: 20px;
+      margin-left: 30px;
+      .label {
+        font-size: 14px;
+        color: #808080;
+        position: absolute;
+        z-index: 2;
+        background-color: #fff;
+        top: -7px;
+        left: 15px;
+        font-weight: 400;
+        margin: 0;
+        line-height: 14px;
+      }
+      input {
+        border: 1px solid $border-dark-color;
+        box-shadow: none;
+        font-size: 14px;
+        font-weight: 500;
+        height: 40px;
+        padding-left: 15px;
+        border-radius: 4px;
+        &:focus {
+          outline: none;
+          border-color: $primary-color;
+          box-shadow: none;
+        }
+      }
+    }
+  }
+  .vue-schema-form-object.ac-last-child,
+  .vue-schema-form-array.ac-last-child {
+    position: relative;
+    z-index: 1;
+    &::after {
+      position: absolute;
+      content: "";
+      height: 0;
+    }
+  }
+  // action button style
+  .ac-key-value-action-button,
+  .ac-list-action-button {
+    margin: 0 !important;
+    &.is-success {
+      background-color: #cce2f2 !important;
+      i.fa {
+        color: $primary-color;
+      }
+    }
+    &.is-danger {
+      background-color: #f9d5dd !important;
+      i.fa {
+        color: #e03056;
+      }
+    }
+  }
+  .button.is-primary {
+    background-color: $primary-color;
+  }
+  // form inner content
+  .form-container {
+    display: flex;
+    justify-content: space-between;
+    .form-left-item {
+      flex-grow: 0;
+      flex-shrink: 0;
+      flex-basis: 86%;
+    }
+    .form-left-item {
+      width: 100%;
+    }
+    .form-right-item {
+      margin-top: 15px;
+    }
+  }
+  .ac-level-from-button {
+    display: flex;
+    justify-content: space-between;
+    .ac-level-10 {
+      flex-grow: 0;
+      flex-shrink: 0;
+      flex-basis: 95%;
+      margin-right: 15px;
+    }
+  }
+  .ac-level-2 .buttons,
+  .columns.is-gapless .column.is-1 .buttons {
+    margin-top: 18px !important;
+    float: right;
+  }
+  .buttons {
+    .button {
+      margin-right: 5px !important;
+      &:last-child {
+        margin-right: 0 !important;
+      }
+    }
+  }
+  .switch[type="checkbox"]:checked + label::before,
+  .switch[type="checkbox"]:checked + label:before {
+    background-color: $primary-color;
+  }
+  .switch[type="checkbox"] + label::before,
+  .switch[type="checkbox"] + label:before {
+    background-color: #a4a4a4;
+  }
+  .ac-key-value-pairs {
+    display: flex;
+    justify-content: space-between;
+    .ac-is-3 {
+      width: 35%;
+    }
+    .ac-is-8 {
+      width: 66%;
+      margin-right: 15px;
+    }
+    .ac-is-1 {
+      margin-top: 20px;
     }
   }
 }
-.button.is-primary {
-  background-color: $primary-color;
-}
-// form inner content
-.form-container {
-  display: flex;
-  justify-content: space-between;
-  .form-left-item {
-    flex-grow: 0;
-    flex-shrink: 0;
-    flex-basis: 86%;
-  }
-  .form-right-item {
-    margin-top: 15px;
-  }
-}
-
-.form-left-item {
-  width: 100%;
-}
-
-.ac-level-from-button {
-  display: flex;
-  justify-content: space-between;
-  .ac-level-10 {
-    flex-grow: 0;
-    flex-shrink: 0;
-    flex-basis: 95%;
-    margin-right: 15px;
-  }
-}
-.ac-level-2 .buttons,
-.columns.is-gapless .column.is-1 .buttons {
-  margin-top: 18px !important;
-  float: right;
-}
-.buttons {
-  .button {
-    margin-right: 5px !important;
-    &:last-child {
-      margin-right: 0 !important;
-    }
-  }
-}
-.switch[type="checkbox"]:checked + label::before,
-.switch[type="checkbox"]:checked + label:before {
-  background-color: $primary-color;
-}
-.switch[type="checkbox"] + label::before,
-.switch[type="checkbox"] + label:before {
-  background-color: #a4a4a4;
-}
-.ac-key-value-pairs {
-  display: flex;
-  justify-content: space-between;
-  .ac-is-3 {
-    width: 35%;
-  }
-  .ac-is-8 {
-    width: 66%;
-    margin-right: 15px;
-  }
-  .ac-is-1 {
-    margin-top: 20px;
-  }
-}
+/*================================================
+           vue-open-api-form end
+================================================*/
