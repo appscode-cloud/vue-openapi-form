@@ -5,6 +5,7 @@
     :vid="`${schema.title.replace(/ /g, '-')}-observer`"
     v-slot="{ errors: observerErrors }"
     class="vue-schema-form-array"
+    :class="{ 'stop-line': isLastChild }"
     :key="updatePass"
   >
     <div class="ac-level">
@@ -158,6 +159,7 @@
                 slim
               >
                 <vue-openapi-form
+                  :is-last-child="true"
                   :schema="{
                     ...items,
                     ...{ title: `${schema.title} new value` }
@@ -177,6 +179,7 @@
                 slim
               >
                 <key-value-pairs
+                  :is-last-child="true"
                   :schema="{
                     ...items,
                     ...{ title: `${schema.title} new value` }
@@ -196,6 +199,7 @@
                 slim
               >
                 <array-input
+                  :is-last-child="true"
                   :schema="{
                     ...items,
                     ...{ title: `${schema.title} new value` }
@@ -267,6 +271,10 @@ export default {
     errors: {
       type: Array,
       default: () => []
+    },
+    isLastChild: {
+      type: Boolean,
+      default: false
     }
   },
 

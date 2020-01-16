@@ -44,6 +44,17 @@
     border-radius: 4px;
     position: relative;
     z-index: 1;
+    &::after {
+      position: absolute;
+      content: "";
+      left: -15px;
+      top: 50%;
+      width: 30px;
+      height: 1px;
+      background: #e8e8e8;
+      margin-top: -0.5px;
+      z-index: -1;
+    }
     .ac-level-left {
       display: flex;
       align-items: center;
@@ -51,6 +62,12 @@
         h4 {
           font-size: 14px;
           font-weight: 700;
+          span{
+            font-size: 12px;
+            color: #E03056;
+            font-weight: 500;
+            margin-left: 10px;
+          }
         }
       }
     }
@@ -82,19 +99,53 @@
   }
 
   // array and obj style
+  // form style
+  .vue-schema-form-key-value-pairs,
   .vue-schema-form-object,
-  .vue-schema-form-array,
-  .vue-schema-form-key-value-pairs {
+  .vue-schema-form-array {
     padding: 15px 0 15px 30px;
     border-radius: 4px;
     position: relative;
     z-index: 1;
-
+    &::after {
+      position: absolute;
+      content: "";
+      background-color: #e8e8e8;
+      left: 15px;
+      bottom: 38px;
+      width: 1px;
+      height: 100%;
+    }
+    &.stop-line {
+      &:after {
+        height: 78px;
+        top: -40px;
+      }
+    }
     .ac-field {
       position: relative;
       z-index: 1;
       margin-top: 20px;
       margin-left: 30px;
+      &::before {
+        position: absolute;
+        content: "";
+        left: -15px;
+        top: 50%;
+        background-color: #e8e8e8;
+        width: 16px;
+        height: 1px;
+        margin-top: 2px;
+      }
+      &::after {
+        position: absolute;
+        content: "";
+        left: -15px;
+        top: -60px;
+        background-color: #e8e8e8;
+        width: 1px;
+        height: 83px;
+      }
       .label {
         font-size: 14px;
         color: #808080;
@@ -123,6 +174,16 @@
       }
     }
   }
+  .hide-upper-line {
+    &::after {
+      height: 0px;
+    }
+    > .ac-level {
+      &::after {
+        width: 0;
+      }
+    }
+  }
   .vue-schema-form-object.ac-last-child,
   .vue-schema-form-array.ac-last-child {
     position: relative;
@@ -132,6 +193,25 @@
       content: "";
       height: 0;
     }
+  }
+ 
+  .vue-schema-form-key-value-pairs {
+    .ac-level{
+      border-radius: 4px 4px 0px 0px ;
+    }
+    .ac-key-value-pairs-wrapper{
+      border: 1px solid #ddd;
+      border-radius: 0 0 4px 4px;
+      border-top: none;
+      padding-right: 15px;
+      padding-bottom: 15px;
+      .ac-key-value-pairs {
+        .ac-field::before, .ac-field::after{
+          width: 0px;
+        }
+      }
+    }
+    
   }
   // action button style
   .ac-key-value-action-button,
@@ -214,6 +294,13 @@
       margin-top: 20px;
     }
   }
+}
+// warning style 
+.icon.is-warning, p.is-warning {
+  color: #E03056 !important;
+}
+.icon.is-success{
+  color: $primary-color !important;
 }
 /*================================================
            vue-open-api-form end

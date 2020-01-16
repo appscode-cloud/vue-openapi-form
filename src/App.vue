@@ -67,7 +67,7 @@
                 </validation-provider>
                 <div class="buttons">
                   <button class="button is-primary" @click.prevent="submit">
-                    Submit
+                    DONE
                   </button>
                 </div>
               </validation-observer>

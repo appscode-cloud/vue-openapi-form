@@ -1,8 +1,8 @@
 <template>
-  <p v-show="errors.length > 0" class="is-warning">
-    <span class="warning"><i class="fa fa-warning"></i></span>
-    {{ errors[0] }}
-  </p>
+  <span v-show="errors.length > 0" class="is-warning" :title="errors[0]">
+   <i class="fa fa-warning"></i>
+    error in {{ errors.length }} filds
+  </span>
 </template>
 
 <script>

@@ -1,6 +1,6 @@
 <template>
   <div :class="{ 'is-hidden': isSelfFolded }">
-    <template v-for="key in Object.keys(properties)">
+    <template v-for="(key, idx) in Object.keys(properties)">
       <!-- if the property is another object -->
       <validation-provider
         v-if="properties[key].type === 'object'"
@@ -12,6 +12,7 @@
         slim
       >
         <vue-openapi-form
+          :is-last-child="idx === Object.keys(properties).length - 1"
           :type="properties[key].type"
           :schema="properties[key]"
           :errors="errors"
@@ -29,6 +30,7 @@
         slim
       >
         <key-value-pairs
+          :is-last-child="idx === Object.keys(properties).length - 1"
           :type="properties[key].type"
           :schema="properties[key]"
           :errors="errors"
@@ -46,6 +48,7 @@
         slim
       >
         <array-input
+          :is-last-child="idx === Object.keys(properties).length - 1"
           :type="properties[key].type"
           :schema="properties[key]"
           :errors="errors"

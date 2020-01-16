@@ -2,16 +2,18 @@
   <div class="field ac-field">
     <template v-if="ui.tag === 'input'">
       <template v-if="ui.type === 'checkbox'">
-        <input
-          :id="schema.title.replace(' ', '-')"
-          type="checkbox"
-          name="switchRoundedDefault"
-          class="switch is-rounded"
-          v-model="modelData"
-        />
-        <label class="switch-label" :for="schema.title.replace(' ', '-')">{{
-          schema.title
-        }}</label>
+        <div class="pt-13">
+          <input
+            :id="schema.title.replace(' ', '-')"
+            type="checkbox"
+            name="switchRoundedDefault"
+            class="switch is-rounded"
+            v-model="modelData"
+          />
+          <label class="switch-label" :for="schema.title.replace(' ', '-')">{{
+            schema.title
+          }}</label>
+        </div>
       </template>
       <template v-else>
         <label class="label">{{ schema.title }}</label>
@@ -77,10 +79,10 @@
             <i class="fa fa-times"></i>
           </span>
         </template>
-        <p class="is-warning" v-if="validationOb.errors.length > 0">
-          <span class="warning"><i class="fa fa-warning"></i></span>
+        <span class="is-warning" v-if="validationOb.errors.length > 0">
+          <i class="fa fa-warning warning"></i>
           {{ validationOb.errors[0] }}
-        </p>
+        </span>
       </div>
     </template>
 
