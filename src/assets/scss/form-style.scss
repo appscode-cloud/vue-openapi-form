@@ -78,7 +78,12 @@
     bottom: 38px;
     width: 1px;
     height: 100%;
-   
+  }
+  &.stop-line{
+    &:after{
+      height: 78px;
+      top: -40px;
+    }
   }
   // &::after {
   //   position: absolute;

@@ -1,6 +1,6 @@
 <template>
   <div :class="{ 'is-hidden': isSelfFolded }">
-    <template v-for="key in Object.keys(properties)">
+    <template v-for="(key, idx) in Object.keys(properties)">
       <!-- if the property is another object -->
       <validation-provider
         v-if="properties[key].type === 'object'"
@@ -16,6 +16,7 @@
           :schema="properties[key]"
           :errors="errors"
           v-model="modelData[key]"
+          :is-last-child="idx === Object.keys(properties).length - 1"
         />
       </validation-provider>
       <!-- if the property is additional property (key-value-pairs) -->

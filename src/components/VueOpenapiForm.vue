@@ -5,6 +5,7 @@
     :vid="`${schema.title.replace(/ /g, '-')}-observer`"
     v-slot="{ errors: observerErrors }"
     class="vue-schema-form-object"
+    :class="{ 'stop-line': isLastChild }"
   >
     <!-- {{ calcObserverError(observerErrors) }} -->
     <div class="ac-level">
@@ -75,6 +76,10 @@ export default {
     errors: {
       type: Array,
       default: () => []
+    },
+    isLastChild: {
+      type: Boolean,
+      default: false
     }
   },
 
