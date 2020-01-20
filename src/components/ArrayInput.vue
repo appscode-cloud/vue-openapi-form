@@ -111,24 +111,28 @@
         </div>
         <div class="form-right-item">
           <div class="buttons">
-            <button
-              class="button is-info ac-list-action-button"
-              :disabled="index === 0"
-              @click.prevent="swapElems(index - 1, index)"
-            >
-              <span class="icon is-small">
-                <i class="fa fa-arrow-up"></i>
-              </span>
-            </button>
-            <button
-              class="button is-info ac-list-action-button"
-              :disabled="index === modelData.length - 1"
-              @click.prevent="swapElems(index, index + 1)"
-            >
-              <span class="icon is-small">
-                <i class="fa fa-arrow-down"></i>
-              </span>
-            </button>
+            <div class="group-buttons">
+              <button
+                class="up-down-button"
+                :class="{ 'is-info': index !== 0 }"
+                :disabled="index === 0"
+                @click.prevent="swapElems(index - 1, index)"
+              >
+                <span class="icon is-small">
+                  <i class="fa fa-angle-up"></i>
+                </span>
+              </button>
+              <button
+                class="up-down-button"
+                :class="{ 'is-info': index !== modelData.length - 1 }"
+                :disabled="index === modelData.length - 1"
+                @click.prevent="swapElems(index, index + 1)"
+              >
+                <span class="icon is-small">
+                  <i class="fa fa-angle-down"></i>
+                </span>
+              </button>
+            </div>
             <button
               class="button is-danger ac-list-action-button"
               @click.prevent="deleteValue(index)"

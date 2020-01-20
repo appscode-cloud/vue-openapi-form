@@ -40,7 +40,7 @@
     justify-content: space-between;
     align-items: center;
     background-color: #e8e8e8;
-    padding: 7px 20px;
+    padding: 4px 20px;
     border-radius: 4px;
     position: relative;
     z-index: 1;
@@ -62,9 +62,9 @@
         h4 {
           font-size: 14px;
           font-weight: 700;
-          span{
+          span {
             font-size: 12px;
-            color: #E03056;
+            color: #e03056;
             font-weight: 500;
             margin-left: 10px;
           }
@@ -103,7 +103,7 @@
   .vue-schema-form-key-value-pairs,
   .vue-schema-form-object,
   .vue-schema-form-array {
-    padding: 15px 0 15px 30px;
+    padding: 20px 0 0px 30px;
     border-radius: 4px;
     position: relative;
     z-index: 1;
@@ -112,13 +112,13 @@
       content: "";
       background-color: #e8e8e8;
       left: 15px;
-      bottom: 38px;
+      bottom: 28px;
       width: 1px;
-      height: 100%;
+      height: calc(100% + 10px);
     }
     &.stop-line {
       &:after {
-        height: 78px;
+        height: 80px;
         top: -40px;
       }
     }
@@ -127,6 +127,7 @@
       z-index: 1;
       margin-top: 20px;
       margin-left: 30px;
+      margin-bottom: 10px;
       &::before {
         position: absolute;
         content: "";
@@ -194,29 +195,31 @@
       height: 0;
     }
   }
- 
+
   .vue-schema-form-key-value-pairs {
-    .ac-level{
-      border-radius: 4px 4px 0px 0px ;
+    .ac-level {
+      border-radius: 4px 4px 0px 0px;
     }
-    .ac-key-value-pairs-wrapper{
+    .ac-key-value-pairs-wrapper {
       border: 1px solid #ddd;
       border-radius: 0 0 4px 4px;
       border-top: none;
       padding-right: 15px;
       padding-bottom: 15px;
       .ac-key-value-pairs {
-        .ac-field::before, .ac-field::after{
+        .ac-field::before,
+        .ac-field::after {
           width: 0px;
         }
       }
     }
-    
   }
   // action button style
   .ac-key-value-action-button,
   .ac-list-action-button {
     margin: 0 !important;
+    padding: 0 12px;
+    height: 40px;
     &.is-success {
       background-color: #cce2f2 !important;
       i.fa {
@@ -225,8 +228,16 @@
     }
     &.is-danger {
       background-color: #f9d5dd !important;
+      transition: 0.3s ease-in-out;
       i.fa {
         color: #e03056;
+        transition: 0.3s ease-in-out;
+      }
+      &:hover {
+        background-color: #fa9db1 !important;
+        i.fa {
+          color: #e03056;
+        }
       }
     }
   }
@@ -240,13 +251,10 @@
     .form-left-item {
       flex-grow: 0;
       flex-shrink: 0;
-      flex-basis: 86%;
-    }
-    .form-left-item {
-      width: 100%;
+      flex-basis: calc(100% - 85px);
     }
     .form-right-item {
-      margin-top: 15px;
+      margin-top: 20px;
     }
   }
   .ac-level-from-button {
@@ -257,6 +265,45 @@
       flex-shrink: 0;
       flex-basis: 95%;
       margin-right: 15px;
+    }
+  }
+  // for up-down button
+  .group-buttons {
+    .up-down-button {
+      background: #e8e8e8;
+      border: none;
+      display: block;
+      cursor: pointer;
+      width: 32px;
+      height: 20px;
+      color: #a4a4a4;
+      &:disabled {
+        cursor: not-allowed;
+      }
+      &.is-info {
+        background-color: $primary-color;
+        color: #fff;
+        transition: 0.3s;
+        &:hover {
+          background-color: scale-color($primary-color, $lightness: 5%);
+        }
+      }
+    }
+    border-radius: 4px;
+    overflow: hidden;
+    margin-right: 10px;
+    position: relative;
+    z-index: 1;
+    &:after {
+      position: absolute;
+      content: "";
+      left: 0;
+      top: 50%;
+      height: 2px;
+      background: #a4a4a4;
+      width: 100%;
+      margin-top: -1px;
+      opacity: 0.5;
     }
   }
   .ac-level-2 .buttons,
@@ -295,11 +342,16 @@
     }
   }
 }
-// warning style 
-.icon.is-warning, p.is-warning {
-  color: #E03056 !important;
+// warning style
+.icon.is-warning,
+p.is-warning {
+  color: #e03056 !important;
 }
-.icon.is-success{
+p.is-warning {
+  position: absolute;
+  top: 100%;
+}
+.icon.is-success {
   color: $primary-color !important;
 }
 /*================================================
