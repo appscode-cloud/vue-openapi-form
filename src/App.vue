@@ -51,11 +51,11 @@
             <div class="container vue-openapi-form">
               <div class="button-inline is-clipped is-block">
                 <button
-              class="button is-primary  is-pulled-right"
-              @click.prevent="submit"
-            >
-              DONE
-            </button>
+                  class="button is-primary  is-pulled-right"
+                  @click.prevent="submit"
+                >
+                  DONE
+                </button>
               </div>
               <!-- key is required to properly update the new form when schema changes -->
               <validation-observer ref="mainObserver" slim>
