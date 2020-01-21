@@ -3,6 +3,12 @@ export default [
     title: "Custom",
     schema: {
       properties: {
+        positions: {
+          type: "array",
+          items: {
+            type: "string"
+          }
+        },
         name: {
           type: "string"
         },
@@ -32,6 +38,7 @@ export default [
       type: "object"
     },
     model: {
+      positions: ["Software Engineer", "Designer"],
       name: "John Doe",
       age: 23,
       previousJobs: [

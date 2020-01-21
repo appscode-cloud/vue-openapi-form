@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <div class="vue-form-scema-body">
+    <div class="vue-form-scema-body mb-50">
       <div class="container is-fluid">
         <div class="columns">
           <div class="column">
@@ -11,8 +11,8 @@
           </div>
         </div>
         <div class="columns is-multiline">
-          <div class="column is-5">
-            <div class="container">
+          <div class="column is-4">
+            <div class="left-content-wrapper">
               <div class="select-box-wrapper" v-if="!modifiedSchema">
                 <label for="schema-selection">Select Schema</label>
                 <div class="select is-fullwidth">
@@ -47,10 +47,17 @@
               />
             </div>
           </div>
-          <div class="column is-7">
+          <div class="column is-8">
             <div class="container vue-openapi-form">
+              <div class="button-inline is-clipped is-block">
+                <button
+              class="button is-primary  is-pulled-right"
+              @click.prevent="submit"
+            >
+              DONE
+            </button>
+              </div>
               <!-- key is required to properly update the new form when schema changes -->
-
               <validation-observer ref="mainObserver" slim>
                 <validation-provider
                   v-slot="{ errors }"
@@ -65,11 +72,6 @@
                     :key="JSON.stringify(selectedJsonSchema)"
                   />
                 </validation-provider>
-                <div class="buttons">
-                  <button class="button is-primary" @click.prevent="submit">
-                    DONE
-                  </button>
-                </div>
               </validation-observer>
               <!-- <key-value-pairs
         :schema="extendedSchema.properties.matchLabels"

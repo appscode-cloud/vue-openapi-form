@@ -15,6 +15,12 @@
 /*================================================
            schema-input and model input start
 ================================================*/
+.left-content-wrapper {
+  border: 1px solid #ddd;
+  padding: 30px;
+  border-radius: 4px;
+}
+
 .schema-input,
 .model-input {
   h3 {
@@ -251,9 +257,6 @@
       }
     }
   }
-  .button.is-primary {
-    background-color: $primary-color;
-  }
   // form inner content
   .form-container {
     display: flex;
@@ -329,6 +332,7 @@
       }
     }
   }
+ 
   .switch[type="checkbox"]:checked + label::before,
   .switch[type="checkbox"]:checked + label:before {
     background-color: $primary-color;
@@ -351,6 +355,9 @@
       margin-top: 20px;
     }
   }
+}
+.button.is-primary {
+  background-color: $primary-color !important;
 }
 // warning style
 .icon.is-warning,
