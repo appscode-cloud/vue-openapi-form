@@ -34,7 +34,11 @@
         >
           <div class="ac-is-3">
             <div class="field ac-field">
-              <label class="label">Key</label>
+              <label
+                @click.prevent="focusInput()"
+                :class="[labelShow ? 'show-label' : '', 'label']"
+                >Key</label
+              >
               <validation-provider
                 :vid="
                   `${schema.title.replace(/ /g, '-')}-key-${index + 1}-provider`
@@ -46,6 +50,7 @@
                 class="control has-icons-right"
               >
                 <input
+                  ref="inputFieldKey"
                   class="input"
                   type="text"
                   :class="{
@@ -53,6 +58,8 @@
                     'is-danger': validated && invalid
                   }"
                   v-model="prop.key"
+                  @focus="triggerInput()"
+                  @focusout="unTriggerInput()"
                 />
 
                 <!-- right or wrong signs -->
@@ -338,7 +345,8 @@ export default {
       updatePass: 0,
       keyValueArray: null,
       newKey: "",
-      newValue: null
+      newValue: null,
+      labelShow: false
     };
   },
 
@@ -390,6 +398,21 @@ export default {
     deleteProp(index) {
       this.$delete(this.keyValueArray, index);
       this.updatePass += 1;
+    },
+
+    // to float up label when input is focused
+    triggerInput() {
+      this.labelShow = true;
+    },
+    // to float down label when input is unfocused and value field is empty
+    unTriggerInput() {
+      if (!this.modelData) this.labelShow = false;
+    },
+    // to float up label and input field is focused when label is clicked in placeholder mode
+    focusInput() {
+      this.labelShow = true;
+      const inputField = this.$refs.inputField;
+      inputField.focus();
     }
   },
 

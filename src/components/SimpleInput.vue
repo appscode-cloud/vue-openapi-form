@@ -16,9 +16,14 @@
         </div>
       </template>
       <template v-else>
-        <label class="label">{{ schema.title }}</label>
+        <label
+          @click.prevent="focusInput()"
+          :class="[labelShow ? 'show-label' : '', 'label']"
+          >{{ schema.title }}</label
+        >
         <div v-if="ui.tag === 'input'" class="control has-icons-right">
           <input
+            ref="inputField"
             class="input"
             :type="ui.type"
             :class="{
@@ -28,6 +33,8 @@
             :placeholder="ui.placeholder || ''"
             v-model="modelData"
             @change="modelData = $event.target.value"
+            @focus="triggerInput()"
+            @focusout="unTriggerInput()"
           />
           <template v-if="validationOb.validated">
             <span
@@ -104,6 +111,28 @@ import { model } from "../mixins/model.js";
 import validation from "../mixins/validation.js";
 
 export default {
+  data() {
+    return {
+      labelShow: false
+    };
+  },
+  methods: {
+    // to float up label when input is focused
+    triggerInput() {
+      this.labelShow = true;
+    },
+    // to float down label when input is unfocused and value field is empty
+    unTriggerInput() {
+      if (!this.modelData) this.labelShow = false;
+    },
+    // to float up label and input field is focused when label is clicked in placeholder mode
+    focusInput() {
+      this.labelShow = true;
+      const inputField = this.$refs.inputField;
+      inputField.focus();
+    }
+  },
+
   props: {
     schema: {
       type: Object,
@@ -118,11 +147,30 @@ export default {
     }
   },
 
+  mounted() {
+    if (this.modelData) this.labelShow = true;
+  },
+
   mixins: [model, validation],
 
   computed: {
     ui() {
       return this.schema.ui || { tag: "input", type: "text" };
+    }
+  },
+
+  watch: {
+    modelData: {
+      immediate: true,
+      deep: true,
+      handler(newVal, oldVal) {
+        if (newVal) this.labelShow = true;
+        else this.labelShow = false;
+
+        if (oldVal !== null && oldVal !== undefined) {
+          this.$emit("input", newVal);
+        }
+      }
     }
   }
 };

@@ -117,6 +117,12 @@
                 :class="{ 'is-info': index !== 0 }"
                 :disabled="index === 0"
                 @click.prevent="swapElems(index - 1, index)"
+                v-tooltip="{
+                  content: 'move up',
+                  placement: 'top',
+                  classes: ['is-button-info'],
+                  targetClasses: ['up-down-button']
+                }"
               >
                 <span class="icon is-small">
                   <i class="fa fa-angle-up"></i>
@@ -127,6 +133,12 @@
                 :class="{ 'is-info': index !== modelData.length - 1 }"
                 :disabled="index === modelData.length - 1"
                 @click.prevent="swapElems(index, index + 1)"
+                v-tooltip="{
+                  content: 'move down',
+                  placement: 'bottom',
+                  classes: ['is-button-info'],
+                  targetClasses: ['up-down-button']
+                }"
               >
                 <span class="icon is-small">
                   <i class="fa fa-angle-down"></i>
