@@ -33,46 +33,39 @@
           :key="index"
         >
           <div class="ac-is-3">
-            <div class="field ac-field">
-              <label
-                @click.prevent="focusInput()"
-                :class="[labelShow ? 'show-label' : '', 'label']"
-                >Key</label
-              >
-              <validation-provider
-                :vid="
-                  `${schema.title.replace(/ /g, '-')}-key-${index + 1}-provider`
-                "
-                rules="required"
-                :name="`${schema.title.replace(/ /g, '-')}-key-${index + 1}`"
-                v-slot="{ errors, valid, invalid, validated }"
-                tag="div"
-                class="control has-icons-right"
-              >
-                <input
-                  ref="inputFieldKey"
-                  class="input"
-                  type="text"
-                  :class="{
-                    'is-success': validated && valid,
-                    'is-danger': validated && invalid
-                  }"
-                  v-model="prop.key"
-                  @focus="triggerInput()"
-                  @focusout="unTriggerInput()"
-                />
+            <validation-provider
+              :vid="
+                `${schema.title.replace(/ /g, '-')}-key-${index + 1}-provider`
+              "
+              rules="required"
+              :name="`${schema.title.replace(/ /g, '-')}-key-${index + 1}`"
+              v-slot="validationOb"
+              tag="div"
+              class="control has-icons-right"
+            >
+              <!-- <input
+                class="input"
+                type="text"
+                :class="{
+                  'is-success': validated && valid,
+                  'is-danger': validated && invalid
+                }"
+                v-model="prop.key"
+                @focus="triggerInput()"
+                @focusout="unTriggerInput()"
+              /> -->
 
-                <!-- right or wrong signs -->
-                <right-wrong-signs
-                  v-if="validated"
-                  :valid="valid"
-                  :invalid="invalid"
-                />
-
-                <!-- error show -->
-                <component-errors :errors="errors" />
-              </validation-provider>
-            </div>
+              <simple-input
+                :schema="{
+                  title: 'Key',
+                  type: 'string',
+                  ui: { tag: 'input', type: 'text' }
+                }"
+                :type="`string`"
+                :validationOb="validationOb"
+                v-model="prop.key"
+              />
+            </validation-provider>
           </div>
           <div class="ac-is-8">
             <template v-if="additionalProperties.type === 'object'">
@@ -177,17 +170,15 @@
           class="ac-key-value-pairs"
         >
           <div class="ac-is-3">
-            <div class="field ac-field">
-              <label class="label">Key</label>
-              <validation-provider
-                :vid="`${schema.title.replace(/ /g, '-')}-key-provider`"
-                rules="required"
-                :name="`${schema.title.replace(/ /g, '-')}-key`"
-                v-slot="{ errors, valid, invalid, validated }"
-                tag="div"
-                class="control has-icons-right"
-              >
-                <input
+            <validation-provider
+              :vid="`${schema.title.replace(/ /g, '-')}-key-provider`"
+              rules="required"
+              :name="`${schema.title.replace(/ /g, '-')}-key`"
+              v-slot="validationOb"
+              tag="div"
+              class="control has-icons-right"
+            >
+              <!-- <input
                   class="input"
                   type="text"
                   :class="{
@@ -195,22 +186,19 @@
                     'is-danger': validated && invalid
                   }"
                   v-model="newKey"
-                />
+                /> -->
 
-                <!-- right or wrong signs -->
-                <right-wrong-signs
-                  v-if="validated"
-                  :valid="valid"
-                  :invalid="invalid"
-                />
-
-                <!-- error show -->
-                <p class="is-warning" v-if="errors.length > 0">
-                  <span class="warning"><i class="fa fa-warning"></i></span>
-                  {{ errors[0] }}
-                </p>
-              </validation-provider>
-            </div>
+              <simple-input
+                :schema="{
+                  title: 'Key',
+                  type: 'string',
+                  ui: { tag: 'input', type: 'text' }
+                }"
+                :type="`string`"
+                :validationOb="validationOb"
+                v-model="newKey"
+              />
+            </validation-provider>
           </div>
 
           <!-- new value input -->
@@ -345,8 +333,7 @@ export default {
       updatePass: 0,
       keyValueArray: null,
       newKey: "",
-      newValue: null,
-      labelShow: false
+      newValue: null
     };
   },
 
@@ -398,21 +385,6 @@ export default {
     deleteProp(index) {
       this.$delete(this.keyValueArray, index);
       this.updatePass += 1;
-    },
-
-    // to float up label when input is focused
-    triggerInput() {
-      this.labelShow = true;
-    },
-    // to float down label when input is unfocused and value field is empty
-    unTriggerInput() {
-      if (!this.modelData) this.labelShow = false;
-    },
-    // to float up label and input field is focused when label is clicked in placeholder mode
-    focusInput() {
-      this.labelShow = true;
-      const inputField = this.$refs.inputField;
-      inputField.focus();
     }
   },
 
