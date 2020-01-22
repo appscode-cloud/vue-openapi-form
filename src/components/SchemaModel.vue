@@ -1,6 +1,6 @@
 <template>
   <div class="schema-model-wrapper">
-    <div class="schema-input">
+    <div class="ac-schema-input">
       <h3>Schema</h3>
       <codemirror v-model="schema" :options="cmOptions" />
 
@@ -9,7 +9,7 @@
         The format is not correct
       </p>
     </div>
-    <div class="model-input">
+    <div class="ac-model-input">
       <h3>Model</h3>
       <codemirror v-model="model" :options="cmOptions" />
 

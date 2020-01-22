@@ -24,13 +24,13 @@
   }
 }
 .left-content-wrapper {
-  border: 1px solid #e8e8e8;
+  border: 1px solid $border-color;
   padding: 30px;
   border-radius: 4px;
 }
 
-.schema-input,
-.model-input {
+.ac-schema-input,
+.ac-model-input {
   h3 {
     margin: 20px 0;
     font-size: 18px;
@@ -46,7 +46,7 @@
            vue-open-api from start
 ================================================*/
 .vue-openapi-form {
-  border: 1px solid #e8e8e8;
+  border: 1px solid $border-color;
   border-radius: 4px;
   padding: 15px;
   // title style
@@ -54,7 +54,7 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background-color: #e8e8e8;
+    background-color: $border-color;
     padding: 4px 20px;
     border-radius: 4px;
     position: relative;
@@ -66,7 +66,7 @@
       top: 50%;
       width: 30px;
       height: 1px;
-      background: #e8e8e8;
+      background: $border-color;
       margin-top: -0.5px;
       z-index: -1;
     }
@@ -79,7 +79,7 @@
           font-weight: 700;
           span {
             font-size: 12px;
-            color: #e03056;
+            color: $red-color;
             font-weight: 500;
             margin-left: 10px;
             cursor: pointer;
@@ -95,8 +95,8 @@
       background-color: transparent;
       width: 20px;
       height: 20px;
-      color: #3d3d65;
-      border-color: #3d3d65;
+      color: $heading-color;
+      border-color: $heading-color;
       font-size: 8px;
       border-radius: 50%;
     }
@@ -126,7 +126,7 @@
     &::after {
       position: absolute;
       content: "";
-      background-color: #e8e8e8;
+      background-color: $border-color;
       left: 15px;
       bottom: 28px;
       width: 1px;
@@ -149,7 +149,7 @@
         content: "";
         left: -15px;
         top: 50%;
-        background-color: #e8e8e8;
+        background-color: $border-color;
         width: 16px;
         height: 1px;
         margin-top: 2px;
@@ -159,13 +159,13 @@
         content: "";
         left: -15px;
         top: -60px;
-        background-color: #e8e8e8;
+        background-color: $border-color;
         width: 1px;
         height: 83px;
       }
       .label {
         font-size: 14px;
-        color: #808080;
+        color: scale-color($color: $paragraph-color, $lightness: 40%);
         position: absolute;
         z-index: 2;
         top: 15px;
@@ -179,7 +179,7 @@
       }
       .show-label {
         &.label {
-          background-color: #fff;
+          background-color: $white-color;
           top: -7px;
           cursor: pointer;
           padding: 0 5px;
@@ -193,6 +193,11 @@
         height: 40px;
         padding-left: 20px;
         border-radius: 4px;
+        &.is-danger {
+          &:focus {
+            border-color: $red-color;
+          }
+        }
         &:focus {
           outline: none;
           border-color: $primary-color;
@@ -227,7 +232,7 @@
       border-radius: 4px 4px 0px 0px;
     }
     .ac-key-value-pairs-wrapper {
-      border: 1px solid #ddd;
+      border: 1px solid $border-color;
       border-radius: 0 0 4px 4px;
       border-top: none;
       padding-right: 15px;
@@ -247,22 +252,31 @@
     padding: 0 12px;
     height: 40px;
     &.is-success {
-      background-color: #cce2f2 !important;
+      background-color: scale-color(
+        $color: $primary-color,
+        $lightness: 80%
+      ) !important;
       i.fa {
         color: $primary-color;
       }
     }
     &.is-danger {
-      background-color: #f9d5dd !important;
+      background-color: scale-color(
+        $color: $red-color,
+        $lightness: 80%
+      ) !important;
       transition: 0.3s ease-in-out;
       i.fa {
-        color: #e03056;
+        color: $red-color;
         transition: 0.3s ease-in-out;
       }
       &:hover {
-        background-color: #fa9db1 !important;
+        background-color: scale-color(
+          $color: $red-color,
+          $lightness: 86%
+        ) !important;
         i.fa {
-          color: #e03056;
+          color: $red-color;
         }
       }
     }
@@ -293,7 +307,7 @@
   // for up-down button
   .group-buttons {
     .up-down-button {
-      background: #e8e8e8;
+      background: $border-color;
       border: none;
       display: block;
       cursor: pointer;
@@ -305,7 +319,7 @@
       }
       &.is-info {
         background-color: $primary-color;
-        color: #fff;
+        color: $white-color;
         transition: 0.3s;
         &:hover {
           background-color: scale-color($primary-color, $lightness: 5%);
@@ -365,24 +379,25 @@
       margin-top: 20px;
     }
   }
+  .button.is-primary {
+    background-color: $primary-color !important;
+  }
+  // warning style
+  .icon.is-warning,
+  p.is-warning {
+    color: $red-color !important;
+  }
+  p.is-warning {
+    position: absolute;
+    top: 100%;
+    font-size: 13px;
+    right: 0;
+  }
+  .icon.is-success {
+    color: $primary-color !important;
+  }
 }
-.button.is-primary {
-  background-color: $primary-color !important;
-}
-// warning style
-.icon.is-warning,
-p.is-warning {
-  color: #e03056 !important;
-}
-p.is-warning {
-  position: absolute;
-  top: 100%;
-  font-size: 13px;
-  right: 0;
-}
-.icon.is-success {
-  color: $primary-color !important;
-}
+
 /*================================================
            vue-open-api-form end
 ================================================*/
@@ -393,8 +408,8 @@ p.is-warning {
   display: block !important;
   z-index: 10000;
   .tooltip-inner {
-    background: #fff;
-    color: #e03056;
+    background: $white-color;
+    color: $red-color;
     border-radius: 16px;
     padding: 5px 20px 4px;
     box-shadow: 2px 2px 20px 2px rgba(0, 0, 0, 0.16);
@@ -407,7 +422,7 @@ p.is-warning {
     border-style: solid;
     position: absolute;
     margin: 5px;
-    border-color: #fff;
+    border-color: $white-color;
   }
 
   &.is-button-info {
