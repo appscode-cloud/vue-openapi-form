@@ -23,21 +23,30 @@
     display: block;
   }
 }
-.left-content-wrapper {
-  border: 1px solid $border-color;
-  padding: 30px;
-  border-radius: 4px;
-}
+.schema-model-wrapper {
+  .left-content-wrapper {
+    border: 1px solid $border-color;
+    padding: 30px;
+    border-radius: 4px;
+  }
 
-.ac-schema-input,
-.ac-model-input {
-  h3 {
-    margin: 20px 0;
-    font-size: 18px;
-    line-height: 28px;
-    font-weight: 600;
+  .ac-schema-input,
+  .ac-model-input {
+    h3 {
+      margin: 20px 0;
+      font-size: 18px;
+      line-height: 28px;
+      font-weight: 600;
+    }
+    p.is-warning {
+      color: $red-color !important;
+    }
+  }
+  .button.is-primary {
+    background-color: $primary-color;
   }
 }
+
 /*================================================
            schema-input and model input end
 ================================================*/
