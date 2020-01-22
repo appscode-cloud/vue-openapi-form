@@ -15,8 +15,16 @@
 /*================================================
            schema-input and model input start
 ================================================*/
+.select-box-wrapper {
+  label {
+    font-size: 15px;
+    font-weight: 500;
+    margin-bottom: 10px;
+    display: block;
+  }
+}
 .left-content-wrapper {
-  border: 1px solid #ddd;
+  border: 1px solid #e8e8e8;
   padding: 30px;
   border-radius: 4px;
 }
@@ -25,8 +33,9 @@
 .model-input {
   h3 {
     margin: 20px 0;
-    font-size: 20px;
-    line-height: 30px;
+    font-size: 18px;
+    line-height: 28px;
+    font-weight: 600;
   }
 }
 /*================================================
@@ -166,6 +175,7 @@
         line-height: 14px;
         transition: 0.3s;
         cursor: initial;
+        padding: 0 5px;
       }
       .show-label {
         &.label {
@@ -181,7 +191,7 @@
         font-size: 14px;
         font-weight: 500;
         height: 40px;
-        padding-left: 15px;
+        padding-left: 20px;
         border-radius: 4px;
         &:focus {
           outline: none;
@@ -332,7 +342,7 @@
       }
     }
   }
- 
+
   .switch[type="checkbox"]:checked + label::before,
   .switch[type="checkbox"]:checked + label:before {
     background-color: $primary-color;
