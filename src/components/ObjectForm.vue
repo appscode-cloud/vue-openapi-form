@@ -83,6 +83,7 @@ import fold from "../mixins/fold.js";
 import validation from "../mixins/validation.js";
 
 export default {
+  name: "object-form",
   props: {
     properties: {
       type: Object,

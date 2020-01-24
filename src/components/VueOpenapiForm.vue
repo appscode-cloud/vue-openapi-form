@@ -60,6 +60,7 @@ import tabs from "../mixins/tabs.js";
 import validation from "../mixins/validation.js";
 
 export default {
+  name: "vue-openapi-form",
   props: {
     schema: {
       type: Object,

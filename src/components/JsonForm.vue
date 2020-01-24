@@ -11,6 +11,7 @@ import { codemirror } from "vue-codemirror";
 import "codemirror/mode/javascript/javascript.js";
 
 export default {
+  name: "json-form",
   props: {
     value: {
       type: null,

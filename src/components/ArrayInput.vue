@@ -275,6 +275,7 @@ import tabs from "../mixins/tabs.js";
 import validation from "../mixins/validation.js";
 
 export default {
+  name: "array-input",
   props: {
     schema: {
       type: Object,

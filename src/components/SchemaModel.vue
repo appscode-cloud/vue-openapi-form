@@ -32,6 +32,7 @@ import { codemirror } from "vue-codemirror";
 import "codemirror/mode/javascript/javascript.js";
 
 export default {
+  name: "schema-model",
   props: {
     schemaModel: {
       type: Object,

@@ -306,6 +306,7 @@ import tabs from "../mixins/tabs.js";
 import validation from "../mixins/validation.js";
 
 export default {
+  name: "key-value-pairs",
   props: {
     schema: {
       type: Object,

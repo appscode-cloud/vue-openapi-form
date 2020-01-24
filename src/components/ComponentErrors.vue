@@ -7,6 +7,7 @@
 
 <script>
 export default {
+  name: "component-errors",
   props: {
     errors: {
       type: Array,

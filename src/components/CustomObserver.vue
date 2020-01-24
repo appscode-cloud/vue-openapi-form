@@ -13,6 +13,7 @@
 import { ValidationObserver } from "vee-validate";
 
 export default {
+  name: "custom-observer",
   components: {
     ValidationObserver
   },
