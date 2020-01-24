@@ -10,11 +10,7 @@
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
-    "lint": "vue-cli-service lint",
-    "pkg": "npm run pkg:umd & npm run pkg:es & npm run pkg:unpkg",
-    "pkg:umd": "rollup --config pkg/rollup.config.js --format umd --file dist/vue-openapi-form.umd.js",
-    "pkg:es": "rollup --config pkg/rollup.config.js --format es --file dist/vue-openapi-form.es.js",
-    "pkg:unpkg": "rollup --config pkg/rollup.config.js --format iife --file dist/vue-openapi-form.min.js"
+    "lint": "vue-cli-service lint"
   },
   "dependencies": {
     "@babel/runtime": "^7.7.7",
