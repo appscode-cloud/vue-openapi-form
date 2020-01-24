@@ -1,10 +1,13 @@
 <template>
-  <div class="tabs is-toggle form-json-toggle-tabs">
+  <div class="tabs is-toggle ac-toggle-buttons">
     <ul>
       <li :class="{ 'is-active': formShow }">
         <a @click.prevent="showForm()">
           <span class="icon is-small"
-            ><i class="fa fa-edit" aria-hidden="true"></i
+            ><i
+              class="fa fa-file-text fa-flip-horizontal"
+              aria-hidden="true"
+            ></i
           ></span>
           <span>Form</span>
         </a>

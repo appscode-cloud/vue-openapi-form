@@ -5,8 +5,8 @@
 </template>
 
 <script>
-import { model } from "@/mixins/model.js";
-import fold from "@/mixins/fold.js";
+import { model } from "../mixins/model.js";
+import fold from "../mixins/fold.js";
 import { codemirror } from "vue-codemirror";
 import "codemirror/mode/javascript/javascript.js";
 

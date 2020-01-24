@@ -1,0 +1,131 @@
+/* ======================
+  Global CSS start
+========================*/
+@import url("https://fonts.googleapis.com/css?family=Raleway:400,500,500i,600,600i,700,800|Roboto:400,400i,500,500i");
+@import url("https://fonts.googleapis.com/css?family=Inconsolata&display=swap");
+
+body {
+  font-family: $font-paragraph;
+  font-weight: 400;
+  font-style: normal;
+  font-size: 15px;
+  background-color: #fff;
+}
+
+p {
+  font-family: $font-paragraph;
+  font-size: 15px;
+  font-weight: 400;
+  line-height: 1.8;
+  color: #74818d;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: $font-heading;
+  font-weight: normal;
+  text-transform: normal;
+  font-style: normal;
+  margin-top: 0px;
+  color: #32325d;
+  font-weight: 600;
+}
+
+hr {
+  margin: 30px 0;
+  background: #e2e2e2;
+  height: 1px;
+}
+
+a {
+  color: #4d4f5c;
+  font-family: $font-paragraph;
+  transition: 0.3s;
+  -webkit-transition: 0.3s;
+  -moz-transition: 0.3s;
+  -ms-transition: 0.3s;
+  -o-transition: 0.3s;
+}
+
+a:hover {
+  color: #4d4dcb;
+}
+.disable-select {
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+h1 a,
+h2 a,
+h3 a,
+h4 a,
+h5 a,
+h6 a {
+  font-family: $font-paragraph;
+  color: #4d4f5c;
+}
+
+h1 {
+  font-size: 32px;
+  line-break: 42px;
+}
+
+h2 {
+  font-size: 24px;
+  line-height: 34px;
+}
+
+h3 {
+  font-size: 20px;
+  line-height: 20px;
+}
+
+h4 {
+  font-size: 18px;
+  line-height: 32px;
+}
+
+h5 {
+  font-size: 16px;
+  line-height: 26px;
+}
+
+h6 {
+  font-size: 14px;
+  line-height: 24px;
+}
+@for $i from 1 through 50 {
+  .mt-#{$i} {
+    margin-top: #{$i}px;
+  }
+  .mb-#{$i} {
+    margin-bottom: #{$i}px;
+  }
+  .ml-#{$i} {
+    margin-left: #{$i}px;
+  }
+  .mr-#{$i} {
+    margin-right: #{$i}px;
+  }
+}
+
+@for $i from 1 through 50 {
+  .pt-#{$i} {
+    padding-top: #{$i}px;
+  }
+  .pb-#{$i} {
+    padding-bottom: #{$i}px;
+  }
+  .pl-#{$i} {
+    padding-left: #{$i}px;
+  }
+  .pr-#{$i} {
+    padding-right: #{$i}px;
+  }
+}

@@ -1,6 +1,6 @@
 <template>
   <div :class="{ 'is-hidden': isSelfFolded }">
-    <template v-for="key in Object.keys(properties)">
+    <template v-for="(key, idx) in Object.keys(properties)">
       <!-- if the property is another object -->
       <validation-provider
         v-if="properties[key].type === 'object'"
@@ -12,6 +12,7 @@
         slim
       >
         <vue-openapi-form
+          :is-last-child="idx === Object.keys(properties).length - 1"
           :type="properties[key].type"
           :schema="properties[key]"
           :errors="errors"
@@ -29,6 +30,7 @@
         slim
       >
         <key-value-pairs
+          :is-last-child="idx === Object.keys(properties).length - 1"
           :type="properties[key].type"
           :schema="properties[key]"
           :errors="errors"
@@ -46,6 +48,7 @@
         slim
       >
         <array-input
+          :is-last-child="idx === Object.keys(properties).length - 1"
           :type="properties[key].type"
           :schema="properties[key]"
           :errors="errors"
@@ -75,14 +78,9 @@
 </template>
 
 <script>
-import { model } from "@/mixins/model.js";
-import fold from "@/mixins/fold.js";
-import validation from "@/mixins/validation.js";
-
-import VueOpenapiForm from "@/components/VueOpenapiForm";
-import ArrayInput from "@/components/ArrayInput";
-import SimpleInput from "@/components/SimpleInput";
-import KeyValuePairs from "@/components/KeyValuePairs";
+import { model } from "../mixins/model.js";
+import fold from "../mixins/fold.js";
+import validation from "../mixins/validation.js";
 
 export default {
   props: {
@@ -105,13 +103,6 @@ export default {
   },
 
   mixins: [model, fold, validation],
-
-  components: {
-    VueOpenapiForm,
-    ArrayInput,
-    SimpleInput,
-    KeyValuePairs
-  },
 
   methods: {
     isRequired(key) {

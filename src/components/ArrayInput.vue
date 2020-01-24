@@ -5,30 +5,32 @@
     :vid="`${schema.title.replace(/ /g, '-')}-observer`"
     v-slot="{ errors: observerErrors }"
     class="vue-schema-form-array"
+    :class="{ 'stop-line': isLastChild }"
     :key="updatePass"
   >
-    <div class="level">
-      <div class="level-left">
-        <h4 class="title is-5">
-          {{ schema.title || "Array Item Description" }}
-          <component-errors
-            :errors="[...errors, ...calcObserverError(observerErrors)]"
-          />
-        </h4>
+    <div class="ac-level">
+      <div class="ac-level-left">
+        <div class="ac-form-title">
+          <h4>
+            {{ schema.title || "Array Item Description" }}
+            <component-errors
+              :errors="[...errors, ...calcObserverError(observerErrors)]"
+            />
+          </h4>
+        </div>
       </div>
-      <div class="level-right">
+      <div class="ac-level-right">
         <tabs v-model="formShow" />
       </div>
     </div>
-    <hr />
     <template v-if="formShow">
       <!-- existing values form -->
       <div
-        class="columns is-multiline"
+        class="form-container"
         v-for="(item, index) in modelData"
         :key="index"
       >
-        <div class="column is-10">
+        <div class="form-left-item">
           <template v-if="items.type === 'object'">
             <validation-provider
               v-slot="{ errors }"
@@ -107,28 +109,44 @@
             </validation-provider>
           </template>
         </div>
-        <div class="column is-2">
+        <div class="form-right-item">
           <div class="buttons">
+            <div class="group-buttons">
+              <button
+                class="up-down-button"
+                :class="{ 'is-info': index !== 0 }"
+                :disabled="index === 0"
+                @click.prevent="swapElems(index - 1, index)"
+                v-tooltip="{
+                  content: 'move up',
+                  placement: 'top',
+                  classes: ['is-button-info'],
+                  targetClasses: ['up-down-button']
+                }"
+              >
+                <span class="icon is-small">
+                  <i class="fa fa-angle-up"></i>
+                </span>
+              </button>
+              <button
+                class="up-down-button"
+                :class="{ 'is-info': index !== modelData.length - 1 }"
+                :disabled="index === modelData.length - 1"
+                @click.prevent="swapElems(index, index + 1)"
+                v-tooltip="{
+                  content: 'move down',
+                  placement: 'bottom',
+                  classes: ['is-button-info'],
+                  targetClasses: ['up-down-button']
+                }"
+              >
+                <span class="icon is-small">
+                  <i class="fa fa-angle-down"></i>
+                </span>
+              </button>
+            </div>
             <button
-              class="button is-rounded is-info ac-list-action-button"
-              :disabled="index === 0"
-              @click.prevent="swapElems(index - 1, index)"
-            >
-              <span class="icon is-small">
-                <i class="fa fa-arrow-up"></i>
-              </span>
-            </button>
-            <button
-              class="button is-rounded is-info ac-list-action-button"
-              :disabled="index === modelData.length - 1"
-              @click.prevent="swapElems(index, index + 1)"
-            >
-              <span class="icon is-small">
-                <i class="fa fa-arrow-down"></i>
-              </span>
-            </button>
-            <button
-              class="button is-rounded is-danger ac-list-action-button"
+              class="button is-danger ac-list-action-button"
               @click.prevent="deleteValue(index)"
             >
               <span class="icon is-small">
@@ -146,8 +164,8 @@
         :disabled="true"
         slim
       >
-        <div class="columns is-multiline">
-          <div class="column is-10">
+        <div class="ac-level-from-button">
+          <div class="ac-level-10">
             <template v-if="items.type === 'object'">
               <validation-provider
                 v-slot="{ errors }"
@@ -157,6 +175,7 @@
                 slim
               >
                 <vue-openapi-form
+                  :is-last-child="true"
                   :schema="{
                     ...items,
                     ...{ title: `${schema.title} new value` }
@@ -176,6 +195,7 @@
                 slim
               >
                 <key-value-pairs
+                  :is-last-child="true"
                   :schema="{
                     ...items,
                     ...{ title: `${schema.title} new value` }
@@ -195,6 +215,7 @@
                 slim
               >
                 <array-input
+                  :is-last-child="true"
                   :schema="{
                     ...items,
                     ...{ title: `${schema.title} new value` }
@@ -226,10 +247,10 @@
               </validation-provider>
             </template>
           </div>
-          <div class="column is-2">
+          <div class="ac-level-2">
             <div class="buttons">
               <button
-                class="button is-rounded is-success ac-list-action-button"
+                class="button is-success ac-list-action-button"
                 @click.prevent="addNewValue()"
               >
                 <span class="icon is-small">
@@ -249,14 +270,9 @@
 </template>
 
 <script>
-import { model } from "@/mixins/model.js";
-import tabs from "@/mixins/tabs.js";
-import validation from "@/mixins/validation.js";
-
-import VueOpenapiForm from "@/components/VueOpenapiForm";
-import ArrayInput from "@/components/ArrayInput";
-import SimpleInput from "@/components/SimpleInput";
-import KeyValuePairs from "@/components/KeyValuePairs";
+import { model } from "../mixins/model.js";
+import tabs from "../mixins/tabs.js";
+import validation from "../mixins/validation.js";
 
 export default {
   props: {
@@ -271,17 +287,14 @@ export default {
     errors: {
       type: Array,
       default: () => []
+    },
+    isLastChild: {
+      type: Boolean,
+      default: false
     }
   },
 
   mixins: [model, tabs, validation],
-
-  components: {
-    VueOpenapiForm,
-    ArrayInput,
-    SimpleInput,
-    KeyValuePairs
-  },
 
   data() {
     return {

@@ -1,7 +1,7 @@
 <template>
   <div class="schema-model-wrapper">
     <div class="schema-input">
-      <h3 class="title">Schema</h3>
+      <h3>Schema</h3>
       <codemirror v-model="schema" :options="cmOptions" />
 
       <p class="is-warning mt-10" v-if="schemaError">
@@ -10,7 +10,7 @@
       </p>
     </div>
     <div class="model-input">
-      <h3 class="title">Model</h3>
+      <h3>Model</h3>
       <codemirror v-model="model" :options="cmOptions" />
 
       <p class="is-warning mt-10" v-if="modelError">
@@ -20,7 +20,7 @@
     </div>
 
     <div class="buttons mt-20">
-      <button class="button is-info" @click.prevent="updateForm()">
+      <button class="button is-primary" @click.prevent="updateForm()">
         Update
       </button>
     </div>

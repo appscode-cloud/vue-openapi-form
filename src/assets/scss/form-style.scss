@@ -1,0 +1,514 @@
+/*================================================
+            section title start
+================================================*/
+.section-title {
+  padding: 30px 0;
+  h2 {
+    font-size: 30px;
+    margin-bottom: 15px;
+  }
+}
+/*================================================
+            section title end
+================================================*/
+
+/*================================================
+           schema-input and model input start
+================================================*/
+.select-box-wrapper {
+  label {
+    font-size: 15px;
+    font-weight: 500;
+    margin-bottom: 10px;
+    display: block;
+  }
+}
+.left-content-wrapper {
+  border: 1px solid #e8e8e8;
+  padding: 30px;
+  border-radius: 4px;
+}
+
+.schema-input,
+.model-input {
+  h3 {
+    margin: 20px 0;
+    font-size: 18px;
+    line-height: 28px;
+    font-weight: 600;
+  }
+}
+/*================================================
+           schema-input and model input end
+================================================*/
+
+/*================================================
+           vue-open-api from start
+================================================*/
+.vue-openapi-form {
+  border: 1px solid #e8e8e8;
+  border-radius: 4px;
+  padding: 15px;
+  // title style
+  .ac-level {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #e8e8e8;
+    padding: 4px 20px;
+    border-radius: 4px;
+    position: relative;
+    z-index: 1;
+    &::after {
+      position: absolute;
+      content: "";
+      left: -15px;
+      top: 50%;
+      width: 30px;
+      height: 1px;
+      background: #e8e8e8;
+      margin-top: -0.5px;
+      z-index: -1;
+    }
+    .ac-level-left {
+      display: flex;
+      align-items: center;
+      .ac-form-title {
+        h4 {
+          font-size: 14px;
+          font-weight: 700;
+          span {
+            font-size: 12px;
+            color: #e03056;
+            font-weight: 500;
+            margin-left: 10px;
+            cursor: pointer;
+          }
+        }
+      }
+    }
+  }
+  // collaps button style
+  .collaps-button {
+    margin-right: 10px;
+    .button.button-circle {
+      background-color: transparent;
+      width: 20px;
+      height: 20px;
+      color: #3d3d65;
+      border-color: #3d3d65;
+      font-size: 8px;
+      border-radius: 50%;
+    }
+  }
+  // toggle button style
+  .ac-toggle-buttons {
+    li {
+      a {
+        border: none !important;
+        font-size: 14px;
+        font-weight: 500;
+        padding: 4px 15px;
+        border-radius: 4px !important;
+      }
+    }
+  }
+
+  // array and obj style
+  // form style
+  .vue-schema-form-key-value-pairs,
+  .vue-schema-form-object,
+  .vue-schema-form-array {
+    padding: 20px 0 0px 30px;
+    border-radius: 4px;
+    position: relative;
+    z-index: 1;
+    &::after {
+      position: absolute;
+      content: "";
+      background-color: #e8e8e8;
+      left: 15px;
+      bottom: 28px;
+      width: 1px;
+      height: calc(100% + 15px);
+    }
+    &.stop-line {
+      &:after {
+        height: 80px;
+        top: -40px;
+      }
+    }
+    .ac-field {
+      position: relative;
+      z-index: 1;
+      margin-top: 20px;
+      margin-left: 30px;
+      margin-bottom: 10px;
+      &::before {
+        position: absolute;
+        content: "";
+        left: -15px;
+        top: 50%;
+        background-color: #e8e8e8;
+        width: 16px;
+        height: 1px;
+        margin-top: 2px;
+      }
+      &::after {
+        position: absolute;
+        content: "";
+        left: -15px;
+        top: -60px;
+        background-color: #e8e8e8;
+        width: 1px;
+        height: 83px;
+      }
+      .label {
+        font-size: 14px;
+        color: #808080;
+        position: absolute;
+        z-index: 2;
+        top: 15px;
+        left: 15px;
+        font-weight: 400;
+        margin: 0;
+        line-height: 14px;
+        transition: 0.3s;
+        cursor: initial;
+        padding: 0 5px;
+      }
+      .show-label {
+        &.label {
+          background-color: #fff;
+          top: -7px;
+          cursor: pointer;
+          padding: 0 5px;
+        }
+      }
+      input {
+        border: 1px solid $border-dark-color;
+        box-shadow: none;
+        font-size: 14px;
+        font-weight: 500;
+        height: 40px;
+        padding-left: 20px;
+        border-radius: 4px;
+        &:focus {
+          outline: none;
+          border-color: $primary-color;
+          box-shadow: none;
+        }
+      }
+    }
+  }
+  .hide-upper-line {
+    &::after {
+      height: 0px;
+    }
+    > .ac-level {
+      &::after {
+        width: 0;
+      }
+    }
+  }
+  .vue-schema-form-object.ac-last-child,
+  .vue-schema-form-array.ac-last-child {
+    position: relative;
+    z-index: 1;
+    &::after {
+      position: absolute;
+      content: "";
+      height: 0;
+    }
+  }
+
+  .vue-schema-form-key-value-pairs {
+    .ac-level {
+      border-radius: 4px 4px 0px 0px;
+    }
+    .ac-key-value-pairs-wrapper {
+      border: 1px solid #ddd;
+      border-radius: 0 0 4px 4px;
+      border-top: none;
+      padding-right: 15px;
+      padding-bottom: 15px;
+      .ac-key-value-pairs {
+        .ac-field::before,
+        .ac-field::after {
+          width: 0px;
+        }
+      }
+    }
+  }
+  // action button style
+  .ac-key-value-action-button,
+  .ac-list-action-button {
+    margin: 0 !important;
+    padding: 0 12px;
+    height: 40px;
+    &.is-success {
+      background-color: #cce2f2 !important;
+      i.fa {
+        color: $primary-color;
+      }
+    }
+    &.is-danger {
+      background-color: #f9d5dd !important;
+      transition: 0.3s ease-in-out;
+      i.fa {
+        color: #e03056;
+        transition: 0.3s ease-in-out;
+      }
+      &:hover {
+        background-color: #fa9db1 !important;
+        i.fa {
+          color: #e03056;
+        }
+      }
+    }
+  }
+  // form inner content
+  .form-container {
+    display: flex;
+    justify-content: space-between;
+    .form-left-item {
+      flex-grow: 0;
+      flex-shrink: 0;
+      flex-basis: calc(100% - 85px);
+    }
+    .form-right-item {
+      margin-top: 20px;
+    }
+  }
+  .ac-level-from-button {
+    display: flex;
+    justify-content: space-between;
+    .ac-level-10 {
+      flex-grow: 0;
+      flex-shrink: 0;
+      flex-basis: 95%;
+      margin-right: 15px;
+    }
+  }
+  // for up-down button
+  .group-buttons {
+    .up-down-button {
+      background: #e8e8e8;
+      border: none;
+      display: block;
+      cursor: pointer;
+      width: 32px;
+      height: 20px;
+      color: #a4a4a4;
+      &:disabled {
+        cursor: not-allowed;
+      }
+      &.is-info {
+        background-color: $primary-color;
+        color: #fff;
+        transition: 0.3s;
+        &:hover {
+          background-color: scale-color($primary-color, $lightness: 5%);
+        }
+      }
+    }
+    border-radius: 4px;
+    overflow: hidden;
+    margin-right: 10px;
+    position: relative;
+    z-index: 1;
+    &:after {
+      position: absolute;
+      content: "";
+      left: 0;
+      top: 50%;
+      height: 2px;
+      background: #a4a4a4;
+      width: 100%;
+      margin-top: -1px;
+      opacity: 0.5;
+    }
+  }
+  .ac-level-2 .buttons,
+  .columns.is-gapless .column.is-1 .buttons {
+    margin-top: 18px !important;
+    float: right;
+  }
+  .buttons {
+    .button {
+      margin-right: 5px !important;
+      &:last-child {
+        margin-right: 0 !important;
+      }
+    }
+  }
+
+  .switch[type="checkbox"]:checked + label::before,
+  .switch[type="checkbox"]:checked + label:before {
+    background-color: $primary-color;
+  }
+  .switch[type="checkbox"] + label::before,
+  .switch[type="checkbox"] + label:before {
+    background-color: #a4a4a4;
+  }
+  .ac-key-value-pairs {
+    display: flex;
+    justify-content: space-between;
+    .ac-is-3 {
+      width: 35%;
+    }
+    .ac-is-8 {
+      width: 66%;
+      margin-right: 15px;
+    }
+    .ac-is-1 {
+      margin-top: 20px;
+    }
+  }
+}
+.button.is-primary {
+  background-color: $primary-color !important;
+}
+// warning style
+.icon.is-warning,
+p.is-warning {
+  color: #e03056 !important;
+}
+p.is-warning {
+  position: absolute;
+  top: 100%;
+  font-size: 13px;
+  right: 0;
+}
+.icon.is-success {
+  color: $primary-color !important;
+}
+/*================================================
+           vue-open-api-form end
+================================================*/
+
+// for vue-tooltip
+
+.tooltip {
+  display: block !important;
+  z-index: 10000;
+  .tooltip-inner {
+    background: #fff;
+    color: #e03056;
+    border-radius: 16px;
+    padding: 5px 20px 4px;
+    box-shadow: 2px 2px 20px 2px rgba(0, 0, 0, 0.16);
+    font-weight: 500;
+    font-size: 13px;
+  }
+  .tooltip-arrow {
+    width: 0;
+    height: 0;
+    border-style: solid;
+    position: absolute;
+    margin: 5px;
+    border-color: #fff;
+  }
+
+  &.is-button-info {
+    .tooltip-inner {
+      color: $primary-color !important;
+    }
+  }
+  &.is-errors-tooltip {
+    .tooltip-inner {
+      .errors-wrapper {
+        .error-element {
+          padding: 5px 0;
+        }
+      }
+    }
+  }
+  &[x-placement^="top"] {
+    margin-bottom: 5px;
+
+    .tooltip-arrow {
+      border-width: 5px 5px 0 5px;
+      border-left-color: transparent !important;
+      border-right-color: transparent !important;
+      border-bottom-color: transparent !important;
+      bottom: -5px;
+      left: calc(50% - 5px);
+      margin-top: 0;
+      margin-bottom: 0;
+    }
+  }
+
+  &[x-placement^="bottom"] {
+    margin-top: 5px;
+
+    .tooltip-arrow {
+      border-width: 0 5px 5px 5px;
+      border-left-color: transparent !important;
+      border-right-color: transparent !important;
+      border-top-color: transparent !important;
+      top: -5px;
+      left: calc(50% - 5px);
+      margin-top: 0;
+      margin-bottom: 0;
+    }
+  }
+
+  &[x-placement^="right"] {
+    margin-left: 5px;
+
+    .tooltip-arrow {
+      border-width: 5px 5px 5px 0;
+      border-left-color: transparent !important;
+      border-top-color: transparent !important;
+      border-bottom-color: transparent !important;
+      left: -5px;
+      top: calc(50% - 5px);
+      margin-left: 0;
+      margin-right: 0;
+    }
+  }
+
+  &[x-placement^="left"] {
+    margin-right: 5px;
+
+    .tooltip-arrow {
+      border-width: 5px 0 5px 5px;
+      border-top-color: transparent !important;
+      border-right-color: transparent !important;
+      border-bottom-color: transparent !important;
+      right: -5px;
+      top: calc(50% - 5px);
+      margin-left: 0;
+      margin-right: 0;
+    }
+  }
+
+  &.popover {
+    $color: #f9f9f9;
+
+    .popover-inner {
+      background: $color;
+      color: black;
+      padding: 24px;
+      border-radius: 5px;
+      box-shadow: 0 5px 30px rgba(black, 0.1);
+    }
+
+    .popover-arrow {
+      border-color: $color;
+    }
+  }
+
+  &[aria-hidden="true"] {
+    visibility: hidden;
+    opacity: 0;
+    transition: opacity 0.15s, visibility 0.15s;
+  }
+
+  &[aria-hidden="false"] {
+    visibility: visible;
+    opacity: 1;
+    transition: opacity 0.15s;
+  }
+}
