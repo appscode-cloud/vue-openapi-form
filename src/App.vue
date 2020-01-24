@@ -5,8 +5,8 @@
         <div class="columns">
           <div class="column">
             <div class="section-title has-text-centered">
-              <h2>Vue Form Schema</h2>
-              <p>Made with Vue, Bulma and Vee-validate</p>
+              <h2>Vue OpenAPI Form</h2>
+              <p>Made with Vue, Bulma, vee-validate and v-tooltip</p>
             </div>
           </div>
         </div>
