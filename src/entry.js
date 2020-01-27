@@ -31,6 +31,9 @@ if (GlobalVue) {
 // Default export is library as a whole, registered via Vue.use()
 export default plugin;
 
+// Export Extend Schema function
+export { default as extendSchema } from "./functional-components/extend-schema";
+
 // To allow individual component use, export components
 // each can be registered via Vue.component()
 export * from "@/components/index";
