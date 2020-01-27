@@ -1,10 +1,20 @@
 // Import vue components
 import * as components from "@/components/index";
+// Import 3rt party components and plugins that are required
+import VTooltip from "v-tooltip";
+// Import custom js that are required
+import { initVeeValidate } from "@/plugins/vee-validate";
 
 // install function executed by Vue.use()
 const install = function installVueOpenapiForm(Vue) {
   if (install.installed) return;
   install.installed = true;
+
+  // for v-tooltip
+  Vue.use(VTooltip);
+  // declare vee-validate rules
+  initVeeValidate();
+
   Object.entries(components).forEach(([componentName, component]) => {
     Vue.component(componentName, component);
   });
