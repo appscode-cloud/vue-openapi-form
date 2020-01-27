@@ -29,7 +29,7 @@ const baseConfig = {
     preVue: [
       resolve(),
       json(),
-      scss({ output: "dist/vue-openapi-form.css" }),
+      scss({ output: "dist/css/vue-openapi-form.css" }),
       replace({
         "process.env.NODE_ENV": JSON.stringify("production")
       }),
