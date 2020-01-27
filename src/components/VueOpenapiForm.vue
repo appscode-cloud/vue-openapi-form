@@ -1,63 +1,26 @@
 <template>
-  <validation-observer
-    tag="form"
-    :ref="`${schema.title.replace(/ /g, '-')}-observer`"
-    :vid="`${schema.title.replace(/ /g, '-')}-observer`"
-    v-slot="{ errors: observerErrors }"
-    class="vue-schema-form-object"
-    :class="{ 'stop-line': isLastChild, 'hide-upper-line': isRoot }"
-  >
-    <!-- {{ calcObserverError(observerErrors) }} -->
-    <div class="ac-level">
-      <div class="ac-level-left">
-        <div class="ac-collaps-button">
-          <div v-if="!isRoot" class="collaps-button">
-            <div
-              class="button button-circle"
-              :disabled="!formShow"
-              @click.prevent="toggleFold()"
-            >
-              <i
-                :class="['fa', isFolded ? 'fa-plus' : 'fa-minus']"
-                aria-hidden="true"
-              ></i>
-            </div>
-          </div>
-        </div>
-        <div class="ac-form-title">
-          <h4>
-            {{ schema.title || "Array Item Description" }}
-            <!-- show errors-->
-            <component-errors
-              :errors="[...errors, ...calcObserverError(observerErrors)]"
-            />
-          </h4>
-        </div>
-      </div>
-      <div class="ac-level-right">
-        <tabs v-model="formShow" />
-      </div>
-    </div>
-    <!-- form for all the object's properties -->
-    <object-form
-      v-if="formShow"
-      :properties="schema.properties"
-      :title="schema.title"
-      :required="schema.required"
-      :type="schema.type"
-      :isSelfFolded="isRoot ? false : isFolded"
-      v-model="modelData"
-    />
-    <!-- declared in tabs component -->
-    <json-form v-else v-model="modelData" />
-  </validation-observer>
+  <div class="vue-openapi-form">
+    <validation-observer ref="vofMainObserver" slim>
+      <validation-provider
+        :name="extendedSchema.title"
+        :vid="`${extendedSchema.title}-vpid`"
+        slim
+      >
+        <object-form-wrapper
+          :isRoot="true"
+          :schema="extendedSchema"
+          v-model="value"
+          @vof:submitted="onSubmit()"
+        />
+      </validation-provider>
+    </validation-observer>
+  </div>
 </template>
 
 <script>
-import { model } from "../mixins/model.js";
-import fold from "../mixins/fold.js";
-import tabs from "../mixins/tabs.js";
-import validation from "../mixins/validation.js";
+import ObjectFormWrapper from "./ObjectFormWrapper.vue";
+import ExtendSchema from "../functional-components/extend-schema.js";
+import { ValidationObserver, ValidationProvider } from "vee-validate";
 
 export default {
   name: "vue-openapi-form",
@@ -70,21 +33,40 @@ export default {
       type: Object,
       default: () => ({})
     },
-    isRoot: {
-      type: Boolean,
-      default: false
+    formTitle: {
+      type: String,
+      default: "OpenAPI form"
     },
-    errors: {
-      type: Array,
-      default: () => []
+    onValid: {
+      type: Function,
+      default: () => () => {}
     },
-    isLastChild: {
-      type: Boolean,
-      default: false
+    onInvalid: {
+      type: Function,
+      default: () => () => {}
     }
   },
-
-  mixins: [model, fold, tabs, validation]
+  components: {
+    "object-form-wrapper": ObjectFormWrapper,
+    ValidationObserver,
+    ValidationProvider
+  },
+  computed: {
+    extendedSchema() {
+      return ExtendSchema(this.schema, this.formTitle);
+    }
+  },
+  methods: {
+    async onSubmit() {
+      const isValid = await this.$refs.vofMainObserver.validate();
+      if (isValid) {
+        // console.log("validated");
+        this.onValid();
+      } else {
+        this.onInvalid();
+      }
+    }
+  }
 };
 </script>
 

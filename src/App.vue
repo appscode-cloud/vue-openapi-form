@@ -48,35 +48,15 @@
             </div>
           </div>
           <div class="column is-8">
-            <div class="container vue-openapi-form">
-              <div class="button-inline is-clipped is-block">
-                <button
-                  class="button is-primary  is-pulled-right"
-                  @click.prevent="submit"
-                >
-                  DONE
-                </button>
-              </div>
+            <div class="container">
               <!-- key is required to properly update the new form when schema changes -->
-              <validation-observer ref="mainObserver" slim>
-                <validation-provider
-                  v-slot="{ errors }"
-                  :name="jsonSchema.title"
-                  :vid="`${jsonSchema.title}-vpid`"
-                  slim
-                >
-                  <vue-openapi-form
-                    :isRoot="true"
-                    :schema="jsonSchema"
-                    v-model="model"
-                    :key="JSON.stringify(selectedJsonSchema)"
-                  />
-                </validation-provider>
-              </validation-observer>
-              <!-- <key-value-pairs
-        :schema="extendedSchema.properties.matchLabels"
-        v-model="model.matchLabels"
-      /> -->
+              <vue-openapi-form
+                :schema="jsonSchema"
+                v-model="model"
+                :formTitle="formTitle"
+                :key="JSON.stringify(selectedJsonSchema)"
+                :onValid="onValid"
+              />
             </div>
           </div>
         </div>
@@ -88,16 +68,12 @@
 <script>
 import VueOpenapiForm from "@/components/VueOpenapiForm";
 import Schemas from "@/json-schema";
-import ExtendSchema from "@/functional-components/extend-schema";
-import { ValidationObserver, ValidationProvider } from "vee-validate";
 import SchemaModel from "@/components/SchemaModel";
 
 export default {
   name: "app",
   components: {
     VueOpenapiForm,
-    ValidationObserver,
-    ValidationProvider,
     SchemaModel
   },
 
@@ -107,23 +83,19 @@ export default {
       selectedJsonSchema: Schemas[0],
       jsonSchema: {},
       model: {},
+      formTitle: "",
       modifiedSchema: false
     };
   },
 
   methods: {
-    async submit() {
-      const isValid = await this.$refs.mainObserver.validate();
-      if (isValid) {
-        // console.log("validated");
-      }
+    onValid() {
+      console.log("Form is Valid");
     },
-
     updateSchema(e) {
       this.modifiedSchema = true;
       this.selectedJsonSchema = e;
     },
-
     resetForm() {
       this.modifiedSchema = false;
       this.selectedJsonSchema = Schemas[0];
@@ -135,10 +107,9 @@ export default {
       deep: true,
       immediate: true,
       handler(newVal) {
-        this.jsonSchema = JSON.parse(
-          JSON.stringify(ExtendSchema(newVal.schema, newVal.title))
-        );
+        this.jsonSchema = JSON.parse(JSON.stringify(newVal.schema));
         this.model = JSON.parse(JSON.stringify(newVal.model));
+        this.formTitle = newVal.title;
       }
     }
   }

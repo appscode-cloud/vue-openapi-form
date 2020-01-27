@@ -11,7 +11,7 @@
         :vid="`${properties[key].title.replace(/ /g, '-')}-provider`"
         slim
       >
-        <vue-openapi-form
+        <object-form-wrapper
           :is-last-child="idx === Object.keys(properties).length - 1"
           :type="properties[key].type"
           :schema="properties[key]"

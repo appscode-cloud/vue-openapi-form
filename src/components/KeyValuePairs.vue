@@ -79,7 +79,7 @@
                 "
                 slim
               >
-                <vue-openapi-form
+                <object-form-wrapper
                   :schema="additionalProperties"
                   :type="additionalProperties.type"
                   :errors="errors"
@@ -213,7 +213,7 @@
                 :vid="`${schema.title.replace(/ /g, '-')}-value-provider`"
                 slim
               >
-                <vue-openapi-form
+                <object-form-wrapper
                   :is-last-child="true"
                   :schema="additionalProperties"
                   :type="additionalProperties.type"
