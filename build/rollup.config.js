@@ -8,6 +8,7 @@ import replace from "@rollup/plugin-replace";
 import resolve from "@rollup/plugin-node-resolve";
 import json from "@rollup/plugin-json";
 import babel from "rollup-plugin-babel";
+import scss from "rollup-plugin-scss";
 import { terser } from "rollup-plugin-terser";
 import minimist from "minimist";
 
@@ -28,6 +29,7 @@ const baseConfig = {
     preVue: [
       resolve(),
       json(),
+      scss({ output: "dist/vue-openapi-form.css" }),
       replace({
         "process.env.NODE_ENV": JSON.stringify("production")
       }),
@@ -47,7 +49,7 @@ const baseConfig = {
       })
     ],
     vue: {
-      css: true,
+      css: false,
       template: {
         isProduction: true
       }
