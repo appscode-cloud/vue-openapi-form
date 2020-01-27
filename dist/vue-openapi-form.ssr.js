@@ -17458,7 +17458,7 @@ var recurse = function recurse(schema, title) {
 };
 
 function ExtendSchema (schema, title) {
-  return recurse(schema, title + " Form");
+  return recurse(schema, title);
 }var script$5 = {
   name: "vue-openapi-form",
   props: {

@@ -90,5 +90,5 @@ const recurse = function(schema, title) {
 };
 
 export default function(schema, title) {
-  return recurse(schema, title + " Form");
+  return recurse(schema, title);
 }
