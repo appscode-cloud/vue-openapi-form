@@ -87,6 +87,18 @@
         }
       }
     }
+    .ac-level-right {
+      &.is-root-done-button {
+        display: flex;
+        align-items: center;
+        .tabs {
+          margin: 0;
+        }
+        .button{
+          font-weight: 600;
+        }
+      }
+    }
   }
   // collaps button style
   .collaps-button {

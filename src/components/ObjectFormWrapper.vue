@@ -34,7 +34,7 @@
           </h4>
         </div>
       </div>
-      <div class="ac-level-right">
+      <div class="ac-level-right is-root-done-button">
         <tabs v-model="formShow" />
 
         <button
@@ -42,7 +42,7 @@
           class="button is-primary is-pulled-right"
           @click.prevent="submit()"
         >
-          DONE
+          DONE <i class="fa pl-10 fa-angle-double-right" aria-hidden="true"></i>
         </button>
       </div>
     </div>
