@@ -111,6 +111,7 @@ import { model } from "../mixins/model.js";
 import validation from "../mixins/validation.js";
 
 export default {
+  name: "simple-input",
   data() {
     return {
       labelShow: false

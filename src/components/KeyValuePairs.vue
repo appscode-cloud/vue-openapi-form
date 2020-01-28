@@ -79,7 +79,7 @@
                 "
                 slim
               >
-                <vue-openapi-form
+                <object-form-wrapper
                   :schema="additionalProperties"
                   :type="additionalProperties.type"
                   :errors="errors"
@@ -213,7 +213,7 @@
                 :vid="`${schema.title.replace(/ /g, '-')}-value-provider`"
                 slim
               >
-                <vue-openapi-form
+                <object-form-wrapper
                   :is-last-child="true"
                   :schema="additionalProperties"
                   :type="additionalProperties.type"
@@ -306,6 +306,7 @@ import tabs from "../mixins/tabs.js";
 import validation from "../mixins/validation.js";
 
 export default {
+  name: "key-value-pairs",
   props: {
     schema: {
       type: Object,

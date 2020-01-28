@@ -11,7 +11,7 @@
         :vid="`${properties[key].title.replace(/ /g, '-')}-provider`"
         slim
       >
-        <vue-openapi-form
+        <object-form-wrapper
           :is-last-child="idx === Object.keys(properties).length - 1"
           :type="properties[key].type"
           :schema="properties[key]"
@@ -83,6 +83,7 @@ import fold from "../mixins/fold.js";
 import validation from "../mixins/validation.js";
 
 export default {
+  name: "object-form",
   props: {
     properties: {
       type: Object,

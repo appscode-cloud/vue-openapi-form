@@ -39,7 +39,7 @@
               :vid="`${schema.title.replace(/ /g, '-')}-${index + 1}-provider`"
               slim
             >
-              <vue-openapi-form
+              <object-form-wrapper
                 :schema="{
                   ...items,
                   ...{ title: `${schema.title} ${index + 1}` }
@@ -174,7 +174,7 @@
                 :vid="`${schema.title.replace(/ /g, '-')}-new-value-provider`"
                 slim
               >
-                <vue-openapi-form
+                <object-form-wrapper
                   :is-last-child="true"
                   :schema="{
                     ...items,
@@ -275,6 +275,7 @@ import tabs from "../mixins/tabs.js";
 import validation from "../mixins/validation.js";
 
 export default {
+  name: "array-input",
   props: {
     schema: {
       type: Object,

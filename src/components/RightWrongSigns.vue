@@ -11,6 +11,7 @@
 
 <script>
 export default {
+  name: "right-wrong-signs",
   props: {
     valid: {
       type: Boolean,
