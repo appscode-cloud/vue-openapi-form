@@ -13,7 +13,7 @@
         <div class="ac-collaps-button">
           <div v-if="!isRoot" class="collaps-button">
             <div
-              class="button button-circle"
+              class="button-circle"
               :disabled="!formShow"
               @click.prevent="toggleFold()"
             >
