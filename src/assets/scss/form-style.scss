@@ -27,6 +27,35 @@
   border: 1px solid #e8e8e8;
   padding: 30px;
   border-radius: 4px;
+  .CodeMirror-vscrollbar,
+  .CodeMirror-hscrollbar {
+    /* width */
+    &::-webkit-scrollbar {
+      width: 5px;
+    }
+
+    /* Track */
+    &::-webkit-scrollbar-track {
+      border-radius: 50px;
+      background-color: #e8e8e8;
+    }
+
+    /* Handle */
+    &::-webkit-scrollbar-thumb {
+      background: $primary-color;
+      border-radius: 50px;
+    }
+
+    /* Handle on hover */
+    &::-webkit-scrollbar-thumb:hover {
+      background: $primary-color;
+    }
+  }
+  .CodeMirror-hscrollbar {
+    &::-webkit-scrollbar-thumb {
+      height: 5px !important;
+    }
+  }
 }
 
 .schema-input,
@@ -94,7 +123,7 @@
         .tabs {
           margin: 0;
         }
-        .button{
+        .button {
           font-weight: 600;
         }
       }
