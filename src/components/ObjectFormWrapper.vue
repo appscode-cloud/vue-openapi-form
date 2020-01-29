@@ -13,7 +13,7 @@
         <div class="ac-collaps-button">
           <div v-if="!isRoot" class="collaps-button">
             <div
-              class="button button-circle"
+              class="button-circle"
               :disabled="!formShow"
               @click.prevent="toggleFold()"
             >
@@ -34,21 +34,21 @@
           </h4>
         </div>
       </div>
-      <div class="ac-level-right">
-        <tabs v-model="formShow" />
+      <div class="ac-level-right is-root-done-button">
+        <tabs v-if="!onlyJson" v-model="formShow" />
 
         <button
           v-if="isRoot"
-          class="button is-primary is-pulled-right"
+          class="done-button button is-primary is-pulled-right"
           @click.prevent="submit()"
         >
-          DONE
+          <span>DONE</span>
         </button>
       </div>
     </div>
     <!-- form for all the object's properties -->
     <object-form
-      v-if="formShow"
+      v-if="!onlyJson && formShow"
       :properties="schema.properties"
       :title="schema.title"
       :required="schema.required"
@@ -87,6 +87,10 @@ export default {
       default: () => []
     },
     isLastChild: {
+      type: Boolean,
+      default: false
+    },
+    onlyJson: {
       type: Boolean,
       default: false
     }

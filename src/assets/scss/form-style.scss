@@ -27,8 +27,36 @@
   border: 1px solid #e8e8e8;
   padding: 30px;
   border-radius: 4px;
-}
+  .CodeMirror-vscrollbar,
+  .CodeMirror-hscrollbar {
+    /* width */
+    &::-webkit-scrollbar {
+      width: 5px;
+    }
 
+    /* Track */
+    &::-webkit-scrollbar-track {
+      border-radius: 50px;
+      background-color: #e8e8e8;
+    }
+
+    /* Handle */
+    &::-webkit-scrollbar-thumb {
+      background: $primary-color;
+      border-radius: 50px;
+    }
+
+    /* Handle on hover */
+    &::-webkit-scrollbar-thumb:hover {
+      background: $primary-color;
+    }
+  }
+  .CodeMirror-hscrollbar {
+    &::-webkit-scrollbar-thumb {
+      height: 5px !important;
+    }
+  }
+}
 .schema-input,
 .model-input {
   h3 {
@@ -46,9 +74,7 @@
            vue-open-api from start
 ================================================*/
 .vue-openapi-form {
-  border: 1px solid #e8e8e8;
   border-radius: 4px;
-  padding: 15px;
   // title style
   .ac-level {
     display: flex;
@@ -87,18 +113,64 @@
         }
       }
     }
+    .ac-level-right {
+      &.is-root-done-button {
+        display: flex;
+        align-items: center;
+        .tabs {
+          margin: 0;
+        }
+        .button {
+          font-weight: 600;
+        }
+        button.done-button {
+          margin-right: -20px;
+          margin-left: 15px;
+          margin-top: -4px;
+          margin-bottom: -4px;
+          transition: 0.3s ease-in-out;
+          border-radius: 0 4px 4px 0;
+          span {
+            position: relative;
+            transition: 0.5s;
+            &::after {
+              content: "\f101";
+              position: absolute;
+              font-size: 16px;
+              font-family: "fontawesome";
+              opacity: 0;
+              top: 0;
+              right: -20px;
+              transition: 0.5s;
+            }
+          }
+          &:hover {
+            span {
+              padding-right: 25px;
+              &::after {
+                opacity: 1;
+                right: 0;
+              }
+            }
+          }
+        }
+      }
+    }
   }
   // collaps button style
   .collaps-button {
     margin-right: 10px;
-    .button.button-circle {
+    .button-circle {
       background-color: transparent;
       width: 20px;
       height: 20px;
       color: #3d3d65;
-      border-color: #3d3d65;
-      font-size: 8px;
+      border: 1px solid #3d3d65;
+      font-size: 10px;
       border-radius: 50%;
+      text-align: center;
+      line-height: 20px;
+      cursor: pointer;
     }
   }
   // toggle button style
@@ -130,7 +202,7 @@
       left: 15px;
       bottom: 28px;
       width: 1px;
-      height: calc(100% + 15px);
+      height: calc(100% + 12px);
     }
     &.stop-line {
       &:after {
@@ -202,6 +274,7 @@
     }
   }
   .hide-upper-line {
+    padding: 0;
     &::after {
       height: 0px;
     }
