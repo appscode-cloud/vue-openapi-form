@@ -39,10 +39,10 @@
 
         <button
           v-if="isRoot"
-          class="button is-primary is-pulled-right"
+          class="done-button button is-primary is-pulled-right"
           @click.prevent="submit()"
         >
-          DONE <i class="fa pl-10 fa-angle-double-right" aria-hidden="true"></i>
+          <span>DONE</span>
         </button>
       </div>
     </div>

@@ -57,7 +57,6 @@
     }
   }
 }
-
 .schema-input,
 .model-input {
   h3 {
@@ -125,6 +124,37 @@
         }
         .button {
           font-weight: 600;
+        }
+        button.done-button {
+          margin-right: -20px;
+          margin-left: 15px;
+          margin-top: -3px;
+          margin-bottom: -3px;
+          transition: 0.3s ease-in-out;
+          border-radius: 0 4px 4px 0;
+          span {
+            position: relative;
+            transition: 0.5s;
+            &::after {
+              content: "\f101";
+              position: absolute;
+              font-size: 16px;
+              font-family: "fontawesome";
+              opacity: 0;
+              top: 0;
+              right: -20px;
+              transition: 0.5s;
+            }
+          }
+          &:hover {
+            span {
+              padding-right: 25px;
+              &::after {
+                opacity: 1;
+                right: 0;
+              }
+            }
+          }
         }
       }
     }
