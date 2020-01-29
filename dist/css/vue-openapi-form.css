@@ -1,3 +1,4 @@
+@charset "UTF-8";
 @import url(https://fonts.googleapis.com/css?family=Raleway:400,500,500i,600,600i,700,800|Roboto:400,400i,500,500i);
 @import url(https://fonts.googleapis.com/css?family=Inconsolata&display=swap);
 body {
@@ -1293,6 +1294,23 @@ h6 {
   padding: 30px;
   border-radius: 4px; }
 
+.left-content-wrapper .CodeMirror-hscrollbar::-webkit-scrollbar, .left-content-wrapper .CodeMirror-vscrollbar::-webkit-scrollbar {
+  width: 5px; }
+
+.left-content-wrapper .CodeMirror-hscrollbar::-webkit-scrollbar-track, .left-content-wrapper .CodeMirror-vscrollbar::-webkit-scrollbar-track {
+  border-radius: 50px;
+  background-color: #e8e8e8; }
+
+.left-content-wrapper .CodeMirror-hscrollbar::-webkit-scrollbar-thumb, .left-content-wrapper .CodeMirror-vscrollbar::-webkit-scrollbar-thumb {
+  background: #1971bd;
+  border-radius: 50px; }
+
+.left-content-wrapper .CodeMirror-hscrollbar::-webkit-scrollbar-thumb:hover, .left-content-wrapper .CodeMirror-vscrollbar::-webkit-scrollbar-thumb:hover {
+  background: #1971bd; }
+
+.left-content-wrapper .CodeMirror-hscrollbar::-webkit-scrollbar-thumb {
+  height: 5px !important; }
+
 .model-input h3, .schema-input h3 {
   margin: 20px 0;
   font-size: 18px;
@@ -1300,9 +1318,7 @@ h6 {
   font-weight: 600; }
 
 .vue-openapi-form {
-  border: 1px solid #e8e8e8;
-  border-radius: 4px;
-  padding: 15px; }
+  border-radius: 4px; }
 
 .vue-openapi-form .ac-level {
   display: flex;
@@ -1340,17 +1356,59 @@ h6 {
   margin-left: 10px;
   cursor: pointer; }
 
+.vue-openapi-form .ac-level .ac-level-right.is-root-done-button {
+  display: flex;
+  align-items: center; }
+
+.vue-openapi-form .ac-level .ac-level-right.is-root-done-button .tabs {
+  margin: 0; }
+
+.vue-openapi-form .ac-level .ac-level-right.is-root-done-button .button {
+  font-weight: 600; }
+
+.vue-openapi-form .ac-level .ac-level-right.is-root-done-button button.done-button {
+  margin-right: -20px;
+  margin-left: 15px;
+  margin-top: -4px;
+  margin-bottom: -4px;
+  transition: .3s ease-in-out;
+  border-radius: 0 4px 4px 0; }
+
+.vue-openapi-form .ac-level .ac-level-right.is-root-done-button button.done-button span {
+  position: relative;
+  transition: .5s; }
+
+.vue-openapi-form .ac-level .ac-level-right.is-root-done-button button.done-button span::after {
+  content: "";
+  position: absolute;
+  font-size: 16px;
+  font-family: fontawesome;
+  opacity: 0;
+  top: 0;
+  right: -20px;
+  transition: .5s; }
+
+.vue-openapi-form .ac-level .ac-level-right.is-root-done-button button.done-button:hover span {
+  padding-right: 25px; }
+
+.vue-openapi-form .ac-level .ac-level-right.is-root-done-button button.done-button:hover span::after {
+  opacity: 1;
+  right: 0; }
+
 .vue-openapi-form .collaps-button {
   margin-right: 10px; }
 
-.vue-openapi-form .collaps-button .button.button-circle {
+.vue-openapi-form .collaps-button .button-circle {
   background-color: transparent;
   width: 20px;
   height: 20px;
   color: #3d3d65;
-  border-color: #3d3d65;
-  font-size: 8px;
-  border-radius: 50%; }
+  border: 1px solid #3d3d65;
+  font-size: 10px;
+  border-radius: 50%;
+  text-align: center;
+  line-height: 20px;
+  cursor: pointer; }
 
 .vue-openapi-form .ac-toggle-buttons li a {
   border: none !important;
@@ -1372,7 +1430,7 @@ h6 {
   left: 15px;
   bottom: 28px;
   width: 1px;
-  height: calc(100% + 15px); }
+  height: calc(100% + 12px); }
 
 .vue-openapi-form .vue-schema-form-array.stop-line:after, .vue-openapi-form .vue-schema-form-key-value-pairs.stop-line:after, .vue-openapi-form .vue-schema-form-object.stop-line:after {
   height: 80px;
@@ -1437,6 +1495,9 @@ h6 {
   outline: 0;
   border-color: #1971bd;
   box-shadow: none; }
+
+.vue-openapi-form .hide-upper-line {
+  padding: 0; }
 
 .vue-openapi-form .hide-upper-line::after {
   height: 0; }

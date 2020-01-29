@@ -17319,6 +17319,10 @@ var script$4 = {
     isLastChild: {
       type: Boolean,
       default: false
+    },
+    onlyJson: {
+      type: Boolean,
+      default: false
     }
   },
   methods: {
@@ -17363,7 +17367,7 @@ var __vue_render__$4 = function __vue_render__() {
         }, [!_vm.isRoot ? _c('div', {
           staticClass: "collaps-button"
         }, [_c('div', {
-          staticClass: "button button-circle",
+          staticClass: "button-circle",
           attrs: {
             "disabled": !_vm.formShow
           },
@@ -17385,8 +17389,8 @@ var __vue_render__$4 = function __vue_render__() {
             "errors": _vm.errors.concat(_vm.calcObserverError(observerErrors))
           }
         })], 1)])]), _vm._v(" "), _c('div', {
-          staticClass: "ac-level-right"
-        }, [_c('tabs', {
+          staticClass: "ac-level-right is-root-done-button"
+        }, [!_vm.onlyJson ? _c('tabs', {
           model: {
             value: _vm.formShow,
             callback: function callback($$v) {
@@ -17394,15 +17398,15 @@ var __vue_render__$4 = function __vue_render__() {
             },
             expression: "formShow"
           }
-        }), _vm._v(" "), _vm.isRoot ? _c('button', {
-          staticClass: "button is-primary is-pulled-right",
+        }) : _vm._e(), _vm._v(" "), _vm.isRoot ? _c('button', {
+          staticClass: "done-button button is-primary is-pulled-right",
           on: {
             "click": function click($event) {
               $event.preventDefault();
               return _vm.submit();
             }
           }
-        }, [_vm._v("\n        DONE\n      ")]) : _vm._e()], 1)]), _vm._v(" "), _vm.formShow ? _c('object-form', {
+        }, [_c('span', [_vm._v("DONE")])]) : _vm._e()], 1)]), _vm._v(" "), !_vm.onlyJson && _vm.formShow ? _c('object-form', {
           attrs: {
             "properties": _vm.schema.properties,
             "title": _vm.schema.title,
@@ -18006,6 +18010,10 @@ var script$5 = {
       type: String,
       default: "OpenAPI form"
     },
+    onlyJson: {
+      type: Boolean,
+      default: false
+    },
     onValid: {
       type: Function,
       default: function _default() {
@@ -18096,6 +18104,7 @@ var __vue_render__$5 = function __vue_render__() {
   }, [_c('object-form-wrapper', {
     attrs: {
       "isRoot": true,
+      "onlyJson": _vm.onlyJson,
       "schema": _vm.extendedSchema
     },
     on: {
