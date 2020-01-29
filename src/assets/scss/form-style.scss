@@ -130,6 +130,7 @@
           margin-bottom: -4px;
           transition: 0.3s ease-in-out;
           border-radius: 0 4px 4px 0;
+          height: 40px;
           span {
             position: relative;
             transition: 0.5s;
@@ -465,36 +466,48 @@ p.is-warning {
 .tooltip {
   display: block !important;
   z-index: 10000;
-  .tooltip-inner {
-    background: #fff;
-    color: #e03056;
-    border-radius: 16px;
-    padding: 5px 20px 4px;
-    box-shadow: 2px 2px 20px 2px rgba(0, 0, 0, 0.16);
-    font-weight: 500;
-    font-size: 13px;
-  }
-  .tooltip-arrow {
-    width: 0;
-    height: 0;
-    border-style: solid;
-    position: absolute;
-    margin: 5px;
-    border-color: #fff;
-  }
-
+  
   &.is-button-info {
     .tooltip-inner {
-      color: $primary-color !important;
+      background: #fff;
+      color: $primary-color;
+      border-radius: 16px;
+      padding: 5px 20px 4px;
+      box-shadow: 2px 2px 20px 2px rgba(0, 0, 0, 0.16);
+      font-weight: 500;
+      font-size: 13px;
+    }
+    .tooltip-arrow {
+      width: 0;
+      height: 0;
+      border-style: solid;
+      position: absolute;
+      margin: 5px;
+      border-color: #fff;
     }
   }
   &.is-errors-tooltip {
     .tooltip-inner {
+      background: #fff;
+      color: #e03056;
+      border-radius: 16px;
+      padding: 5px 20px 4px;
+      box-shadow: 2px 2px 20px 2px rgba(0, 0, 0, 0.16);
+      font-weight: 500;
+      font-size: 13px;
       .errors-wrapper {
         .error-element {
           padding: 5px 0;
         }
       }
+    }
+    .tooltip-arrow {
+      width: 0;
+      height: 0;
+      border-style: solid;
+      position: absolute;
+      margin: 5px;
+      border-color: #fff;
     }
   }
   &[x-placement^="top"] {

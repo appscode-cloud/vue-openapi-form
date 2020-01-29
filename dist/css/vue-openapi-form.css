@@ -1372,7 +1372,8 @@ h6 {
   margin-top: -4px;
   margin-bottom: -4px;
   transition: .3s ease-in-out;
-  border-radius: 0 4px 4px 0; }
+  border-radius: 0 4px 4px 0;
+  height: 40px; }
 
 .vue-openapi-form .ac-level .ac-level-right.is-root-done-button button.done-button span {
   position: relative;
@@ -1661,7 +1662,24 @@ p.is-warning {
   display: block !important;
   z-index: 10000; }
 
-.tooltip .tooltip-inner {
+.tooltip.is-button-info .tooltip-inner {
+  background: #fff;
+  color: #1971bd;
+  border-radius: 16px;
+  padding: 5px 20px 4px;
+  box-shadow: 2px 2px 20px 2px rgba(0, 0, 0, 0.16);
+  font-weight: 500;
+  font-size: 13px; }
+
+.tooltip.is-button-info .tooltip-arrow {
+  width: 0;
+  height: 0;
+  border-style: solid;
+  position: absolute;
+  margin: 5px;
+  border-color: #fff; }
+
+.tooltip.is-errors-tooltip .tooltip-inner {
   background: #fff;
   color: #e03056;
   border-radius: 16px;
@@ -1670,19 +1688,16 @@ p.is-warning {
   font-weight: 500;
   font-size: 13px; }
 
-.tooltip .tooltip-arrow {
+.tooltip.is-errors-tooltip .tooltip-inner .errors-wrapper .error-element {
+  padding: 5px 0; }
+
+.tooltip.is-errors-tooltip .tooltip-arrow {
   width: 0;
   height: 0;
   border-style: solid;
   position: absolute;
   margin: 5px;
   border-color: #fff; }
-
-.tooltip.is-button-info .tooltip-inner {
-  color: #1971bd !important; }
-
-.tooltip.is-errors-tooltip .tooltip-inner .errors-wrapper .error-element {
-  padding: 5px 0; }
 
 .tooltip[x-placement^=top] {
   margin-bottom: 5px; }
