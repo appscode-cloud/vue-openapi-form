@@ -1366,6 +1366,9 @@ h6 {
 .vue-openapi-form .ac-level .ac-level-right.is-root-done-button .button {
   font-weight: 600; }
 
+.vue-openapi-form .ac-level .ac-level-right.is-root-done-button .button .icon {
+  height: auto; }
+
 .vue-openapi-form .ac-level .ac-level-right.is-root-done-button button.done-button {
   margin-right: -20px;
   margin-left: 15px;
@@ -1530,8 +1533,12 @@ h6 {
 
 .vue-openapi-form .ac-key-value-action-button, .vue-openapi-form .ac-list-action-button {
   margin: 0 !important;
-  padding: 0 12px;
-  height: 40px; }
+  padding: 0 5px;
+  height: 40px;
+  width: 32px; }
+
+.vue-openapi-form .ac-key-value-action-button i.fa, .vue-openapi-form .ac-list-action-button i.fa {
+  padding: 0; }
 
 .vue-openapi-form .ac-key-value-action-button.is-success, .vue-openapi-form .ac-list-action-button.is-success {
   background-color: #cce2f2 !important; }

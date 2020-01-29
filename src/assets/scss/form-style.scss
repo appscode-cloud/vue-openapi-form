@@ -122,6 +122,9 @@
         }
         .button {
           font-weight: 600;
+          .icon{
+            height: auto;
+          }
         }
         button.done-button {
           margin-right: -20px;
@@ -318,8 +321,12 @@
   .ac-key-value-action-button,
   .ac-list-action-button {
     margin: 0 !important;
-    padding: 0 12px;
+    padding: 0 5px;
     height: 40px;
+    width: 32px;
+    i.fa{
+      padding: 0;
+    }
     &.is-success {
       background-color: #cce2f2 !important;
       i.fa {

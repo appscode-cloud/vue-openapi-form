@@ -149,9 +149,7 @@
               class="button is-danger ac-list-action-button"
               @click.prevent="deleteValue(index)"
             >
-              <span class="icon is-small">
-                <i class="fa fa-trash"></i>
-              </span>
+              <i class="fa fa-trash"></i>
             </button>
           </div>
         </div>
@@ -253,9 +251,7 @@
                 class="button is-success ac-list-action-button"
                 @click.prevent="addNewValue()"
               >
-                <span class="icon is-small">
-                  <i class="fa fa-plus"></i>
-                </span>
+                <i class="fa fa-plus"></i>
               </button>
             </div>
           </div>

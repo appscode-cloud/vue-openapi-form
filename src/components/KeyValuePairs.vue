@@ -284,9 +284,7 @@
                 class="button is-success ac-key-value-action-button"
                 @click.prevent="addProp()"
               >
-                <span class="icon is-small">
-                  <i class="fa fa-plus"></i>
-                </span>
+                <i class="fa fa-plus"></i>
               </button>
             </div>
           </div>

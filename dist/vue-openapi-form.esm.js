@@ -18484,11 +18484,9 @@ var __vue_render__$6 = function __vue_render__() {
                 return _vm.deleteValue(index);
               }
             }
-          }, [_c('span', {
-            staticClass: "icon is-small"
           }, [_c('i', {
             staticClass: "fa fa-trash"
-          })])])])])]);
+          })])])])]);
         }), _vm._v(" "), _c('validation-observer', {
           ref: _vm.schema.title.replace(/ /g, '-') + "-new",
           attrs: {
@@ -18631,11 +18629,9 @@ var __vue_render__$6 = function __vue_render__() {
               return _vm.addNewValue();
             }
           }
-        }, [_c('span', {
-          staticClass: "icon is-small"
         }, [_c('i', {
           staticClass: "fa fa-plus"
-        })])])])])])])] : [_c('json-form', {
+        })])])])])])] : [_c('json-form', {
           model: {
             value: _vm.modelData,
             callback: function callback($$v) {
@@ -19177,11 +19173,9 @@ var __vue_render__$7 = function __vue_render__() {
               return _vm.addProp();
             }
           }
-        }, [_c('span', {
-          staticClass: "icon is-small"
         }, [_c('i', {
           staticClass: "fa fa-plus"
-        })])])])])])], 2)] : [_c('json-form', {
+        })])])])])], 2)] : [_c('json-form', {
           model: {
             value: _vm.modelData,
             callback: function callback($$v) {
