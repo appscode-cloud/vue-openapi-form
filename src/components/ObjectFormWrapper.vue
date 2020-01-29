@@ -35,7 +35,7 @@
         </div>
       </div>
       <div class="ac-level-right is-root-done-button">
-        <tabs v-model="formShow" />
+        <tabs v-if="!onlyJson" v-model="formShow" />
 
         <button
           v-if="isRoot"
@@ -48,7 +48,7 @@
     </div>
     <!-- form for all the object's properties -->
     <object-form
-      v-if="formShow"
+      v-if="!onlyJson && formShow"
       :properties="schema.properties"
       :title="schema.title"
       :required="schema.required"
@@ -87,6 +87,10 @@ export default {
       default: () => []
     },
     isLastChild: {
+      type: Boolean,
+      default: false
+    },
+    onlyJson: {
       type: Boolean,
       default: false
     }

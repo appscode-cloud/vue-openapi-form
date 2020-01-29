@@ -74,9 +74,7 @@
            vue-open-api from start
 ================================================*/
 .vue-openapi-form {
-  border: 1px solid #e8e8e8;
   border-radius: 4px;
-  padding: 15px;
   // title style
   .ac-level {
     display: flex;
@@ -128,8 +126,8 @@
         button.done-button {
           margin-right: -20px;
           margin-left: 15px;
-          margin-top: -3px;
-          margin-bottom: -3px;
+          margin-top: -4px;
+          margin-bottom: -4px;
           transition: 0.3s ease-in-out;
           border-radius: 0 4px 4px 0;
           span {
@@ -204,7 +202,7 @@
       left: 15px;
       bottom: 28px;
       width: 1px;
-      height: calc(100% + 15px);
+      height: calc(100% + 12px);
     }
     &.stop-line {
       &:after {
@@ -276,6 +274,7 @@
     }
   }
   .hide-upper-line {
+    padding: 0;
     &::after {
       height: 0px;
     }

@@ -8,6 +8,7 @@
       >
         <object-form-wrapper
           :isRoot="true"
+          :onlyJson="onlyJson"
           :schema="extendedSchema"
           v-model="value"
           @vof:submitted="onSubmit()"
@@ -36,6 +37,10 @@ export default {
     formTitle: {
       type: String,
       default: "OpenAPI form"
+    },
+    onlyJson: {
+      type: Boolean,
+      default: false
     },
     onValid: {
       type: Function,
