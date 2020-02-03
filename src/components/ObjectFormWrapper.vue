@@ -14,7 +14,7 @@
           <div v-if="!isRoot" class="collaps-button">
             <div
               class="button-circle"
-              :disabled="!formShow"
+              :disabled="activeTab !== 'form'"
               @click.prevent="toggleFold()"
             >
               <i
@@ -35,7 +35,7 @@
         </div>
       </div>
       <div class="ac-level-right is-root-done-button">
-        <tabs v-if="!onlyJson" v-model="formShow" />
+        <tabs v-if="!onlyJson" v-model="activeTab" />
 
         <button
           v-if="isRoot"
@@ -48,7 +48,7 @@
     </div>
     <!-- form for all the object's properties -->
     <object-form
-      v-if="!onlyJson && formShow"
+      v-if="!onlyJson && activeTab === 'form'"
       :properties="schema.properties"
       :title="schema.title"
       :required="schema.required"
@@ -57,6 +57,7 @@
       v-model="modelData"
     />
     <!-- declared in tabs component -->
+    <yaml-form v-else-if="activeTab === 'yaml'" v-model="modelData" />
     <json-form v-else v-model="modelData" />
   </validation-observer>
 </template>
