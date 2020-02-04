@@ -1,18 +1,21 @@
 <template>
   <div>
-    <codemirror v-model="valueString" :options="cmOptions" />
+    <codemirror
+      @blur="updateModelData()"
+      v-model="valueString"
+      :options="cmOptions"
+    />
   </div>
 </template>
 
 <script>
 import { model } from "../mixins/model.js";
-import fold from "../mixins/fold.js";
 import { codemirror } from "vue-codemirror";
 import "codemirror/mode/yaml/yaml.js";
 import jsyaml from "js-yaml";
 
 export default {
-  name: "json-form",
+  name: "yaml-form",
   props: {
     value: {
       type: null,
@@ -20,7 +23,7 @@ export default {
     }
   },
 
-  mixins: [model, fold],
+  mixins: [model],
 
   components: {
     codemirror
@@ -44,15 +47,17 @@ export default {
       this.valueString = jsyaml.safeDump(this.value, { lineWidth: 2000 }); // jsObject => yaml
     },
 
-    updateModelData(data) {
+    updateModelData() {
       let ans = null;
       try {
-        ans = jsyaml.safeLoad(data, { json: true }); // yaml => jsObject
-      } catch {
+        ans = jsyaml.safeLoad(this.valueString, {
+          json: true
+        }); // yaml => jsObject
+      } catch (e) {
         ans = this.modelData;
       }
 
-      return ans;
+      this.modelData = ans;
     }
   },
 
@@ -63,10 +68,6 @@ export default {
   watch: {
     value() {
       this.initValueString();
-    },
-
-    valueString(n) {
-      this.modelData = this.updateModelData(n);
     }
   }
 };
