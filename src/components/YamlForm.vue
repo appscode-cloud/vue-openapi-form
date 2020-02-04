@@ -11,10 +11,11 @@
 <script>
 import { model } from "../mixins/model.js";
 import { codemirror } from "vue-codemirror";
-import "codemirror/mode/javascript/javascript.js";
+import "codemirror/mode/yaml/yaml.js";
+import jsyaml from "js-yaml";
 
 export default {
-  name: "json-form",
+  name: "yaml-form",
   props: {
     value: {
       type: null,
@@ -33,7 +34,7 @@ export default {
       valueString: "",
 
       cmOptions: {
-        mode: "application/json",
+        mode: "yaml",
         theme: "default",
         readOnly: false,
         lineNumbers: true
@@ -43,18 +44,20 @@ export default {
 
   methods: {
     initValueString() {
-      this.valueString = JSON.stringify(this.value, null, 2);
+      this.valueString = jsyaml.safeDump(this.value, { lineWidth: 2000 }); // jsObject => yaml
     },
 
     updateModelData() {
       let ans = null;
       try {
-        ans = JSON.parse(this.valueString);
-      } catch {
+        ans = jsyaml.safeLoad(this.valueString, {
+          json: true
+        }); // yaml => jsObject
+      } catch (e) {
         ans = this.modelData;
       }
 
-      return ans;
+      this.modelData = ans;
     }
   },
 

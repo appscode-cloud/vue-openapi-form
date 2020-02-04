@@ -10,7 +10,7 @@
           :isRoot="true"
           :onlyJson="onlyJson"
           :schema="extendedSchema"
-          v-model="value"
+          v-model="modelData"
           @vof:submitted="onSubmit()"
         />
       </validation-provider>
@@ -22,6 +22,7 @@
 import ObjectFormWrapper from "./ObjectFormWrapper.vue";
 import ExtendSchema from "../functional-components/extend-schema.js";
 import { ValidationObserver, ValidationProvider } from "vee-validate";
+import { model } from "../mixins/model.js";
 
 export default {
   name: "vue-openapi-form",
@@ -51,6 +52,7 @@ export default {
       default: () => () => {}
     }
   },
+  mixins: [model],
   components: {
     "object-form-wrapper": ObjectFormWrapper,
     ValidationObserver,

@@ -1,7 +1,7 @@
 <template>
   <div class="tabs is-toggle ac-toggle-buttons">
     <ul>
-      <li :class="{ 'is-active': formShow }">
+      <li :class="{ 'is-active': activeTab === 'form' }">
         <a @click.prevent="showForm()">
           <span class="icon is-small"
             ><i
@@ -12,7 +12,15 @@
           <span>Form</span>
         </a>
       </li>
-      <li :class="{ 'is-active': !formShow }">
+      <li :class="{ 'is-active': activeTab === 'yaml' }">
+        <a @click.prevent="showYaml()">
+          <span class="icon is-small"
+            ><i class="fa fa-code" aria-hidden="true"></i
+          ></span>
+          <span>YAML</span>
+        </a>
+      </li>
+      <li :class="{ 'is-active': activeTab === 'json' }">
         <a @click.prevent="showJson()">
           <span class="icon is-small"
             ><i class="fa fa-code" aria-hidden="true"></i
@@ -29,21 +37,22 @@ export default {
   name: "tabs",
   data() {
     return {
-      formShow: {
-        type: Boolean,
-        default: true
-      }
+      activeTab: "form"
     };
   },
 
   methods: {
     showForm() {
-      this.formShow = true;
-      this.$emit("input", true);
+      this.activeTab = "form";
+      this.$emit("input", "form");
     },
     showJson() {
-      this.formShow = false;
-      this.$emit("input", false);
+      this.activeTab = "json";
+      this.$emit("input", "json");
+    },
+    showYaml() {
+      this.activeTab = "yaml";
+      this.$emit("input", "yaml");
     }
   }
 };

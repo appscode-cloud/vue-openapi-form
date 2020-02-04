@@ -20,10 +20,10 @@
         </div>
       </div>
       <div class="ac-level-right">
-        <tabs v-model="formShow" />
+        <tabs v-model="activeTab" />
       </div>
     </div>
-    <template v-if="formShow">
+    <template v-if="activeTab === 'form'">
       <!-- existing values form -->
       <div
         class="form-container"
@@ -257,6 +257,10 @@
           </div>
         </div>
       </validation-observer>
+    </template>
+    <template v-else-if="activeTab === 'yaml'">
+      <!-- declared in tabs component -->
+      <yaml-form v-model="modelData" />
     </template>
     <template v-else>
       <!-- declared in tabs component -->
