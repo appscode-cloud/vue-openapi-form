@@ -43,18 +43,6 @@
               tag="div"
               class="control has-icons-right"
             >
-              <!-- <input
-                class="input"
-                type="text"
-                :class="{
-                  'is-success': validated && valid,
-                  'is-danger': validated && invalid
-                }"
-                v-model="prop.key"
-                @focus="triggerInput()"
-                @focusout="unTriggerInput()"
-              /> -->
-
               <simple-input
                 :schema="{
                   title: 'Key',
