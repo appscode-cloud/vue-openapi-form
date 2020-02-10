@@ -3,6 +3,12 @@ export default [
     title: "Custom",
     schema: {
       properties: {
+        keyValuePair: {
+          additionalProperties: {
+            type: "string"
+          },
+          type: "object"
+        },
         positions: {
           type: "array",
           items: {
@@ -38,6 +44,7 @@ export default [
       type: "object"
     },
     model: {
+      keyValuePair: { "demo-key": "demo-value" },
       positions: ["Software Engineer", "Designer"],
       name: "John Doe",
       age: 23,
