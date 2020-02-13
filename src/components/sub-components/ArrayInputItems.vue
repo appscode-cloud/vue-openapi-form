@@ -13,6 +13,7 @@
             ...items,
             ...{ title: `${schema.title} ${index + 1}` }
           }"
+          :isSelfRequired="true"
           :type="items.type"
           :errors="errors"
           v-model="modelData[index]"

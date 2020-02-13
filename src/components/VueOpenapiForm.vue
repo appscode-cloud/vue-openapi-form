@@ -3,11 +3,13 @@
     <validation-observer ref="vofMainObserver" slim>
       <validation-provider
         :name="extendedSchema.title"
+        :rules="ruleObject(true)"
         :vid="`${extendedSchema.title}-vpid`"
         slim
       >
         <object-form-wrapper
           :isRoot="true"
+          :isSelfRequired="true"
           :onlyJson="onlyJson"
           :schema="extendedSchema"
           v-model="modelData"
@@ -21,7 +23,7 @@
 <script>
 import ObjectFormWrapper from "./ObjectFormWrapper.vue";
 import ExtendSchema from "../functional-components/extend-schema.js";
-import { ValidationObserver, ValidationProvider } from "vee-validate";
+import validation from "../mixins/validation.js";
 import { model } from "../mixins/model.js";
 
 export default {
@@ -52,11 +54,9 @@ export default {
       default: () => () => {}
     }
   },
-  mixins: [model],
+  mixins: [model, validation],
   components: {
-    "object-form-wrapper": ObjectFormWrapper,
-    ValidationObserver,
-    ValidationProvider
+    "object-form-wrapper": ObjectFormWrapper
   },
   computed: {
     extendedSchema() {

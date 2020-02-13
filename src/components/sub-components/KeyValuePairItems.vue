@@ -34,6 +34,7 @@
         >
           <object-form-wrapper
             :schema="additionalProperties"
+            :isSelfRequired="true"
             :type="additionalProperties.type"
             :errors="errors"
             v-model="modelData.value"

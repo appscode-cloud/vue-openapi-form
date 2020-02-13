@@ -96,6 +96,7 @@
               >
                 <object-form-wrapper
                   :is-last-child="true"
+                  :isSelfRequired="true"
                   :schema="additionalProperties"
                   :type="additionalProperties.type"
                   :errors="errors"

@@ -38,6 +38,21 @@ export default [
             },
             required: ["companyName", "position", "yearWorked"]
           }
+        },
+        demoObject: {
+          type: "object",
+          properties: {
+            demoProperty1: {
+              type: "string"
+            },
+            demoProperty2: {
+              type: "string"
+            },
+            demoProperty3: {
+              type: "string"
+            }
+          },
+          required: ["demoProperty1", "demoProperty2"]
         }
       },
       required: ["name", "age", "previousJobs"],

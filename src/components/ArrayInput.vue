@@ -103,6 +103,7 @@
               >
                 <object-form-wrapper
                   :is-last-child="true"
+                  :isSelfRequired="true"
                   :schema="{
                     ...items,
                     ...{ title: `${schema.title} new value` }
