@@ -49,16 +49,49 @@
     <!-- form for all the object's properties -->
     <object-form
       v-if="!onlyJson && activeTab === 'form'"
+      :key="`${schema.title}-form`"
       :properties="schema.properties"
       :title="schema.title"
       :required="schema.required"
+      :isSelfRequired="isSelfRequired"
       :type="schema.type"
+      :isRoot="isRoot"
       :isSelfFolded="isRoot ? false : isFolded"
       v-model="modelData"
     />
     <!-- declared in tabs component -->
-    <yaml-form v-else-if="activeTab === 'yaml'" v-model="modelData" />
-    <json-form v-else v-model="modelData" />
+    <template v-else-if="activeTab === 'yaml'">
+      <yaml-form v-model="modelData" />
+
+      <!-- required for validation obserber and validation provider to show proper validation in yaml tab -->
+      <object-form
+        v-show="false"
+        :key="`${schema.title}-yaml-${JSON.stringify(modelData)}`"
+        :properties="schema.properties"
+        :title="schema.title"
+        :required="schema.required"
+        :isSelfRequired="isSelfRequired"
+        :type="schema.type"
+        :isSelfFolded="isRoot ? false : isFolded"
+        v-model="modelData"
+      />
+    </template>
+    <template v-else>
+      <json-form v-model="modelData" />
+
+      <!-- required for validation obserber and validation provider to show proper validation in json tab -->
+      <object-form
+        v-show="false"
+        :key="`${schema.title}-json-${JSON.stringify(modelData)}`"
+        :properties="schema.properties"
+        :title="schema.title"
+        :required="schema.required"
+        :isSelfRequired="isSelfRequired"
+        :type="schema.type"
+        :isSelfFolded="isRoot ? false : isFolded"
+        v-model="modelData"
+      />
+    </template>
   </validation-observer>
 </template>
 

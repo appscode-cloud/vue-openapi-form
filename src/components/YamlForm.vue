@@ -58,6 +58,7 @@ export default {
       }
 
       this.modelData = ans;
+      this.$emit("code::model-data-updated", ans);
     }
   },
 

@@ -169,7 +169,11 @@ export default {
         else this.labelShow = false;
 
         if (oldVal !== null && oldVal !== undefined) {
-          this.$emit("input", newVal);
+          if (this.type === "number") {
+            // if the newVal string is empty, emit null
+            if (newVal === "") this.$emit("input", null);
+            else this.$emit("input", +newVal);
+          } else this.$emit("input", newVal);
         }
       }
     }

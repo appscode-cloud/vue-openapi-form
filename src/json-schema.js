@@ -3,6 +3,12 @@ export default [
     title: "Custom",
     schema: {
       properties: {
+        keyValuePair: {
+          additionalProperties: {
+            type: "string"
+          },
+          type: "object"
+        },
         positions: {
           type: "array",
           items: {
@@ -32,12 +38,28 @@ export default [
             },
             required: ["companyName", "position", "yearWorked"]
           }
+        },
+        demoObject: {
+          type: "object",
+          properties: {
+            demoProperty1: {
+              type: "string"
+            },
+            demoProperty2: {
+              type: "string"
+            },
+            demoProperty3: {
+              type: "string"
+            }
+          },
+          required: ["demoProperty1", "demoProperty2"]
         }
       },
       required: ["name", "age", "previousJobs"],
       type: "object"
     },
     model: {
+      keyValuePair: { "demo-key": "demo-value" },
       positions: ["Software Engineer", "Designer"],
       name: "John Doe",
       age: 23,

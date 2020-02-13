@@ -30,123 +30,14 @@
         <div
           class="ac-key-value-pairs"
           v-for="(prop, index) in keyValueArray"
-          :key="index"
+          :key="`${index}-${schema.title}-form`"
         >
-          <div class="ac-is-3">
-            <validation-provider
-              :vid="
-                `${schema.title.replace(/ /g, '-')}-key-${index + 1}-provider`
-              "
-              rules="required"
-              :name="`${schema.title.replace(/ /g, '-')}-key-${index + 1}`"
-              v-slot="validationOb"
-              tag="div"
-              class="control has-icons-right"
-            >
-              <!-- <input
-                class="input"
-                type="text"
-                :class="{
-                  'is-success': validated && valid,
-                  'is-danger': validated && invalid
-                }"
-                v-model="prop.key"
-                @focus="triggerInput()"
-                @focusout="unTriggerInput()"
-              /> -->
-
-              <simple-input
-                :schema="{
-                  title: 'Key',
-                  type: 'string',
-                  ui: { tag: 'input', type: 'text' }
-                }"
-                :type="`string`"
-                :validationOb="validationOb"
-                v-model="prop.key"
-              />
-            </validation-provider>
-          </div>
-          <div class="ac-is-8">
-            <template v-if="additionalProperties.type === 'object'">
-              <validation-provider
-                v-slot="{ errors }"
-                :rules="ruleObject(true)"
-                :name="`${schema.title.replace(/ /g, '-')}-value-${index + 1}`"
-                :vid="
-                  `${schema.title.replace(/ /g, '-')}-value-${index +
-                    1}-provider`
-                "
-                slim
-              >
-                <object-form-wrapper
-                  :schema="additionalProperties"
-                  :type="additionalProperties.type"
-                  :errors="errors"
-                  v-model="prop.value"
-                />
-              </validation-provider>
-            </template>
-            <template
-              v-else-if="additionalProperties.type === 'key-value-pairs'"
-            >
-              <validation-provider
-                v-slot="{ errors }"
-                :rules="ruleObject(true)"
-                :name="`${schema.title.replace(/ /g, '-')}-value-${index + 1}`"
-                :vid="
-                  `${schema.title.replace(/ /g, '-')}-value-${index +
-                    1}-provider`
-                "
-                slim
-              >
-                <key-value-pairs
-                  :schema="additionalProperties"
-                  :type="additionalProperties.type"
-                  :errors="errors"
-                  v-model="prop.value"
-                />
-              </validation-provider>
-            </template>
-            <template v-else-if="additionalProperties.type === 'array'">
-              <validation-provider
-                v-slot="{ errors }"
-                :rules="ruleArray(true)"
-                :name="`${schema.title.replace(/ /g, '-')}-value-${index + 1}`"
-                :vid="
-                  `${schema.title.replace(/ /g, '-')}-value-${index +
-                    1}-provider`
-                "
-                slim
-              >
-                <array-input
-                  :schema="additionalProperties"
-                  :type="additionalProperties.type"
-                  :errors="errors"
-                  v-model="prop.value"
-                />
-              </validation-provider>
-            </template>
-            <template v-else>
-              <validation-provider
-                v-slot="validationOb"
-                :rules="ruleString(true)"
-                :name="`${schema.title.replace(/ /g, '-')}-value-${index + 1}`"
-                :vid="
-                  `${schema.title.replace(/ /g, '-')}-value-${index +
-                    1}-provider`
-                "
-                slim
-              >
-                <simple-input
-                  :schema="additionalProperties"
-                  :type="additionalProperties.type"
-                  :validationOb="validationOb"
-                  v-model="prop.value"
-                />
-              </validation-provider>
-            </template>
-          </div>
+          <key-value-pair-items
+            v-model="keyValueArray[index]"
+            :index="index"
+            :schema="schema"
+            :additionalProperties="additionalProperties"
+          />
 
           <div class="ac-is-1">
             <div class="buttons">
@@ -178,16 +69,6 @@
               tag="div"
               class="control has-icons-right"
             >
-              <!-- <input
-                  class="input"
-                  type="text"
-                  :class="{
-                    'is-success': validated && valid,
-                    'is-danger': validated && invalid
-                  }"
-                  v-model="newKey"
-                /> -->
-
               <simple-input
                 :schema="{
                   title: 'Key',
@@ -215,6 +96,7 @@
               >
                 <object-form-wrapper
                   :is-last-child="true"
+                  :isSelfRequired="true"
                   :schema="additionalProperties"
                   :type="additionalProperties.type"
                   :errors="errors"
@@ -293,11 +175,47 @@
     </template>
     <template v-else-if="activeTab === 'yaml'">
       <!-- declared in tabs component -->
-      <yaml-form v-model="modelData" />
+      <yaml-form
+        @code::model-data-updated="updateKeyValueArray"
+        v-model="modelData"
+      />
+
+      <!-- required for validation obserber and validation provider to show proper validation in yaml tab -->
+      <div
+        v-for="(prop, index) in keyValueArray"
+        class="ac-key-value-pairs"
+        v-show="false"
+        :key="`${index}-${schema.title}-yaml-${JSON.stringify(modelData)}`"
+      >
+        <key-value-pair-items
+          :value="prop"
+          :index="index"
+          :schema="schema"
+          :additionalProperties="additionalProperties"
+        />
+      </div>
     </template>
     <template v-else>
       <!-- declared in tabs component -->
-      <json-form v-model="modelData" />
+      <json-form
+        @code::model-data-updated="updateKeyValueArray"
+        v-model="modelData"
+      />
+
+      <!-- required for validation obserber and validation provider to show proper validation in json tab -->
+      <div
+        v-for="(prop, index) in keyValueArray"
+        class="ac-key-value-pairs"
+        v-show="false"
+        :key="`${index}-${schema.title}-json-${JSON.stringify(modelData)}`"
+      >
+        <key-value-pair-items
+          :value="prop"
+          :index="index"
+          :schema="schema"
+          :additionalProperties="additionalProperties"
+        />
+      </div>
     </template>
   </validation-observer>
 </template>
@@ -306,6 +224,7 @@
 import { model } from "../mixins/model.js";
 import tabs from "../mixins/tabs.js";
 import validation from "../mixins/validation.js";
+import KeyValuePairItems from "./sub-components/KeyValuePairItems.vue";
 
 export default {
   name: "key-value-pairs",
@@ -328,6 +247,8 @@ export default {
     }
   },
 
+  components: { KeyValuePairItems },
+
   mixins: [model, tabs, validation],
 
   data() {
@@ -348,9 +269,16 @@ export default {
 
   methods: {
     initKeyValueArray() {
-      return Object.keys(this.value).map(key => ({
+      this.keyValueArray = Object.keys(this.value).map(key => ({
         key,
-        value: this.value[key]
+        value: this.value[key] || null
+      }));
+    },
+
+    updateKeyValueArray(value) {
+      this.keyValueArray = Object.keys(value).map(key => ({
+        key,
+        value: value[key]
       }));
     },
 
@@ -392,7 +320,7 @@ export default {
   },
 
   created() {
-    this.keyValueArray = this.initKeyValueArray();
+    this.initKeyValueArray();
   },
 
   watch: {
@@ -404,6 +332,11 @@ export default {
           this.modelData = this.reconstructObject(newVal);
         }
       }
+    },
+
+    activeTab() {
+      // re-calculate keyValueArray
+      this.initKeyValueArray();
     }
   }
 };

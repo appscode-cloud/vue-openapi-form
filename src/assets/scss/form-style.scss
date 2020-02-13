@@ -314,6 +314,10 @@
         .ac-field::after {
           width: 0px;
         }
+        .ac-key-value-pairs-item {
+          width: 100%;
+          display: flex;
+        }
       }
     }
   }

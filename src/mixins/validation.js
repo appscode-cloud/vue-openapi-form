@@ -4,7 +4,7 @@ import RightWrongSigns from "../components/RightWrongSigns.vue";
 
 export default {
   props: {
-    required: {
+    isSelfRequired: {
       type: Boolean,
       default: false
     }

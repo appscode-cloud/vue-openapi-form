@@ -27,88 +27,17 @@
       <!-- existing values form -->
       <div
         class="form-container"
+        :key="`${index}-${schema.title}-form`"
         v-for="(item, index) in modelData"
-        :key="index"
       >
-        <div class="form-left-item">
-          <template v-if="items.type === 'object'">
-            <validation-provider
-              v-slot="{ errors }"
-              :rules="ruleObject(true)"
-              :name="`${schema.title.replace(/ /g, '-')}-${index + 1}`"
-              :vid="`${schema.title.replace(/ /g, '-')}-${index + 1}-provider`"
-              slim
-            >
-              <object-form-wrapper
-                :schema="{
-                  ...items,
-                  ...{ title: `${schema.title} ${index + 1}` }
-                }"
-                :type="items.type"
-                :errors="errors"
-                v-model="modelData[index]"
-              />
-            </validation-provider>
-          </template>
-          <template v-else-if="items.type === 'key-value-pairs'">
-            <validation-provider
-              v-slot="{ errors }"
-              :rules="ruleObject(true)"
-              :name="`${schema.title.replace(/ /g, '-')}-${index + 1}`"
-              :vid="`${schema.title.replace(/ /g, '-')}-${index + 1}-provider`"
-              slim
-            >
-              <key-value-pairs
-                :errors="errors"
-                :schema="{
-                  ...items,
-                  ...{ title: `${schema.title} ${index + 1}` }
-                }"
-                :type="items.type"
-                v-model="modelData[index]"
-              />
-            </validation-provider>
-          </template>
-          <template v-else-if="items.type === 'array'">
-            <validation-provider
-              v-slot="{ errors }"
-              :rules="ruleArray(true)"
-              :name="`${schema.title.replace(/ /g, '-')}-${index + 1}`"
-              :vid="`${schema.title.replace(/ /g, '-')}-${index + 1}-provider`"
-              slim
-            >
-              <array-input
-                :schema="{
-                  ...items,
-                  ...{ title: `${schema.title} ${index + 1}` }
-                }"
-                :type="items.type"
-                :errors="errors"
-                v-model="modelData[index]"
-              />
-            </validation-provider>
-          </template>
-          <template v-else>
-            <validation-provider
-              v-slot="validationOb"
-              :rules="ruleString(true)"
-              :name="`${schema.title.replace(/ /g, '-')}-${index + 1}`"
-              :vid="`${schema.title.replace(/ /g, '-')}-${index + 1}-provider`"
-              slim
-            >
-              <simple-input
-                :schema="{
-                  ...items,
-                  ...{ title: `${schema.title} ${index + 1}` }
-                }"
-                :type="items.type"
-                :required="true"
-                :validationOb="validationOb"
-                v-model="modelData[index]"
-              />
-            </validation-provider>
-          </template>
-        </div>
+        <!-- for each item generate form -->
+        <array-input-items
+          :items="items"
+          :schema="schema"
+          :index="index"
+          :value="modelData"
+        />
+        <!-- for each item add control buttons -->
         <div class="form-right-item">
           <div class="buttons">
             <div class="group-buttons">
@@ -174,6 +103,7 @@
               >
                 <object-form-wrapper
                   :is-last-child="true"
+                  :isSelfRequired="true"
                   :schema="{
                     ...items,
                     ...{ title: `${schema.title} new value` }
@@ -261,10 +191,42 @@
     <template v-else-if="activeTab === 'yaml'">
       <!-- declared in tabs component -->
       <yaml-form v-model="modelData" />
+
+      <!-- required for validation obserber and validation provider to show proper validation in yaml tab -->
+      <div
+        v-show="false"
+        :key="`${index}-${schema.title}-yaml-${JSON.stringify(modelData)}`"
+        class="form-container"
+        v-for="(item, index) in modelData"
+      >
+        <!-- for each item generate form -->
+        <array-input-items
+          :items="items"
+          :schema="schema"
+          :index="index"
+          :value="modelData"
+        />
+      </div>
     </template>
     <template v-else>
       <!-- declared in tabs component -->
       <json-form v-model="modelData" />
+
+      <!-- required for validation obserber and validation provider to show proper validation in json tab -->
+      <div
+        v-show="false"
+        :key="`${index}-${schema.title}-json-${JSON.stringify(modelData)}`"
+        class="form-container"
+        v-for="(item, index) in modelData"
+      >
+        <!-- for each item generate form -->
+        <array-input-items
+          :items="items"
+          :schema="schema"
+          :index="index"
+          :value="modelData"
+        />
+      </div>
     </template>
   </validation-observer>
 </template>
@@ -273,9 +235,13 @@
 import { model } from "../mixins/model.js";
 import tabs from "../mixins/tabs.js";
 import validation from "../mixins/validation.js";
+import ArrayInputItems from "./sub-components/ArrayInputItems.vue";
 
 export default {
   name: "array-input",
+  components: {
+    ArrayInputItems
+  },
   props: {
     schema: {
       type: Object,
@@ -307,13 +273,6 @@ export default {
   computed: {
     items() {
       return this.schema.items || {};
-    },
-
-    ruleOb() {
-      let ans = {};
-      if (this.required)
-        ans = Object.assign({}, { ...ans }, { requiredArray: true });
-      return ans;
     }
   },
 

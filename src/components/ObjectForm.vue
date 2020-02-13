@@ -6,7 +6,7 @@
         v-if="properties[key].type === 'object'"
         :key="key"
         v-slot="{ errors }"
-        :rules="ruleObject(isRequired(key))"
+        :rules="ruleObject(propertiesRequired && isRequired(key))"
         :name="`${properties[key].title}`"
         :vid="`${properties[key].title.replace(/ /g, '-')}-provider`"
         slim
@@ -14,6 +14,7 @@
         <object-form-wrapper
           :is-last-child="idx === Object.keys(properties).length - 1"
           :type="properties[key].type"
+          :isSelfRequired="propertiesRequired && isRequired(key)"
           :schema="properties[key]"
           :errors="errors"
           v-model="modelData[key]"
@@ -24,7 +25,7 @@
         v-else-if="properties[key].type === 'key-value-pairs'"
         :key="key"
         v-slot="{ errors }"
-        :rules="ruleObject(isRequired(key))"
+        :rules="ruleObject(propertiesRequired && isRequired(key))"
         :name="`${properties[key].title}`"
         :vid="`${properties[key].title.replace(/ /g, '-')}-provider`"
         slim
@@ -42,7 +43,7 @@
         v-else-if="properties[key].type === 'array'"
         :key="key"
         v-slot="{ errors }"
-        :rules="ruleArray(isRequired(key))"
+        :rules="ruleArray(propertiesRequired && isRequired(key))"
         :name="`${properties[key].title}`"
         :vid="`${properties[key].title.replace(/ /g, '-')}-provider`"
         slim
@@ -60,7 +61,7 @@
         v-else
         :key="key"
         v-slot="validationOb"
-        :rules="ruleString(isRequired(key))"
+        :rules="ruleString(propertiesRequired && isRequired(key))"
         :name="`${properties[key].title}`"
         :vid="`${properties[key].title.replace(/ /g, '-')}-provider`"
         slim
@@ -104,6 +105,13 @@ export default {
   },
 
   mixins: [model, fold, validation],
+
+  computed: {
+    // for calculating if the property is actually required or not (Based on parent object self requirement)
+    propertiesRequired() {
+      return this.isSelfRequired || Object.keys(this.modelData).length > 0;
+    }
+  },
 
   methods: {
     isRequired(key) {

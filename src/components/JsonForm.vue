@@ -54,7 +54,8 @@ export default {
         ans = this.modelData;
       }
 
-      return ans;
+      this.modelData = ans;
+      this.$emit("code::model-data-updated", ans);
     }
   },
 
