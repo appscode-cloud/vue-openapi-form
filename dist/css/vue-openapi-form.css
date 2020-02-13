@@ -1531,6 +1531,10 @@ h6 {
 .vue-openapi-form .vue-schema-form-key-value-pairs .ac-key-value-pairs-wrapper .ac-key-value-pairs .ac-field::after, .vue-openapi-form .vue-schema-form-key-value-pairs .ac-key-value-pairs-wrapper .ac-key-value-pairs .ac-field::before {
   width: 0; }
 
+.vue-openapi-form .vue-schema-form-key-value-pairs .ac-key-value-pairs-wrapper .ac-key-value-pairs .ac-key-value-pairs-item {
+  width: 100%;
+  display: flex; }
+
 .vue-openapi-form .ac-key-value-action-button, .vue-openapi-form .ac-list-action-button {
   margin: 0 !important;
   padding: 0 5px;

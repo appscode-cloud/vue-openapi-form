@@ -1,5 +1,9 @@
 'use strict';Object.defineProperty(exports,'__esModule',{value:true});function _interopDefault(e){return(e&&(typeof e==='object')&&'default'in e)?e['default']:e}var Vue=_interopDefault(require('vue'));var commonjsGlobal = typeof globalThis !== 'undefined' ? globalThis : typeof window !== 'undefined' ? window : typeof global !== 'undefined' ? global : typeof self !== 'undefined' ? self : {};
 
+function commonjsRequire () {
+	throw new Error('Dynamic requires are not currently supported by @rollup/plugin-commonjs');
+}
+
 function unwrapExports (x) {
 	return x && x.__esModule && Object.prototype.hasOwnProperty.call(x, 'default') ? x['default'] : x;
 }
@@ -3500,6 +3504,81 @@ fixRegexpWellKnownSymbolLogic('replace', 2, function (REPLACE, nativeReplace, ma
       return capture === undefined ? '' : capture;
     });
   }
+});var $filter = arrayIteration.filter;
+
+
+// `Array.prototype.filter` method
+// https://tc39.github.io/ecma262/#sec-array.prototype.filter
+// with adding support of @@species
+_export({ target: 'Array', proto: true, forced: !arrayMethodHasSpeciesSupport('filter') }, {
+  filter: function filter(callbackfn /* , thisArg */) {
+    return $filter(this, callbackfn, arguments.length > 1 ? arguments[1] : undefined);
+  }
+});var $map = arrayIteration.map;
+
+
+// `Array.prototype.map` method
+// https://tc39.github.io/ecma262/#sec-array.prototype.map
+// with adding support of @@species
+_export({ target: 'Array', proto: true, forced: !arrayMethodHasSpeciesSupport('map') }, {
+  map: function map(callbackfn /* , thisArg */) {
+    return $map(this, callbackfn, arguments.length > 1 ? arguments[1] : undefined);
+  }
+});var max$3 = Math.max;
+var min$5 = Math.min;
+var MAX_SAFE_INTEGER$1 = 0x1FFFFFFFFFFFFF;
+var MAXIMUM_ALLOWED_LENGTH_EXCEEDED = 'Maximum allowed length exceeded';
+
+// `Array.prototype.splice` method
+// https://tc39.github.io/ecma262/#sec-array.prototype.splice
+// with adding support of @@species
+_export({ target: 'Array', proto: true, forced: !arrayMethodHasSpeciesSupport('splice') }, {
+  splice: function splice(start, deleteCount /* , ...items */) {
+    var O = toObject(this);
+    var len = toLength(O.length);
+    var actualStart = toAbsoluteIndex(start, len);
+    var argumentsLength = arguments.length;
+    var insertCount, actualDeleteCount, A, k, from, to;
+    if (argumentsLength === 0) {
+      insertCount = actualDeleteCount = 0;
+    } else if (argumentsLength === 1) {
+      insertCount = 0;
+      actualDeleteCount = len - actualStart;
+    } else {
+      insertCount = argumentsLength - 2;
+      actualDeleteCount = min$5(max$3(toInteger(deleteCount), 0), len - actualStart);
+    }
+    if (len + insertCount - actualDeleteCount > MAX_SAFE_INTEGER$1) {
+      throw TypeError(MAXIMUM_ALLOWED_LENGTH_EXCEEDED);
+    }
+    A = arraySpeciesCreate(O, actualDeleteCount);
+    for (k = 0; k < actualDeleteCount; k++) {
+      from = actualStart + k;
+      if (from in O) createProperty(A, k, O[from]);
+    }
+    A.length = actualDeleteCount;
+    if (insertCount < actualDeleteCount) {
+      for (k = actualStart; k < len - actualDeleteCount; k++) {
+        from = k + actualDeleteCount;
+        to = k + insertCount;
+        if (from in O) O[to] = O[from];
+        else delete O[to];
+      }
+      for (k = len; k > len - actualDeleteCount + insertCount; k--) delete O[k - 1];
+    } else if (insertCount > actualDeleteCount) {
+      for (k = len - actualDeleteCount; k > actualStart; k--) {
+        from = k + actualDeleteCount - 1;
+        to = k + insertCount - 1;
+        if (from in O) O[to] = O[from];
+        else delete O[to];
+      }
+    }
+    for (k = 0; k < insertCount; k++) {
+      O[k + actualStart] = arguments[k + 2];
+    }
+    O.length = len - actualDeleteCount + insertCount;
+    return A;
+  }
 });var FAILS_ON_PRIMITIVES = fails(function () { objectKeys(1); });
 
 // `Object.keys` method
@@ -3527,7 +3606,39 @@ _export({ target: 'Object', stat: true, forced: FAILS_ON_PRIMITIVES }, {
       } else this.modelData = this.initWithBlank();
     },
     initWithBlank: function initWithBlank() {
-      if (this.type === "object" || this.type === "key-value-pairs") return {};else if (this.type === "array") return [];else if (this.type === "boolean") return false;else return "";
+      if (this.type === "object" || this.type === "key-value-pairs") return {};else if (this.type === "array") return [];else if (this.type === "boolean") return false;else if (this.type === "number") return null;else return "";
+    },
+    clean: function clean(ob) {
+      if (this.type === "object" || this.type === "key-value-pairs") {
+        Object.keys(ob).forEach(function (key) {
+          var stringify = "";
+          if (typeof ob[key] !== "string") stringify = JSON.stringify(ob[key]);else stringify = ob[key];
+
+          if (stringify === undefined || stringify === "null" || stringify === "" || stringify === "{}" || stringify === "[]") {
+            delete ob[key];
+          }
+        });
+      } else if (this.type === "array") {
+        var arrayOfDeleteIndexes = ob.map(function (item, idx) {
+          return {
+            item: item,
+            idx: idx
+          };
+        }).filter(function (el) {
+          var item = el.item;
+          var stringify = "";
+          if (typeof item !== "string") stringify = JSON.stringify(item);else stringify = item;
+
+          if (stringify === undefined || stringify === "null" || stringify === "" || stringify === "{}" || stringify === "[]") {
+            return true;
+          } else return false;
+        }).map(function (item) {
+          return item.idx;
+        });
+        arrayOfDeleteIndexes.forEach(function (idx) {
+          return ob.splice(idx, 1);
+        });
+      }
     }
   },
   created: function created() {
@@ -3539,7 +3650,13 @@ _export({ target: 'Object', stat: true, forced: FAILS_ON_PRIMITIVES }, {
       deep: true,
       handler: function handler(newVal, oldVal) {
         if (oldVal !== null && oldVal !== undefined) {
-          this.$emit("input", newVal);
+          // clean the newVal if it's array or object
+          this.clean(newVal); // prevent number from converting to string
+
+          if (this.type === "number") {
+            // if the newVal string is empty, emit null
+            if (newVal === "") this.$emit("input", null);else this.$emit("input", +newVal);
+          } else this.$emit("input", newVal);
         }
       }
     }
@@ -3589,24 +3706,33 @@ _export({ target: 'Object', stat: true, forced: FAILS_ON_PRIMITIVES }, {
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
 var script = {
   name: "tabs",
   data: function data() {
     return {
-      formShow: {
-        type: Boolean,
-        default: true
-      }
+      activeTab: "form"
     };
   },
   methods: {
     showForm: function showForm() {
-      this.formShow = true;
-      this.$emit("input", true);
+      this.activeTab = "form";
+      this.$emit("input", "form");
     },
     showJson: function showJson() {
-      this.formShow = false;
-      this.$emit("input", false);
+      this.activeTab = "json";
+      this.$emit("input", "json");
+    },
+    showYaml: function showYaml() {
+      this.activeTab = "yaml";
+      this.$emit("input", "yaml");
     }
   }
 };function normalizeComponent(template, style, script, scopeId, isFunctionalTemplate, moduleIdentifier /* server only */, shadowMode, createInjector, createInjectorSSR, createInjectorShadow) {
@@ -3696,9 +3822,11 @@ var __vue_render__ = function __vue_render__() {
   return _c('div', {
     staticClass: "tabs is-toggle ac-toggle-buttons"
   }, [_vm._ssrNode("<ul><li" + _vm._ssrClass(null, {
-    'is-active': _vm.formShow
+    'is-active': _vm.activeTab === 'form'
   }) + "><a><span class=\"icon is-small\"><i aria-hidden=\"true\" class=\"fa fa-file-text fa-flip-horizontal\"></i></span> <span>Form</span></a></li> <li" + _vm._ssrClass(null, {
-    'is-active': !_vm.formShow
+    'is-active': _vm.activeTab === 'yaml'
+  }) + "><a><span class=\"icon is-small\"><i aria-hidden=\"true\" class=\"fa fa-code\"></i></span> <span>YAML</span></a></li> <li" + _vm._ssrClass(null, {
+    'is-active': _vm.activeTab === 'json'
   }) + "><a><span class=\"icon is-small\"><i aria-hidden=\"true\" class=\"fa fa-code\"></i></span> <span>JSON</span></a></li></ul>")]);
 };
 
@@ -3711,7 +3839,7 @@ var __vue_inject_styles__ = undefined;
 var __vue_scope_id__ = undefined;
 /* module identifier */
 
-var __vue_module_identifier__ = "data-v-c39070ec";
+var __vue_module_identifier__ = "data-v-63163bb0";
 /* functional template */
 
 var __vue_is_functional_template__ = false;
@@ -14446,7 +14574,7 @@ var script$1 = {
       }
     }
   },
-  mixins: [model, fold],
+  mixins: [model],
   components: {
     codemirror: vueCodemirror_1
   },
@@ -14465,16 +14593,17 @@ var script$1 = {
     initValueString: function initValueString() {
       this.valueString = JSON.stringify(this.value, null, 2);
     },
-    updateModelData: function updateModelData(data) {
+    updateModelData: function updateModelData() {
       var ans = null;
 
       try {
-        ans = JSON.parse(data);
+        ans = JSON.parse(this.valueString);
       } catch (_unused) {
         ans = this.modelData;
       }
 
-      return ans;
+      this.modelData = ans;
+      this.$emit("code::model-data-updated", ans);
     }
   },
   created: function created() {
@@ -14483,9 +14612,6 @@ var script$1 = {
   watch: {
     value: function value() {
       this.initValueString();
-    },
-    valueString: function valueString(n) {
-      this.modelData = this.updateModelData(n);
     }
   }
 };/* script */
@@ -14502,6 +14628,11 @@ var __vue_render__$1 = function __vue_render__() {
   return _c('div', [_c('codemirror', {
     attrs: {
       "options": _vm.cmOptions
+    },
+    on: {
+      "blur": function blur($event) {
+        return _vm.updateModelData();
+      }
     },
     model: {
       value: _vm.valueString,
@@ -14522,7 +14653,7 @@ var __vue_inject_styles__$1 = undefined;
 var __vue_scope_id__$1 = undefined;
 /* module identifier */
 
-var __vue_module_identifier__$1 = "data-v-64547a7c";
+var __vue_module_identifier__$1 = "data-v-9ad6b8cc";
 /* functional template */
 
 var __vue_is_functional_template__$1 = false;
@@ -14535,15 +14666,3975 @@ var __vue_is_functional_template__$1 = false;
 var __vue_component__$1 = normalizeComponent({
   render: __vue_render__$1,
   staticRenderFns: __vue_staticRenderFns__$1
-}, __vue_inject_styles__$1, __vue_script__$1, __vue_scope_id__$1, __vue_is_functional_template__$1, __vue_module_identifier__$1, false, undefined, undefined, undefined);var tabs = {
+}, __vue_inject_styles__$1, __vue_script__$1, __vue_scope_id__$1, __vue_is_functional_template__$1, __vue_module_identifier__$1, false, undefined, undefined, undefined);var yaml = createCommonjsModule(function (module, exports) {
+// CodeMirror, copyright (c) by Marijn Haverbeke and others
+// Distributed under an MIT license: https://codemirror.net/LICENSE
+
+(function(mod) {
+  mod(codemirror);
+})(function(CodeMirror) {
+
+CodeMirror.defineMode("yaml", function() {
+
+  var cons = ['true', 'false', 'on', 'off', 'yes', 'no'];
+  var keywordRegex = new RegExp("\\b(("+cons.join(")|(")+"))$", 'i');
+
+  return {
+    token: function(stream, state) {
+      var ch = stream.peek();
+      var esc = state.escaped;
+      state.escaped = false;
+      /* comments */
+      if (ch == "#" && (stream.pos == 0 || /\s/.test(stream.string.charAt(stream.pos - 1)))) {
+        stream.skipToEnd();
+        return "comment";
+      }
+
+      if (stream.match(/^('([^']|\\.)*'?|"([^"]|\\.)*"?)/))
+        return "string";
+
+      if (state.literal && stream.indentation() > state.keyCol) {
+        stream.skipToEnd(); return "string";
+      } else if (state.literal) { state.literal = false; }
+      if (stream.sol()) {
+        state.keyCol = 0;
+        state.pair = false;
+        state.pairStart = false;
+        /* document start */
+        if(stream.match(/---/)) { return "def"; }
+        /* document end */
+        if (stream.match(/\.\.\./)) { return "def"; }
+        /* array list item */
+        if (stream.match(/\s*-\s+/)) { return 'meta'; }
+      }
+      /* inline pairs/lists */
+      if (stream.match(/^(\{|\}|\[|\])/)) {
+        if (ch == '{')
+          state.inlinePairs++;
+        else if (ch == '}')
+          state.inlinePairs--;
+        else if (ch == '[')
+          state.inlineList++;
+        else
+          state.inlineList--;
+        return 'meta';
+      }
+
+      /* list seperator */
+      if (state.inlineList > 0 && !esc && ch == ',') {
+        stream.next();
+        return 'meta';
+      }
+      /* pairs seperator */
+      if (state.inlinePairs > 0 && !esc && ch == ',') {
+        state.keyCol = 0;
+        state.pair = false;
+        state.pairStart = false;
+        stream.next();
+        return 'meta';
+      }
+
+      /* start of value of a pair */
+      if (state.pairStart) {
+        /* block literals */
+        if (stream.match(/^\s*(\||\>)\s*/)) { state.literal = true; return 'meta'; }        /* references */
+        if (stream.match(/^\s*(\&|\*)[a-z0-9\._-]+\b/i)) { return 'variable-2'; }
+        /* numbers */
+        if (state.inlinePairs == 0 && stream.match(/^\s*-?[0-9\.\,]+\s?$/)) { return 'number'; }
+        if (state.inlinePairs > 0 && stream.match(/^\s*-?[0-9\.\,]+\s?(?=(,|}))/)) { return 'number'; }
+        /* keywords */
+        if (stream.match(keywordRegex)) { return 'keyword'; }
+      }
+
+      /* pairs (associative arrays) -> key */
+      if (!state.pair && stream.match(/^\s*(?:[,\[\]{}&*!|>'"%@`][^\s'":]|[^,\[\]{}#&*!|>'"%@`])[^#]*?(?=\s*:($|\s))/)) {
+        state.pair = true;
+        state.keyCol = stream.indentation();
+        return "atom";
+      }
+      if (state.pair && stream.match(/^:\s*/)) { state.pairStart = true; return 'meta'; }
+
+      /* nothing found, continue */
+      state.pairStart = false;
+      state.escaped = (ch == '\\');
+      stream.next();
+      return null;
+    },
+    startState: function() {
+      return {
+        pair: false,
+        pairStart: false,
+        keyCol: 0,
+        inlinePairs: 0,
+        inlineList: 0,
+        literal: false,
+        escaped: false
+      };
+    },
+    lineComment: "#",
+    fold: "indent"
+  };
+});
+
+CodeMirror.defineMIME("text/x-yaml", "yaml");
+CodeMirror.defineMIME("text/yaml", "yaml");
+
+});
+});function isNothing(subject) {
+  return (typeof subject === 'undefined') || (subject === null);
+}
+
+
+function isObject$2(subject) {
+  return (typeof subject === 'object') && (subject !== null);
+}
+
+
+function toArray(sequence) {
+  if (Array.isArray(sequence)) return sequence;
+  else if (isNothing(sequence)) return [];
+
+  return [ sequence ];
+}
+
+
+function extend(target, source) {
+  var index, length, key, sourceKeys;
+
+  if (source) {
+    sourceKeys = Object.keys(source);
+
+    for (index = 0, length = sourceKeys.length; index < length; index += 1) {
+      key = sourceKeys[index];
+      target[key] = source[key];
+    }
+  }
+
+  return target;
+}
+
+
+function repeat(string, count) {
+  var result = '', cycle;
+
+  for (cycle = 0; cycle < count; cycle += 1) {
+    result += string;
+  }
+
+  return result;
+}
+
+
+function isNegativeZero(number) {
+  return (number === 0) && (Number.NEGATIVE_INFINITY === 1 / number);
+}
+
+
+var isNothing_1      = isNothing;
+var isObject_1       = isObject$2;
+var toArray_1        = toArray;
+var repeat_1         = repeat;
+var isNegativeZero_1 = isNegativeZero;
+var extend_1         = extend;
+
+var common = {
+	isNothing: isNothing_1,
+	isObject: isObject_1,
+	toArray: toArray_1,
+	repeat: repeat_1,
+	isNegativeZero: isNegativeZero_1,
+	extend: extend_1
+};// YAML error class. http://stackoverflow.com/questions/8458984
+
+function YAMLException(reason, mark) {
+  // Super constructor
+  Error.call(this);
+
+  this.name = 'YAMLException';
+  this.reason = reason;
+  this.mark = mark;
+  this.message = (this.reason || '(unknown reason)') + (this.mark ? ' ' + this.mark.toString() : '');
+
+  // Include stack trace in error object
+  if (Error.captureStackTrace) {
+    // Chrome and NodeJS
+    Error.captureStackTrace(this, this.constructor);
+  } else {
+    // FF, IE 10+ and Safari 6+. Fallback for others
+    this.stack = (new Error()).stack || '';
+  }
+}
+
+
+// Inherit from Error
+YAMLException.prototype = Object.create(Error.prototype);
+YAMLException.prototype.constructor = YAMLException;
+
+
+YAMLException.prototype.toString = function toString(compact) {
+  var result = this.name + ': ';
+
+  result += this.reason || '(unknown reason)';
+
+  if (!compact && this.mark) {
+    result += ' ' + this.mark.toString();
+  }
+
+  return result;
+};
+
+
+var exception = YAMLException;function Mark(name, buffer, position, line, column) {
+  this.name     = name;
+  this.buffer   = buffer;
+  this.position = position;
+  this.line     = line;
+  this.column   = column;
+}
+
+
+Mark.prototype.getSnippet = function getSnippet(indent, maxLength) {
+  var head, start, tail, end, snippet;
+
+  if (!this.buffer) return null;
+
+  indent = indent || 4;
+  maxLength = maxLength || 75;
+
+  head = '';
+  start = this.position;
+
+  while (start > 0 && '\x00\r\n\x85\u2028\u2029'.indexOf(this.buffer.charAt(start - 1)) === -1) {
+    start -= 1;
+    if (this.position - start > (maxLength / 2 - 1)) {
+      head = ' ... ';
+      start += 5;
+      break;
+    }
+  }
+
+  tail = '';
+  end = this.position;
+
+  while (end < this.buffer.length && '\x00\r\n\x85\u2028\u2029'.indexOf(this.buffer.charAt(end)) === -1) {
+    end += 1;
+    if (end - this.position > (maxLength / 2 - 1)) {
+      tail = ' ... ';
+      end -= 5;
+      break;
+    }
+  }
+
+  snippet = this.buffer.slice(start, end);
+
+  return common.repeat(' ', indent) + head + snippet + tail + '\n' +
+         common.repeat(' ', indent + this.position - start + head.length) + '^';
+};
+
+
+Mark.prototype.toString = function toString(compact) {
+  var snippet, where = '';
+
+  if (this.name) {
+    where += 'in "' + this.name + '" ';
+  }
+
+  where += 'at line ' + (this.line + 1) + ', column ' + (this.column + 1);
+
+  if (!compact) {
+    snippet = this.getSnippet();
+
+    if (snippet) {
+      where += ':\n' + snippet;
+    }
+  }
+
+  return where;
+};
+
+
+var mark = Mark;var TYPE_CONSTRUCTOR_OPTIONS = [
+  'kind',
+  'resolve',
+  'construct',
+  'instanceOf',
+  'predicate',
+  'represent',
+  'defaultStyle',
+  'styleAliases'
+];
+
+var YAML_NODE_KINDS = [
+  'scalar',
+  'sequence',
+  'mapping'
+];
+
+function compileStyleAliases(map) {
+  var result = {};
+
+  if (map !== null) {
+    Object.keys(map).forEach(function (style) {
+      map[style].forEach(function (alias) {
+        result[String(alias)] = style;
+      });
+    });
+  }
+
+  return result;
+}
+
+function Type(tag, options) {
+  options = options || {};
+
+  Object.keys(options).forEach(function (name) {
+    if (TYPE_CONSTRUCTOR_OPTIONS.indexOf(name) === -1) {
+      throw new exception('Unknown option "' + name + '" is met in definition of "' + tag + '" YAML type.');
+    }
+  });
+
+  // TODO: Add tag format check.
+  this.tag          = tag;
+  this.kind         = options['kind']         || null;
+  this.resolve      = options['resolve']      || function () { return true; };
+  this.construct    = options['construct']    || function (data) { return data; };
+  this.instanceOf   = options['instanceOf']   || null;
+  this.predicate    = options['predicate']    || null;
+  this.represent    = options['represent']    || null;
+  this.defaultStyle = options['defaultStyle'] || null;
+  this.styleAliases = compileStyleAliases(options['styleAliases'] || null);
+
+  if (YAML_NODE_KINDS.indexOf(this.kind) === -1) {
+    throw new exception('Unknown kind "' + this.kind + '" is specified for "' + tag + '" YAML type.');
+  }
+}
+
+var type = Type;/*eslint-disable max-len*/
+
+
+
+
+
+
+function compileList(schema, name, result) {
+  var exclude = [];
+
+  schema.include.forEach(function (includedSchema) {
+    result = compileList(includedSchema, name, result);
+  });
+
+  schema[name].forEach(function (currentType) {
+    result.forEach(function (previousType, previousIndex) {
+      if (previousType.tag === currentType.tag && previousType.kind === currentType.kind) {
+        exclude.push(previousIndex);
+      }
+    });
+
+    result.push(currentType);
+  });
+
+  return result.filter(function (type, index) {
+    return exclude.indexOf(index) === -1;
+  });
+}
+
+
+function compileMap(/* lists... */) {
+  var result = {
+        scalar: {},
+        sequence: {},
+        mapping: {},
+        fallback: {}
+      }, index, length;
+
+  function collectType(type) {
+    result[type.kind][type.tag] = result['fallback'][type.tag] = type;
+  }
+
+  for (index = 0, length = arguments.length; index < length; index += 1) {
+    arguments[index].forEach(collectType);
+  }
+  return result;
+}
+
+
+function Schema(definition) {
+  this.include  = definition.include  || [];
+  this.implicit = definition.implicit || [];
+  this.explicit = definition.explicit || [];
+
+  this.implicit.forEach(function (type) {
+    if (type.loadKind && type.loadKind !== 'scalar') {
+      throw new exception('There is a non-scalar type in the implicit list of a schema. Implicit resolving of such types is not supported.');
+    }
+  });
+
+  this.compiledImplicit = compileList(this, 'implicit', []);
+  this.compiledExplicit = compileList(this, 'explicit', []);
+  this.compiledTypeMap  = compileMap(this.compiledImplicit, this.compiledExplicit);
+}
+
+
+Schema.DEFAULT = null;
+
+
+Schema.create = function createSchema() {
+  var schemas, types;
+
+  switch (arguments.length) {
+    case 1:
+      schemas = Schema.DEFAULT;
+      types = arguments[0];
+      break;
+
+    case 2:
+      schemas = arguments[0];
+      types = arguments[1];
+      break;
+
+    default:
+      throw new exception('Wrong number of arguments for Schema.create function');
+  }
+
+  schemas = common.toArray(schemas);
+  types = common.toArray(types);
+
+  if (!schemas.every(function (schema) { return schema instanceof Schema; })) {
+    throw new exception('Specified list of super schemas (or a single Schema object) contains a non-Schema object.');
+  }
+
+  if (!types.every(function (type$1) { return type$1 instanceof type; })) {
+    throw new exception('Specified list of YAML types (or a single Type object) contains a non-Type object.');
+  }
+
+  return new Schema({
+    include: schemas,
+    explicit: types
+  });
+};
+
+
+var schema = Schema;var str = new type('tag:yaml.org,2002:str', {
+  kind: 'scalar',
+  construct: function (data) { return data !== null ? data : ''; }
+});var seq = new type('tag:yaml.org,2002:seq', {
+  kind: 'sequence',
+  construct: function (data) { return data !== null ? data : []; }
+});var map = new type('tag:yaml.org,2002:map', {
+  kind: 'mapping',
+  construct: function (data) { return data !== null ? data : {}; }
+});var failsafe = new schema({
+  explicit: [
+    str,
+    seq,
+    map
+  ]
+});function resolveYamlNull(data) {
+  if (data === null) return true;
+
+  var max = data.length;
+
+  return (max === 1 && data === '~') ||
+         (max === 4 && (data === 'null' || data === 'Null' || data === 'NULL'));
+}
+
+function constructYamlNull() {
+  return null;
+}
+
+function isNull(object) {
+  return object === null;
+}
+
+var _null = new type('tag:yaml.org,2002:null', {
+  kind: 'scalar',
+  resolve: resolveYamlNull,
+  construct: constructYamlNull,
+  predicate: isNull,
+  represent: {
+    canonical: function () { return '~';    },
+    lowercase: function () { return 'null'; },
+    uppercase: function () { return 'NULL'; },
+    camelcase: function () { return 'Null'; }
+  },
+  defaultStyle: 'lowercase'
+});function resolveYamlBoolean(data) {
+  if (data === null) return false;
+
+  var max = data.length;
+
+  return (max === 4 && (data === 'true' || data === 'True' || data === 'TRUE')) ||
+         (max === 5 && (data === 'false' || data === 'False' || data === 'FALSE'));
+}
+
+function constructYamlBoolean(data) {
+  return data === 'true' ||
+         data === 'True' ||
+         data === 'TRUE';
+}
+
+function isBoolean(object) {
+  return Object.prototype.toString.call(object) === '[object Boolean]';
+}
+
+var bool = new type('tag:yaml.org,2002:bool', {
+  kind: 'scalar',
+  resolve: resolveYamlBoolean,
+  construct: constructYamlBoolean,
+  predicate: isBoolean,
+  represent: {
+    lowercase: function (object) { return object ? 'true' : 'false'; },
+    uppercase: function (object) { return object ? 'TRUE' : 'FALSE'; },
+    camelcase: function (object) { return object ? 'True' : 'False'; }
+  },
+  defaultStyle: 'lowercase'
+});function isHexCode(c) {
+  return ((0x30/* 0 */ <= c) && (c <= 0x39/* 9 */)) ||
+         ((0x41/* A */ <= c) && (c <= 0x46/* F */)) ||
+         ((0x61/* a */ <= c) && (c <= 0x66/* f */));
+}
+
+function isOctCode(c) {
+  return ((0x30/* 0 */ <= c) && (c <= 0x37/* 7 */));
+}
+
+function isDecCode(c) {
+  return ((0x30/* 0 */ <= c) && (c <= 0x39/* 9 */));
+}
+
+function resolveYamlInteger(data) {
+  if (data === null) return false;
+
+  var max = data.length,
+      index = 0,
+      hasDigits = false,
+      ch;
+
+  if (!max) return false;
+
+  ch = data[index];
+
+  // sign
+  if (ch === '-' || ch === '+') {
+    ch = data[++index];
+  }
+
+  if (ch === '0') {
+    // 0
+    if (index + 1 === max) return true;
+    ch = data[++index];
+
+    // base 2, base 8, base 16
+
+    if (ch === 'b') {
+      // base 2
+      index++;
+
+      for (; index < max; index++) {
+        ch = data[index];
+        if (ch === '_') continue;
+        if (ch !== '0' && ch !== '1') return false;
+        hasDigits = true;
+      }
+      return hasDigits && ch !== '_';
+    }
+
+
+    if (ch === 'x') {
+      // base 16
+      index++;
+
+      for (; index < max; index++) {
+        ch = data[index];
+        if (ch === '_') continue;
+        if (!isHexCode(data.charCodeAt(index))) return false;
+        hasDigits = true;
+      }
+      return hasDigits && ch !== '_';
+    }
+
+    // base 8
+    for (; index < max; index++) {
+      ch = data[index];
+      if (ch === '_') continue;
+      if (!isOctCode(data.charCodeAt(index))) return false;
+      hasDigits = true;
+    }
+    return hasDigits && ch !== '_';
+  }
+
+  // base 10 (except 0) or base 60
+
+  // value should not start with `_`;
+  if (ch === '_') return false;
+
+  for (; index < max; index++) {
+    ch = data[index];
+    if (ch === '_') continue;
+    if (ch === ':') break;
+    if (!isDecCode(data.charCodeAt(index))) {
+      return false;
+    }
+    hasDigits = true;
+  }
+
+  // Should have digits and should not end with `_`
+  if (!hasDigits || ch === '_') return false;
+
+  // if !base60 - done;
+  if (ch !== ':') return true;
+
+  // base60 almost not used, no needs to optimize
+  return /^(:[0-5]?[0-9])+$/.test(data.slice(index));
+}
+
+function constructYamlInteger(data) {
+  var value = data, sign = 1, ch, base, digits = [];
+
+  if (value.indexOf('_') !== -1) {
+    value = value.replace(/_/g, '');
+  }
+
+  ch = value[0];
+
+  if (ch === '-' || ch === '+') {
+    if (ch === '-') sign = -1;
+    value = value.slice(1);
+    ch = value[0];
+  }
+
+  if (value === '0') return 0;
+
+  if (ch === '0') {
+    if (value[1] === 'b') return sign * parseInt(value.slice(2), 2);
+    if (value[1] === 'x') return sign * parseInt(value, 16);
+    return sign * parseInt(value, 8);
+  }
+
+  if (value.indexOf(':') !== -1) {
+    value.split(':').forEach(function (v) {
+      digits.unshift(parseInt(v, 10));
+    });
+
+    value = 0;
+    base = 1;
+
+    digits.forEach(function (d) {
+      value += (d * base);
+      base *= 60;
+    });
+
+    return sign * value;
+
+  }
+
+  return sign * parseInt(value, 10);
+}
+
+function isInteger(object) {
+  return (Object.prototype.toString.call(object)) === '[object Number]' &&
+         (object % 1 === 0 && !common.isNegativeZero(object));
+}
+
+var int_1 = new type('tag:yaml.org,2002:int', {
+  kind: 'scalar',
+  resolve: resolveYamlInteger,
+  construct: constructYamlInteger,
+  predicate: isInteger,
+  represent: {
+    binary:      function (obj) { return obj >= 0 ? '0b' + obj.toString(2) : '-0b' + obj.toString(2).slice(1); },
+    octal:       function (obj) { return obj >= 0 ? '0'  + obj.toString(8) : '-0'  + obj.toString(8).slice(1); },
+    decimal:     function (obj) { return obj.toString(10); },
+    /* eslint-disable max-len */
+    hexadecimal: function (obj) { return obj >= 0 ? '0x' + obj.toString(16).toUpperCase() :  '-0x' + obj.toString(16).toUpperCase().slice(1); }
+  },
+  defaultStyle: 'decimal',
+  styleAliases: {
+    binary:      [ 2,  'bin' ],
+    octal:       [ 8,  'oct' ],
+    decimal:     [ 10, 'dec' ],
+    hexadecimal: [ 16, 'hex' ]
+  }
+});var YAML_FLOAT_PATTERN = new RegExp(
+  // 2.5e4, 2.5 and integers
+  '^(?:[-+]?(?:0|[1-9][0-9_]*)(?:\\.[0-9_]*)?(?:[eE][-+]?[0-9]+)?' +
+  // .2e4, .2
+  // special case, seems not from spec
+  '|\\.[0-9_]+(?:[eE][-+]?[0-9]+)?' +
+  // 20:59
+  '|[-+]?[0-9][0-9_]*(?::[0-5]?[0-9])+\\.[0-9_]*' +
+  // .inf
+  '|[-+]?\\.(?:inf|Inf|INF)' +
+  // .nan
+  '|\\.(?:nan|NaN|NAN))$');
+
+function resolveYamlFloat(data) {
+  if (data === null) return false;
+
+  if (!YAML_FLOAT_PATTERN.test(data) ||
+      // Quick hack to not allow integers end with `_`
+      // Probably should update regexp & check speed
+      data[data.length - 1] === '_') {
+    return false;
+  }
+
+  return true;
+}
+
+function constructYamlFloat(data) {
+  var value, sign, base, digits;
+
+  value  = data.replace(/_/g, '').toLowerCase();
+  sign   = value[0] === '-' ? -1 : 1;
+  digits = [];
+
+  if ('+-'.indexOf(value[0]) >= 0) {
+    value = value.slice(1);
+  }
+
+  if (value === '.inf') {
+    return (sign === 1) ? Number.POSITIVE_INFINITY : Number.NEGATIVE_INFINITY;
+
+  } else if (value === '.nan') {
+    return NaN;
+
+  } else if (value.indexOf(':') >= 0) {
+    value.split(':').forEach(function (v) {
+      digits.unshift(parseFloat(v, 10));
+    });
+
+    value = 0.0;
+    base = 1;
+
+    digits.forEach(function (d) {
+      value += d * base;
+      base *= 60;
+    });
+
+    return sign * value;
+
+  }
+  return sign * parseFloat(value, 10);
+}
+
+
+var SCIENTIFIC_WITHOUT_DOT = /^[-+]?[0-9]+e/;
+
+function representYamlFloat(object, style) {
+  var res;
+
+  if (isNaN(object)) {
+    switch (style) {
+      case 'lowercase': return '.nan';
+      case 'uppercase': return '.NAN';
+      case 'camelcase': return '.NaN';
+    }
+  } else if (Number.POSITIVE_INFINITY === object) {
+    switch (style) {
+      case 'lowercase': return '.inf';
+      case 'uppercase': return '.INF';
+      case 'camelcase': return '.Inf';
+    }
+  } else if (Number.NEGATIVE_INFINITY === object) {
+    switch (style) {
+      case 'lowercase': return '-.inf';
+      case 'uppercase': return '-.INF';
+      case 'camelcase': return '-.Inf';
+    }
+  } else if (common.isNegativeZero(object)) {
+    return '-0.0';
+  }
+
+  res = object.toString(10);
+
+  // JS stringifier can build scientific format without dots: 5e-100,
+  // while YAML requres dot: 5.e-100. Fix it with simple hack
+
+  return SCIENTIFIC_WITHOUT_DOT.test(res) ? res.replace('e', '.e') : res;
+}
+
+function isFloat(object) {
+  return (Object.prototype.toString.call(object) === '[object Number]') &&
+         (object % 1 !== 0 || common.isNegativeZero(object));
+}
+
+var float_1 = new type('tag:yaml.org,2002:float', {
+  kind: 'scalar',
+  resolve: resolveYamlFloat,
+  construct: constructYamlFloat,
+  predicate: isFloat,
+  represent: representYamlFloat,
+  defaultStyle: 'lowercase'
+});var json = new schema({
+  include: [
+    failsafe
+  ],
+  implicit: [
+    _null,
+    bool,
+    int_1,
+    float_1
+  ]
+});var core = new schema({
+  include: [
+    json
+  ]
+});var YAML_DATE_REGEXP = new RegExp(
+  '^([0-9][0-9][0-9][0-9])'          + // [1] year
+  '-([0-9][0-9])'                    + // [2] month
+  '-([0-9][0-9])$');                   // [3] day
+
+var YAML_TIMESTAMP_REGEXP = new RegExp(
+  '^([0-9][0-9][0-9][0-9])'          + // [1] year
+  '-([0-9][0-9]?)'                   + // [2] month
+  '-([0-9][0-9]?)'                   + // [3] day
+  '(?:[Tt]|[ \\t]+)'                 + // ...
+  '([0-9][0-9]?)'                    + // [4] hour
+  ':([0-9][0-9])'                    + // [5] minute
+  ':([0-9][0-9])'                    + // [6] second
+  '(?:\\.([0-9]*))?'                 + // [7] fraction
+  '(?:[ \\t]*(Z|([-+])([0-9][0-9]?)' + // [8] tz [9] tz_sign [10] tz_hour
+  '(?::([0-9][0-9]))?))?$');           // [11] tz_minute
+
+function resolveYamlTimestamp(data) {
+  if (data === null) return false;
+  if (YAML_DATE_REGEXP.exec(data) !== null) return true;
+  if (YAML_TIMESTAMP_REGEXP.exec(data) !== null) return true;
+  return false;
+}
+
+function constructYamlTimestamp(data) {
+  var match, year, month, day, hour, minute, second, fraction = 0,
+      delta = null, tz_hour, tz_minute, date;
+
+  match = YAML_DATE_REGEXP.exec(data);
+  if (match === null) match = YAML_TIMESTAMP_REGEXP.exec(data);
+
+  if (match === null) throw new Error('Date resolve error');
+
+  // match: [1] year [2] month [3] day
+
+  year = +(match[1]);
+  month = +(match[2]) - 1; // JS month starts with 0
+  day = +(match[3]);
+
+  if (!match[4]) { // no hour
+    return new Date(Date.UTC(year, month, day));
+  }
+
+  // match: [4] hour [5] minute [6] second [7] fraction
+
+  hour = +(match[4]);
+  minute = +(match[5]);
+  second = +(match[6]);
+
+  if (match[7]) {
+    fraction = match[7].slice(0, 3);
+    while (fraction.length < 3) { // milli-seconds
+      fraction += '0';
+    }
+    fraction = +fraction;
+  }
+
+  // match: [8] tz [9] tz_sign [10] tz_hour [11] tz_minute
+
+  if (match[9]) {
+    tz_hour = +(match[10]);
+    tz_minute = +(match[11] || 0);
+    delta = (tz_hour * 60 + tz_minute) * 60000; // delta in mili-seconds
+    if (match[9] === '-') delta = -delta;
+  }
+
+  date = new Date(Date.UTC(year, month, day, hour, minute, second, fraction));
+
+  if (delta) date.setTime(date.getTime() - delta);
+
+  return date;
+}
+
+function representYamlTimestamp(object /*, style*/) {
+  return object.toISOString();
+}
+
+var timestamp = new type('tag:yaml.org,2002:timestamp', {
+  kind: 'scalar',
+  resolve: resolveYamlTimestamp,
+  construct: constructYamlTimestamp,
+  instanceOf: Date,
+  represent: representYamlTimestamp
+});function resolveYamlMerge(data) {
+  return data === '<<' || data === null;
+}
+
+var merge = new type('tag:yaml.org,2002:merge', {
+  kind: 'scalar',
+  resolve: resolveYamlMerge
+});/*eslint-disable no-bitwise*/
+
+var NodeBuffer;
+
+try {
+  // A trick for browserified version, to not include `Buffer` shim
+  var _require = commonjsRequire;
+  NodeBuffer = _require('buffer').Buffer;
+} catch (__) {}
+
+
+
+
+// [ 64, 65, 66 ] -> [ padding, CR, LF ]
+var BASE64_MAP = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=\n\r';
+
+
+function resolveYamlBinary(data) {
+  if (data === null) return false;
+
+  var code, idx, bitlen = 0, max = data.length, map = BASE64_MAP;
+
+  // Convert one by one.
+  for (idx = 0; idx < max; idx++) {
+    code = map.indexOf(data.charAt(idx));
+
+    // Skip CR/LF
+    if (code > 64) continue;
+
+    // Fail on illegal characters
+    if (code < 0) return false;
+
+    bitlen += 6;
+  }
+
+  // If there are any bits left, source was corrupted
+  return (bitlen % 8) === 0;
+}
+
+function constructYamlBinary(data) {
+  var idx, tailbits,
+      input = data.replace(/[\r\n=]/g, ''), // remove CR/LF & padding to simplify scan
+      max = input.length,
+      map = BASE64_MAP,
+      bits = 0,
+      result = [];
+
+  // Collect by 6*4 bits (3 bytes)
+
+  for (idx = 0; idx < max; idx++) {
+    if ((idx % 4 === 0) && idx) {
+      result.push((bits >> 16) & 0xFF);
+      result.push((bits >> 8) & 0xFF);
+      result.push(bits & 0xFF);
+    }
+
+    bits = (bits << 6) | map.indexOf(input.charAt(idx));
+  }
+
+  // Dump tail
+
+  tailbits = (max % 4) * 6;
+
+  if (tailbits === 0) {
+    result.push((bits >> 16) & 0xFF);
+    result.push((bits >> 8) & 0xFF);
+    result.push(bits & 0xFF);
+  } else if (tailbits === 18) {
+    result.push((bits >> 10) & 0xFF);
+    result.push((bits >> 2) & 0xFF);
+  } else if (tailbits === 12) {
+    result.push((bits >> 4) & 0xFF);
+  }
+
+  // Wrap into Buffer for NodeJS and leave Array for browser
+  if (NodeBuffer) {
+    // Support node 6.+ Buffer API when available
+    return NodeBuffer.from ? NodeBuffer.from(result) : new NodeBuffer(result);
+  }
+
+  return result;
+}
+
+function representYamlBinary(object /*, style*/) {
+  var result = '', bits = 0, idx, tail,
+      max = object.length,
+      map = BASE64_MAP;
+
+  // Convert every three bytes to 4 ASCII characters.
+
+  for (idx = 0; idx < max; idx++) {
+    if ((idx % 3 === 0) && idx) {
+      result += map[(bits >> 18) & 0x3F];
+      result += map[(bits >> 12) & 0x3F];
+      result += map[(bits >> 6) & 0x3F];
+      result += map[bits & 0x3F];
+    }
+
+    bits = (bits << 8) + object[idx];
+  }
+
+  // Dump tail
+
+  tail = max % 3;
+
+  if (tail === 0) {
+    result += map[(bits >> 18) & 0x3F];
+    result += map[(bits >> 12) & 0x3F];
+    result += map[(bits >> 6) & 0x3F];
+    result += map[bits & 0x3F];
+  } else if (tail === 2) {
+    result += map[(bits >> 10) & 0x3F];
+    result += map[(bits >> 4) & 0x3F];
+    result += map[(bits << 2) & 0x3F];
+    result += map[64];
+  } else if (tail === 1) {
+    result += map[(bits >> 2) & 0x3F];
+    result += map[(bits << 4) & 0x3F];
+    result += map[64];
+    result += map[64];
+  }
+
+  return result;
+}
+
+function isBinary(object) {
+  return NodeBuffer && NodeBuffer.isBuffer(object);
+}
+
+var binary = new type('tag:yaml.org,2002:binary', {
+  kind: 'scalar',
+  resolve: resolveYamlBinary,
+  construct: constructYamlBinary,
+  predicate: isBinary,
+  represent: representYamlBinary
+});var _hasOwnProperty = Object.prototype.hasOwnProperty;
+var _toString       = Object.prototype.toString;
+
+function resolveYamlOmap(data) {
+  if (data === null) return true;
+
+  var objectKeys = [], index, length, pair, pairKey, pairHasKey,
+      object = data;
+
+  for (index = 0, length = object.length; index < length; index += 1) {
+    pair = object[index];
+    pairHasKey = false;
+
+    if (_toString.call(pair) !== '[object Object]') return false;
+
+    for (pairKey in pair) {
+      if (_hasOwnProperty.call(pair, pairKey)) {
+        if (!pairHasKey) pairHasKey = true;
+        else return false;
+      }
+    }
+
+    if (!pairHasKey) return false;
+
+    if (objectKeys.indexOf(pairKey) === -1) objectKeys.push(pairKey);
+    else return false;
+  }
+
+  return true;
+}
+
+function constructYamlOmap(data) {
+  return data !== null ? data : [];
+}
+
+var omap = new type('tag:yaml.org,2002:omap', {
+  kind: 'sequence',
+  resolve: resolveYamlOmap,
+  construct: constructYamlOmap
+});var _toString$1 = Object.prototype.toString;
+
+function resolveYamlPairs(data) {
+  if (data === null) return true;
+
+  var index, length, pair, keys, result,
+      object = data;
+
+  result = new Array(object.length);
+
+  for (index = 0, length = object.length; index < length; index += 1) {
+    pair = object[index];
+
+    if (_toString$1.call(pair) !== '[object Object]') return false;
+
+    keys = Object.keys(pair);
+
+    if (keys.length !== 1) return false;
+
+    result[index] = [ keys[0], pair[keys[0]] ];
+  }
+
+  return true;
+}
+
+function constructYamlPairs(data) {
+  if (data === null) return [];
+
+  var index, length, pair, keys, result,
+      object = data;
+
+  result = new Array(object.length);
+
+  for (index = 0, length = object.length; index < length; index += 1) {
+    pair = object[index];
+
+    keys = Object.keys(pair);
+
+    result[index] = [ keys[0], pair[keys[0]] ];
+  }
+
+  return result;
+}
+
+var pairs = new type('tag:yaml.org,2002:pairs', {
+  kind: 'sequence',
+  resolve: resolveYamlPairs,
+  construct: constructYamlPairs
+});var _hasOwnProperty$1 = Object.prototype.hasOwnProperty;
+
+function resolveYamlSet(data) {
+  if (data === null) return true;
+
+  var key, object = data;
+
+  for (key in object) {
+    if (_hasOwnProperty$1.call(object, key)) {
+      if (object[key] !== null) return false;
+    }
+  }
+
+  return true;
+}
+
+function constructYamlSet(data) {
+  return data !== null ? data : {};
+}
+
+var set$3 = new type('tag:yaml.org,2002:set', {
+  kind: 'mapping',
+  resolve: resolveYamlSet,
+  construct: constructYamlSet
+});var default_safe = new schema({
+  include: [
+    core
+  ],
+  implicit: [
+    timestamp,
+    merge
+  ],
+  explicit: [
+    binary,
+    omap,
+    pairs,
+    set$3
+  ]
+});function resolveJavascriptUndefined() {
+  return true;
+}
+
+function constructJavascriptUndefined() {
+  /*eslint-disable no-undefined*/
+  return undefined;
+}
+
+function representJavascriptUndefined() {
+  return '';
+}
+
+function isUndefined(object) {
+  return typeof object === 'undefined';
+}
+
+var _undefined = new type('tag:yaml.org,2002:js/undefined', {
+  kind: 'scalar',
+  resolve: resolveJavascriptUndefined,
+  construct: constructJavascriptUndefined,
+  predicate: isUndefined,
+  represent: representJavascriptUndefined
+});function resolveJavascriptRegExp(data) {
+  if (data === null) return false;
+  if (data.length === 0) return false;
+
+  var regexp = data,
+      tail   = /\/([gim]*)$/.exec(data),
+      modifiers = '';
+
+  // if regexp starts with '/' it can have modifiers and must be properly closed
+  // `/foo/gim` - modifiers tail can be maximum 3 chars
+  if (regexp[0] === '/') {
+    if (tail) modifiers = tail[1];
+
+    if (modifiers.length > 3) return false;
+    // if expression starts with /, is should be properly terminated
+    if (regexp[regexp.length - modifiers.length - 1] !== '/') return false;
+  }
+
+  return true;
+}
+
+function constructJavascriptRegExp(data) {
+  var regexp = data,
+      tail   = /\/([gim]*)$/.exec(data),
+      modifiers = '';
+
+  // `/foo/gim` - tail can be maximum 4 chars
+  if (regexp[0] === '/') {
+    if (tail) modifiers = tail[1];
+    regexp = regexp.slice(1, regexp.length - modifiers.length - 1);
+  }
+
+  return new RegExp(regexp, modifiers);
+}
+
+function representJavascriptRegExp(object /*, style*/) {
+  var result = '/' + object.source + '/';
+
+  if (object.global) result += 'g';
+  if (object.multiline) result += 'm';
+  if (object.ignoreCase) result += 'i';
+
+  return result;
+}
+
+function isRegExp(object) {
+  return Object.prototype.toString.call(object) === '[object RegExp]';
+}
+
+var regexp = new type('tag:yaml.org,2002:js/regexp', {
+  kind: 'scalar',
+  resolve: resolveJavascriptRegExp,
+  construct: constructJavascriptRegExp,
+  predicate: isRegExp,
+  represent: representJavascriptRegExp
+});var esprima;
+
+// Browserified version does not have esprima
+//
+// 1. For node.js just require module as deps
+// 2. For browser try to require mudule via external AMD system.
+//    If not found - try to fallback to window.esprima. If not
+//    found too - then fail to parse.
+//
+try {
+  // workaround to exclude package from browserify list.
+  var _require$1 = commonjsRequire;
+  esprima = _require$1('esprima');
+} catch (_) {
+  /*global window */
+  if (typeof window !== 'undefined') esprima = window.esprima;
+}
+
+
+
+function resolveJavascriptFunction(data) {
+  if (data === null) return false;
+
+  try {
+    var source = '(' + data + ')',
+        ast    = esprima.parse(source, { range: true });
+
+    if (ast.type                    !== 'Program'             ||
+        ast.body.length             !== 1                     ||
+        ast.body[0].type            !== 'ExpressionStatement' ||
+        (ast.body[0].expression.type !== 'ArrowFunctionExpression' &&
+          ast.body[0].expression.type !== 'FunctionExpression')) {
+      return false;
+    }
+
+    return true;
+  } catch (err) {
+    return false;
+  }
+}
+
+function constructJavascriptFunction(data) {
+  /*jslint evil:true*/
+
+  var source = '(' + data + ')',
+      ast    = esprima.parse(source, { range: true }),
+      params = [],
+      body;
+
+  if (ast.type                    !== 'Program'             ||
+      ast.body.length             !== 1                     ||
+      ast.body[0].type            !== 'ExpressionStatement' ||
+      (ast.body[0].expression.type !== 'ArrowFunctionExpression' &&
+        ast.body[0].expression.type !== 'FunctionExpression')) {
+    throw new Error('Failed to resolve function');
+  }
+
+  ast.body[0].expression.params.forEach(function (param) {
+    params.push(param.name);
+  });
+
+  body = ast.body[0].expression.body.range;
+
+  // Esprima's ranges include the first '{' and the last '}' characters on
+  // function expressions. So cut them out.
+  if (ast.body[0].expression.body.type === 'BlockStatement') {
+    /*eslint-disable no-new-func*/
+    return new Function(params, source.slice(body[0] + 1, body[1] - 1));
+  }
+  // ES6 arrow functions can omit the BlockStatement. In that case, just return
+  // the body.
+  /*eslint-disable no-new-func*/
+  return new Function(params, 'return ' + source.slice(body[0], body[1]));
+}
+
+function representJavascriptFunction(object /*, style*/) {
+  return object.toString();
+}
+
+function isFunction(object) {
+  return Object.prototype.toString.call(object) === '[object Function]';
+}
+
+var _function = new type('tag:yaml.org,2002:js/function', {
+  kind: 'scalar',
+  resolve: resolveJavascriptFunction,
+  construct: constructJavascriptFunction,
+  predicate: isFunction,
+  represent: representJavascriptFunction
+});var default_full = schema.DEFAULT = new schema({
+  include: [
+    default_safe
+  ],
+  explicit: [
+    _undefined,
+    regexp,
+    _function
+  ]
+});/*eslint-disable max-len,no-use-before-define*/
+
+
+
+
+
+
+
+
+var _hasOwnProperty$2 = Object.prototype.hasOwnProperty;
+
+
+var CONTEXT_FLOW_IN   = 1;
+var CONTEXT_FLOW_OUT  = 2;
+var CONTEXT_BLOCK_IN  = 3;
+var CONTEXT_BLOCK_OUT = 4;
+
+
+var CHOMPING_CLIP  = 1;
+var CHOMPING_STRIP = 2;
+var CHOMPING_KEEP  = 3;
+
+
+var PATTERN_NON_PRINTABLE         = /[\x00-\x08\x0B\x0C\x0E-\x1F\x7F-\x84\x86-\x9F\uFFFE\uFFFF]|[\uD800-\uDBFF](?![\uDC00-\uDFFF])|(?:[^\uD800-\uDBFF]|^)[\uDC00-\uDFFF]/;
+var PATTERN_NON_ASCII_LINE_BREAKS = /[\x85\u2028\u2029]/;
+var PATTERN_FLOW_INDICATORS       = /[,\[\]\{\}]/;
+var PATTERN_TAG_HANDLE            = /^(?:!|!!|![a-z\-]+!)$/i;
+var PATTERN_TAG_URI               = /^(?:!|[^,\[\]\{\}])(?:%[0-9a-f]{2}|[0-9a-z\-#;\/\?:@&=\+\$,_\.!~\*'\(\)\[\]])*$/i;
+
+
+function _class(obj) { return Object.prototype.toString.call(obj); }
+
+function is_EOL(c) {
+  return (c === 0x0A/* LF */) || (c === 0x0D/* CR */);
+}
+
+function is_WHITE_SPACE(c) {
+  return (c === 0x09/* Tab */) || (c === 0x20/* Space */);
+}
+
+function is_WS_OR_EOL(c) {
+  return (c === 0x09/* Tab */) ||
+         (c === 0x20/* Space */) ||
+         (c === 0x0A/* LF */) ||
+         (c === 0x0D/* CR */);
+}
+
+function is_FLOW_INDICATOR(c) {
+  return c === 0x2C/* , */ ||
+         c === 0x5B/* [ */ ||
+         c === 0x5D/* ] */ ||
+         c === 0x7B/* { */ ||
+         c === 0x7D/* } */;
+}
+
+function fromHexCode(c) {
+  var lc;
+
+  if ((0x30/* 0 */ <= c) && (c <= 0x39/* 9 */)) {
+    return c - 0x30;
+  }
+
+  /*eslint-disable no-bitwise*/
+  lc = c | 0x20;
+
+  if ((0x61/* a */ <= lc) && (lc <= 0x66/* f */)) {
+    return lc - 0x61 + 10;
+  }
+
+  return -1;
+}
+
+function escapedHexLen(c) {
+  if (c === 0x78/* x */) { return 2; }
+  if (c === 0x75/* u */) { return 4; }
+  if (c === 0x55/* U */) { return 8; }
+  return 0;
+}
+
+function fromDecimalCode(c) {
+  if ((0x30/* 0 */ <= c) && (c <= 0x39/* 9 */)) {
+    return c - 0x30;
+  }
+
+  return -1;
+}
+
+function simpleEscapeSequence(c) {
+  /* eslint-disable indent */
+  return (c === 0x30/* 0 */) ? '\x00' :
+        (c === 0x61/* a */) ? '\x07' :
+        (c === 0x62/* b */) ? '\x08' :
+        (c === 0x74/* t */) ? '\x09' :
+        (c === 0x09/* Tab */) ? '\x09' :
+        (c === 0x6E/* n */) ? '\x0A' :
+        (c === 0x76/* v */) ? '\x0B' :
+        (c === 0x66/* f */) ? '\x0C' :
+        (c === 0x72/* r */) ? '\x0D' :
+        (c === 0x65/* e */) ? '\x1B' :
+        (c === 0x20/* Space */) ? ' ' :
+        (c === 0x22/* " */) ? '\x22' :
+        (c === 0x2F/* / */) ? '/' :
+        (c === 0x5C/* \ */) ? '\x5C' :
+        (c === 0x4E/* N */) ? '\x85' :
+        (c === 0x5F/* _ */) ? '\xA0' :
+        (c === 0x4C/* L */) ? '\u2028' :
+        (c === 0x50/* P */) ? '\u2029' : '';
+}
+
+function charFromCodepoint(c) {
+  if (c <= 0xFFFF) {
+    return String.fromCharCode(c);
+  }
+  // Encode UTF-16 surrogate pair
+  // https://en.wikipedia.org/wiki/UTF-16#Code_points_U.2B010000_to_U.2B10FFFF
+  return String.fromCharCode(
+    ((c - 0x010000) >> 10) + 0xD800,
+    ((c - 0x010000) & 0x03FF) + 0xDC00
+  );
+}
+
+var simpleEscapeCheck = new Array(256); // integer, for fast access
+var simpleEscapeMap = new Array(256);
+for (var i = 0; i < 256; i++) {
+  simpleEscapeCheck[i] = simpleEscapeSequence(i) ? 1 : 0;
+  simpleEscapeMap[i] = simpleEscapeSequence(i);
+}
+
+
+function State(input, options) {
+  this.input = input;
+
+  this.filename  = options['filename']  || null;
+  this.schema    = options['schema']    || default_full;
+  this.onWarning = options['onWarning'] || null;
+  this.legacy    = options['legacy']    || false;
+  this.json      = options['json']      || false;
+  this.listener  = options['listener']  || null;
+
+  this.implicitTypes = this.schema.compiledImplicit;
+  this.typeMap       = this.schema.compiledTypeMap;
+
+  this.length     = input.length;
+  this.position   = 0;
+  this.line       = 0;
+  this.lineStart  = 0;
+  this.lineIndent = 0;
+
+  this.documents = [];
+
+  /*
+  this.version;
+  this.checkLineBreaks;
+  this.tagMap;
+  this.anchorMap;
+  this.tag;
+  this.anchor;
+  this.kind;
+  this.result;*/
+
+}
+
+
+function generateError(state, message) {
+  return new exception(
+    message,
+    new mark(state.filename, state.input, state.position, state.line, (state.position - state.lineStart)));
+}
+
+function throwError(state, message) {
+  throw generateError(state, message);
+}
+
+function throwWarning(state, message) {
+  if (state.onWarning) {
+    state.onWarning.call(null, generateError(state, message));
+  }
+}
+
+
+var directiveHandlers = {
+
+  YAML: function handleYamlDirective(state, name, args) {
+
+    var match, major, minor;
+
+    if (state.version !== null) {
+      throwError(state, 'duplication of %YAML directive');
+    }
+
+    if (args.length !== 1) {
+      throwError(state, 'YAML directive accepts exactly one argument');
+    }
+
+    match = /^([0-9]+)\.([0-9]+)$/.exec(args[0]);
+
+    if (match === null) {
+      throwError(state, 'ill-formed argument of the YAML directive');
+    }
+
+    major = parseInt(match[1], 10);
+    minor = parseInt(match[2], 10);
+
+    if (major !== 1) {
+      throwError(state, 'unacceptable YAML version of the document');
+    }
+
+    state.version = args[0];
+    state.checkLineBreaks = (minor < 2);
+
+    if (minor !== 1 && minor !== 2) {
+      throwWarning(state, 'unsupported YAML version of the document');
+    }
+  },
+
+  TAG: function handleTagDirective(state, name, args) {
+
+    var handle, prefix;
+
+    if (args.length !== 2) {
+      throwError(state, 'TAG directive accepts exactly two arguments');
+    }
+
+    handle = args[0];
+    prefix = args[1];
+
+    if (!PATTERN_TAG_HANDLE.test(handle)) {
+      throwError(state, 'ill-formed tag handle (first argument) of the TAG directive');
+    }
+
+    if (_hasOwnProperty$2.call(state.tagMap, handle)) {
+      throwError(state, 'there is a previously declared suffix for "' + handle + '" tag handle');
+    }
+
+    if (!PATTERN_TAG_URI.test(prefix)) {
+      throwError(state, 'ill-formed tag prefix (second argument) of the TAG directive');
+    }
+
+    state.tagMap[handle] = prefix;
+  }
+};
+
+
+function captureSegment(state, start, end, checkJson) {
+  var _position, _length, _character, _result;
+
+  if (start < end) {
+    _result = state.input.slice(start, end);
+
+    if (checkJson) {
+      for (_position = 0, _length = _result.length; _position < _length; _position += 1) {
+        _character = _result.charCodeAt(_position);
+        if (!(_character === 0x09 ||
+              (0x20 <= _character && _character <= 0x10FFFF))) {
+          throwError(state, 'expected valid JSON character');
+        }
+      }
+    } else if (PATTERN_NON_PRINTABLE.test(_result)) {
+      throwError(state, 'the stream contains non-printable characters');
+    }
+
+    state.result += _result;
+  }
+}
+
+function mergeMappings(state, destination, source, overridableKeys) {
+  var sourceKeys, key, index, quantity;
+
+  if (!common.isObject(source)) {
+    throwError(state, 'cannot merge mappings; the provided source object is unacceptable');
+  }
+
+  sourceKeys = Object.keys(source);
+
+  for (index = 0, quantity = sourceKeys.length; index < quantity; index += 1) {
+    key = sourceKeys[index];
+
+    if (!_hasOwnProperty$2.call(destination, key)) {
+      destination[key] = source[key];
+      overridableKeys[key] = true;
+    }
+  }
+}
+
+function storeMappingPair(state, _result, overridableKeys, keyTag, keyNode, valueNode, startLine, startPos) {
+  var index, quantity;
+
+  // The output is a plain object here, so keys can only be strings.
+  // We need to convert keyNode to a string, but doing so can hang the process
+  // (deeply nested arrays that explode exponentially using aliases).
+  if (Array.isArray(keyNode)) {
+    keyNode = Array.prototype.slice.call(keyNode);
+
+    for (index = 0, quantity = keyNode.length; index < quantity; index += 1) {
+      if (Array.isArray(keyNode[index])) {
+        throwError(state, 'nested arrays are not supported inside keys');
+      }
+
+      if (typeof keyNode === 'object' && _class(keyNode[index]) === '[object Object]') {
+        keyNode[index] = '[object Object]';
+      }
+    }
+  }
+
+  // Avoid code execution in load() via toString property
+  // (still use its own toString for arrays, timestamps,
+  // and whatever user schema extensions happen to have @@toStringTag)
+  if (typeof keyNode === 'object' && _class(keyNode) === '[object Object]') {
+    keyNode = '[object Object]';
+  }
+
+
+  keyNode = String(keyNode);
+
+  if (_result === null) {
+    _result = {};
+  }
+
+  if (keyTag === 'tag:yaml.org,2002:merge') {
+    if (Array.isArray(valueNode)) {
+      for (index = 0, quantity = valueNode.length; index < quantity; index += 1) {
+        mergeMappings(state, _result, valueNode[index], overridableKeys);
+      }
+    } else {
+      mergeMappings(state, _result, valueNode, overridableKeys);
+    }
+  } else {
+    if (!state.json &&
+        !_hasOwnProperty$2.call(overridableKeys, keyNode) &&
+        _hasOwnProperty$2.call(_result, keyNode)) {
+      state.line = startLine || state.line;
+      state.position = startPos || state.position;
+      throwError(state, 'duplicated mapping key');
+    }
+    _result[keyNode] = valueNode;
+    delete overridableKeys[keyNode];
+  }
+
+  return _result;
+}
+
+function readLineBreak(state) {
+  var ch;
+
+  ch = state.input.charCodeAt(state.position);
+
+  if (ch === 0x0A/* LF */) {
+    state.position++;
+  } else if (ch === 0x0D/* CR */) {
+    state.position++;
+    if (state.input.charCodeAt(state.position) === 0x0A/* LF */) {
+      state.position++;
+    }
+  } else {
+    throwError(state, 'a line break is expected');
+  }
+
+  state.line += 1;
+  state.lineStart = state.position;
+}
+
+function skipSeparationSpace(state, allowComments, checkIndent) {
+  var lineBreaks = 0,
+      ch = state.input.charCodeAt(state.position);
+
+  while (ch !== 0) {
+    while (is_WHITE_SPACE(ch)) {
+      ch = state.input.charCodeAt(++state.position);
+    }
+
+    if (allowComments && ch === 0x23/* # */) {
+      do {
+        ch = state.input.charCodeAt(++state.position);
+      } while (ch !== 0x0A/* LF */ && ch !== 0x0D/* CR */ && ch !== 0);
+    }
+
+    if (is_EOL(ch)) {
+      readLineBreak(state);
+
+      ch = state.input.charCodeAt(state.position);
+      lineBreaks++;
+      state.lineIndent = 0;
+
+      while (ch === 0x20/* Space */) {
+        state.lineIndent++;
+        ch = state.input.charCodeAt(++state.position);
+      }
+    } else {
+      break;
+    }
+  }
+
+  if (checkIndent !== -1 && lineBreaks !== 0 && state.lineIndent < checkIndent) {
+    throwWarning(state, 'deficient indentation');
+  }
+
+  return lineBreaks;
+}
+
+function testDocumentSeparator(state) {
+  var _position = state.position,
+      ch;
+
+  ch = state.input.charCodeAt(_position);
+
+  // Condition state.position === state.lineStart is tested
+  // in parent on each call, for efficiency. No needs to test here again.
+  if ((ch === 0x2D/* - */ || ch === 0x2E/* . */) &&
+      ch === state.input.charCodeAt(_position + 1) &&
+      ch === state.input.charCodeAt(_position + 2)) {
+
+    _position += 3;
+
+    ch = state.input.charCodeAt(_position);
+
+    if (ch === 0 || is_WS_OR_EOL(ch)) {
+      return true;
+    }
+  }
+
+  return false;
+}
+
+function writeFoldedLines(state, count) {
+  if (count === 1) {
+    state.result += ' ';
+  } else if (count > 1) {
+    state.result += common.repeat('\n', count - 1);
+  }
+}
+
+
+function readPlainScalar(state, nodeIndent, withinFlowCollection) {
+  var preceding,
+      following,
+      captureStart,
+      captureEnd,
+      hasPendingContent,
+      _line,
+      _lineStart,
+      _lineIndent,
+      _kind = state.kind,
+      _result = state.result,
+      ch;
+
+  ch = state.input.charCodeAt(state.position);
+
+  if (is_WS_OR_EOL(ch)      ||
+      is_FLOW_INDICATOR(ch) ||
+      ch === 0x23/* # */    ||
+      ch === 0x26/* & */    ||
+      ch === 0x2A/* * */    ||
+      ch === 0x21/* ! */    ||
+      ch === 0x7C/* | */    ||
+      ch === 0x3E/* > */    ||
+      ch === 0x27/* ' */    ||
+      ch === 0x22/* " */    ||
+      ch === 0x25/* % */    ||
+      ch === 0x40/* @ */    ||
+      ch === 0x60/* ` */) {
+    return false;
+  }
+
+  if (ch === 0x3F/* ? */ || ch === 0x2D/* - */) {
+    following = state.input.charCodeAt(state.position + 1);
+
+    if (is_WS_OR_EOL(following) ||
+        withinFlowCollection && is_FLOW_INDICATOR(following)) {
+      return false;
+    }
+  }
+
+  state.kind = 'scalar';
+  state.result = '';
+  captureStart = captureEnd = state.position;
+  hasPendingContent = false;
+
+  while (ch !== 0) {
+    if (ch === 0x3A/* : */) {
+      following = state.input.charCodeAt(state.position + 1);
+
+      if (is_WS_OR_EOL(following) ||
+          withinFlowCollection && is_FLOW_INDICATOR(following)) {
+        break;
+      }
+
+    } else if (ch === 0x23/* # */) {
+      preceding = state.input.charCodeAt(state.position - 1);
+
+      if (is_WS_OR_EOL(preceding)) {
+        break;
+      }
+
+    } else if ((state.position === state.lineStart && testDocumentSeparator(state)) ||
+               withinFlowCollection && is_FLOW_INDICATOR(ch)) {
+      break;
+
+    } else if (is_EOL(ch)) {
+      _line = state.line;
+      _lineStart = state.lineStart;
+      _lineIndent = state.lineIndent;
+      skipSeparationSpace(state, false, -1);
+
+      if (state.lineIndent >= nodeIndent) {
+        hasPendingContent = true;
+        ch = state.input.charCodeAt(state.position);
+        continue;
+      } else {
+        state.position = captureEnd;
+        state.line = _line;
+        state.lineStart = _lineStart;
+        state.lineIndent = _lineIndent;
+        break;
+      }
+    }
+
+    if (hasPendingContent) {
+      captureSegment(state, captureStart, captureEnd, false);
+      writeFoldedLines(state, state.line - _line);
+      captureStart = captureEnd = state.position;
+      hasPendingContent = false;
+    }
+
+    if (!is_WHITE_SPACE(ch)) {
+      captureEnd = state.position + 1;
+    }
+
+    ch = state.input.charCodeAt(++state.position);
+  }
+
+  captureSegment(state, captureStart, captureEnd, false);
+
+  if (state.result) {
+    return true;
+  }
+
+  state.kind = _kind;
+  state.result = _result;
+  return false;
+}
+
+function readSingleQuotedScalar(state, nodeIndent) {
+  var ch,
+      captureStart, captureEnd;
+
+  ch = state.input.charCodeAt(state.position);
+
+  if (ch !== 0x27/* ' */) {
+    return false;
+  }
+
+  state.kind = 'scalar';
+  state.result = '';
+  state.position++;
+  captureStart = captureEnd = state.position;
+
+  while ((ch = state.input.charCodeAt(state.position)) !== 0) {
+    if (ch === 0x27/* ' */) {
+      captureSegment(state, captureStart, state.position, true);
+      ch = state.input.charCodeAt(++state.position);
+
+      if (ch === 0x27/* ' */) {
+        captureStart = state.position;
+        state.position++;
+        captureEnd = state.position;
+      } else {
+        return true;
+      }
+
+    } else if (is_EOL(ch)) {
+      captureSegment(state, captureStart, captureEnd, true);
+      writeFoldedLines(state, skipSeparationSpace(state, false, nodeIndent));
+      captureStart = captureEnd = state.position;
+
+    } else if (state.position === state.lineStart && testDocumentSeparator(state)) {
+      throwError(state, 'unexpected end of the document within a single quoted scalar');
+
+    } else {
+      state.position++;
+      captureEnd = state.position;
+    }
+  }
+
+  throwError(state, 'unexpected end of the stream within a single quoted scalar');
+}
+
+function readDoubleQuotedScalar(state, nodeIndent) {
+  var captureStart,
+      captureEnd,
+      hexLength,
+      hexResult,
+      tmp,
+      ch;
+
+  ch = state.input.charCodeAt(state.position);
+
+  if (ch !== 0x22/* " */) {
+    return false;
+  }
+
+  state.kind = 'scalar';
+  state.result = '';
+  state.position++;
+  captureStart = captureEnd = state.position;
+
+  while ((ch = state.input.charCodeAt(state.position)) !== 0) {
+    if (ch === 0x22/* " */) {
+      captureSegment(state, captureStart, state.position, true);
+      state.position++;
+      return true;
+
+    } else if (ch === 0x5C/* \ */) {
+      captureSegment(state, captureStart, state.position, true);
+      ch = state.input.charCodeAt(++state.position);
+
+      if (is_EOL(ch)) {
+        skipSeparationSpace(state, false, nodeIndent);
+
+        // TODO: rework to inline fn with no type cast?
+      } else if (ch < 256 && simpleEscapeCheck[ch]) {
+        state.result += simpleEscapeMap[ch];
+        state.position++;
+
+      } else if ((tmp = escapedHexLen(ch)) > 0) {
+        hexLength = tmp;
+        hexResult = 0;
+
+        for (; hexLength > 0; hexLength--) {
+          ch = state.input.charCodeAt(++state.position);
+
+          if ((tmp = fromHexCode(ch)) >= 0) {
+            hexResult = (hexResult << 4) + tmp;
+
+          } else {
+            throwError(state, 'expected hexadecimal character');
+          }
+        }
+
+        state.result += charFromCodepoint(hexResult);
+
+        state.position++;
+
+      } else {
+        throwError(state, 'unknown escape sequence');
+      }
+
+      captureStart = captureEnd = state.position;
+
+    } else if (is_EOL(ch)) {
+      captureSegment(state, captureStart, captureEnd, true);
+      writeFoldedLines(state, skipSeparationSpace(state, false, nodeIndent));
+      captureStart = captureEnd = state.position;
+
+    } else if (state.position === state.lineStart && testDocumentSeparator(state)) {
+      throwError(state, 'unexpected end of the document within a double quoted scalar');
+
+    } else {
+      state.position++;
+      captureEnd = state.position;
+    }
+  }
+
+  throwError(state, 'unexpected end of the stream within a double quoted scalar');
+}
+
+function readFlowCollection(state, nodeIndent) {
+  var readNext = true,
+      _line,
+      _tag     = state.tag,
+      _result,
+      _anchor  = state.anchor,
+      following,
+      terminator,
+      isPair,
+      isExplicitPair,
+      isMapping,
+      overridableKeys = {},
+      keyNode,
+      keyTag,
+      valueNode,
+      ch;
+
+  ch = state.input.charCodeAt(state.position);
+
+  if (ch === 0x5B/* [ */) {
+    terminator = 0x5D;/* ] */
+    isMapping = false;
+    _result = [];
+  } else if (ch === 0x7B/* { */) {
+    terminator = 0x7D;/* } */
+    isMapping = true;
+    _result = {};
+  } else {
+    return false;
+  }
+
+  if (state.anchor !== null) {
+    state.anchorMap[state.anchor] = _result;
+  }
+
+  ch = state.input.charCodeAt(++state.position);
+
+  while (ch !== 0) {
+    skipSeparationSpace(state, true, nodeIndent);
+
+    ch = state.input.charCodeAt(state.position);
+
+    if (ch === terminator) {
+      state.position++;
+      state.tag = _tag;
+      state.anchor = _anchor;
+      state.kind = isMapping ? 'mapping' : 'sequence';
+      state.result = _result;
+      return true;
+    } else if (!readNext) {
+      throwError(state, 'missed comma between flow collection entries');
+    }
+
+    keyTag = keyNode = valueNode = null;
+    isPair = isExplicitPair = false;
+
+    if (ch === 0x3F/* ? */) {
+      following = state.input.charCodeAt(state.position + 1);
+
+      if (is_WS_OR_EOL(following)) {
+        isPair = isExplicitPair = true;
+        state.position++;
+        skipSeparationSpace(state, true, nodeIndent);
+      }
+    }
+
+    _line = state.line;
+    composeNode(state, nodeIndent, CONTEXT_FLOW_IN, false, true);
+    keyTag = state.tag;
+    keyNode = state.result;
+    skipSeparationSpace(state, true, nodeIndent);
+
+    ch = state.input.charCodeAt(state.position);
+
+    if ((isExplicitPair || state.line === _line) && ch === 0x3A/* : */) {
+      isPair = true;
+      ch = state.input.charCodeAt(++state.position);
+      skipSeparationSpace(state, true, nodeIndent);
+      composeNode(state, nodeIndent, CONTEXT_FLOW_IN, false, true);
+      valueNode = state.result;
+    }
+
+    if (isMapping) {
+      storeMappingPair(state, _result, overridableKeys, keyTag, keyNode, valueNode);
+    } else if (isPair) {
+      _result.push(storeMappingPair(state, null, overridableKeys, keyTag, keyNode, valueNode));
+    } else {
+      _result.push(keyNode);
+    }
+
+    skipSeparationSpace(state, true, nodeIndent);
+
+    ch = state.input.charCodeAt(state.position);
+
+    if (ch === 0x2C/* , */) {
+      readNext = true;
+      ch = state.input.charCodeAt(++state.position);
+    } else {
+      readNext = false;
+    }
+  }
+
+  throwError(state, 'unexpected end of the stream within a flow collection');
+}
+
+function readBlockScalar(state, nodeIndent) {
+  var captureStart,
+      folding,
+      chomping       = CHOMPING_CLIP,
+      didReadContent = false,
+      detectedIndent = false,
+      textIndent     = nodeIndent,
+      emptyLines     = 0,
+      atMoreIndented = false,
+      tmp,
+      ch;
+
+  ch = state.input.charCodeAt(state.position);
+
+  if (ch === 0x7C/* | */) {
+    folding = false;
+  } else if (ch === 0x3E/* > */) {
+    folding = true;
+  } else {
+    return false;
+  }
+
+  state.kind = 'scalar';
+  state.result = '';
+
+  while (ch !== 0) {
+    ch = state.input.charCodeAt(++state.position);
+
+    if (ch === 0x2B/* + */ || ch === 0x2D/* - */) {
+      if (CHOMPING_CLIP === chomping) {
+        chomping = (ch === 0x2B/* + */) ? CHOMPING_KEEP : CHOMPING_STRIP;
+      } else {
+        throwError(state, 'repeat of a chomping mode identifier');
+      }
+
+    } else if ((tmp = fromDecimalCode(ch)) >= 0) {
+      if (tmp === 0) {
+        throwError(state, 'bad explicit indentation width of a block scalar; it cannot be less than one');
+      } else if (!detectedIndent) {
+        textIndent = nodeIndent + tmp - 1;
+        detectedIndent = true;
+      } else {
+        throwError(state, 'repeat of an indentation width identifier');
+      }
+
+    } else {
+      break;
+    }
+  }
+
+  if (is_WHITE_SPACE(ch)) {
+    do { ch = state.input.charCodeAt(++state.position); }
+    while (is_WHITE_SPACE(ch));
+
+    if (ch === 0x23/* # */) {
+      do { ch = state.input.charCodeAt(++state.position); }
+      while (!is_EOL(ch) && (ch !== 0));
+    }
+  }
+
+  while (ch !== 0) {
+    readLineBreak(state);
+    state.lineIndent = 0;
+
+    ch = state.input.charCodeAt(state.position);
+
+    while ((!detectedIndent || state.lineIndent < textIndent) &&
+           (ch === 0x20/* Space */)) {
+      state.lineIndent++;
+      ch = state.input.charCodeAt(++state.position);
+    }
+
+    if (!detectedIndent && state.lineIndent > textIndent) {
+      textIndent = state.lineIndent;
+    }
+
+    if (is_EOL(ch)) {
+      emptyLines++;
+      continue;
+    }
+
+    // End of the scalar.
+    if (state.lineIndent < textIndent) {
+
+      // Perform the chomping.
+      if (chomping === CHOMPING_KEEP) {
+        state.result += common.repeat('\n', didReadContent ? 1 + emptyLines : emptyLines);
+      } else if (chomping === CHOMPING_CLIP) {
+        if (didReadContent) { // i.e. only if the scalar is not empty.
+          state.result += '\n';
+        }
+      }
+
+      // Break this `while` cycle and go to the funciton's epilogue.
+      break;
+    }
+
+    // Folded style: use fancy rules to handle line breaks.
+    if (folding) {
+
+      // Lines starting with white space characters (more-indented lines) are not folded.
+      if (is_WHITE_SPACE(ch)) {
+        atMoreIndented = true;
+        // except for the first content line (cf. Example 8.1)
+        state.result += common.repeat('\n', didReadContent ? 1 + emptyLines : emptyLines);
+
+      // End of more-indented block.
+      } else if (atMoreIndented) {
+        atMoreIndented = false;
+        state.result += common.repeat('\n', emptyLines + 1);
+
+      // Just one line break - perceive as the same line.
+      } else if (emptyLines === 0) {
+        if (didReadContent) { // i.e. only if we have already read some scalar content.
+          state.result += ' ';
+        }
+
+      // Several line breaks - perceive as different lines.
+      } else {
+        state.result += common.repeat('\n', emptyLines);
+      }
+
+    // Literal style: just add exact number of line breaks between content lines.
+    } else {
+      // Keep all line breaks except the header line break.
+      state.result += common.repeat('\n', didReadContent ? 1 + emptyLines : emptyLines);
+    }
+
+    didReadContent = true;
+    detectedIndent = true;
+    emptyLines = 0;
+    captureStart = state.position;
+
+    while (!is_EOL(ch) && (ch !== 0)) {
+      ch = state.input.charCodeAt(++state.position);
+    }
+
+    captureSegment(state, captureStart, state.position, false);
+  }
+
+  return true;
+}
+
+function readBlockSequence(state, nodeIndent) {
+  var _line,
+      _tag      = state.tag,
+      _anchor   = state.anchor,
+      _result   = [],
+      following,
+      detected  = false,
+      ch;
+
+  if (state.anchor !== null) {
+    state.anchorMap[state.anchor] = _result;
+  }
+
+  ch = state.input.charCodeAt(state.position);
+
+  while (ch !== 0) {
+
+    if (ch !== 0x2D/* - */) {
+      break;
+    }
+
+    following = state.input.charCodeAt(state.position + 1);
+
+    if (!is_WS_OR_EOL(following)) {
+      break;
+    }
+
+    detected = true;
+    state.position++;
+
+    if (skipSeparationSpace(state, true, -1)) {
+      if (state.lineIndent <= nodeIndent) {
+        _result.push(null);
+        ch = state.input.charCodeAt(state.position);
+        continue;
+      }
+    }
+
+    _line = state.line;
+    composeNode(state, nodeIndent, CONTEXT_BLOCK_IN, false, true);
+    _result.push(state.result);
+    skipSeparationSpace(state, true, -1);
+
+    ch = state.input.charCodeAt(state.position);
+
+    if ((state.line === _line || state.lineIndent > nodeIndent) && (ch !== 0)) {
+      throwError(state, 'bad indentation of a sequence entry');
+    } else if (state.lineIndent < nodeIndent) {
+      break;
+    }
+  }
+
+  if (detected) {
+    state.tag = _tag;
+    state.anchor = _anchor;
+    state.kind = 'sequence';
+    state.result = _result;
+    return true;
+  }
+  return false;
+}
+
+function readBlockMapping(state, nodeIndent, flowIndent) {
+  var following,
+      allowCompact,
+      _line,
+      _pos,
+      _tag          = state.tag,
+      _anchor       = state.anchor,
+      _result       = {},
+      overridableKeys = {},
+      keyTag        = null,
+      keyNode       = null,
+      valueNode     = null,
+      atExplicitKey = false,
+      detected      = false,
+      ch;
+
+  if (state.anchor !== null) {
+    state.anchorMap[state.anchor] = _result;
+  }
+
+  ch = state.input.charCodeAt(state.position);
+
+  while (ch !== 0) {
+    following = state.input.charCodeAt(state.position + 1);
+    _line = state.line; // Save the current line.
+    _pos = state.position;
+
+    //
+    // Explicit notation case. There are two separate blocks:
+    // first for the key (denoted by "?") and second for the value (denoted by ":")
+    //
+    if ((ch === 0x3F/* ? */ || ch === 0x3A/* : */) && is_WS_OR_EOL(following)) {
+
+      if (ch === 0x3F/* ? */) {
+        if (atExplicitKey) {
+          storeMappingPair(state, _result, overridableKeys, keyTag, keyNode, null);
+          keyTag = keyNode = valueNode = null;
+        }
+
+        detected = true;
+        atExplicitKey = true;
+        allowCompact = true;
+
+      } else if (atExplicitKey) {
+        // i.e. 0x3A/* : */ === character after the explicit key.
+        atExplicitKey = false;
+        allowCompact = true;
+
+      } else {
+        throwError(state, 'incomplete explicit mapping pair; a key node is missed; or followed by a non-tabulated empty line');
+      }
+
+      state.position += 1;
+      ch = following;
+
+    //
+    // Implicit notation case. Flow-style node as the key first, then ":", and the value.
+    //
+    } else if (composeNode(state, flowIndent, CONTEXT_FLOW_OUT, false, true)) {
+
+      if (state.line === _line) {
+        ch = state.input.charCodeAt(state.position);
+
+        while (is_WHITE_SPACE(ch)) {
+          ch = state.input.charCodeAt(++state.position);
+        }
+
+        if (ch === 0x3A/* : */) {
+          ch = state.input.charCodeAt(++state.position);
+
+          if (!is_WS_OR_EOL(ch)) {
+            throwError(state, 'a whitespace character is expected after the key-value separator within a block mapping');
+          }
+
+          if (atExplicitKey) {
+            storeMappingPair(state, _result, overridableKeys, keyTag, keyNode, null);
+            keyTag = keyNode = valueNode = null;
+          }
+
+          detected = true;
+          atExplicitKey = false;
+          allowCompact = false;
+          keyTag = state.tag;
+          keyNode = state.result;
+
+        } else if (detected) {
+          throwError(state, 'can not read an implicit mapping pair; a colon is missed');
+
+        } else {
+          state.tag = _tag;
+          state.anchor = _anchor;
+          return true; // Keep the result of `composeNode`.
+        }
+
+      } else if (detected) {
+        throwError(state, 'can not read a block mapping entry; a multiline key may not be an implicit key');
+
+      } else {
+        state.tag = _tag;
+        state.anchor = _anchor;
+        return true; // Keep the result of `composeNode`.
+      }
+
+    } else {
+      break; // Reading is done. Go to the epilogue.
+    }
+
+    //
+    // Common reading code for both explicit and implicit notations.
+    //
+    if (state.line === _line || state.lineIndent > nodeIndent) {
+      if (composeNode(state, nodeIndent, CONTEXT_BLOCK_OUT, true, allowCompact)) {
+        if (atExplicitKey) {
+          keyNode = state.result;
+        } else {
+          valueNode = state.result;
+        }
+      }
+
+      if (!atExplicitKey) {
+        storeMappingPair(state, _result, overridableKeys, keyTag, keyNode, valueNode, _line, _pos);
+        keyTag = keyNode = valueNode = null;
+      }
+
+      skipSeparationSpace(state, true, -1);
+      ch = state.input.charCodeAt(state.position);
+    }
+
+    if (state.lineIndent > nodeIndent && (ch !== 0)) {
+      throwError(state, 'bad indentation of a mapping entry');
+    } else if (state.lineIndent < nodeIndent) {
+      break;
+    }
+  }
+
+  //
+  // Epilogue.
+  //
+
+  // Special case: last mapping's node contains only the key in explicit notation.
+  if (atExplicitKey) {
+    storeMappingPair(state, _result, overridableKeys, keyTag, keyNode, null);
+  }
+
+  // Expose the resulting mapping.
+  if (detected) {
+    state.tag = _tag;
+    state.anchor = _anchor;
+    state.kind = 'mapping';
+    state.result = _result;
+  }
+
+  return detected;
+}
+
+function readTagProperty(state) {
+  var _position,
+      isVerbatim = false,
+      isNamed    = false,
+      tagHandle,
+      tagName,
+      ch;
+
+  ch = state.input.charCodeAt(state.position);
+
+  if (ch !== 0x21/* ! */) return false;
+
+  if (state.tag !== null) {
+    throwError(state, 'duplication of a tag property');
+  }
+
+  ch = state.input.charCodeAt(++state.position);
+
+  if (ch === 0x3C/* < */) {
+    isVerbatim = true;
+    ch = state.input.charCodeAt(++state.position);
+
+  } else if (ch === 0x21/* ! */) {
+    isNamed = true;
+    tagHandle = '!!';
+    ch = state.input.charCodeAt(++state.position);
+
+  } else {
+    tagHandle = '!';
+  }
+
+  _position = state.position;
+
+  if (isVerbatim) {
+    do { ch = state.input.charCodeAt(++state.position); }
+    while (ch !== 0 && ch !== 0x3E/* > */);
+
+    if (state.position < state.length) {
+      tagName = state.input.slice(_position, state.position);
+      ch = state.input.charCodeAt(++state.position);
+    } else {
+      throwError(state, 'unexpected end of the stream within a verbatim tag');
+    }
+  } else {
+    while (ch !== 0 && !is_WS_OR_EOL(ch)) {
+
+      if (ch === 0x21/* ! */) {
+        if (!isNamed) {
+          tagHandle = state.input.slice(_position - 1, state.position + 1);
+
+          if (!PATTERN_TAG_HANDLE.test(tagHandle)) {
+            throwError(state, 'named tag handle cannot contain such characters');
+          }
+
+          isNamed = true;
+          _position = state.position + 1;
+        } else {
+          throwError(state, 'tag suffix cannot contain exclamation marks');
+        }
+      }
+
+      ch = state.input.charCodeAt(++state.position);
+    }
+
+    tagName = state.input.slice(_position, state.position);
+
+    if (PATTERN_FLOW_INDICATORS.test(tagName)) {
+      throwError(state, 'tag suffix cannot contain flow indicator characters');
+    }
+  }
+
+  if (tagName && !PATTERN_TAG_URI.test(tagName)) {
+    throwError(state, 'tag name cannot contain such characters: ' + tagName);
+  }
+
+  if (isVerbatim) {
+    state.tag = tagName;
+
+  } else if (_hasOwnProperty$2.call(state.tagMap, tagHandle)) {
+    state.tag = state.tagMap[tagHandle] + tagName;
+
+  } else if (tagHandle === '!') {
+    state.tag = '!' + tagName;
+
+  } else if (tagHandle === '!!') {
+    state.tag = 'tag:yaml.org,2002:' + tagName;
+
+  } else {
+    throwError(state, 'undeclared tag handle "' + tagHandle + '"');
+  }
+
+  return true;
+}
+
+function readAnchorProperty(state) {
+  var _position,
+      ch;
+
+  ch = state.input.charCodeAt(state.position);
+
+  if (ch !== 0x26/* & */) return false;
+
+  if (state.anchor !== null) {
+    throwError(state, 'duplication of an anchor property');
+  }
+
+  ch = state.input.charCodeAt(++state.position);
+  _position = state.position;
+
+  while (ch !== 0 && !is_WS_OR_EOL(ch) && !is_FLOW_INDICATOR(ch)) {
+    ch = state.input.charCodeAt(++state.position);
+  }
+
+  if (state.position === _position) {
+    throwError(state, 'name of an anchor node must contain at least one character');
+  }
+
+  state.anchor = state.input.slice(_position, state.position);
+  return true;
+}
+
+function readAlias(state) {
+  var _position, alias,
+      ch;
+
+  ch = state.input.charCodeAt(state.position);
+
+  if (ch !== 0x2A/* * */) return false;
+
+  ch = state.input.charCodeAt(++state.position);
+  _position = state.position;
+
+  while (ch !== 0 && !is_WS_OR_EOL(ch) && !is_FLOW_INDICATOR(ch)) {
+    ch = state.input.charCodeAt(++state.position);
+  }
+
+  if (state.position === _position) {
+    throwError(state, 'name of an alias node must contain at least one character');
+  }
+
+  alias = state.input.slice(_position, state.position);
+
+  if (!state.anchorMap.hasOwnProperty(alias)) {
+    throwError(state, 'unidentified alias "' + alias + '"');
+  }
+
+  state.result = state.anchorMap[alias];
+  skipSeparationSpace(state, true, -1);
+  return true;
+}
+
+function composeNode(state, parentIndent, nodeContext, allowToSeek, allowCompact) {
+  var allowBlockStyles,
+      allowBlockScalars,
+      allowBlockCollections,
+      indentStatus = 1, // 1: this>parent, 0: this=parent, -1: this<parent
+      atNewLine  = false,
+      hasContent = false,
+      typeIndex,
+      typeQuantity,
+      type,
+      flowIndent,
+      blockIndent;
+
+  if (state.listener !== null) {
+    state.listener('open', state);
+  }
+
+  state.tag    = null;
+  state.anchor = null;
+  state.kind   = null;
+  state.result = null;
+
+  allowBlockStyles = allowBlockScalars = allowBlockCollections =
+    CONTEXT_BLOCK_OUT === nodeContext ||
+    CONTEXT_BLOCK_IN  === nodeContext;
+
+  if (allowToSeek) {
+    if (skipSeparationSpace(state, true, -1)) {
+      atNewLine = true;
+
+      if (state.lineIndent > parentIndent) {
+        indentStatus = 1;
+      } else if (state.lineIndent === parentIndent) {
+        indentStatus = 0;
+      } else if (state.lineIndent < parentIndent) {
+        indentStatus = -1;
+      }
+    }
+  }
+
+  if (indentStatus === 1) {
+    while (readTagProperty(state) || readAnchorProperty(state)) {
+      if (skipSeparationSpace(state, true, -1)) {
+        atNewLine = true;
+        allowBlockCollections = allowBlockStyles;
+
+        if (state.lineIndent > parentIndent) {
+          indentStatus = 1;
+        } else if (state.lineIndent === parentIndent) {
+          indentStatus = 0;
+        } else if (state.lineIndent < parentIndent) {
+          indentStatus = -1;
+        }
+      } else {
+        allowBlockCollections = false;
+      }
+    }
+  }
+
+  if (allowBlockCollections) {
+    allowBlockCollections = atNewLine || allowCompact;
+  }
+
+  if (indentStatus === 1 || CONTEXT_BLOCK_OUT === nodeContext) {
+    if (CONTEXT_FLOW_IN === nodeContext || CONTEXT_FLOW_OUT === nodeContext) {
+      flowIndent = parentIndent;
+    } else {
+      flowIndent = parentIndent + 1;
+    }
+
+    blockIndent = state.position - state.lineStart;
+
+    if (indentStatus === 1) {
+      if (allowBlockCollections &&
+          (readBlockSequence(state, blockIndent) ||
+           readBlockMapping(state, blockIndent, flowIndent)) ||
+          readFlowCollection(state, flowIndent)) {
+        hasContent = true;
+      } else {
+        if ((allowBlockScalars && readBlockScalar(state, flowIndent)) ||
+            readSingleQuotedScalar(state, flowIndent) ||
+            readDoubleQuotedScalar(state, flowIndent)) {
+          hasContent = true;
+
+        } else if (readAlias(state)) {
+          hasContent = true;
+
+          if (state.tag !== null || state.anchor !== null) {
+            throwError(state, 'alias node should not have any properties');
+          }
+
+        } else if (readPlainScalar(state, flowIndent, CONTEXT_FLOW_IN === nodeContext)) {
+          hasContent = true;
+
+          if (state.tag === null) {
+            state.tag = '?';
+          }
+        }
+
+        if (state.anchor !== null) {
+          state.anchorMap[state.anchor] = state.result;
+        }
+      }
+    } else if (indentStatus === 0) {
+      // Special case: block sequences are allowed to have same indentation level as the parent.
+      // http://www.yaml.org/spec/1.2/spec.html#id2799784
+      hasContent = allowBlockCollections && readBlockSequence(state, blockIndent);
+    }
+  }
+
+  if (state.tag !== null && state.tag !== '!') {
+    if (state.tag === '?') {
+      for (typeIndex = 0, typeQuantity = state.implicitTypes.length; typeIndex < typeQuantity; typeIndex += 1) {
+        type = state.implicitTypes[typeIndex];
+
+        // Implicit resolving is not allowed for non-scalar types, and '?'
+        // non-specific tag is only assigned to plain scalars. So, it isn't
+        // needed to check for 'kind' conformity.
+
+        if (type.resolve(state.result)) { // `state.result` updated in resolver if matched
+          state.result = type.construct(state.result);
+          state.tag = type.tag;
+          if (state.anchor !== null) {
+            state.anchorMap[state.anchor] = state.result;
+          }
+          break;
+        }
+      }
+    } else if (_hasOwnProperty$2.call(state.typeMap[state.kind || 'fallback'], state.tag)) {
+      type = state.typeMap[state.kind || 'fallback'][state.tag];
+
+      if (state.result !== null && type.kind !== state.kind) {
+        throwError(state, 'unacceptable node kind for !<' + state.tag + '> tag; it should be "' + type.kind + '", not "' + state.kind + '"');
+      }
+
+      if (!type.resolve(state.result)) { // `state.result` updated in resolver if matched
+        throwError(state, 'cannot resolve a node with !<' + state.tag + '> explicit tag');
+      } else {
+        state.result = type.construct(state.result);
+        if (state.anchor !== null) {
+          state.anchorMap[state.anchor] = state.result;
+        }
+      }
+    } else {
+      throwError(state, 'unknown tag !<' + state.tag + '>');
+    }
+  }
+
+  if (state.listener !== null) {
+    state.listener('close', state);
+  }
+  return state.tag !== null ||  state.anchor !== null || hasContent;
+}
+
+function readDocument(state) {
+  var documentStart = state.position,
+      _position,
+      directiveName,
+      directiveArgs,
+      hasDirectives = false,
+      ch;
+
+  state.version = null;
+  state.checkLineBreaks = state.legacy;
+  state.tagMap = {};
+  state.anchorMap = {};
+
+  while ((ch = state.input.charCodeAt(state.position)) !== 0) {
+    skipSeparationSpace(state, true, -1);
+
+    ch = state.input.charCodeAt(state.position);
+
+    if (state.lineIndent > 0 || ch !== 0x25/* % */) {
+      break;
+    }
+
+    hasDirectives = true;
+    ch = state.input.charCodeAt(++state.position);
+    _position = state.position;
+
+    while (ch !== 0 && !is_WS_OR_EOL(ch)) {
+      ch = state.input.charCodeAt(++state.position);
+    }
+
+    directiveName = state.input.slice(_position, state.position);
+    directiveArgs = [];
+
+    if (directiveName.length < 1) {
+      throwError(state, 'directive name must not be less than one character in length');
+    }
+
+    while (ch !== 0) {
+      while (is_WHITE_SPACE(ch)) {
+        ch = state.input.charCodeAt(++state.position);
+      }
+
+      if (ch === 0x23/* # */) {
+        do { ch = state.input.charCodeAt(++state.position); }
+        while (ch !== 0 && !is_EOL(ch));
+        break;
+      }
+
+      if (is_EOL(ch)) break;
+
+      _position = state.position;
+
+      while (ch !== 0 && !is_WS_OR_EOL(ch)) {
+        ch = state.input.charCodeAt(++state.position);
+      }
+
+      directiveArgs.push(state.input.slice(_position, state.position));
+    }
+
+    if (ch !== 0) readLineBreak(state);
+
+    if (_hasOwnProperty$2.call(directiveHandlers, directiveName)) {
+      directiveHandlers[directiveName](state, directiveName, directiveArgs);
+    } else {
+      throwWarning(state, 'unknown document directive "' + directiveName + '"');
+    }
+  }
+
+  skipSeparationSpace(state, true, -1);
+
+  if (state.lineIndent === 0 &&
+      state.input.charCodeAt(state.position)     === 0x2D/* - */ &&
+      state.input.charCodeAt(state.position + 1) === 0x2D/* - */ &&
+      state.input.charCodeAt(state.position + 2) === 0x2D/* - */) {
+    state.position += 3;
+    skipSeparationSpace(state, true, -1);
+
+  } else if (hasDirectives) {
+    throwError(state, 'directives end mark is expected');
+  }
+
+  composeNode(state, state.lineIndent - 1, CONTEXT_BLOCK_OUT, false, true);
+  skipSeparationSpace(state, true, -1);
+
+  if (state.checkLineBreaks &&
+      PATTERN_NON_ASCII_LINE_BREAKS.test(state.input.slice(documentStart, state.position))) {
+    throwWarning(state, 'non-ASCII line breaks are interpreted as content');
+  }
+
+  state.documents.push(state.result);
+
+  if (state.position === state.lineStart && testDocumentSeparator(state)) {
+
+    if (state.input.charCodeAt(state.position) === 0x2E/* . */) {
+      state.position += 3;
+      skipSeparationSpace(state, true, -1);
+    }
+    return;
+  }
+
+  if (state.position < (state.length - 1)) {
+    throwError(state, 'end of the stream or a document separator is expected');
+  } else {
+    return;
+  }
+}
+
+
+function loadDocuments(input, options) {
+  input = String(input);
+  options = options || {};
+
+  if (input.length !== 0) {
+
+    // Add tailing `\n` if not exists
+    if (input.charCodeAt(input.length - 1) !== 0x0A/* LF */ &&
+        input.charCodeAt(input.length - 1) !== 0x0D/* CR */) {
+      input += '\n';
+    }
+
+    // Strip BOM
+    if (input.charCodeAt(0) === 0xFEFF) {
+      input = input.slice(1);
+    }
+  }
+
+  var state = new State(input, options);
+
+  // Use 0 as string terminator. That significantly simplifies bounds check.
+  state.input += '\0';
+
+  while (state.input.charCodeAt(state.position) === 0x20/* Space */) {
+    state.lineIndent += 1;
+    state.position += 1;
+  }
+
+  while (state.position < (state.length - 1)) {
+    readDocument(state);
+  }
+
+  return state.documents;
+}
+
+
+function loadAll(input, iterator, options) {
+  var documents = loadDocuments(input, options), index, length;
+
+  if (typeof iterator !== 'function') {
+    return documents;
+  }
+
+  for (index = 0, length = documents.length; index < length; index += 1) {
+    iterator(documents[index]);
+  }
+}
+
+
+function load(input, options) {
+  var documents = loadDocuments(input, options);
+
+  if (documents.length === 0) {
+    /*eslint-disable no-undefined*/
+    return undefined;
+  } else if (documents.length === 1) {
+    return documents[0];
+  }
+  throw new exception('expected a single document in the stream, but found more');
+}
+
+
+function safeLoadAll(input, output, options) {
+  if (typeof output === 'function') {
+    loadAll(input, output, common.extend({ schema: default_safe }, options));
+  } else {
+    return loadAll(input, common.extend({ schema: default_safe }, options));
+  }
+}
+
+
+function safeLoad(input, options) {
+  return load(input, common.extend({ schema: default_safe }, options));
+}
+
+
+var loadAll_1     = loadAll;
+var load_1        = load;
+var safeLoadAll_1 = safeLoadAll;
+var safeLoad_1    = safeLoad;
+
+var loader = {
+	loadAll: loadAll_1,
+	load: load_1,
+	safeLoadAll: safeLoadAll_1,
+	safeLoad: safeLoad_1
+};/*eslint-disable no-use-before-define*/
+
+
+
+
+
+
+var _toString$2       = Object.prototype.toString;
+var _hasOwnProperty$3 = Object.prototype.hasOwnProperty;
+
+var CHAR_TAB                  = 0x09; /* Tab */
+var CHAR_LINE_FEED            = 0x0A; /* LF */
+var CHAR_SPACE                = 0x20; /* Space */
+var CHAR_EXCLAMATION          = 0x21; /* ! */
+var CHAR_DOUBLE_QUOTE         = 0x22; /* " */
+var CHAR_SHARP                = 0x23; /* # */
+var CHAR_PERCENT              = 0x25; /* % */
+var CHAR_AMPERSAND            = 0x26; /* & */
+var CHAR_SINGLE_QUOTE         = 0x27; /* ' */
+var CHAR_ASTERISK             = 0x2A; /* * */
+var CHAR_COMMA                = 0x2C; /* , */
+var CHAR_MINUS                = 0x2D; /* - */
+var CHAR_COLON                = 0x3A; /* : */
+var CHAR_GREATER_THAN         = 0x3E; /* > */
+var CHAR_QUESTION             = 0x3F; /* ? */
+var CHAR_COMMERCIAL_AT        = 0x40; /* @ */
+var CHAR_LEFT_SQUARE_BRACKET  = 0x5B; /* [ */
+var CHAR_RIGHT_SQUARE_BRACKET = 0x5D; /* ] */
+var CHAR_GRAVE_ACCENT         = 0x60; /* ` */
+var CHAR_LEFT_CURLY_BRACKET   = 0x7B; /* { */
+var CHAR_VERTICAL_LINE        = 0x7C; /* | */
+var CHAR_RIGHT_CURLY_BRACKET  = 0x7D; /* } */
+
+var ESCAPE_SEQUENCES = {};
+
+ESCAPE_SEQUENCES[0x00]   = '\\0';
+ESCAPE_SEQUENCES[0x07]   = '\\a';
+ESCAPE_SEQUENCES[0x08]   = '\\b';
+ESCAPE_SEQUENCES[0x09]   = '\\t';
+ESCAPE_SEQUENCES[0x0A]   = '\\n';
+ESCAPE_SEQUENCES[0x0B]   = '\\v';
+ESCAPE_SEQUENCES[0x0C]   = '\\f';
+ESCAPE_SEQUENCES[0x0D]   = '\\r';
+ESCAPE_SEQUENCES[0x1B]   = '\\e';
+ESCAPE_SEQUENCES[0x22]   = '\\"';
+ESCAPE_SEQUENCES[0x5C]   = '\\\\';
+ESCAPE_SEQUENCES[0x85]   = '\\N';
+ESCAPE_SEQUENCES[0xA0]   = '\\_';
+ESCAPE_SEQUENCES[0x2028] = '\\L';
+ESCAPE_SEQUENCES[0x2029] = '\\P';
+
+var DEPRECATED_BOOLEANS_SYNTAX = [
+  'y', 'Y', 'yes', 'Yes', 'YES', 'on', 'On', 'ON',
+  'n', 'N', 'no', 'No', 'NO', 'off', 'Off', 'OFF'
+];
+
+function compileStyleMap(schema, map) {
+  var result, keys, index, length, tag, style, type;
+
+  if (map === null) return {};
+
+  result = {};
+  keys = Object.keys(map);
+
+  for (index = 0, length = keys.length; index < length; index += 1) {
+    tag = keys[index];
+    style = String(map[tag]);
+
+    if (tag.slice(0, 2) === '!!') {
+      tag = 'tag:yaml.org,2002:' + tag.slice(2);
+    }
+    type = schema.compiledTypeMap['fallback'][tag];
+
+    if (type && _hasOwnProperty$3.call(type.styleAliases, style)) {
+      style = type.styleAliases[style];
+    }
+
+    result[tag] = style;
+  }
+
+  return result;
+}
+
+function encodeHex(character) {
+  var string, handle, length;
+
+  string = character.toString(16).toUpperCase();
+
+  if (character <= 0xFF) {
+    handle = 'x';
+    length = 2;
+  } else if (character <= 0xFFFF) {
+    handle = 'u';
+    length = 4;
+  } else if (character <= 0xFFFFFFFF) {
+    handle = 'U';
+    length = 8;
+  } else {
+    throw new exception('code point within a string may not be greater than 0xFFFFFFFF');
+  }
+
+  return '\\' + handle + common.repeat('0', length - string.length) + string;
+}
+
+function State$1(options) {
+  this.schema        = options['schema'] || default_full;
+  this.indent        = Math.max(1, (options['indent'] || 2));
+  this.noArrayIndent = options['noArrayIndent'] || false;
+  this.skipInvalid   = options['skipInvalid'] || false;
+  this.flowLevel     = (common.isNothing(options['flowLevel']) ? -1 : options['flowLevel']);
+  this.styleMap      = compileStyleMap(this.schema, options['styles'] || null);
+  this.sortKeys      = options['sortKeys'] || false;
+  this.lineWidth     = options['lineWidth'] || 80;
+  this.noRefs        = options['noRefs'] || false;
+  this.noCompatMode  = options['noCompatMode'] || false;
+  this.condenseFlow  = options['condenseFlow'] || false;
+
+  this.implicitTypes = this.schema.compiledImplicit;
+  this.explicitTypes = this.schema.compiledExplicit;
+
+  this.tag = null;
+  this.result = '';
+
+  this.duplicates = [];
+  this.usedDuplicates = null;
+}
+
+// Indents every line in a string. Empty lines (\n only) are not indented.
+function indentString(string, spaces) {
+  var ind = common.repeat(' ', spaces),
+      position = 0,
+      next = -1,
+      result = '',
+      line,
+      length = string.length;
+
+  while (position < length) {
+    next = string.indexOf('\n', position);
+    if (next === -1) {
+      line = string.slice(position);
+      position = length;
+    } else {
+      line = string.slice(position, next + 1);
+      position = next + 1;
+    }
+
+    if (line.length && line !== '\n') result += ind;
+
+    result += line;
+  }
+
+  return result;
+}
+
+function generateNextLine(state, level) {
+  return '\n' + common.repeat(' ', state.indent * level);
+}
+
+function testImplicitResolving(state, str) {
+  var index, length, type;
+
+  for (index = 0, length = state.implicitTypes.length; index < length; index += 1) {
+    type = state.implicitTypes[index];
+
+    if (type.resolve(str)) {
+      return true;
+    }
+  }
+
+  return false;
+}
+
+// [33] s-white ::= s-space | s-tab
+function isWhitespace(c) {
+  return c === CHAR_SPACE || c === CHAR_TAB;
+}
+
+// Returns true if the character can be printed without escaping.
+// From YAML 1.2: "any allowed characters known to be non-printable
+// should also be escaped. [However,] This isn’t mandatory"
+// Derived from nb-char - \t - #x85 - #xA0 - #x2028 - #x2029.
+function isPrintable(c) {
+  return  (0x00020 <= c && c <= 0x00007E)
+      || ((0x000A1 <= c && c <= 0x00D7FF) && c !== 0x2028 && c !== 0x2029)
+      || ((0x0E000 <= c && c <= 0x00FFFD) && c !== 0xFEFF /* BOM */)
+      ||  (0x10000 <= c && c <= 0x10FFFF);
+}
+
+// Simplified test for values allowed after the first character in plain style.
+function isPlainSafe(c) {
+  // Uses a subset of nb-char - c-flow-indicator - ":" - "#"
+  // where nb-char ::= c-printable - b-char - c-byte-order-mark.
+  return isPrintable(c) && c !== 0xFEFF
+    // - c-flow-indicator
+    && c !== CHAR_COMMA
+    && c !== CHAR_LEFT_SQUARE_BRACKET
+    && c !== CHAR_RIGHT_SQUARE_BRACKET
+    && c !== CHAR_LEFT_CURLY_BRACKET
+    && c !== CHAR_RIGHT_CURLY_BRACKET
+    // - ":" - "#"
+    && c !== CHAR_COLON
+    && c !== CHAR_SHARP;
+}
+
+// Simplified test for values allowed as the first character in plain style.
+function isPlainSafeFirst(c) {
+  // Uses a subset of ns-char - c-indicator
+  // where ns-char = nb-char - s-white.
+  return isPrintable(c) && c !== 0xFEFF
+    && !isWhitespace(c) // - s-white
+    // - (c-indicator ::=
+    // “-” | “?” | “:” | “,” | “[” | “]” | “{” | “}”
+    && c !== CHAR_MINUS
+    && c !== CHAR_QUESTION
+    && c !== CHAR_COLON
+    && c !== CHAR_COMMA
+    && c !== CHAR_LEFT_SQUARE_BRACKET
+    && c !== CHAR_RIGHT_SQUARE_BRACKET
+    && c !== CHAR_LEFT_CURLY_BRACKET
+    && c !== CHAR_RIGHT_CURLY_BRACKET
+    // | “#” | “&” | “*” | “!” | “|” | “>” | “'” | “"”
+    && c !== CHAR_SHARP
+    && c !== CHAR_AMPERSAND
+    && c !== CHAR_ASTERISK
+    && c !== CHAR_EXCLAMATION
+    && c !== CHAR_VERTICAL_LINE
+    && c !== CHAR_GREATER_THAN
+    && c !== CHAR_SINGLE_QUOTE
+    && c !== CHAR_DOUBLE_QUOTE
+    // | “%” | “@” | “`”)
+    && c !== CHAR_PERCENT
+    && c !== CHAR_COMMERCIAL_AT
+    && c !== CHAR_GRAVE_ACCENT;
+}
+
+// Determines whether block indentation indicator is required.
+function needIndentIndicator(string) {
+  var leadingSpaceRe = /^\n* /;
+  return leadingSpaceRe.test(string);
+}
+
+var STYLE_PLAIN   = 1,
+    STYLE_SINGLE  = 2,
+    STYLE_LITERAL = 3,
+    STYLE_FOLDED  = 4,
+    STYLE_DOUBLE  = 5;
+
+// Determines which scalar styles are possible and returns the preferred style.
+// lineWidth = -1 => no limit.
+// Pre-conditions: str.length > 0.
+// Post-conditions:
+//    STYLE_PLAIN or STYLE_SINGLE => no \n are in the string.
+//    STYLE_LITERAL => no lines are suitable for folding (or lineWidth is -1).
+//    STYLE_FOLDED => a line > lineWidth and can be folded (and lineWidth != -1).
+function chooseScalarStyle(string, singleLineOnly, indentPerLevel, lineWidth, testAmbiguousType) {
+  var i;
+  var char;
+  var hasLineBreak = false;
+  var hasFoldableLine = false; // only checked if shouldTrackWidth
+  var shouldTrackWidth = lineWidth !== -1;
+  var previousLineBreak = -1; // count the first line correctly
+  var plain = isPlainSafeFirst(string.charCodeAt(0))
+          && !isWhitespace(string.charCodeAt(string.length - 1));
+
+  if (singleLineOnly) {
+    // Case: no block styles.
+    // Check for disallowed characters to rule out plain and single.
+    for (i = 0; i < string.length; i++) {
+      char = string.charCodeAt(i);
+      if (!isPrintable(char)) {
+        return STYLE_DOUBLE;
+      }
+      plain = plain && isPlainSafe(char);
+    }
+  } else {
+    // Case: block styles permitted.
+    for (i = 0; i < string.length; i++) {
+      char = string.charCodeAt(i);
+      if (char === CHAR_LINE_FEED) {
+        hasLineBreak = true;
+        // Check if any line can be folded.
+        if (shouldTrackWidth) {
+          hasFoldableLine = hasFoldableLine ||
+            // Foldable line = too long, and not more-indented.
+            (i - previousLineBreak - 1 > lineWidth &&
+             string[previousLineBreak + 1] !== ' ');
+          previousLineBreak = i;
+        }
+      } else if (!isPrintable(char)) {
+        return STYLE_DOUBLE;
+      }
+      plain = plain && isPlainSafe(char);
+    }
+    // in case the end is missing a \n
+    hasFoldableLine = hasFoldableLine || (shouldTrackWidth &&
+      (i - previousLineBreak - 1 > lineWidth &&
+       string[previousLineBreak + 1] !== ' '));
+  }
+  // Although every style can represent \n without escaping, prefer block styles
+  // for multiline, since they're more readable and they don't add empty lines.
+  // Also prefer folding a super-long line.
+  if (!hasLineBreak && !hasFoldableLine) {
+    // Strings interpretable as another type have to be quoted;
+    // e.g. the string 'true' vs. the boolean true.
+    return plain && !testAmbiguousType(string)
+      ? STYLE_PLAIN : STYLE_SINGLE;
+  }
+  // Edge case: block indentation indicator can only have one digit.
+  if (indentPerLevel > 9 && needIndentIndicator(string)) {
+    return STYLE_DOUBLE;
+  }
+  // At this point we know block styles are valid.
+  // Prefer literal style unless we want to fold.
+  return hasFoldableLine ? STYLE_FOLDED : STYLE_LITERAL;
+}
+
+// Note: line breaking/folding is implemented for only the folded style.
+// NB. We drop the last trailing newline (if any) of a returned block scalar
+//  since the dumper adds its own newline. This always works:
+//    • No ending newline => unaffected; already using strip "-" chomping.
+//    • Ending newline    => removed then restored.
+//  Importantly, this keeps the "+" chomp indicator from gaining an extra line.
+function writeScalar(state, string, level, iskey) {
+  state.dump = (function () {
+    if (string.length === 0) {
+      return "''";
+    }
+    if (!state.noCompatMode &&
+        DEPRECATED_BOOLEANS_SYNTAX.indexOf(string) !== -1) {
+      return "'" + string + "'";
+    }
+
+    var indent = state.indent * Math.max(1, level); // no 0-indent scalars
+    // As indentation gets deeper, let the width decrease monotonically
+    // to the lower bound min(state.lineWidth, 40).
+    // Note that this implies
+    //  state.lineWidth ≤ 40 + state.indent: width is fixed at the lower bound.
+    //  state.lineWidth > 40 + state.indent: width decreases until the lower bound.
+    // This behaves better than a constant minimum width which disallows narrower options,
+    // or an indent threshold which causes the width to suddenly increase.
+    var lineWidth = state.lineWidth === -1
+      ? -1 : Math.max(Math.min(state.lineWidth, 40), state.lineWidth - indent);
+
+    // Without knowing if keys are implicit/explicit, assume implicit for safety.
+    var singleLineOnly = iskey
+      // No block styles in flow mode.
+      || (state.flowLevel > -1 && level >= state.flowLevel);
+    function testAmbiguity(string) {
+      return testImplicitResolving(state, string);
+    }
+
+    switch (chooseScalarStyle(string, singleLineOnly, state.indent, lineWidth, testAmbiguity)) {
+      case STYLE_PLAIN:
+        return string;
+      case STYLE_SINGLE:
+        return "'" + string.replace(/'/g, "''") + "'";
+      case STYLE_LITERAL:
+        return '|' + blockHeader(string, state.indent)
+          + dropEndingNewline(indentString(string, indent));
+      case STYLE_FOLDED:
+        return '>' + blockHeader(string, state.indent)
+          + dropEndingNewline(indentString(foldString(string, lineWidth), indent));
+      case STYLE_DOUBLE:
+        return '"' + escapeString(string) + '"';
+      default:
+        throw new exception('impossible error: invalid scalar style');
+    }
+  }());
+}
+
+// Pre-conditions: string is valid for a block scalar, 1 <= indentPerLevel <= 9.
+function blockHeader(string, indentPerLevel) {
+  var indentIndicator = needIndentIndicator(string) ? String(indentPerLevel) : '';
+
+  // note the special case: the string '\n' counts as a "trailing" empty line.
+  var clip =          string[string.length - 1] === '\n';
+  var keep = clip && (string[string.length - 2] === '\n' || string === '\n');
+  var chomp = keep ? '+' : (clip ? '' : '-');
+
+  return indentIndicator + chomp + '\n';
+}
+
+// (See the note for writeScalar.)
+function dropEndingNewline(string) {
+  return string[string.length - 1] === '\n' ? string.slice(0, -1) : string;
+}
+
+// Note: a long line without a suitable break point will exceed the width limit.
+// Pre-conditions: every char in str isPrintable, str.length > 0, width > 0.
+function foldString(string, width) {
+  // In folded style, $k$ consecutive newlines output as $k+1$ newlines—
+  // unless they're before or after a more-indented line, or at the very
+  // beginning or end, in which case $k$ maps to $k$.
+  // Therefore, parse each chunk as newline(s) followed by a content line.
+  var lineRe = /(\n+)([^\n]*)/g;
+
+  // first line (possibly an empty line)
+  var result = (function () {
+    var nextLF = string.indexOf('\n');
+    nextLF = nextLF !== -1 ? nextLF : string.length;
+    lineRe.lastIndex = nextLF;
+    return foldLine(string.slice(0, nextLF), width);
+  }());
+  // If we haven't reached the first content line yet, don't add an extra \n.
+  var prevMoreIndented = string[0] === '\n' || string[0] === ' ';
+  var moreIndented;
+
+  // rest of the lines
+  var match;
+  while ((match = lineRe.exec(string))) {
+    var prefix = match[1], line = match[2];
+    moreIndented = (line[0] === ' ');
+    result += prefix
+      + (!prevMoreIndented && !moreIndented && line !== ''
+        ? '\n' : '')
+      + foldLine(line, width);
+    prevMoreIndented = moreIndented;
+  }
+
+  return result;
+}
+
+// Greedy line breaking.
+// Picks the longest line under the limit each time,
+// otherwise settles for the shortest line over the limit.
+// NB. More-indented lines *cannot* be folded, as that would add an extra \n.
+function foldLine(line, width) {
+  if (line === '' || line[0] === ' ') return line;
+
+  // Since a more-indented line adds a \n, breaks can't be followed by a space.
+  var breakRe = / [^ ]/g; // note: the match index will always be <= length-2.
+  var match;
+  // start is an inclusive index. end, curr, and next are exclusive.
+  var start = 0, end, curr = 0, next = 0;
+  var result = '';
+
+  // Invariants: 0 <= start <= length-1.
+  //   0 <= curr <= next <= max(0, length-2). curr - start <= width.
+  // Inside the loop:
+  //   A match implies length >= 2, so curr and next are <= length-2.
+  while ((match = breakRe.exec(line))) {
+    next = match.index;
+    // maintain invariant: curr - start <= width
+    if (next - start > width) {
+      end = (curr > start) ? curr : next; // derive end <= length-2
+      result += '\n' + line.slice(start, end);
+      // skip the space that was output as \n
+      start = end + 1;                    // derive start <= length-1
+    }
+    curr = next;
+  }
+
+  // By the invariants, start <= length-1, so there is something left over.
+  // It is either the whole string or a part starting from non-whitespace.
+  result += '\n';
+  // Insert a break if the remainder is too long and there is a break available.
+  if (line.length - start > width && curr > start) {
+    result += line.slice(start, curr) + '\n' + line.slice(curr + 1);
+  } else {
+    result += line.slice(start);
+  }
+
+  return result.slice(1); // drop extra \n joiner
+}
+
+// Escapes a double-quoted string.
+function escapeString(string) {
+  var result = '';
+  var char, nextChar;
+  var escapeSeq;
+
+  for (var i = 0; i < string.length; i++) {
+    char = string.charCodeAt(i);
+    // Check for surrogate pairs (reference Unicode 3.0 section "3.7 Surrogates").
+    if (char >= 0xD800 && char <= 0xDBFF/* high surrogate */) {
+      nextChar = string.charCodeAt(i + 1);
+      if (nextChar >= 0xDC00 && nextChar <= 0xDFFF/* low surrogate */) {
+        // Combine the surrogate pair and store it escaped.
+        result += encodeHex((char - 0xD800) * 0x400 + nextChar - 0xDC00 + 0x10000);
+        // Advance index one extra since we already used that char here.
+        i++; continue;
+      }
+    }
+    escapeSeq = ESCAPE_SEQUENCES[char];
+    result += !escapeSeq && isPrintable(char)
+      ? string[i]
+      : escapeSeq || encodeHex(char);
+  }
+
+  return result;
+}
+
+function writeFlowSequence(state, level, object) {
+  var _result = '',
+      _tag    = state.tag,
+      index,
+      length;
+
+  for (index = 0, length = object.length; index < length; index += 1) {
+    // Write only valid elements.
+    if (writeNode(state, level, object[index], false, false)) {
+      if (index !== 0) _result += ',' + (!state.condenseFlow ? ' ' : '');
+      _result += state.dump;
+    }
+  }
+
+  state.tag = _tag;
+  state.dump = '[' + _result + ']';
+}
+
+function writeBlockSequence(state, level, object, compact) {
+  var _result = '',
+      _tag    = state.tag,
+      index,
+      length;
+
+  for (index = 0, length = object.length; index < length; index += 1) {
+    // Write only valid elements.
+    if (writeNode(state, level + 1, object[index], true, true)) {
+      if (!compact || index !== 0) {
+        _result += generateNextLine(state, level);
+      }
+
+      if (state.dump && CHAR_LINE_FEED === state.dump.charCodeAt(0)) {
+        _result += '-';
+      } else {
+        _result += '- ';
+      }
+
+      _result += state.dump;
+    }
+  }
+
+  state.tag = _tag;
+  state.dump = _result || '[]'; // Empty sequence if no valid values.
+}
+
+function writeFlowMapping(state, level, object) {
+  var _result       = '',
+      _tag          = state.tag,
+      objectKeyList = Object.keys(object),
+      index,
+      length,
+      objectKey,
+      objectValue,
+      pairBuffer;
+
+  for (index = 0, length = objectKeyList.length; index < length; index += 1) {
+    pairBuffer = state.condenseFlow ? '"' : '';
+
+    if (index !== 0) pairBuffer += ', ';
+
+    objectKey = objectKeyList[index];
+    objectValue = object[objectKey];
+
+    if (!writeNode(state, level, objectKey, false, false)) {
+      continue; // Skip this pair because of invalid key;
+    }
+
+    if (state.dump.length > 1024) pairBuffer += '? ';
+
+    pairBuffer += state.dump + (state.condenseFlow ? '"' : '') + ':' + (state.condenseFlow ? '' : ' ');
+
+    if (!writeNode(state, level, objectValue, false, false)) {
+      continue; // Skip this pair because of invalid value.
+    }
+
+    pairBuffer += state.dump;
+
+    // Both key and value are valid.
+    _result += pairBuffer;
+  }
+
+  state.tag = _tag;
+  state.dump = '{' + _result + '}';
+}
+
+function writeBlockMapping(state, level, object, compact) {
+  var _result       = '',
+      _tag          = state.tag,
+      objectKeyList = Object.keys(object),
+      index,
+      length,
+      objectKey,
+      objectValue,
+      explicitPair,
+      pairBuffer;
+
+  // Allow sorting keys so that the output file is deterministic
+  if (state.sortKeys === true) {
+    // Default sorting
+    objectKeyList.sort();
+  } else if (typeof state.sortKeys === 'function') {
+    // Custom sort function
+    objectKeyList.sort(state.sortKeys);
+  } else if (state.sortKeys) {
+    // Something is wrong
+    throw new exception('sortKeys must be a boolean or a function');
+  }
+
+  for (index = 0, length = objectKeyList.length; index < length; index += 1) {
+    pairBuffer = '';
+
+    if (!compact || index !== 0) {
+      pairBuffer += generateNextLine(state, level);
+    }
+
+    objectKey = objectKeyList[index];
+    objectValue = object[objectKey];
+
+    if (!writeNode(state, level + 1, objectKey, true, true, true)) {
+      continue; // Skip this pair because of invalid key.
+    }
+
+    explicitPair = (state.tag !== null && state.tag !== '?') ||
+                   (state.dump && state.dump.length > 1024);
+
+    if (explicitPair) {
+      if (state.dump && CHAR_LINE_FEED === state.dump.charCodeAt(0)) {
+        pairBuffer += '?';
+      } else {
+        pairBuffer += '? ';
+      }
+    }
+
+    pairBuffer += state.dump;
+
+    if (explicitPair) {
+      pairBuffer += generateNextLine(state, level);
+    }
+
+    if (!writeNode(state, level + 1, objectValue, true, explicitPair)) {
+      continue; // Skip this pair because of invalid value.
+    }
+
+    if (state.dump && CHAR_LINE_FEED === state.dump.charCodeAt(0)) {
+      pairBuffer += ':';
+    } else {
+      pairBuffer += ': ';
+    }
+
+    pairBuffer += state.dump;
+
+    // Both key and value are valid.
+    _result += pairBuffer;
+  }
+
+  state.tag = _tag;
+  state.dump = _result || '{}'; // Empty mapping if no valid pairs.
+}
+
+function detectType(state, object, explicit) {
+  var _result, typeList, index, length, type, style;
+
+  typeList = explicit ? state.explicitTypes : state.implicitTypes;
+
+  for (index = 0, length = typeList.length; index < length; index += 1) {
+    type = typeList[index];
+
+    if ((type.instanceOf  || type.predicate) &&
+        (!type.instanceOf || ((typeof object === 'object') && (object instanceof type.instanceOf))) &&
+        (!type.predicate  || type.predicate(object))) {
+
+      state.tag = explicit ? type.tag : '?';
+
+      if (type.represent) {
+        style = state.styleMap[type.tag] || type.defaultStyle;
+
+        if (_toString$2.call(type.represent) === '[object Function]') {
+          _result = type.represent(object, style);
+        } else if (_hasOwnProperty$3.call(type.represent, style)) {
+          _result = type.represent[style](object, style);
+        } else {
+          throw new exception('!<' + type.tag + '> tag resolver accepts not "' + style + '" style');
+        }
+
+        state.dump = _result;
+      }
+
+      return true;
+    }
+  }
+
+  return false;
+}
+
+// Serializes `object` and writes it to global `result`.
+// Returns true on success, or false on invalid object.
+//
+function writeNode(state, level, object, block, compact, iskey) {
+  state.tag = null;
+  state.dump = object;
+
+  if (!detectType(state, object, false)) {
+    detectType(state, object, true);
+  }
+
+  var type = _toString$2.call(state.dump);
+
+  if (block) {
+    block = (state.flowLevel < 0 || state.flowLevel > level);
+  }
+
+  var objectOrArray = type === '[object Object]' || type === '[object Array]',
+      duplicateIndex,
+      duplicate;
+
+  if (objectOrArray) {
+    duplicateIndex = state.duplicates.indexOf(object);
+    duplicate = duplicateIndex !== -1;
+  }
+
+  if ((state.tag !== null && state.tag !== '?') || duplicate || (state.indent !== 2 && level > 0)) {
+    compact = false;
+  }
+
+  if (duplicate && state.usedDuplicates[duplicateIndex]) {
+    state.dump = '*ref_' + duplicateIndex;
+  } else {
+    if (objectOrArray && duplicate && !state.usedDuplicates[duplicateIndex]) {
+      state.usedDuplicates[duplicateIndex] = true;
+    }
+    if (type === '[object Object]') {
+      if (block && (Object.keys(state.dump).length !== 0)) {
+        writeBlockMapping(state, level, state.dump, compact);
+        if (duplicate) {
+          state.dump = '&ref_' + duplicateIndex + state.dump;
+        }
+      } else {
+        writeFlowMapping(state, level, state.dump);
+        if (duplicate) {
+          state.dump = '&ref_' + duplicateIndex + ' ' + state.dump;
+        }
+      }
+    } else if (type === '[object Array]') {
+      var arrayLevel = (state.noArrayIndent && (level > 0)) ? level - 1 : level;
+      if (block && (state.dump.length !== 0)) {
+        writeBlockSequence(state, arrayLevel, state.dump, compact);
+        if (duplicate) {
+          state.dump = '&ref_' + duplicateIndex + state.dump;
+        }
+      } else {
+        writeFlowSequence(state, arrayLevel, state.dump);
+        if (duplicate) {
+          state.dump = '&ref_' + duplicateIndex + ' ' + state.dump;
+        }
+      }
+    } else if (type === '[object String]') {
+      if (state.tag !== '?') {
+        writeScalar(state, state.dump, level, iskey);
+      }
+    } else {
+      if (state.skipInvalid) return false;
+      throw new exception('unacceptable kind of an object to dump ' + type);
+    }
+
+    if (state.tag !== null && state.tag !== '?') {
+      state.dump = '!<' + state.tag + '> ' + state.dump;
+    }
+  }
+
+  return true;
+}
+
+function getDuplicateReferences(object, state) {
+  var objects = [],
+      duplicatesIndexes = [],
+      index,
+      length;
+
+  inspectNode(object, objects, duplicatesIndexes);
+
+  for (index = 0, length = duplicatesIndexes.length; index < length; index += 1) {
+    state.duplicates.push(objects[duplicatesIndexes[index]]);
+  }
+  state.usedDuplicates = new Array(length);
+}
+
+function inspectNode(object, objects, duplicatesIndexes) {
+  var objectKeyList,
+      index,
+      length;
+
+  if (object !== null && typeof object === 'object') {
+    index = objects.indexOf(object);
+    if (index !== -1) {
+      if (duplicatesIndexes.indexOf(index) === -1) {
+        duplicatesIndexes.push(index);
+      }
+    } else {
+      objects.push(object);
+
+      if (Array.isArray(object)) {
+        for (index = 0, length = object.length; index < length; index += 1) {
+          inspectNode(object[index], objects, duplicatesIndexes);
+        }
+      } else {
+        objectKeyList = Object.keys(object);
+
+        for (index = 0, length = objectKeyList.length; index < length; index += 1) {
+          inspectNode(object[objectKeyList[index]], objects, duplicatesIndexes);
+        }
+      }
+    }
+  }
+}
+
+function dump(input, options) {
+  options = options || {};
+
+  var state = new State$1(options);
+
+  if (!state.noRefs) getDuplicateReferences(input, state);
+
+  if (writeNode(state, 0, input, true, true)) return state.dump + '\n';
+
+  return '';
+}
+
+function safeDump(input, options) {
+  return dump(input, common.extend({ schema: default_safe }, options));
+}
+
+var dump_1     = dump;
+var safeDump_1 = safeDump;
+
+var dumper = {
+	dump: dump_1,
+	safeDump: safeDump_1
+};function deprecated(name) {
+  return function () {
+    throw new Error('Function ' + name + ' is deprecated and cannot be used.');
+  };
+}
+
+
+var Type$1                = type;
+var Schema$1              = schema;
+var FAILSAFE_SCHEMA     = failsafe;
+var JSON_SCHEMA         = json;
+var CORE_SCHEMA         = core;
+var DEFAULT_SAFE_SCHEMA = default_safe;
+var DEFAULT_FULL_SCHEMA = default_full;
+var load$1                = loader.load;
+var loadAll$1             = loader.loadAll;
+var safeLoad$1            = loader.safeLoad;
+var safeLoadAll$1         = loader.safeLoadAll;
+var dump$1                = dumper.dump;
+var safeDump$1            = dumper.safeDump;
+var YAMLException$1       = exception;
+
+// Deprecated schema names from JS-YAML 2.0.x
+var MINIMAL_SCHEMA = failsafe;
+var SAFE_SCHEMA    = default_safe;
+var DEFAULT_SCHEMA = default_full;
+
+// Deprecated functions from JS-YAML 1.x.x
+var scan           = deprecated('scan');
+var parse          = deprecated('parse');
+var compose        = deprecated('compose');
+var addConstructor = deprecated('addConstructor');
+
+var jsYaml = {
+	Type: Type$1,
+	Schema: Schema$1,
+	FAILSAFE_SCHEMA: FAILSAFE_SCHEMA,
+	JSON_SCHEMA: JSON_SCHEMA,
+	CORE_SCHEMA: CORE_SCHEMA,
+	DEFAULT_SAFE_SCHEMA: DEFAULT_SAFE_SCHEMA,
+	DEFAULT_FULL_SCHEMA: DEFAULT_FULL_SCHEMA,
+	load: load$1,
+	loadAll: loadAll$1,
+	safeLoad: safeLoad$1,
+	safeLoadAll: safeLoadAll$1,
+	dump: dump$1,
+	safeDump: safeDump$1,
+	YAMLException: YAMLException$1,
+	MINIMAL_SCHEMA: MINIMAL_SCHEMA,
+	SAFE_SCHEMA: SAFE_SCHEMA,
+	DEFAULT_SCHEMA: DEFAULT_SCHEMA,
+	scan: scan,
+	parse: parse,
+	compose: compose,
+	addConstructor: addConstructor
+};var jsYaml$1 = jsYaml;//
+var script$2 = {
+  name: "yaml-form",
+  props: {
+    value: {
+      type: null,
+      default: function _default() {
+        return {};
+      }
+    }
+  },
+  mixins: [model],
+  components: {
+    codemirror: vueCodemirror_1
+  },
   data: function data() {
     return {
-      formShow: true
+      valueString: "",
+      cmOptions: {
+        mode: "yaml",
+        theme: "default",
+        readOnly: false,
+        lineNumbers: true
+      }
+    };
+  },
+  methods: {
+    initValueString: function initValueString() {
+      this.valueString = jsYaml$1.safeDump(this.value, {
+        lineWidth: 2000
+      }); // jsObject => yaml
+    },
+    updateModelData: function updateModelData() {
+      var ans = null;
+
+      try {
+        ans = jsYaml$1.safeLoad(this.valueString, {
+          json: true
+        }); // yaml => jsObject
+      } catch (e) {
+        ans = this.modelData;
+      }
+
+      this.modelData = ans;
+      this.$emit("code::model-data-updated", ans);
+    }
+  },
+  created: function created() {
+    this.initValueString();
+  },
+  watch: {
+    value: function value() {
+      this.initValueString();
+    }
+  }
+};/* script */
+var __vue_script__$2 = script$2;
+/* template */
+
+var __vue_render__$2 = function __vue_render__() {
+  var _vm = this;
+
+  var _h = _vm.$createElement;
+
+  var _c = _vm._self._c || _h;
+
+  return _c('div', [_c('codemirror', {
+    attrs: {
+      "options": _vm.cmOptions
+    },
+    on: {
+      "blur": function blur($event) {
+        return _vm.updateModelData();
+      }
+    },
+    model: {
+      value: _vm.valueString,
+      callback: function callback($$v) {
+        _vm.valueString = $$v;
+      },
+      expression: "valueString"
+    }
+  })], 1);
+};
+
+var __vue_staticRenderFns__$2 = [];
+/* style */
+
+var __vue_inject_styles__$2 = undefined;
+/* scoped */
+
+var __vue_scope_id__$2 = undefined;
+/* module identifier */
+
+var __vue_module_identifier__$2 = "data-v-5b9c51e4";
+/* functional template */
+
+var __vue_is_functional_template__$2 = false;
+/* style inject */
+
+/* style inject SSR */
+
+/* style inject shadow dom */
+
+var __vue_component__$2 = normalizeComponent({
+  render: __vue_render__$2,
+  staticRenderFns: __vue_staticRenderFns__$2
+}, __vue_inject_styles__$2, __vue_script__$2, __vue_scope_id__$2, __vue_is_functional_template__$2, __vue_module_identifier__$2, false, undefined, undefined, undefined);var tabs = {
+  data: function data() {
+    return {
+      activeTab: "form"
     };
   },
   components: {
     Tabs: __vue_component__,
-    JsonForm: __vue_component__$1
+    JsonForm: __vue_component__$1,
+    YamlForm: __vue_component__$2
   }
 };var nativeJoin = [].join;
 
@@ -14556,19 +18647,9 @@ _export({ target: 'Array', proto: true, forced: ES3_STRINGS || SLOPPY_METHOD }, 
   join: function join(separator) {
     return nativeJoin.call(toIndexedObject(this), separator === undefined ? ',' : separator);
   }
-});var $map = arrayIteration.map;
-
-
-// `Array.prototype.map` method
-// https://tc39.github.io/ecma262/#sec-array.prototype.map
-// with adding support of @@species
-_export({ target: 'Array', proto: true, forced: !arrayMethodHasSpeciesSupport('map') }, {
-  map: function map(callbackfn /* , thisArg */) {
-    return $map(this, callbackfn, arguments.length > 1 ? arguments[1] : undefined);
-  }
 });var SPECIES$6 = wellKnownSymbol('species');
 var nativeSlice = [].slice;
-var max$3 = Math.max;
+var max$4 = Math.max;
 
 // `Array.prototype.slice` method
 // https://tc39.github.io/ecma262/#sec-array.prototype.slice
@@ -14594,7 +18675,7 @@ _export({ target: 'Array', proto: true, forced: !arrayMethodHasSpeciesSupport('s
         return nativeSlice.call(O, k, fin);
       }
     }
-    result = new (Constructor === undefined ? Array : Constructor)(max$3(fin - k, 0));
+    result = new (Constructor === undefined ? Array : Constructor)(max$4(fin - k, 0));
     for (n = 0; k < fin; k++, n++) if (k in O) createProperty(result, n, O[k]);
     result.length = n;
     return result;
@@ -14615,7 +18696,7 @@ var speciesConstructor$1 = function (O, defaultConstructor) {
   var S;
   return C === undefined || (S = anObject(C)[SPECIES$7]) == undefined ? defaultConstructor : aFunction$1(S);
 };var arrayPush = [].push;
-var min$5 = Math.min;
+var min$6 = Math.min;
 var MAX_UINT32 = 0xFFFFFFFF;
 
 // babel-minify transpiles RegExp('x', 'y') -> /x/y and it causes SyntaxError
@@ -14718,7 +18799,7 @@ fixRegexpWellKnownSymbolLogic('split', 2, function (SPLIT, nativeSplit, maybeCal
         var e;
         if (
           z === null ||
-          (e = min$5(toLength(splitter.lastIndex + (SUPPORTS_Y ? 0 : q)), S.length)) === p
+          (e = min$6(toLength(splitter.lastIndex + (SUPPORTS_Y ? 0 : q)), S.length)) === p
         ) {
           q = advanceStringIndex(S, q, unicodeMatching);
         } else {
@@ -14881,7 +18962,7 @@ function isNullOrUndefined(value) {
 function isEmptyArray(arr) {
     return Array.isArray(arr) && arr.length === 0;
 }
-var isObject$2 = function (obj) {
+var isObject$3 = function (obj) {
     return obj !== null && obj && typeof obj === 'object' && !Array.isArray(obj);
 };
 /**
@@ -14902,7 +18983,7 @@ function isEqual(lhs, rhs) {
         return true;
     }
     // if both are objects, compare each key recursively.
-    if (isObject$2(lhs) && isObject$2(rhs)) {
+    if (isObject$3(lhs) && isObject$3(rhs)) {
         return (Object.keys(lhs).every(function (key) {
             return isEqual(lhs[key], rhs[key]);
         }) &&
@@ -14930,7 +19011,7 @@ function isLocator(value) {
 }
 
 function findIndex(arrayLike, predicate) {
-    var array = Array.isArray(arrayLike) ? arrayLike : toArray(arrayLike);
+    var array = Array.isArray(arrayLike) ? arrayLike : toArray$1(arrayLike);
     if (isCallable(array.findIndex)) {
         return array.findIndex(predicate);
     }
@@ -14947,7 +19028,7 @@ function findIndex(arrayLike, predicate) {
  * finds the first element that satisfies the predicate callback, polyfills array.find
  */
 function find(arrayLike, predicate) {
-    var array = Array.isArray(arrayLike) ? arrayLike : toArray(arrayLike);
+    var array = Array.isArray(arrayLike) ? arrayLike : toArray$1(arrayLike);
     var idx = findIndex(array, predicate);
     return idx === -1 ? undefined : array[idx];
 }
@@ -14957,7 +19038,7 @@ function includes(collection, item) {
 /**
  * Converts an array-like object to array, provides a simple polyfill for Array.from
  */
-function toArray(arrayLike) {
+function toArray$1(arrayLike) {
     if (isCallable(Array.from)) {
         return Array.from(arrayLike);
     }
@@ -14981,13 +19062,13 @@ function values(obj) {
     /* istanbul ignore next */
     return Object.keys(obj).map(function (k) { return obj[k]; });
 }
-function merge(target, source) {
+function merge$1(target, source) {
     Object.keys(source).forEach(function (key) {
-        if (isObject$2(source[key])) {
+        if (isObject$3(source[key])) {
             if (!target[key]) {
                 target[key] = {};
             }
-            merge(target[key], source[key]);
+            merge$1(target[key], source[key]);
             return;
         }
         target[key] = source[key];
@@ -15074,7 +19155,7 @@ var RuleContainer = /** @class */ (function () {
         // if rule already exists, overwrite it.
         var rule = normalizeSchema(schema);
         if (RULES[name]) {
-            RULES[name] = merge(RULES[name], schema);
+            RULES[name] = merge$1(RULES[name], schema);
             return;
         }
         RULES[name] = __assign({ lazy: false, computesRequired: false }, rule);
@@ -15110,7 +19191,7 @@ var RuleContainer = /** @class */ (function () {
 /**
  * Adds a custom validator to the list of validation rules.
  */
-function extend(name, schema) {
+function extend$1(name, schema) {
     // makes sure new rules are properly formatted.
     guardExtend(name, schema);
     // Full schema object.
@@ -15178,10 +19259,10 @@ function normalizeRules(rules) {
         return acc;
     }
     // Object is already normalized, skip.
-    if (isObject$2(rules) && rules._$$isNormalized) {
+    if (isObject$3(rules) && rules._$$isNormalized) {
         return rules;
     }
-    if (isObject$2(rules)) {
+    if (isObject$3(rules)) {
         return Object.keys(rules).reduce(function (prev, curr) {
             var params = [];
             if (rules[curr] === true) {
@@ -15190,7 +19271,7 @@ function normalizeRules(rules) {
             else if (Array.isArray(rules[curr])) {
                 params = rules[curr];
             }
-            else if (isObject$2(rules[curr])) {
+            else if (isObject$3(rules[curr])) {
                 params = rules[curr];
             }
             else {
@@ -15446,7 +19527,7 @@ function _shouldSkip(field, value) {
                         })];
                 case 2:
                     result = _a.sent();
-                    if (!isObject$2(result)) {
+                    if (!isObject$3(result)) {
                         throw new Error('Require rules has to return an object (see docs)');
                     }
                     if (result.required) {
@@ -15514,7 +19595,7 @@ function _test(field, value, rule) {
                                 error: { rule: rule.name, msg: function () { return interpolate(result, values_1); } }
                             }];
                     }
-                    if (!isObject$2(result)) {
+                    if (!isObject$3(result)) {
                         result = { valid: result, data: {} };
                     }
                     return [2 /*return*/, {
@@ -15551,7 +19632,7 @@ function _getRuleTargets(field, ruleSchema, ruleName) {
     }
     var names = {};
     var ruleConfig = field.rules[ruleName];
-    if (!Array.isArray(ruleConfig) && isObject$2(ruleConfig)) {
+    if (!Array.isArray(ruleConfig) && isObject$3(ruleConfig)) {
         ruleConfig = params.map(function (param) {
             return ruleConfig[param.name];
         });
@@ -15683,7 +19764,7 @@ function normalizeEventValue(value) {
     }
     var input = value.target;
     if (input.type === 'file' && input.files) {
-        return toArray(input.files);
+        return toArray$1(input.files);
     }
     // If the input has a `v-model.number` modifier applied.
     if ((_a = input._vModifiers) === null || _a === void 0 ? void 0 : _a.number) {
@@ -16592,7 +20673,7 @@ function prepareSlotProps(vm) {
 //
 //
 //
-var script$2 = {
+var script$3 = {
   name: "component-errors",
   props: {
     errors: {
@@ -16621,10 +20702,10 @@ var script$2 = {
     }
   }
 };/* script */
-var __vue_script__$2 = script$2;
+var __vue_script__$3 = script$3;
 /* template */
 
-var __vue_render__$2 = function __vue_render__() {
+var __vue_render__$3 = function __vue_render__() {
   var _vm = this;
 
   var _h = _vm.$createElement;
@@ -16647,65 +20728,6 @@ var __vue_render__$2 = function __vue_render__() {
   }, [_vm._ssrNode("<i class=\"fa fa-warning\"></i>" + _vm._ssrEscape("\n  Error in " + _vm._s(_vm.errors.length) + " field" + _vm._s(_vm.errors.length > 1 ? "s" : "") + "\n"))]);
 };
 
-var __vue_staticRenderFns__$2 = [];
-/* style */
-
-var __vue_inject_styles__$2 = undefined;
-/* scoped */
-
-var __vue_scope_id__$2 = undefined;
-/* module identifier */
-
-var __vue_module_identifier__$2 = "data-v-88ff9f22";
-/* functional template */
-
-var __vue_is_functional_template__$2 = false;
-/* style inject */
-
-/* style inject SSR */
-
-/* style inject shadow dom */
-
-var __vue_component__$2 = normalizeComponent({
-  render: __vue_render__$2,
-  staticRenderFns: __vue_staticRenderFns__$2
-}, __vue_inject_styles__$2, __vue_script__$2, __vue_scope_id__$2, __vue_is_functional_template__$2, __vue_module_identifier__$2, false, undefined, undefined, undefined);//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-var script$3 = {
-  name: "right-wrong-signs",
-  props: {
-    valid: {
-      type: Boolean,
-      default: true
-    },
-    invalid: {
-      type: Boolean,
-      default: true
-    }
-  }
-};/* script */
-var __vue_script__$3 = script$3;
-/* template */
-
-var __vue_render__$3 = function __vue_render__() {
-  var _vm = this;
-
-  var _h = _vm.$createElement;
-
-  var _c = _vm._self._c || _h;
-
-  return _c('div', [_vm._ssrNode((_vm.valid ? "<span class=\"icon is-small is-right is-success\"><i class=\"fa fa-check\"></i></span>" : "<!---->") + " " + (_vm.invalid ? "<span class=\"icon is-small is-right is-warning\"><i class=\"fa fa-times\"></i></span>" : "<!---->"))]);
-};
-
 var __vue_staticRenderFns__$3 = [];
 /* style */
 
@@ -16715,7 +20737,7 @@ var __vue_inject_styles__$3 = undefined;
 var __vue_scope_id__$3 = undefined;
 /* module identifier */
 
-var __vue_module_identifier__$3 = "data-v-6fefd68b";
+var __vue_module_identifier__$3 = "data-v-88ff9f22";
 /* functional template */
 
 var __vue_is_functional_template__$3 = false;
@@ -16728,9 +20750,68 @@ var __vue_is_functional_template__$3 = false;
 var __vue_component__$3 = normalizeComponent({
   render: __vue_render__$3,
   staticRenderFns: __vue_staticRenderFns__$3
-}, __vue_inject_styles__$3, __vue_script__$3, __vue_scope_id__$3, __vue_is_functional_template__$3, __vue_module_identifier__$3, false, undefined, undefined, undefined);var validation = {
+}, __vue_inject_styles__$3, __vue_script__$3, __vue_scope_id__$3, __vue_is_functional_template__$3, __vue_module_identifier__$3, false, undefined, undefined, undefined);//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+var script$4 = {
+  name: "right-wrong-signs",
   props: {
-    required: {
+    valid: {
+      type: Boolean,
+      default: true
+    },
+    invalid: {
+      type: Boolean,
+      default: true
+    }
+  }
+};/* script */
+var __vue_script__$4 = script$4;
+/* template */
+
+var __vue_render__$4 = function __vue_render__() {
+  var _vm = this;
+
+  var _h = _vm.$createElement;
+
+  var _c = _vm._self._c || _h;
+
+  return _c('div', [_vm._ssrNode((_vm.valid ? "<span class=\"icon is-small is-right is-success\"><i class=\"fa fa-check\"></i></span>" : "<!---->") + " " + (_vm.invalid ? "<span class=\"icon is-small is-right is-warning\"><i class=\"fa fa-times\"></i></span>" : "<!---->"))]);
+};
+
+var __vue_staticRenderFns__$4 = [];
+/* style */
+
+var __vue_inject_styles__$4 = undefined;
+/* scoped */
+
+var __vue_scope_id__$4 = undefined;
+/* module identifier */
+
+var __vue_module_identifier__$4 = "data-v-6fefd68b";
+/* functional template */
+
+var __vue_is_functional_template__$4 = false;
+/* style inject */
+
+/* style inject SSR */
+
+/* style inject shadow dom */
+
+var __vue_component__$4 = normalizeComponent({
+  render: __vue_render__$4,
+  staticRenderFns: __vue_staticRenderFns__$4
+}, __vue_inject_styles__$4, __vue_script__$4, __vue_scope_id__$4, __vue_is_functional_template__$4, __vue_module_identifier__$4, false, undefined, undefined, undefined);var validation = {
+  props: {
+    isSelfRequired: {
       type: Boolean,
       default: false
     }
@@ -16738,8 +20819,8 @@ var __vue_component__$3 = normalizeComponent({
   components: {
     ValidationObserver: ValidationObserver,
     ValidationProvider: ValidationProvider,
-    ComponentErrors: __vue_component__$2,
-    RightWrongSigns: __vue_component__$3
+    ComponentErrors: __vue_component__$3,
+    RightWrongSigns: __vue_component__$4
   },
   methods: {
     ruleString: function ruleString(required) {
@@ -16801,7 +20882,7 @@ var __vue_component__$3 = normalizeComponent({
     }
   }
 };//
-var script$4 = {
+var script$5 = {
   name: "object-form-wrapper",
   props: {
     schema: {
@@ -16841,10 +20922,10 @@ var script$4 = {
     }
   },
   mixins: [model, fold, tabs, validation]
-};var __vue_script__$4 = script$4;
+};var __vue_script__$5 = script$5;
 /* template */
 
-var __vue_render__$4 = function __vue_render__() {
+var __vue_render__$5 = function __vue_render__() {
   var _vm = this;
 
   var _h = _vm.$createElement;
@@ -16877,7 +20958,7 @@ var __vue_render__$4 = function __vue_render__() {
         }, [_c('div', {
           staticClass: "button-circle",
           attrs: {
-            "disabled": !_vm.formShow
+            "disabled": _vm.activeTab !== 'form'
           },
           on: {
             "click": function click($event) {
@@ -16900,11 +20981,11 @@ var __vue_render__$4 = function __vue_render__() {
           staticClass: "ac-level-right is-root-done-button"
         }, [!_vm.onlyJson ? _c('tabs', {
           model: {
-            value: _vm.formShow,
+            value: _vm.activeTab,
             callback: function callback($$v) {
-              _vm.formShow = $$v;
+              _vm.activeTab = $$v;
             },
-            expression: "formShow"
+            expression: "activeTab"
           }
         }) : _vm._e(), _vm._v(" "), _vm.isRoot ? _c('button', {
           staticClass: "done-button button is-primary is-pulled-right",
@@ -16914,11 +20995,45 @@ var __vue_render__$4 = function __vue_render__() {
               return _vm.submit();
             }
           }
-        }, [_c('span', [_vm._v("DONE")])]) : _vm._e()], 1)]), _vm._v(" "), !_vm.onlyJson && _vm.formShow ? _c('object-form', {
+        }, [_c('span', [_vm._v("DONE")])]) : _vm._e()], 1)]), _vm._v(" "), !_vm.onlyJson && _vm.activeTab === 'form' ? _c('object-form', {
+          key: _vm.schema.title + "-form",
           attrs: {
             "properties": _vm.schema.properties,
             "title": _vm.schema.title,
             "required": _vm.schema.required,
+            "isSelfRequired": _vm.isSelfRequired,
+            "type": _vm.schema.type,
+            "isRoot": _vm.isRoot,
+            "isSelfFolded": _vm.isRoot ? false : _vm.isFolded
+          },
+          model: {
+            value: _vm.modelData,
+            callback: function callback($$v) {
+              _vm.modelData = $$v;
+            },
+            expression: "modelData"
+          }
+        }) : _vm.activeTab === 'yaml' ? [_c('yaml-form', {
+          model: {
+            value: _vm.modelData,
+            callback: function callback($$v) {
+              _vm.modelData = $$v;
+            },
+            expression: "modelData"
+          }
+        }), _vm._v(" "), _c('object-form', {
+          directives: [{
+            name: "show",
+            rawName: "v-show",
+            value: false,
+            expression: "false"
+          }],
+          key: _vm.schema.title + "-yaml-" + JSON.stringify(_vm.modelData),
+          attrs: {
+            "properties": _vm.schema.properties,
+            "title": _vm.schema.title,
+            "required": _vm.schema.required,
+            "isSelfRequired": _vm.isSelfRequired,
             "type": _vm.schema.type,
             "isSelfFolded": _vm.isRoot ? false : _vm.isFolded
           },
@@ -16929,7 +21044,7 @@ var __vue_render__$4 = function __vue_render__() {
             },
             expression: "modelData"
           }
-        }) : _c('json-form', {
+        })] : [_c('json-form', {
           model: {
             value: _vm.modelData,
             callback: function callback($$v) {
@@ -16937,35 +21052,58 @@ var __vue_render__$4 = function __vue_render__() {
             },
             expression: "modelData"
           }
-        })];
+        }), _vm._v(" "), _c('object-form', {
+          directives: [{
+            name: "show",
+            rawName: "v-show",
+            value: false,
+            expression: "false"
+          }],
+          key: _vm.schema.title + "-json-" + JSON.stringify(_vm.modelData),
+          attrs: {
+            "properties": _vm.schema.properties,
+            "title": _vm.schema.title,
+            "required": _vm.schema.required,
+            "isSelfRequired": _vm.isSelfRequired,
+            "type": _vm.schema.type,
+            "isSelfFolded": _vm.isRoot ? false : _vm.isFolded
+          },
+          model: {
+            value: _vm.modelData,
+            callback: function callback($$v) {
+              _vm.modelData = $$v;
+            },
+            expression: "modelData"
+          }
+        })]];
       }
     }])
   });
 };
 
-var __vue_staticRenderFns__$4 = [];
+var __vue_staticRenderFns__$5 = [];
 /* style */
 
-var __vue_inject_styles__$4 = undefined;
+var __vue_inject_styles__$5 = undefined;
 /* scoped */
 
-var __vue_scope_id__$4 = undefined;
+var __vue_scope_id__$5 = undefined;
 /* module identifier */
 
-var __vue_module_identifier__$4 = "data-v-3ed609be";
+var __vue_module_identifier__$5 = "data-v-e041d81e";
 /* functional template */
 
-var __vue_is_functional_template__$4 = false;
+var __vue_is_functional_template__$5 = false;
 /* style inject */
 
 /* style inject SSR */
 
 /* style inject shadow dom */
 
-var __vue_component__$4 = normalizeComponent({
-  render: __vue_render__$4,
-  staticRenderFns: __vue_staticRenderFns__$4
-}, __vue_inject_styles__$4, __vue_script__$4, __vue_scope_id__$4, __vue_is_functional_template__$4, __vue_module_identifier__$4, false, undefined, undefined, undefined);// `Object.defineProperties` method
+var __vue_component__$5 = normalizeComponent({
+  render: __vue_render__$5,
+  staticRenderFns: __vue_staticRenderFns__$5
+}, __vue_inject_styles__$5, __vue_script__$5, __vue_scope_id__$5, __vue_is_functional_template__$5, __vue_module_identifier__$5, false, undefined, undefined, undefined);// `Object.defineProperties` method
 // https://tc39.github.io/ecma262/#sec-object.defineproperties
 var objectDefineProperties$1 = descriptors ? Object.defineProperties : function defineProperties(O, Properties) {
   anObject(O);
@@ -17331,17 +21469,7 @@ if (!$Symbol[PROTOTYPE$2][TO_PRIMITIVE]) {
 // https://tc39.github.io/ecma262/#sec-symbol.prototype-@@tostringtag
 setToStringTag$1($Symbol, SYMBOL);
 
-hiddenKeys[HIDDEN] = true;var $filter = arrayIteration.filter;
-
-
-// `Array.prototype.filter` method
-// https://tc39.github.io/ecma262/#sec-array.prototype.filter
-// with adding support of @@species
-_export({ target: 'Array', proto: true, forced: !arrayMethodHasSpeciesSupport('filter') }, {
-  filter: function filter(callbackfn /* , thisArg */) {
-    return $filter(this, callbackfn, arguments.length > 1 ? arguments[1] : undefined);
-  }
-});var nativeGetOwnPropertyDescriptor$3 = objectGetOwnPropertyDescriptor.f;
+hiddenKeys[HIDDEN] = true;var nativeGetOwnPropertyDescriptor$3 = objectGetOwnPropertyDescriptor.f;
 
 
 var FAILS_ON_PRIMITIVES$1 = fails(function () { nativeGetOwnPropertyDescriptor$3(1); });
@@ -17463,7 +21591,7 @@ var recurse = function recurse(schema, title) {
 
 function ExtendSchema (schema, title) {
   return recurse(schema, title);
-}var script$5 = {
+}var script$6 = {
   name: "vue-openapi-form",
   props: {
     schema: {
@@ -17499,10 +21627,9 @@ function ExtendSchema (schema, title) {
       }
     }
   },
+  mixins: [model, validation],
   components: {
-    "object-form-wrapper": __vue_component__$4,
-    ValidationObserver: ValidationObserver,
-    ValidationProvider: ValidationProvider
+    "object-form-wrapper": __vue_component__$5
   },
   computed: {
     extendedSchema: function extendedSchema() {
@@ -17588,10 +21715,10 @@ function renderStyles(styles) {
     }
     return css;
 }/* script */
-var __vue_script__$5 = script$5;
+var __vue_script__$6 = script$6;
 /* template */
 
-var __vue_render__$5 = function __vue_render__() {
+var __vue_render__$6 = function __vue_render__() {
   var _vm = this;
 
   var _h = _vm.$createElement;
@@ -17608,12 +21735,14 @@ var __vue_render__$5 = function __vue_render__() {
   }, [_c('validation-provider', {
     attrs: {
       "name": _vm.extendedSchema.title,
+      "rules": _vm.ruleObject(true),
       "vid": _vm.extendedSchema.title + "-vpid",
       "slim": ""
     }
   }, [_c('object-form-wrapper', {
     attrs: {
       "isRoot": true,
+      "isSelfRequired": true,
       "onlyJson": _vm.onlyJson,
       "schema": _vm.extendedSchema
     },
@@ -17623,22 +21752,22 @@ var __vue_render__$5 = function __vue_render__() {
       }
     },
     model: {
-      value: _vm.value,
+      value: _vm.modelData,
       callback: function callback($$v) {
-        _vm.value = $$v;
+        _vm.modelData = $$v;
       },
-      expression: "value"
+      expression: "modelData"
     }
   })], 1)], 1)], 1);
 };
 
-var __vue_staticRenderFns__$5 = [];
+var __vue_staticRenderFns__$6 = [];
 /* style */
 
-var __vue_inject_styles__$5 = function __vue_inject_styles__(inject) {
+var __vue_inject_styles__$6 = function __vue_inject_styles__(inject) {
   if (!inject) return;
-  inject("data-v-c28c2cf0_0", {
-    source: "@charset \"UTF-8\";@import url(https://fonts.googleapis.com/css?family=Raleway:400,500,500i,600,600i,700,800|Roboto:400,400i,500,500i);@import url(https://fonts.googleapis.com/css?family=Inconsolata&display=swap);body{font-family:Roboto,sans-serif;font-weight:400;font-style:normal;font-size:15px;background-color:#fff}p{font-family:Roboto,sans-serif;font-size:15px;font-weight:400;line-height:1.8;color:#74818d;-webkit-font-smoothing:antialiased}h1,h2,h3,h4,h5,h6{font-family:Raleway,sans-serif;font-weight:400;text-transform:normal;font-style:normal;margin-top:0;color:#32325d;font-weight:600}hr{margin:30px 0;background:#e2e2e2;height:1px}a{color:#4d4f5c;font-family:Roboto,sans-serif;transition:.3s;-webkit-transition:.3s;-moz-transition:.3s;-ms-transition:.3s;-o-transition:.3s}a:hover{color:#4d4dcb}.disable-select{-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none}h1 a,h2 a,h3 a,h4 a,h5 a,h6 a{font-family:Roboto,sans-serif;color:#4d4f5c}h1{font-size:32px;line-break:42px}h2{font-size:24px;line-height:34px}h3{font-size:20px;line-height:20px}h4{font-size:18px;line-height:32px}h5{font-size:16px;line-height:26px}h6{font-size:14px;line-height:24px}.mt-1{margin-top:1px}.mb-1{margin-bottom:1px}.ml-1{margin-left:1px}.mr-1{margin-right:1px}.mt-2{margin-top:2px}.mb-2{margin-bottom:2px}.ml-2{margin-left:2px}.mr-2{margin-right:2px}.mt-3{margin-top:3px}.mb-3{margin-bottom:3px}.ml-3{margin-left:3px}.mr-3{margin-right:3px}.mt-4{margin-top:4px}.mb-4{margin-bottom:4px}.ml-4{margin-left:4px}.mr-4{margin-right:4px}.mt-5{margin-top:5px}.mb-5{margin-bottom:5px}.ml-5{margin-left:5px}.mr-5{margin-right:5px}.mt-6{margin-top:6px}.mb-6{margin-bottom:6px}.ml-6{margin-left:6px}.mr-6{margin-right:6px}.mt-7{margin-top:7px}.mb-7{margin-bottom:7px}.ml-7{margin-left:7px}.mr-7{margin-right:7px}.mt-8{margin-top:8px}.mb-8{margin-bottom:8px}.ml-8{margin-left:8px}.mr-8{margin-right:8px}.mt-9{margin-top:9px}.mb-9{margin-bottom:9px}.ml-9{margin-left:9px}.mr-9{margin-right:9px}.mt-10{margin-top:10px}.mb-10{margin-bottom:10px}.ml-10{margin-left:10px}.mr-10{margin-right:10px}.mt-11{margin-top:11px}.mb-11{margin-bottom:11px}.ml-11{margin-left:11px}.mr-11{margin-right:11px}.mt-12{margin-top:12px}.mb-12{margin-bottom:12px}.ml-12{margin-left:12px}.mr-12{margin-right:12px}.mt-13{margin-top:13px}.mb-13{margin-bottom:13px}.ml-13{margin-left:13px}.mr-13{margin-right:13px}.mt-14{margin-top:14px}.mb-14{margin-bottom:14px}.ml-14{margin-left:14px}.mr-14{margin-right:14px}.mt-15{margin-top:15px}.mb-15{margin-bottom:15px}.ml-15{margin-left:15px}.mr-15{margin-right:15px}.mt-16{margin-top:16px}.mb-16{margin-bottom:16px}.ml-16{margin-left:16px}.mr-16{margin-right:16px}.mt-17{margin-top:17px}.mb-17{margin-bottom:17px}.ml-17{margin-left:17px}.mr-17{margin-right:17px}.mt-18{margin-top:18px}.mb-18{margin-bottom:18px}.ml-18{margin-left:18px}.mr-18{margin-right:18px}.mt-19{margin-top:19px}.mb-19{margin-bottom:19px}.ml-19{margin-left:19px}.mr-19{margin-right:19px}.mt-20{margin-top:20px}.mb-20{margin-bottom:20px}.ml-20{margin-left:20px}.mr-20{margin-right:20px}.mt-21{margin-top:21px}.mb-21{margin-bottom:21px}.ml-21{margin-left:21px}.mr-21{margin-right:21px}.mt-22{margin-top:22px}.mb-22{margin-bottom:22px}.ml-22{margin-left:22px}.mr-22{margin-right:22px}.mt-23{margin-top:23px}.mb-23{margin-bottom:23px}.ml-23{margin-left:23px}.mr-23{margin-right:23px}.mt-24{margin-top:24px}.mb-24{margin-bottom:24px}.ml-24{margin-left:24px}.mr-24{margin-right:24px}.mt-25{margin-top:25px}.mb-25{margin-bottom:25px}.ml-25{margin-left:25px}.mr-25{margin-right:25px}.mt-26{margin-top:26px}.mb-26{margin-bottom:26px}.ml-26{margin-left:26px}.mr-26{margin-right:26px}.mt-27{margin-top:27px}.mb-27{margin-bottom:27px}.ml-27{margin-left:27px}.mr-27{margin-right:27px}.mt-28{margin-top:28px}.mb-28{margin-bottom:28px}.ml-28{margin-left:28px}.mr-28{margin-right:28px}.mt-29{margin-top:29px}.mb-29{margin-bottom:29px}.ml-29{margin-left:29px}.mr-29{margin-right:29px}.mt-30{margin-top:30px}.mb-30{margin-bottom:30px}.ml-30{margin-left:30px}.mr-30{margin-right:30px}.mt-31{margin-top:31px}.mb-31{margin-bottom:31px}.ml-31{margin-left:31px}.mr-31{margin-right:31px}.mt-32{margin-top:32px}.mb-32{margin-bottom:32px}.ml-32{margin-left:32px}.mr-32{margin-right:32px}.mt-33{margin-top:33px}.mb-33{margin-bottom:33px}.ml-33{margin-left:33px}.mr-33{margin-right:33px}.mt-34{margin-top:34px}.mb-34{margin-bottom:34px}.ml-34{margin-left:34px}.mr-34{margin-right:34px}.mt-35{margin-top:35px}.mb-35{margin-bottom:35px}.ml-35{margin-left:35px}.mr-35{margin-right:35px}.mt-36{margin-top:36px}.mb-36{margin-bottom:36px}.ml-36{margin-left:36px}.mr-36{margin-right:36px}.mt-37{margin-top:37px}.mb-37{margin-bottom:37px}.ml-37{margin-left:37px}.mr-37{margin-right:37px}.mt-38{margin-top:38px}.mb-38{margin-bottom:38px}.ml-38{margin-left:38px}.mr-38{margin-right:38px}.mt-39{margin-top:39px}.mb-39{margin-bottom:39px}.ml-39{margin-left:39px}.mr-39{margin-right:39px}.mt-40{margin-top:40px}.mb-40{margin-bottom:40px}.ml-40{margin-left:40px}.mr-40{margin-right:40px}.mt-41{margin-top:41px}.mb-41{margin-bottom:41px}.ml-41{margin-left:41px}.mr-41{margin-right:41px}.mt-42{margin-top:42px}.mb-42{margin-bottom:42px}.ml-42{margin-left:42px}.mr-42{margin-right:42px}.mt-43{margin-top:43px}.mb-43{margin-bottom:43px}.ml-43{margin-left:43px}.mr-43{margin-right:43px}.mt-44{margin-top:44px}.mb-44{margin-bottom:44px}.ml-44{margin-left:44px}.mr-44{margin-right:44px}.mt-45{margin-top:45px}.mb-45{margin-bottom:45px}.ml-45{margin-left:45px}.mr-45{margin-right:45px}.mt-46{margin-top:46px}.mb-46{margin-bottom:46px}.ml-46{margin-left:46px}.mr-46{margin-right:46px}.mt-47{margin-top:47px}.mb-47{margin-bottom:47px}.ml-47{margin-left:47px}.mr-47{margin-right:47px}.mt-48{margin-top:48px}.mb-48{margin-bottom:48px}.ml-48{margin-left:48px}.mr-48{margin-right:48px}.mt-49{margin-top:49px}.mb-49{margin-bottom:49px}.ml-49{margin-left:49px}.mr-49{margin-right:49px}.mt-50{margin-top:50px}.mb-50{margin-bottom:50px}.ml-50{margin-left:50px}.mr-50{margin-right:50px}.pt-1{padding-top:1px}.pb-1{padding-bottom:1px}.pl-1{padding-left:1px}.pr-1{padding-right:1px}.pt-2{padding-top:2px}.pb-2{padding-bottom:2px}.pl-2{padding-left:2px}.pr-2{padding-right:2px}.pt-3{padding-top:3px}.pb-3{padding-bottom:3px}.pl-3{padding-left:3px}.pr-3{padding-right:3px}.pt-4{padding-top:4px}.pb-4{padding-bottom:4px}.pl-4{padding-left:4px}.pr-4{padding-right:4px}.pt-5{padding-top:5px}.pb-5{padding-bottom:5px}.pl-5{padding-left:5px}.pr-5{padding-right:5px}.pt-6{padding-top:6px}.pb-6{padding-bottom:6px}.pl-6{padding-left:6px}.pr-6{padding-right:6px}.pt-7{padding-top:7px}.pb-7{padding-bottom:7px}.pl-7{padding-left:7px}.pr-7{padding-right:7px}.pt-8{padding-top:8px}.pb-8{padding-bottom:8px}.pl-8{padding-left:8px}.pr-8{padding-right:8px}.pt-9{padding-top:9px}.pb-9{padding-bottom:9px}.pl-9{padding-left:9px}.pr-9{padding-right:9px}.pt-10{padding-top:10px}.pb-10{padding-bottom:10px}.pl-10{padding-left:10px}.pr-10{padding-right:10px}.pt-11{padding-top:11px}.pb-11{padding-bottom:11px}.pl-11{padding-left:11px}.pr-11{padding-right:11px}.pt-12{padding-top:12px}.pb-12{padding-bottom:12px}.pl-12{padding-left:12px}.pr-12{padding-right:12px}.pt-13{padding-top:13px}.pb-13{padding-bottom:13px}.pl-13{padding-left:13px}.pr-13{padding-right:13px}.pt-14{padding-top:14px}.pb-14{padding-bottom:14px}.pl-14{padding-left:14px}.pr-14{padding-right:14px}.pt-15{padding-top:15px}.pb-15{padding-bottom:15px}.pl-15{padding-left:15px}.pr-15{padding-right:15px}.pt-16{padding-top:16px}.pb-16{padding-bottom:16px}.pl-16{padding-left:16px}.pr-16{padding-right:16px}.pt-17{padding-top:17px}.pb-17{padding-bottom:17px}.pl-17{padding-left:17px}.pr-17{padding-right:17px}.pt-18{padding-top:18px}.pb-18{padding-bottom:18px}.pl-18{padding-left:18px}.pr-18{padding-right:18px}.pt-19{padding-top:19px}.pb-19{padding-bottom:19px}.pl-19{padding-left:19px}.pr-19{padding-right:19px}.pt-20{padding-top:20px}.pb-20{padding-bottom:20px}.pl-20{padding-left:20px}.pr-20{padding-right:20px}.pt-21{padding-top:21px}.pb-21{padding-bottom:21px}.pl-21{padding-left:21px}.pr-21{padding-right:21px}.pt-22{padding-top:22px}.pb-22{padding-bottom:22px}.pl-22{padding-left:22px}.pr-22{padding-right:22px}.pt-23{padding-top:23px}.pb-23{padding-bottom:23px}.pl-23{padding-left:23px}.pr-23{padding-right:23px}.pt-24{padding-top:24px}.pb-24{padding-bottom:24px}.pl-24{padding-left:24px}.pr-24{padding-right:24px}.pt-25{padding-top:25px}.pb-25{padding-bottom:25px}.pl-25{padding-left:25px}.pr-25{padding-right:25px}.pt-26{padding-top:26px}.pb-26{padding-bottom:26px}.pl-26{padding-left:26px}.pr-26{padding-right:26px}.pt-27{padding-top:27px}.pb-27{padding-bottom:27px}.pl-27{padding-left:27px}.pr-27{padding-right:27px}.pt-28{padding-top:28px}.pb-28{padding-bottom:28px}.pl-28{padding-left:28px}.pr-28{padding-right:28px}.pt-29{padding-top:29px}.pb-29{padding-bottom:29px}.pl-29{padding-left:29px}.pr-29{padding-right:29px}.pt-30{padding-top:30px}.pb-30{padding-bottom:30px}.pl-30{padding-left:30px}.pr-30{padding-right:30px}.pt-31{padding-top:31px}.pb-31{padding-bottom:31px}.pl-31{padding-left:31px}.pr-31{padding-right:31px}.pt-32{padding-top:32px}.pb-32{padding-bottom:32px}.pl-32{padding-left:32px}.pr-32{padding-right:32px}.pt-33{padding-top:33px}.pb-33{padding-bottom:33px}.pl-33{padding-left:33px}.pr-33{padding-right:33px}.pt-34{padding-top:34px}.pb-34{padding-bottom:34px}.pl-34{padding-left:34px}.pr-34{padding-right:34px}.pt-35{padding-top:35px}.pb-35{padding-bottom:35px}.pl-35{padding-left:35px}.pr-35{padding-right:35px}.pt-36{padding-top:36px}.pb-36{padding-bottom:36px}.pl-36{padding-left:36px}.pr-36{padding-right:36px}.pt-37{padding-top:37px}.pb-37{padding-bottom:37px}.pl-37{padding-left:37px}.pr-37{padding-right:37px}.pt-38{padding-top:38px}.pb-38{padding-bottom:38px}.pl-38{padding-left:38px}.pr-38{padding-right:38px}.pt-39{padding-top:39px}.pb-39{padding-bottom:39px}.pl-39{padding-left:39px}.pr-39{padding-right:39px}.pt-40{padding-top:40px}.pb-40{padding-bottom:40px}.pl-40{padding-left:40px}.pr-40{padding-right:40px}.pt-41{padding-top:41px}.pb-41{padding-bottom:41px}.pl-41{padding-left:41px}.pr-41{padding-right:41px}.pt-42{padding-top:42px}.pb-42{padding-bottom:42px}.pl-42{padding-left:42px}.pr-42{padding-right:42px}.pt-43{padding-top:43px}.pb-43{padding-bottom:43px}.pl-43{padding-left:43px}.pr-43{padding-right:43px}.pt-44{padding-top:44px}.pb-44{padding-bottom:44px}.pl-44{padding-left:44px}.pr-44{padding-right:44px}.pt-45{padding-top:45px}.pb-45{padding-bottom:45px}.pl-45{padding-left:45px}.pr-45{padding-right:45px}.pt-46{padding-top:46px}.pb-46{padding-bottom:46px}.pl-46{padding-left:46px}.pr-46{padding-right:46px}.pt-47{padding-top:47px}.pb-47{padding-bottom:47px}.pl-47{padding-left:47px}.pr-47{padding-right:47px}.pt-48{padding-top:48px}.pb-48{padding-bottom:48px}.pl-48{padding-left:48px}.pr-48{padding-right:48px}.pt-49{padding-top:49px}.pb-49{padding-bottom:49px}.pl-49{padding-left:49px}.pr-49{padding-right:49px}.pt-50{padding-top:50px}.pb-50{padding-bottom:50px}.pl-50{padding-left:50px}.pr-50{padding-right:50px}.section-title{padding:30px 0}.section-title h2{font-size:30px;margin-bottom:15px}.select-box-wrapper label{font-size:15px;font-weight:500;margin-bottom:10px;display:block}.left-content-wrapper{border:1px solid #e8e8e8;padding:30px;border-radius:4px}.left-content-wrapper .CodeMirror-hscrollbar::-webkit-scrollbar,.left-content-wrapper .CodeMirror-vscrollbar::-webkit-scrollbar{width:5px}.left-content-wrapper .CodeMirror-hscrollbar::-webkit-scrollbar-track,.left-content-wrapper .CodeMirror-vscrollbar::-webkit-scrollbar-track{border-radius:50px;background-color:#e8e8e8}.left-content-wrapper .CodeMirror-hscrollbar::-webkit-scrollbar-thumb,.left-content-wrapper .CodeMirror-vscrollbar::-webkit-scrollbar-thumb{background:#1971bd;border-radius:50px}.left-content-wrapper .CodeMirror-hscrollbar::-webkit-scrollbar-thumb:hover,.left-content-wrapper .CodeMirror-vscrollbar::-webkit-scrollbar-thumb:hover{background:#1971bd}.left-content-wrapper .CodeMirror-hscrollbar::-webkit-scrollbar-thumb{height:5px!important}.model-input h3,.schema-input h3{margin:20px 0;font-size:18px;line-height:28px;font-weight:600}.vue-openapi-form{border-radius:4px}.vue-openapi-form .ac-level{display:flex;justify-content:space-between;align-items:center;background-color:#e8e8e8;padding:4px 20px;border-radius:4px;position:relative;z-index:1}.vue-openapi-form .ac-level::after{position:absolute;content:\"\";left:-15px;top:50%;width:30px;height:1px;background:#e8e8e8;margin-top:-.5px;z-index:-1}.vue-openapi-form .ac-level .ac-level-left{display:flex;align-items:center}.vue-openapi-form .ac-level .ac-level-left .ac-form-title h4{font-size:14px;font-weight:700}.vue-openapi-form .ac-level .ac-level-left .ac-form-title h4 span{font-size:12px;color:#e03056;font-weight:500;margin-left:10px;cursor:pointer}.vue-openapi-form .ac-level .ac-level-right.is-root-done-button{display:flex;align-items:center}.vue-openapi-form .ac-level .ac-level-right.is-root-done-button .tabs{margin:0}.vue-openapi-form .ac-level .ac-level-right.is-root-done-button .button{font-weight:600}.vue-openapi-form .ac-level .ac-level-right.is-root-done-button .button .icon{height:auto}.vue-openapi-form .ac-level .ac-level-right.is-root-done-button button.done-button{margin-right:-20px;margin-left:15px;margin-top:-4px;margin-bottom:-4px;transition:.3s ease-in-out;border-radius:0 4px 4px 0;height:40px}.vue-openapi-form .ac-level .ac-level-right.is-root-done-button button.done-button span{position:relative;transition:.5s}.vue-openapi-form .ac-level .ac-level-right.is-root-done-button button.done-button span::after{content:\"\";position:absolute;font-size:16px;font-family:fontawesome;opacity:0;top:0;right:-20px;transition:.5s}.vue-openapi-form .ac-level .ac-level-right.is-root-done-button button.done-button:hover span{padding-right:25px}.vue-openapi-form .ac-level .ac-level-right.is-root-done-button button.done-button:hover span::after{opacity:1;right:0}.vue-openapi-form .collaps-button{margin-right:10px}.vue-openapi-form .collaps-button .button-circle{background-color:transparent;width:20px;height:20px;color:#3d3d65;border:1px solid #3d3d65;font-size:10px;border-radius:50%;text-align:center;line-height:20px;cursor:pointer}.vue-openapi-form .ac-toggle-buttons li a{border:none!important;font-size:14px;font-weight:500;padding:4px 15px;border-radius:4px!important}.vue-openapi-form .vue-schema-form-array,.vue-openapi-form .vue-schema-form-key-value-pairs,.vue-openapi-form .vue-schema-form-object{padding:20px 0 0 30px;border-radius:4px;position:relative;z-index:1}.vue-openapi-form .vue-schema-form-array::after,.vue-openapi-form .vue-schema-form-key-value-pairs::after,.vue-openapi-form .vue-schema-form-object::after{position:absolute;content:\"\";background-color:#e8e8e8;left:15px;bottom:28px;width:1px;height:calc(100% + 12px)}.vue-openapi-form .vue-schema-form-array.stop-line:after,.vue-openapi-form .vue-schema-form-key-value-pairs.stop-line:after,.vue-openapi-form .vue-schema-form-object.stop-line:after{height:80px;top:-40px}.vue-openapi-form .vue-schema-form-array .ac-field,.vue-openapi-form .vue-schema-form-key-value-pairs .ac-field,.vue-openapi-form .vue-schema-form-object .ac-field{position:relative;z-index:1;margin-top:20px;margin-left:30px;margin-bottom:10px}.vue-openapi-form .vue-schema-form-array .ac-field::before,.vue-openapi-form .vue-schema-form-key-value-pairs .ac-field::before,.vue-openapi-form .vue-schema-form-object .ac-field::before{position:absolute;content:\"\";left:-15px;top:50%;background-color:#e8e8e8;width:16px;height:1px;margin-top:2px}.vue-openapi-form .vue-schema-form-array .ac-field::after,.vue-openapi-form .vue-schema-form-key-value-pairs .ac-field::after,.vue-openapi-form .vue-schema-form-object .ac-field::after{position:absolute;content:\"\";left:-15px;top:-60px;background-color:#e8e8e8;width:1px;height:83px}.vue-openapi-form .vue-schema-form-array .ac-field .label,.vue-openapi-form .vue-schema-form-key-value-pairs .ac-field .label,.vue-openapi-form .vue-schema-form-object .ac-field .label{font-size:14px;color:grey;position:absolute;z-index:2;top:15px;left:15px;font-weight:400;margin:0;line-height:14px;transition:.3s;cursor:initial;padding:0 5px}.vue-openapi-form .vue-schema-form-array .ac-field .show-label.label,.vue-openapi-form .vue-schema-form-key-value-pairs .ac-field .show-label.label,.vue-openapi-form .vue-schema-form-object .ac-field .show-label.label{background-color:#fff;top:-7px;cursor:pointer;padding:0 5px}.vue-openapi-form .vue-schema-form-array .ac-field input,.vue-openapi-form .vue-schema-form-key-value-pairs .ac-field input,.vue-openapi-form .vue-schema-form-object .ac-field input{border:1px solid #bcbec0;box-shadow:none;font-size:14px;font-weight:500;height:40px;padding-left:20px;border-radius:4px}.vue-openapi-form .vue-schema-form-array .ac-field input:focus,.vue-openapi-form .vue-schema-form-key-value-pairs .ac-field input:focus,.vue-openapi-form .vue-schema-form-object .ac-field input:focus{outline:0;border-color:#1971bd;box-shadow:none}.vue-openapi-form .hide-upper-line{padding:0}.vue-openapi-form .hide-upper-line::after{height:0}.vue-openapi-form .hide-upper-line>.ac-level::after{width:0}.vue-openapi-form .vue-schema-form-array.ac-last-child,.vue-openapi-form .vue-schema-form-object.ac-last-child{position:relative;z-index:1}.vue-openapi-form .vue-schema-form-array.ac-last-child::after,.vue-openapi-form .vue-schema-form-object.ac-last-child::after{position:absolute;content:\"\";height:0}.vue-openapi-form .vue-schema-form-key-value-pairs .ac-level{border-radius:4px 4px 0 0}.vue-openapi-form .vue-schema-form-key-value-pairs .ac-key-value-pairs-wrapper{border:1px solid #ddd;border-radius:0 0 4px 4px;border-top:none;padding-right:15px;padding-bottom:15px}.vue-openapi-form .vue-schema-form-key-value-pairs .ac-key-value-pairs-wrapper .ac-key-value-pairs .ac-field::after,.vue-openapi-form .vue-schema-form-key-value-pairs .ac-key-value-pairs-wrapper .ac-key-value-pairs .ac-field::before{width:0}.vue-openapi-form .ac-key-value-action-button,.vue-openapi-form .ac-list-action-button{margin:0!important;padding:0 5px;height:40px;width:32px}.vue-openapi-form .ac-key-value-action-button i.fa,.vue-openapi-form .ac-list-action-button i.fa{padding:0}.vue-openapi-form .ac-key-value-action-button.is-success,.vue-openapi-form .ac-list-action-button.is-success{background-color:#cce2f2!important}.vue-openapi-form .ac-key-value-action-button.is-success i.fa,.vue-openapi-form .ac-list-action-button.is-success i.fa{color:#1971bd}.vue-openapi-form .ac-key-value-action-button.is-danger,.vue-openapi-form .ac-list-action-button.is-danger{background-color:#f9d5dd!important;transition:.3s ease-in-out}.vue-openapi-form .ac-key-value-action-button.is-danger i.fa,.vue-openapi-form .ac-list-action-button.is-danger i.fa{color:#e03056;transition:.3s ease-in-out}.vue-openapi-form .ac-key-value-action-button.is-danger:hover,.vue-openapi-form .ac-list-action-button.is-danger:hover{background-color:#fa9db1!important}.vue-openapi-form .ac-key-value-action-button.is-danger:hover i.fa,.vue-openapi-form .ac-list-action-button.is-danger:hover i.fa{color:#e03056}.vue-openapi-form .form-container{display:flex;justify-content:space-between}.vue-openapi-form .form-container .form-left-item{flex-grow:0;flex-shrink:0;flex-basis:calc(100% - 85px)}.vue-openapi-form .form-container .form-right-item{margin-top:20px}.vue-openapi-form .ac-level-from-button{display:flex;justify-content:space-between}.vue-openapi-form .ac-level-from-button .ac-level-10{flex-grow:0;flex-shrink:0;flex-basis:95%;margin-right:15px}.vue-openapi-form .group-buttons{border-radius:4px;overflow:hidden;margin-right:10px;position:relative;z-index:1}.vue-openapi-form .group-buttons .up-down-button{background:#e8e8e8;border:none;display:block;cursor:pointer;width:32px;height:20px;color:#a4a4a4}.vue-openapi-form .group-buttons .up-down-button:disabled{cursor:not-allowed}.vue-openapi-form .group-buttons .up-down-button.is-info{background-color:#1971bd;color:#fff;transition:.3s}.vue-openapi-form .group-buttons .up-down-button.is-info:hover{background-color:#1b79ca}.vue-openapi-form .group-buttons:after{position:absolute;content:\"\";left:0;top:50%;height:2px;background:#a4a4a4;width:100%;margin-top:-1px;opacity:.5}.vue-openapi-form .ac-level-2 .buttons,.vue-openapi-form .columns.is-gapless .column.is-1 .buttons{margin-top:18px!important;float:right}.vue-openapi-form .buttons .button{margin-right:5px!important}.vue-openapi-form .buttons .button:last-child{margin-right:0!important}.vue-openapi-form .switch[type=checkbox]:checked+label::before,.vue-openapi-form .switch[type=checkbox]:checked+label:before{background-color:#1971bd}.vue-openapi-form .switch[type=checkbox]+label::before,.vue-openapi-form .switch[type=checkbox]+label:before{background-color:#a4a4a4}.vue-openapi-form .ac-key-value-pairs{display:flex;justify-content:space-between}.vue-openapi-form .ac-key-value-pairs .ac-is-3{width:35%}.vue-openapi-form .ac-key-value-pairs .ac-is-8{width:66%;margin-right:15px}.vue-openapi-form .ac-key-value-pairs .ac-is-1{margin-top:20px}.button.is-primary{background-color:#1971bd!important}.icon.is-warning,p.is-warning{color:#e03056!important}p.is-warning{position:absolute;top:100%;font-size:13px;right:0}.icon.is-success{color:#1971bd!important}.tooltip{display:block!important;z-index:10000}.tooltip.is-button-info .tooltip-inner{background:#fff;color:#1971bd;border-radius:16px;padding:5px 20px 4px;box-shadow:2px 2px 20px 2px rgba(0,0,0,.16);font-weight:500;font-size:13px}.tooltip.is-button-info .tooltip-arrow{width:0;height:0;border-style:solid;position:absolute;margin:5px;border-color:#fff}.tooltip.is-errors-tooltip .tooltip-inner{background:#fff;color:#e03056;border-radius:16px;padding:5px 20px 4px;box-shadow:2px 2px 20px 2px rgba(0,0,0,.16);font-weight:500;font-size:13px}.tooltip.is-errors-tooltip .tooltip-inner .errors-wrapper .error-element{padding:5px 0}.tooltip.is-errors-tooltip .tooltip-arrow{width:0;height:0;border-style:solid;position:absolute;margin:5px;border-color:#fff}.tooltip[x-placement^=top]{margin-bottom:5px}.tooltip[x-placement^=top] .tooltip-arrow{border-width:5px 5px 0 5px;border-left-color:transparent!important;border-right-color:transparent!important;border-bottom-color:transparent!important;bottom:-5px;left:calc(50% - 5px);margin-top:0;margin-bottom:0}.tooltip[x-placement^=bottom]{margin-top:5px}.tooltip[x-placement^=bottom] .tooltip-arrow{border-width:0 5px 5px 5px;border-left-color:transparent!important;border-right-color:transparent!important;border-top-color:transparent!important;top:-5px;left:calc(50% - 5px);margin-top:0;margin-bottom:0}.tooltip[x-placement^=right]{margin-left:5px}.tooltip[x-placement^=right] .tooltip-arrow{border-width:5px 5px 5px 0;border-left-color:transparent!important;border-top-color:transparent!important;border-bottom-color:transparent!important;left:-5px;top:calc(50% - 5px);margin-left:0;margin-right:0}.tooltip[x-placement^=left]{margin-right:5px}.tooltip[x-placement^=left] .tooltip-arrow{border-width:5px 0 5px 5px;border-top-color:transparent!important;border-right-color:transparent!important;border-bottom-color:transparent!important;right:-5px;top:calc(50% - 5px);margin-left:0;margin-right:0}.tooltip.popover .popover-inner{background:#f9f9f9;color:#000;padding:24px;border-radius:5px;box-shadow:0 5px 30px rgba(0,0,0,.1)}.tooltip.popover .popover-arrow{border-color:#f9f9f9}.tooltip[aria-hidden=true]{visibility:hidden;opacity:0;transition:opacity .15s,visibility .15s}.tooltip[aria-hidden=false]{visibility:visible;opacity:1;transition:opacity .15s}",
+  inject("data-v-509acb27_0", {
+    source: "@charset \"UTF-8\";@import url(https://fonts.googleapis.com/css?family=Raleway:400,500,500i,600,600i,700,800|Roboto:400,400i,500,500i);@import url(https://fonts.googleapis.com/css?family=Inconsolata&display=swap);body{font-family:Roboto,sans-serif;font-weight:400;font-style:normal;font-size:15px;background-color:#fff}p{font-family:Roboto,sans-serif;font-size:15px;font-weight:400;line-height:1.8;color:#74818d;-webkit-font-smoothing:antialiased}h1,h2,h3,h4,h5,h6{font-family:Raleway,sans-serif;font-weight:400;text-transform:normal;font-style:normal;margin-top:0;color:#32325d;font-weight:600}hr{margin:30px 0;background:#e2e2e2;height:1px}a{color:#4d4f5c;font-family:Roboto,sans-serif;transition:.3s;-webkit-transition:.3s;-moz-transition:.3s;-ms-transition:.3s;-o-transition:.3s}a:hover{color:#4d4dcb}.disable-select{-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none}h1 a,h2 a,h3 a,h4 a,h5 a,h6 a{font-family:Roboto,sans-serif;color:#4d4f5c}h1{font-size:32px;line-break:42px}h2{font-size:24px;line-height:34px}h3{font-size:20px;line-height:20px}h4{font-size:18px;line-height:32px}h5{font-size:16px;line-height:26px}h6{font-size:14px;line-height:24px}.mt-1{margin-top:1px}.mb-1{margin-bottom:1px}.ml-1{margin-left:1px}.mr-1{margin-right:1px}.mt-2{margin-top:2px}.mb-2{margin-bottom:2px}.ml-2{margin-left:2px}.mr-2{margin-right:2px}.mt-3{margin-top:3px}.mb-3{margin-bottom:3px}.ml-3{margin-left:3px}.mr-3{margin-right:3px}.mt-4{margin-top:4px}.mb-4{margin-bottom:4px}.ml-4{margin-left:4px}.mr-4{margin-right:4px}.mt-5{margin-top:5px}.mb-5{margin-bottom:5px}.ml-5{margin-left:5px}.mr-5{margin-right:5px}.mt-6{margin-top:6px}.mb-6{margin-bottom:6px}.ml-6{margin-left:6px}.mr-6{margin-right:6px}.mt-7{margin-top:7px}.mb-7{margin-bottom:7px}.ml-7{margin-left:7px}.mr-7{margin-right:7px}.mt-8{margin-top:8px}.mb-8{margin-bottom:8px}.ml-8{margin-left:8px}.mr-8{margin-right:8px}.mt-9{margin-top:9px}.mb-9{margin-bottom:9px}.ml-9{margin-left:9px}.mr-9{margin-right:9px}.mt-10{margin-top:10px}.mb-10{margin-bottom:10px}.ml-10{margin-left:10px}.mr-10{margin-right:10px}.mt-11{margin-top:11px}.mb-11{margin-bottom:11px}.ml-11{margin-left:11px}.mr-11{margin-right:11px}.mt-12{margin-top:12px}.mb-12{margin-bottom:12px}.ml-12{margin-left:12px}.mr-12{margin-right:12px}.mt-13{margin-top:13px}.mb-13{margin-bottom:13px}.ml-13{margin-left:13px}.mr-13{margin-right:13px}.mt-14{margin-top:14px}.mb-14{margin-bottom:14px}.ml-14{margin-left:14px}.mr-14{margin-right:14px}.mt-15{margin-top:15px}.mb-15{margin-bottom:15px}.ml-15{margin-left:15px}.mr-15{margin-right:15px}.mt-16{margin-top:16px}.mb-16{margin-bottom:16px}.ml-16{margin-left:16px}.mr-16{margin-right:16px}.mt-17{margin-top:17px}.mb-17{margin-bottom:17px}.ml-17{margin-left:17px}.mr-17{margin-right:17px}.mt-18{margin-top:18px}.mb-18{margin-bottom:18px}.ml-18{margin-left:18px}.mr-18{margin-right:18px}.mt-19{margin-top:19px}.mb-19{margin-bottom:19px}.ml-19{margin-left:19px}.mr-19{margin-right:19px}.mt-20{margin-top:20px}.mb-20{margin-bottom:20px}.ml-20{margin-left:20px}.mr-20{margin-right:20px}.mt-21{margin-top:21px}.mb-21{margin-bottom:21px}.ml-21{margin-left:21px}.mr-21{margin-right:21px}.mt-22{margin-top:22px}.mb-22{margin-bottom:22px}.ml-22{margin-left:22px}.mr-22{margin-right:22px}.mt-23{margin-top:23px}.mb-23{margin-bottom:23px}.ml-23{margin-left:23px}.mr-23{margin-right:23px}.mt-24{margin-top:24px}.mb-24{margin-bottom:24px}.ml-24{margin-left:24px}.mr-24{margin-right:24px}.mt-25{margin-top:25px}.mb-25{margin-bottom:25px}.ml-25{margin-left:25px}.mr-25{margin-right:25px}.mt-26{margin-top:26px}.mb-26{margin-bottom:26px}.ml-26{margin-left:26px}.mr-26{margin-right:26px}.mt-27{margin-top:27px}.mb-27{margin-bottom:27px}.ml-27{margin-left:27px}.mr-27{margin-right:27px}.mt-28{margin-top:28px}.mb-28{margin-bottom:28px}.ml-28{margin-left:28px}.mr-28{margin-right:28px}.mt-29{margin-top:29px}.mb-29{margin-bottom:29px}.ml-29{margin-left:29px}.mr-29{margin-right:29px}.mt-30{margin-top:30px}.mb-30{margin-bottom:30px}.ml-30{margin-left:30px}.mr-30{margin-right:30px}.mt-31{margin-top:31px}.mb-31{margin-bottom:31px}.ml-31{margin-left:31px}.mr-31{margin-right:31px}.mt-32{margin-top:32px}.mb-32{margin-bottom:32px}.ml-32{margin-left:32px}.mr-32{margin-right:32px}.mt-33{margin-top:33px}.mb-33{margin-bottom:33px}.ml-33{margin-left:33px}.mr-33{margin-right:33px}.mt-34{margin-top:34px}.mb-34{margin-bottom:34px}.ml-34{margin-left:34px}.mr-34{margin-right:34px}.mt-35{margin-top:35px}.mb-35{margin-bottom:35px}.ml-35{margin-left:35px}.mr-35{margin-right:35px}.mt-36{margin-top:36px}.mb-36{margin-bottom:36px}.ml-36{margin-left:36px}.mr-36{margin-right:36px}.mt-37{margin-top:37px}.mb-37{margin-bottom:37px}.ml-37{margin-left:37px}.mr-37{margin-right:37px}.mt-38{margin-top:38px}.mb-38{margin-bottom:38px}.ml-38{margin-left:38px}.mr-38{margin-right:38px}.mt-39{margin-top:39px}.mb-39{margin-bottom:39px}.ml-39{margin-left:39px}.mr-39{margin-right:39px}.mt-40{margin-top:40px}.mb-40{margin-bottom:40px}.ml-40{margin-left:40px}.mr-40{margin-right:40px}.mt-41{margin-top:41px}.mb-41{margin-bottom:41px}.ml-41{margin-left:41px}.mr-41{margin-right:41px}.mt-42{margin-top:42px}.mb-42{margin-bottom:42px}.ml-42{margin-left:42px}.mr-42{margin-right:42px}.mt-43{margin-top:43px}.mb-43{margin-bottom:43px}.ml-43{margin-left:43px}.mr-43{margin-right:43px}.mt-44{margin-top:44px}.mb-44{margin-bottom:44px}.ml-44{margin-left:44px}.mr-44{margin-right:44px}.mt-45{margin-top:45px}.mb-45{margin-bottom:45px}.ml-45{margin-left:45px}.mr-45{margin-right:45px}.mt-46{margin-top:46px}.mb-46{margin-bottom:46px}.ml-46{margin-left:46px}.mr-46{margin-right:46px}.mt-47{margin-top:47px}.mb-47{margin-bottom:47px}.ml-47{margin-left:47px}.mr-47{margin-right:47px}.mt-48{margin-top:48px}.mb-48{margin-bottom:48px}.ml-48{margin-left:48px}.mr-48{margin-right:48px}.mt-49{margin-top:49px}.mb-49{margin-bottom:49px}.ml-49{margin-left:49px}.mr-49{margin-right:49px}.mt-50{margin-top:50px}.mb-50{margin-bottom:50px}.ml-50{margin-left:50px}.mr-50{margin-right:50px}.pt-1{padding-top:1px}.pb-1{padding-bottom:1px}.pl-1{padding-left:1px}.pr-1{padding-right:1px}.pt-2{padding-top:2px}.pb-2{padding-bottom:2px}.pl-2{padding-left:2px}.pr-2{padding-right:2px}.pt-3{padding-top:3px}.pb-3{padding-bottom:3px}.pl-3{padding-left:3px}.pr-3{padding-right:3px}.pt-4{padding-top:4px}.pb-4{padding-bottom:4px}.pl-4{padding-left:4px}.pr-4{padding-right:4px}.pt-5{padding-top:5px}.pb-5{padding-bottom:5px}.pl-5{padding-left:5px}.pr-5{padding-right:5px}.pt-6{padding-top:6px}.pb-6{padding-bottom:6px}.pl-6{padding-left:6px}.pr-6{padding-right:6px}.pt-7{padding-top:7px}.pb-7{padding-bottom:7px}.pl-7{padding-left:7px}.pr-7{padding-right:7px}.pt-8{padding-top:8px}.pb-8{padding-bottom:8px}.pl-8{padding-left:8px}.pr-8{padding-right:8px}.pt-9{padding-top:9px}.pb-9{padding-bottom:9px}.pl-9{padding-left:9px}.pr-9{padding-right:9px}.pt-10{padding-top:10px}.pb-10{padding-bottom:10px}.pl-10{padding-left:10px}.pr-10{padding-right:10px}.pt-11{padding-top:11px}.pb-11{padding-bottom:11px}.pl-11{padding-left:11px}.pr-11{padding-right:11px}.pt-12{padding-top:12px}.pb-12{padding-bottom:12px}.pl-12{padding-left:12px}.pr-12{padding-right:12px}.pt-13{padding-top:13px}.pb-13{padding-bottom:13px}.pl-13{padding-left:13px}.pr-13{padding-right:13px}.pt-14{padding-top:14px}.pb-14{padding-bottom:14px}.pl-14{padding-left:14px}.pr-14{padding-right:14px}.pt-15{padding-top:15px}.pb-15{padding-bottom:15px}.pl-15{padding-left:15px}.pr-15{padding-right:15px}.pt-16{padding-top:16px}.pb-16{padding-bottom:16px}.pl-16{padding-left:16px}.pr-16{padding-right:16px}.pt-17{padding-top:17px}.pb-17{padding-bottom:17px}.pl-17{padding-left:17px}.pr-17{padding-right:17px}.pt-18{padding-top:18px}.pb-18{padding-bottom:18px}.pl-18{padding-left:18px}.pr-18{padding-right:18px}.pt-19{padding-top:19px}.pb-19{padding-bottom:19px}.pl-19{padding-left:19px}.pr-19{padding-right:19px}.pt-20{padding-top:20px}.pb-20{padding-bottom:20px}.pl-20{padding-left:20px}.pr-20{padding-right:20px}.pt-21{padding-top:21px}.pb-21{padding-bottom:21px}.pl-21{padding-left:21px}.pr-21{padding-right:21px}.pt-22{padding-top:22px}.pb-22{padding-bottom:22px}.pl-22{padding-left:22px}.pr-22{padding-right:22px}.pt-23{padding-top:23px}.pb-23{padding-bottom:23px}.pl-23{padding-left:23px}.pr-23{padding-right:23px}.pt-24{padding-top:24px}.pb-24{padding-bottom:24px}.pl-24{padding-left:24px}.pr-24{padding-right:24px}.pt-25{padding-top:25px}.pb-25{padding-bottom:25px}.pl-25{padding-left:25px}.pr-25{padding-right:25px}.pt-26{padding-top:26px}.pb-26{padding-bottom:26px}.pl-26{padding-left:26px}.pr-26{padding-right:26px}.pt-27{padding-top:27px}.pb-27{padding-bottom:27px}.pl-27{padding-left:27px}.pr-27{padding-right:27px}.pt-28{padding-top:28px}.pb-28{padding-bottom:28px}.pl-28{padding-left:28px}.pr-28{padding-right:28px}.pt-29{padding-top:29px}.pb-29{padding-bottom:29px}.pl-29{padding-left:29px}.pr-29{padding-right:29px}.pt-30{padding-top:30px}.pb-30{padding-bottom:30px}.pl-30{padding-left:30px}.pr-30{padding-right:30px}.pt-31{padding-top:31px}.pb-31{padding-bottom:31px}.pl-31{padding-left:31px}.pr-31{padding-right:31px}.pt-32{padding-top:32px}.pb-32{padding-bottom:32px}.pl-32{padding-left:32px}.pr-32{padding-right:32px}.pt-33{padding-top:33px}.pb-33{padding-bottom:33px}.pl-33{padding-left:33px}.pr-33{padding-right:33px}.pt-34{padding-top:34px}.pb-34{padding-bottom:34px}.pl-34{padding-left:34px}.pr-34{padding-right:34px}.pt-35{padding-top:35px}.pb-35{padding-bottom:35px}.pl-35{padding-left:35px}.pr-35{padding-right:35px}.pt-36{padding-top:36px}.pb-36{padding-bottom:36px}.pl-36{padding-left:36px}.pr-36{padding-right:36px}.pt-37{padding-top:37px}.pb-37{padding-bottom:37px}.pl-37{padding-left:37px}.pr-37{padding-right:37px}.pt-38{padding-top:38px}.pb-38{padding-bottom:38px}.pl-38{padding-left:38px}.pr-38{padding-right:38px}.pt-39{padding-top:39px}.pb-39{padding-bottom:39px}.pl-39{padding-left:39px}.pr-39{padding-right:39px}.pt-40{padding-top:40px}.pb-40{padding-bottom:40px}.pl-40{padding-left:40px}.pr-40{padding-right:40px}.pt-41{padding-top:41px}.pb-41{padding-bottom:41px}.pl-41{padding-left:41px}.pr-41{padding-right:41px}.pt-42{padding-top:42px}.pb-42{padding-bottom:42px}.pl-42{padding-left:42px}.pr-42{padding-right:42px}.pt-43{padding-top:43px}.pb-43{padding-bottom:43px}.pl-43{padding-left:43px}.pr-43{padding-right:43px}.pt-44{padding-top:44px}.pb-44{padding-bottom:44px}.pl-44{padding-left:44px}.pr-44{padding-right:44px}.pt-45{padding-top:45px}.pb-45{padding-bottom:45px}.pl-45{padding-left:45px}.pr-45{padding-right:45px}.pt-46{padding-top:46px}.pb-46{padding-bottom:46px}.pl-46{padding-left:46px}.pr-46{padding-right:46px}.pt-47{padding-top:47px}.pb-47{padding-bottom:47px}.pl-47{padding-left:47px}.pr-47{padding-right:47px}.pt-48{padding-top:48px}.pb-48{padding-bottom:48px}.pl-48{padding-left:48px}.pr-48{padding-right:48px}.pt-49{padding-top:49px}.pb-49{padding-bottom:49px}.pl-49{padding-left:49px}.pr-49{padding-right:49px}.pt-50{padding-top:50px}.pb-50{padding-bottom:50px}.pl-50{padding-left:50px}.pr-50{padding-right:50px}.section-title{padding:30px 0}.section-title h2{font-size:30px;margin-bottom:15px}.select-box-wrapper label{font-size:15px;font-weight:500;margin-bottom:10px;display:block}.left-content-wrapper{border:1px solid #e8e8e8;padding:30px;border-radius:4px}.left-content-wrapper .CodeMirror-hscrollbar::-webkit-scrollbar,.left-content-wrapper .CodeMirror-vscrollbar::-webkit-scrollbar{width:5px}.left-content-wrapper .CodeMirror-hscrollbar::-webkit-scrollbar-track,.left-content-wrapper .CodeMirror-vscrollbar::-webkit-scrollbar-track{border-radius:50px;background-color:#e8e8e8}.left-content-wrapper .CodeMirror-hscrollbar::-webkit-scrollbar-thumb,.left-content-wrapper .CodeMirror-vscrollbar::-webkit-scrollbar-thumb{background:#1971bd;border-radius:50px}.left-content-wrapper .CodeMirror-hscrollbar::-webkit-scrollbar-thumb:hover,.left-content-wrapper .CodeMirror-vscrollbar::-webkit-scrollbar-thumb:hover{background:#1971bd}.left-content-wrapper .CodeMirror-hscrollbar::-webkit-scrollbar-thumb{height:5px!important}.model-input h3,.schema-input h3{margin:20px 0;font-size:18px;line-height:28px;font-weight:600}.vue-openapi-form{border-radius:4px}.vue-openapi-form .ac-level{display:flex;justify-content:space-between;align-items:center;background-color:#e8e8e8;padding:4px 20px;border-radius:4px;position:relative;z-index:1}.vue-openapi-form .ac-level::after{position:absolute;content:\"\";left:-15px;top:50%;width:30px;height:1px;background:#e8e8e8;margin-top:-.5px;z-index:-1}.vue-openapi-form .ac-level .ac-level-left{display:flex;align-items:center}.vue-openapi-form .ac-level .ac-level-left .ac-form-title h4{font-size:14px;font-weight:700}.vue-openapi-form .ac-level .ac-level-left .ac-form-title h4 span{font-size:12px;color:#e03056;font-weight:500;margin-left:10px;cursor:pointer}.vue-openapi-form .ac-level .ac-level-right.is-root-done-button{display:flex;align-items:center}.vue-openapi-form .ac-level .ac-level-right.is-root-done-button .tabs{margin:0}.vue-openapi-form .ac-level .ac-level-right.is-root-done-button .button{font-weight:600}.vue-openapi-form .ac-level .ac-level-right.is-root-done-button .button .icon{height:auto}.vue-openapi-form .ac-level .ac-level-right.is-root-done-button button.done-button{margin-right:-20px;margin-left:15px;margin-top:-4px;margin-bottom:-4px;transition:.3s ease-in-out;border-radius:0 4px 4px 0;height:40px}.vue-openapi-form .ac-level .ac-level-right.is-root-done-button button.done-button span{position:relative;transition:.5s}.vue-openapi-form .ac-level .ac-level-right.is-root-done-button button.done-button span::after{content:\"\";position:absolute;font-size:16px;font-family:fontawesome;opacity:0;top:0;right:-20px;transition:.5s}.vue-openapi-form .ac-level .ac-level-right.is-root-done-button button.done-button:hover span{padding-right:25px}.vue-openapi-form .ac-level .ac-level-right.is-root-done-button button.done-button:hover span::after{opacity:1;right:0}.vue-openapi-form .collaps-button{margin-right:10px}.vue-openapi-form .collaps-button .button-circle{background-color:transparent;width:20px;height:20px;color:#3d3d65;border:1px solid #3d3d65;font-size:10px;border-radius:50%;text-align:center;line-height:20px;cursor:pointer}.vue-openapi-form .ac-toggle-buttons li a{border:none!important;font-size:14px;font-weight:500;padding:4px 15px;border-radius:4px!important}.vue-openapi-form .vue-schema-form-array,.vue-openapi-form .vue-schema-form-key-value-pairs,.vue-openapi-form .vue-schema-form-object{padding:20px 0 0 30px;border-radius:4px;position:relative;z-index:1}.vue-openapi-form .vue-schema-form-array::after,.vue-openapi-form .vue-schema-form-key-value-pairs::after,.vue-openapi-form .vue-schema-form-object::after{position:absolute;content:\"\";background-color:#e8e8e8;left:15px;bottom:28px;width:1px;height:calc(100% + 12px)}.vue-openapi-form .vue-schema-form-array.stop-line:after,.vue-openapi-form .vue-schema-form-key-value-pairs.stop-line:after,.vue-openapi-form .vue-schema-form-object.stop-line:after{height:80px;top:-40px}.vue-openapi-form .vue-schema-form-array .ac-field,.vue-openapi-form .vue-schema-form-key-value-pairs .ac-field,.vue-openapi-form .vue-schema-form-object .ac-field{position:relative;z-index:1;margin-top:20px;margin-left:30px;margin-bottom:10px}.vue-openapi-form .vue-schema-form-array .ac-field::before,.vue-openapi-form .vue-schema-form-key-value-pairs .ac-field::before,.vue-openapi-form .vue-schema-form-object .ac-field::before{position:absolute;content:\"\";left:-15px;top:50%;background-color:#e8e8e8;width:16px;height:1px;margin-top:2px}.vue-openapi-form .vue-schema-form-array .ac-field::after,.vue-openapi-form .vue-schema-form-key-value-pairs .ac-field::after,.vue-openapi-form .vue-schema-form-object .ac-field::after{position:absolute;content:\"\";left:-15px;top:-60px;background-color:#e8e8e8;width:1px;height:83px}.vue-openapi-form .vue-schema-form-array .ac-field .label,.vue-openapi-form .vue-schema-form-key-value-pairs .ac-field .label,.vue-openapi-form .vue-schema-form-object .ac-field .label{font-size:14px;color:grey;position:absolute;z-index:2;top:15px;left:15px;font-weight:400;margin:0;line-height:14px;transition:.3s;cursor:initial;padding:0 5px}.vue-openapi-form .vue-schema-form-array .ac-field .show-label.label,.vue-openapi-form .vue-schema-form-key-value-pairs .ac-field .show-label.label,.vue-openapi-form .vue-schema-form-object .ac-field .show-label.label{background-color:#fff;top:-7px;cursor:pointer;padding:0 5px}.vue-openapi-form .vue-schema-form-array .ac-field input,.vue-openapi-form .vue-schema-form-key-value-pairs .ac-field input,.vue-openapi-form .vue-schema-form-object .ac-field input{border:1px solid #bcbec0;box-shadow:none;font-size:14px;font-weight:500;height:40px;padding-left:20px;border-radius:4px}.vue-openapi-form .vue-schema-form-array .ac-field input:focus,.vue-openapi-form .vue-schema-form-key-value-pairs .ac-field input:focus,.vue-openapi-form .vue-schema-form-object .ac-field input:focus{outline:0;border-color:#1971bd;box-shadow:none}.vue-openapi-form .hide-upper-line{padding:0}.vue-openapi-form .hide-upper-line::after{height:0}.vue-openapi-form .hide-upper-line>.ac-level::after{width:0}.vue-openapi-form .vue-schema-form-array.ac-last-child,.vue-openapi-form .vue-schema-form-object.ac-last-child{position:relative;z-index:1}.vue-openapi-form .vue-schema-form-array.ac-last-child::after,.vue-openapi-form .vue-schema-form-object.ac-last-child::after{position:absolute;content:\"\";height:0}.vue-openapi-form .vue-schema-form-key-value-pairs .ac-level{border-radius:4px 4px 0 0}.vue-openapi-form .vue-schema-form-key-value-pairs .ac-key-value-pairs-wrapper{border:1px solid #ddd;border-radius:0 0 4px 4px;border-top:none;padding-right:15px;padding-bottom:15px}.vue-openapi-form .vue-schema-form-key-value-pairs .ac-key-value-pairs-wrapper .ac-key-value-pairs .ac-field::after,.vue-openapi-form .vue-schema-form-key-value-pairs .ac-key-value-pairs-wrapper .ac-key-value-pairs .ac-field::before{width:0}.vue-openapi-form .vue-schema-form-key-value-pairs .ac-key-value-pairs-wrapper .ac-key-value-pairs .ac-key-value-pairs-item{width:100%;display:flex}.vue-openapi-form .ac-key-value-action-button,.vue-openapi-form .ac-list-action-button{margin:0!important;padding:0 5px;height:40px;width:32px}.vue-openapi-form .ac-key-value-action-button i.fa,.vue-openapi-form .ac-list-action-button i.fa{padding:0}.vue-openapi-form .ac-key-value-action-button.is-success,.vue-openapi-form .ac-list-action-button.is-success{background-color:#cce2f2!important}.vue-openapi-form .ac-key-value-action-button.is-success i.fa,.vue-openapi-form .ac-list-action-button.is-success i.fa{color:#1971bd}.vue-openapi-form .ac-key-value-action-button.is-danger,.vue-openapi-form .ac-list-action-button.is-danger{background-color:#f9d5dd!important;transition:.3s ease-in-out}.vue-openapi-form .ac-key-value-action-button.is-danger i.fa,.vue-openapi-form .ac-list-action-button.is-danger i.fa{color:#e03056;transition:.3s ease-in-out}.vue-openapi-form .ac-key-value-action-button.is-danger:hover,.vue-openapi-form .ac-list-action-button.is-danger:hover{background-color:#fa9db1!important}.vue-openapi-form .ac-key-value-action-button.is-danger:hover i.fa,.vue-openapi-form .ac-list-action-button.is-danger:hover i.fa{color:#e03056}.vue-openapi-form .form-container{display:flex;justify-content:space-between}.vue-openapi-form .form-container .form-left-item{flex-grow:0;flex-shrink:0;flex-basis:calc(100% - 85px)}.vue-openapi-form .form-container .form-right-item{margin-top:20px}.vue-openapi-form .ac-level-from-button{display:flex;justify-content:space-between}.vue-openapi-form .ac-level-from-button .ac-level-10{flex-grow:0;flex-shrink:0;flex-basis:95%;margin-right:15px}.vue-openapi-form .group-buttons{border-radius:4px;overflow:hidden;margin-right:10px;position:relative;z-index:1}.vue-openapi-form .group-buttons .up-down-button{background:#e8e8e8;border:none;display:block;cursor:pointer;width:32px;height:20px;color:#a4a4a4}.vue-openapi-form .group-buttons .up-down-button:disabled{cursor:not-allowed}.vue-openapi-form .group-buttons .up-down-button.is-info{background-color:#1971bd;color:#fff;transition:.3s}.vue-openapi-form .group-buttons .up-down-button.is-info:hover{background-color:#1b79ca}.vue-openapi-form .group-buttons:after{position:absolute;content:\"\";left:0;top:50%;height:2px;background:#a4a4a4;width:100%;margin-top:-1px;opacity:.5}.vue-openapi-form .ac-level-2 .buttons,.vue-openapi-form .columns.is-gapless .column.is-1 .buttons{margin-top:18px!important;float:right}.vue-openapi-form .buttons .button{margin-right:5px!important}.vue-openapi-form .buttons .button:last-child{margin-right:0!important}.vue-openapi-form .switch[type=checkbox]:checked+label::before,.vue-openapi-form .switch[type=checkbox]:checked+label:before{background-color:#1971bd}.vue-openapi-form .switch[type=checkbox]+label::before,.vue-openapi-form .switch[type=checkbox]+label:before{background-color:#a4a4a4}.vue-openapi-form .ac-key-value-pairs{display:flex;justify-content:space-between}.vue-openapi-form .ac-key-value-pairs .ac-is-3{width:35%}.vue-openapi-form .ac-key-value-pairs .ac-is-8{width:66%;margin-right:15px}.vue-openapi-form .ac-key-value-pairs .ac-is-1{margin-top:20px}.button.is-primary{background-color:#1971bd!important}.icon.is-warning,p.is-warning{color:#e03056!important}p.is-warning{position:absolute;top:100%;font-size:13px;right:0}.icon.is-success{color:#1971bd!important}.tooltip{display:block!important;z-index:10000}.tooltip.is-button-info .tooltip-inner{background:#fff;color:#1971bd;border-radius:16px;padding:5px 20px 4px;box-shadow:2px 2px 20px 2px rgba(0,0,0,.16);font-weight:500;font-size:13px}.tooltip.is-button-info .tooltip-arrow{width:0;height:0;border-style:solid;position:absolute;margin:5px;border-color:#fff}.tooltip.is-errors-tooltip .tooltip-inner{background:#fff;color:#e03056;border-radius:16px;padding:5px 20px 4px;box-shadow:2px 2px 20px 2px rgba(0,0,0,.16);font-weight:500;font-size:13px}.tooltip.is-errors-tooltip .tooltip-inner .errors-wrapper .error-element{padding:5px 0}.tooltip.is-errors-tooltip .tooltip-arrow{width:0;height:0;border-style:solid;position:absolute;margin:5px;border-color:#fff}.tooltip[x-placement^=top]{margin-bottom:5px}.tooltip[x-placement^=top] .tooltip-arrow{border-width:5px 5px 0 5px;border-left-color:transparent!important;border-right-color:transparent!important;border-bottom-color:transparent!important;bottom:-5px;left:calc(50% - 5px);margin-top:0;margin-bottom:0}.tooltip[x-placement^=bottom]{margin-top:5px}.tooltip[x-placement^=bottom] .tooltip-arrow{border-width:0 5px 5px 5px;border-left-color:transparent!important;border-right-color:transparent!important;border-top-color:transparent!important;top:-5px;left:calc(50% - 5px);margin-top:0;margin-bottom:0}.tooltip[x-placement^=right]{margin-left:5px}.tooltip[x-placement^=right] .tooltip-arrow{border-width:5px 5px 5px 0;border-left-color:transparent!important;border-top-color:transparent!important;border-bottom-color:transparent!important;left:-5px;top:calc(50% - 5px);margin-left:0;margin-right:0}.tooltip[x-placement^=left]{margin-right:5px}.tooltip[x-placement^=left] .tooltip-arrow{border-width:5px 0 5px 5px;border-top-color:transparent!important;border-right-color:transparent!important;border-bottom-color:transparent!important;right:-5px;top:calc(50% - 5px);margin-left:0;margin-right:0}.tooltip.popover .popover-inner{background:#f9f9f9;color:#000;padding:24px;border-radius:5px;box-shadow:0 5px 30px rgba(0,0,0,.1)}.tooltip.popover .popover-arrow{border-color:#f9f9f9}.tooltip[aria-hidden=true]{visibility:hidden;opacity:0;transition:opacity .15s,visibility .15s}.tooltip[aria-hidden=false]{visibility:visible;opacity:1;transition:opacity .15s}",
     map: undefined,
     media: undefined
   });
@@ -17646,23 +21775,333 @@ var __vue_inject_styles__$5 = function __vue_inject_styles__(inject) {
 /* scoped */
 
 
-var __vue_scope_id__$5 = undefined;
+var __vue_scope_id__$6 = undefined;
 /* module identifier */
 
-var __vue_module_identifier__$5 = "data-v-c28c2cf0";
+var __vue_module_identifier__$6 = "data-v-509acb27";
 /* functional template */
 
-var __vue_is_functional_template__$5 = false;
+var __vue_is_functional_template__$6 = false;
 /* style inject shadow dom */
 
-var __vue_component__$5 = normalizeComponent({
-  render: __vue_render__$5,
-  staticRenderFns: __vue_staticRenderFns__$5
-}, __vue_inject_styles__$5, __vue_script__$5, __vue_scope_id__$5, __vue_is_functional_template__$5, __vue_module_identifier__$5, false, undefined, createInjectorSSR, undefined);function ownKeys$2(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+var __vue_component__$6 = normalizeComponent({
+  render: __vue_render__$6,
+  staticRenderFns: __vue_staticRenderFns__$6
+}, __vue_inject_styles__$6, __vue_script__$6, __vue_scope_id__$6, __vue_is_functional_template__$6, __vue_module_identifier__$6, false, undefined, createInjectorSSR, undefined);var aPossiblePrototype$1 = function (it) {
+  if (!isObject(it) && it !== null) {
+    throw TypeError("Can't set " + String(it) + ' as a prototype');
+  } return it;
+};// `Object.setPrototypeOf` method
+// https://tc39.github.io/ecma262/#sec-object.setprototypeof
+// Works with __proto__ only. Old v8 can't work with null proto objects.
+/* eslint-disable no-proto */
+var objectSetPrototypeOf$1 = Object.setPrototypeOf || ('__proto__' in {} ? function () {
+  var CORRECT_SETTER = false;
+  var test = {};
+  var setter;
+  try {
+    setter = Object.getOwnPropertyDescriptor(Object.prototype, '__proto__').set;
+    setter.call(test, []);
+    CORRECT_SETTER = test instanceof Array;
+  } catch (error) { /* empty */ }
+  return function setPrototypeOf(O, proto) {
+    anObject(O);
+    aPossiblePrototype$1(proto);
+    if (CORRECT_SETTER) setter.call(O, proto);
+    else O.__proto__ = proto;
+    return O;
+  };
+}() : undefined);// makes subclassing work correct for wrapped built-ins
+var inheritIfRequired = function ($this, dummy, Wrapper) {
+  var NewTarget, NewTargetPrototype;
+  if (
+    // it can work only with native `setPrototypeOf`
+    objectSetPrototypeOf$1 &&
+    // we haven't completely correct pre-ES6 way for getting `new.target`, so use this
+    typeof (NewTarget = dummy.constructor) == 'function' &&
+    NewTarget !== Wrapper &&
+    isObject(NewTargetPrototype = NewTarget.prototype) &&
+    NewTargetPrototype !== Wrapper.prototype
+  ) objectSetPrototypeOf$1($this, NewTargetPrototype);
+  return $this;
+};// a string of all valid unicode whitespaces
+// eslint-disable-next-line max-len
+var whitespaces = '\u0009\u000A\u000B\u000C\u000D\u0020\u00A0\u1680\u2000\u2001\u2002\u2003\u2004\u2005\u2006\u2007\u2008\u2009\u200A\u202F\u205F\u3000\u2028\u2029\uFEFF';var whitespace = '[' + whitespaces + ']';
+var ltrim = RegExp('^' + whitespace + whitespace + '*');
+var rtrim = RegExp(whitespace + whitespace + '*$');
 
-function _objectSpread$1(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys$2(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys$2(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
-var script$6 = {
+// `String.prototype.{ trim, trimStart, trimEnd, trimLeft, trimRight }` methods implementation
+var createMethod$6 = function (TYPE) {
+  return function ($this) {
+    var string = String(requireObjectCoercible($this));
+    if (TYPE & 1) string = string.replace(ltrim, '');
+    if (TYPE & 2) string = string.replace(rtrim, '');
+    return string;
+  };
+};
+
+var stringTrim = {
+  // `String.prototype.{ trimLeft, trimStart }` methods
+  // https://tc39.github.io/ecma262/#sec-string.prototype.trimstart
+  start: createMethod$6(1),
+  // `String.prototype.{ trimRight, trimEnd }` methods
+  // https://tc39.github.io/ecma262/#sec-string.prototype.trimend
+  end: createMethod$6(2),
+  // `String.prototype.trim` method
+  // https://tc39.github.io/ecma262/#sec-string.prototype.trim
+  trim: createMethod$6(3)
+};var getOwnPropertyNames = objectGetOwnPropertyNames.f;
+var getOwnPropertyDescriptor$5 = objectGetOwnPropertyDescriptor.f;
+var defineProperty$5 = objectDefineProperty.f;
+var trim = stringTrim.trim;
+
+var NUMBER = 'Number';
+var NativeNumber = global_1[NUMBER];
+var NumberPrototype = NativeNumber.prototype;
+
+// Opera ~12 has broken Object#toString
+var BROKEN_CLASSOF = classofRaw(objectCreate$1(NumberPrototype)) == NUMBER;
+
+// `ToNumber` abstract operation
+// https://tc39.github.io/ecma262/#sec-tonumber
+var toNumber = function (argument) {
+  var it = toPrimitive(argument, false);
+  var first, third, radix, maxCode, digits, length, index, code;
+  if (typeof it == 'string' && it.length > 2) {
+    it = trim(it);
+    first = it.charCodeAt(0);
+    if (first === 43 || first === 45) {
+      third = it.charCodeAt(2);
+      if (third === 88 || third === 120) return NaN; // Number('+0x1') should be NaN, old V8 fix
+    } else if (first === 48) {
+      switch (it.charCodeAt(1)) {
+        case 66: case 98: radix = 2; maxCode = 49; break; // fast equal of /^0b[01]+$/i
+        case 79: case 111: radix = 8; maxCode = 55; break; // fast equal of /^0o[0-7]+$/i
+        default: return +it;
+      }
+      digits = it.slice(2);
+      length = digits.length;
+      for (index = 0; index < length; index++) {
+        code = digits.charCodeAt(index);
+        // parseInt parses a string to a first unavailable symbol
+        // but ToNumber should return NaN if a string contains unavailable symbols
+        if (code < 48 || code > maxCode) return NaN;
+      } return parseInt(digits, radix);
+    }
+  } return +it;
+};
+
+// `Number` constructor
+// https://tc39.github.io/ecma262/#sec-number-constructor
+if (isForced_1(NUMBER, !NativeNumber(' 0o1') || !NativeNumber('0b1') || NativeNumber('+0x1'))) {
+  var NumberWrapper = function Number(value) {
+    var it = arguments.length < 1 ? 0 : value;
+    var dummy = this;
+    return dummy instanceof NumberWrapper
+      // check on 1..constructor(foo) case
+      && (BROKEN_CLASSOF ? fails(function () { NumberPrototype.valueOf.call(dummy); }) : classofRaw(dummy) != NUMBER)
+        ? inheritIfRequired(new NativeNumber(toNumber(it)), dummy, NumberWrapper) : toNumber(it);
+  };
+  for (var keys$2 = descriptors ? getOwnPropertyNames(NativeNumber) : (
+    // ES3:
+    'MAX_VALUE,MIN_VALUE,NaN,NEGATIVE_INFINITY,POSITIVE_INFINITY,' +
+    // ES2015 (in case, if modules with ES2015 Number statics required before):
+    'EPSILON,isFinite,isInteger,isNaN,isSafeInteger,MAX_SAFE_INTEGER,' +
+    'MIN_SAFE_INTEGER,parseFloat,parseInt,isInteger'
+  ).split(','), j = 0, key; keys$2.length > j; j++) {
+    if (has(NativeNumber, key = keys$2[j]) && !has(NumberWrapper, key)) {
+      defineProperty$5(NumberWrapper, key, getOwnPropertyDescriptor$5(NativeNumber, key));
+    }
+  }
+  NumberWrapper.prototype = NumberPrototype;
+  NumberPrototype.constructor = NumberWrapper;
+  redefine(global_1, NUMBER, NumberWrapper);
+}var script$7 = {
+  name: "array-input-items",
+  props: {
+    items: {
+      type: Object,
+      default: function _default() {
+        return {};
+      }
+    },
+    schema: {
+      type: Object,
+      default: function _default() {
+        return {};
+      }
+    },
+    index: {
+      type: Number,
+      default: 0
+    },
+    value: {
+      type: null,
+      default: function _default() {
+        return [];
+      }
+    }
+  },
+  mixins: [model, validation]
+};var __vue_script__$7 = script$7;
+/* template */
+
+var __vue_render__$7 = function __vue_render__() {
+  var _vm = this;
+
+  var _h = _vm.$createElement;
+
+  var _c = _vm._self._c || _h;
+
+  return _c('div', {
+    staticClass: "form-left-item"
+  }, [_vm.items.type === 'object' ? [_c('validation-provider', {
+    attrs: {
+      "rules": _vm.ruleObject(true),
+      "name": _vm.schema.title.replace(/ /g, '-') + "-" + (_vm.index + 1),
+      "vid": _vm.schema.title.replace(/ /g, '-') + "-" + (_vm.index + 1) + "-provider",
+      "slim": ""
+    },
+    scopedSlots: _vm._u([{
+      key: "default",
+      fn: function fn(ref) {
+        var errors = ref.errors;
+        return [_c('object-form-wrapper', {
+          attrs: {
+            "schema": Object.assign({}, _vm.items, {
+              title: _vm.schema.title + " " + (_vm.index + 1)
+            }),
+            "isSelfRequired": true,
+            "type": _vm.items.type,
+            "errors": errors
+          },
+          model: {
+            value: _vm.modelData[_vm.index],
+            callback: function callback($$v) {
+              _vm.$set(_vm.modelData, _vm.index, $$v);
+            },
+            expression: "modelData[index]"
+          }
+        })];
+      }
+    }], null, false, 1878571294)
+  })] : _vm.items.type === 'key-value-pairs' ? [_c('validation-provider', {
+    attrs: {
+      "rules": _vm.ruleObject(true),
+      "name": _vm.schema.title.replace(/ /g, '-') + "-" + (_vm.index + 1),
+      "vid": _vm.schema.title.replace(/ /g, '-') + "-" + (_vm.index + 1) + "-provider",
+      "slim": ""
+    },
+    scopedSlots: _vm._u([{
+      key: "default",
+      fn: function fn(ref) {
+        var errors = ref.errors;
+        return [_c('key-value-pairs', {
+          attrs: {
+            "errors": errors,
+            "schema": Object.assign({}, _vm.items, {
+              title: _vm.schema.title + " " + (_vm.index + 1)
+            }),
+            "type": _vm.items.type
+          },
+          model: {
+            value: _vm.modelData[_vm.index],
+            callback: function callback($$v) {
+              _vm.$set(_vm.modelData, _vm.index, $$v);
+            },
+            expression: "modelData[index]"
+          }
+        })];
+      }
+    }])
+  })] : _vm.items.type === 'array' ? [_c('validation-provider', {
+    attrs: {
+      "rules": _vm.ruleArray(true),
+      "name": _vm.schema.title.replace(/ /g, '-') + "-" + (_vm.index + 1),
+      "vid": _vm.schema.title.replace(/ /g, '-') + "-" + (_vm.index + 1) + "-provider",
+      "slim": ""
+    },
+    scopedSlots: _vm._u([{
+      key: "default",
+      fn: function fn(ref) {
+        var errors = ref.errors;
+        return [_c('array-input', {
+          attrs: {
+            "schema": Object.assign({}, _vm.items, {
+              title: _vm.schema.title + " " + (_vm.index + 1)
+            }),
+            "type": _vm.items.type,
+            "errors": errors
+          },
+          model: {
+            value: _vm.modelData[_vm.index],
+            callback: function callback($$v) {
+              _vm.$set(_vm.modelData, _vm.index, $$v);
+            },
+            expression: "modelData[index]"
+          }
+        })];
+      }
+    }])
+  })] : [_c('validation-provider', {
+    attrs: {
+      "rules": _vm.ruleString(true),
+      "name": _vm.schema.title.replace(/ /g, '-') + "-" + (_vm.index + 1),
+      "vid": _vm.schema.title.replace(/ /g, '-') + "-" + (_vm.index + 1) + "-provider",
+      "slim": ""
+    },
+    scopedSlots: _vm._u([{
+      key: "default",
+      fn: function fn(validationOb) {
+        return [_c('simple-input', {
+          attrs: {
+            "schema": Object.assign({}, _vm.items, {
+              title: _vm.schema.title + " " + (_vm.index + 1)
+            }),
+            "type": _vm.items.type,
+            "required": true,
+            "validationOb": validationOb
+          },
+          model: {
+            value: _vm.modelData[_vm.index],
+            callback: function callback($$v) {
+              _vm.$set(_vm.modelData, _vm.index, $$v);
+            },
+            expression: "modelData[index]"
+          }
+        })];
+      }
+    }])
+  })]], 2);
+};
+
+var __vue_staticRenderFns__$7 = [];
+/* style */
+
+var __vue_inject_styles__$7 = undefined;
+/* scoped */
+
+var __vue_scope_id__$7 = undefined;
+/* module identifier */
+
+var __vue_module_identifier__$7 = "data-v-5d40838d";
+/* functional template */
+
+var __vue_is_functional_template__$7 = false;
+/* style inject */
+
+/* style inject SSR */
+
+/* style inject shadow dom */
+
+var __vue_component__$7 = normalizeComponent({
+  render: __vue_render__$7,
+  staticRenderFns: __vue_staticRenderFns__$7
+}, __vue_inject_styles__$7, __vue_script__$7, __vue_scope_id__$7, __vue_is_functional_template__$7, __vue_module_identifier__$7, false, undefined, undefined, undefined);var script$8 = {
   name: "array-input",
+  components: {
+    ArrayInputItems: __vue_component__$7
+  },
   props: {
     schema: {
       type: Object,
@@ -17697,13 +22136,6 @@ var script$6 = {
   computed: {
     items: function items() {
       return this.schema.items || {};
-    },
-    ruleOb: function ruleOb() {
-      var ans = {};
-      if (this.required) ans = Object.assign({}, _objectSpread$1({}, ans), {
-        requiredArray: true
-      });
-      return ans;
     }
   },
   methods: {
@@ -17755,10 +22187,10 @@ var script$6 = {
       this.updatePass += 1;
     }
   }
-};var __vue_script__$6 = script$6;
+};var __vue_script__$8 = script$8;
 /* template */
 
-var __vue_render__$6 = function __vue_render__() {
+var __vue_render__$8 = function __vue_render__() {
   var _vm = this;
 
   var _h = _vm.$createElement;
@@ -17794,135 +22226,24 @@ var __vue_render__$6 = function __vue_render__() {
           staticClass: "ac-level-right"
         }, [_c('tabs', {
           model: {
-            value: _vm.formShow,
+            value: _vm.activeTab,
             callback: function callback($$v) {
-              _vm.formShow = $$v;
+              _vm.activeTab = $$v;
             },
-            expression: "formShow"
+            expression: "activeTab"
           }
-        })], 1)]), _vm._v(" "), _vm.formShow ? [_vm._l(_vm.modelData, function (item, index) {
+        })], 1)]), _vm._v(" "), _vm.activeTab === 'form' ? [_vm._l(_vm.modelData, function (item, index) {
           return _c('div', {
-            key: index,
+            key: index + "-" + _vm.schema.title + "-form",
             staticClass: "form-container"
-          }, [_c('div', {
-            staticClass: "form-left-item"
-          }, [_vm.items.type === 'object' ? [_c('validation-provider', {
+          }, [_c('array-input-items', {
             attrs: {
-              "rules": _vm.ruleObject(true),
-              "name": _vm.schema.title.replace(/ /g, '-') + "-" + (index + 1),
-              "vid": _vm.schema.title.replace(/ /g, '-') + "-" + (index + 1) + "-provider",
-              "slim": ""
-            },
-            scopedSlots: _vm._u([{
-              key: "default",
-              fn: function fn(ref) {
-                var errors = ref.errors;
-                return [_c('object-form-wrapper', {
-                  attrs: {
-                    "schema": Object.assign({}, _vm.items, {
-                      title: _vm.schema.title + " " + (index + 1)
-                    }),
-                    "type": _vm.items.type,
-                    "errors": errors
-                  },
-                  model: {
-                    value: _vm.modelData[index],
-                    callback: function callback($$v) {
-                      _vm.$set(_vm.modelData, index, $$v);
-                    },
-                    expression: "modelData[index]"
-                  }
-                })];
-              }
-            }], null, true)
-          })] : _vm.items.type === 'key-value-pairs' ? [_c('validation-provider', {
-            attrs: {
-              "rules": _vm.ruleObject(true),
-              "name": _vm.schema.title.replace(/ /g, '-') + "-" + (index + 1),
-              "vid": _vm.schema.title.replace(/ /g, '-') + "-" + (index + 1) + "-provider",
-              "slim": ""
-            },
-            scopedSlots: _vm._u([{
-              key: "default",
-              fn: function fn(ref) {
-                var errors = ref.errors;
-                return [_c('key-value-pairs', {
-                  attrs: {
-                    "errors": errors,
-                    "schema": Object.assign({}, _vm.items, {
-                      title: _vm.schema.title + " " + (index + 1)
-                    }),
-                    "type": _vm.items.type
-                  },
-                  model: {
-                    value: _vm.modelData[index],
-                    callback: function callback($$v) {
-                      _vm.$set(_vm.modelData, index, $$v);
-                    },
-                    expression: "modelData[index]"
-                  }
-                })];
-              }
-            }], null, true)
-          })] : _vm.items.type === 'array' ? [_c('validation-provider', {
-            attrs: {
-              "rules": _vm.ruleArray(true),
-              "name": _vm.schema.title.replace(/ /g, '-') + "-" + (index + 1),
-              "vid": _vm.schema.title.replace(/ /g, '-') + "-" + (index + 1) + "-provider",
-              "slim": ""
-            },
-            scopedSlots: _vm._u([{
-              key: "default",
-              fn: function fn(ref) {
-                var errors = ref.errors;
-                return [_c('array-input', {
-                  attrs: {
-                    "schema": Object.assign({}, _vm.items, {
-                      title: _vm.schema.title + " " + (index + 1)
-                    }),
-                    "type": _vm.items.type,
-                    "errors": errors
-                  },
-                  model: {
-                    value: _vm.modelData[index],
-                    callback: function callback($$v) {
-                      _vm.$set(_vm.modelData, index, $$v);
-                    },
-                    expression: "modelData[index]"
-                  }
-                })];
-              }
-            }], null, true)
-          })] : [_c('validation-provider', {
-            attrs: {
-              "rules": _vm.ruleString(true),
-              "name": _vm.schema.title.replace(/ /g, '-') + "-" + (index + 1),
-              "vid": _vm.schema.title.replace(/ /g, '-') + "-" + (index + 1) + "-provider",
-              "slim": ""
-            },
-            scopedSlots: _vm._u([{
-              key: "default",
-              fn: function fn(validationOb) {
-                return [_c('simple-input', {
-                  attrs: {
-                    "schema": Object.assign({}, _vm.items, {
-                      title: _vm.schema.title + " " + (index + 1)
-                    }),
-                    "type": _vm.items.type,
-                    "required": true,
-                    "validationOb": validationOb
-                  },
-                  model: {
-                    value: _vm.modelData[index],
-                    callback: function callback($$v) {
-                      _vm.$set(_vm.modelData, index, $$v);
-                    },
-                    expression: "modelData[index]"
-                  }
-                })];
-              }
-            }], null, true)
-          })]], 2), _vm._v(" "), _c('div', {
+              "items": _vm.items,
+              "schema": _vm.schema,
+              "index": index,
+              "value": _vm.modelData
+            }
+          }), _vm._v(" "), _c('div', {
             staticClass: "form-right-item"
           }, [_c('div', {
             staticClass: "buttons"
@@ -17996,7 +22317,7 @@ var __vue_render__$6 = function __vue_render__() {
             }
           }, [_c('i', {
             staticClass: "fa fa-trash"
-          })])])])]);
+          })])])])], 1);
         }), _vm._v(" "), _c('validation-observer', {
           ref: _vm.schema.title.replace(/ /g, '-') + "-new",
           attrs: {
@@ -18022,6 +22343,7 @@ var __vue_render__$6 = function __vue_render__() {
               return [_c('object-form-wrapper', {
                 attrs: {
                   "is-last-child": true,
+                  "isSelfRequired": true,
                   "schema": Object.assign({}, _vm.items, {
                     title: _vm.schema.title + " new value"
                   }),
@@ -18141,7 +22463,7 @@ var __vue_render__$6 = function __vue_render__() {
           }
         }, [_c('i', {
           staticClass: "fa fa-plus"
-        })])])])])])] : [_c('json-form', {
+        })])])])])])] : _vm.activeTab === 'yaml' ? [_c('yaml-form', {
           model: {
             value: _vm.modelData,
             callback: function callback($$v) {
@@ -18149,38 +22471,288 @@ var __vue_render__$6 = function __vue_render__() {
             },
             expression: "modelData"
           }
+        }), _vm._v(" "), _vm._l(_vm.modelData, function (item, index) {
+          return _c('div', {
+            directives: [{
+              name: "show",
+              rawName: "v-show",
+              value: false,
+              expression: "false"
+            }],
+            key: index + "-" + _vm.schema.title + "-yaml-" + JSON.stringify(_vm.modelData),
+            staticClass: "form-container"
+          }, [_c('array-input-items', {
+            attrs: {
+              "items": _vm.items,
+              "schema": _vm.schema,
+              "index": index,
+              "value": _vm.modelData
+            }
+          })], 1);
+        })] : [_c('json-form', {
+          model: {
+            value: _vm.modelData,
+            callback: function callback($$v) {
+              _vm.modelData = $$v;
+            },
+            expression: "modelData"
+          }
+        }), _vm._v(" "), _vm._l(_vm.modelData, function (item, index) {
+          return _c('div', {
+            directives: [{
+              name: "show",
+              rawName: "v-show",
+              value: false,
+              expression: "false"
+            }],
+            key: index + "-" + _vm.schema.title + "-json-" + JSON.stringify(_vm.modelData),
+            staticClass: "form-container"
+          }, [_c('array-input-items', {
+            attrs: {
+              "items": _vm.items,
+              "schema": _vm.schema,
+              "index": index,
+              "value": _vm.modelData
+            }
+          })], 1);
         })]];
       }
     }])
   });
 };
 
-var __vue_staticRenderFns__$6 = [];
+var __vue_staticRenderFns__$8 = [];
 /* style */
 
-var __vue_inject_styles__$6 = undefined;
+var __vue_inject_styles__$8 = undefined;
 /* scoped */
 
-var __vue_scope_id__$6 = undefined;
+var __vue_scope_id__$8 = undefined;
 /* module identifier */
 
-var __vue_module_identifier__$6 = "data-v-73f64fa7";
+var __vue_module_identifier__$8 = "data-v-54b91d18";
 /* functional template */
 
-var __vue_is_functional_template__$6 = false;
+var __vue_is_functional_template__$8 = false;
 /* style inject */
 
 /* style inject SSR */
 
 /* style inject shadow dom */
 
-var __vue_component__$6 = normalizeComponent({
-  render: __vue_render__$6,
-  staticRenderFns: __vue_staticRenderFns__$6
-}, __vue_inject_styles__$6, __vue_script__$6, __vue_scope_id__$6, __vue_is_functional_template__$6, __vue_module_identifier__$6, false, undefined, undefined, undefined);function ownKeys$3(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+var __vue_component__$8 = normalizeComponent({
+  render: __vue_render__$8,
+  staticRenderFns: __vue_staticRenderFns__$8
+}, __vue_inject_styles__$8, __vue_script__$8, __vue_scope_id__$8, __vue_is_functional_template__$8, __vue_module_identifier__$8, false, undefined, undefined, undefined);var script$9 = {
+  name: "key-value-pair-items",
+  props: {
+    value: {
+      type: Object,
+      default: function _default() {
+        return {};
+      }
+    },
+    index: {
+      type: Number,
+      default: 0
+    },
+    schema: {
+      type: Object,
+      default: function _default() {
+        return {};
+      }
+    },
+    additionalProperties: {
+      type: Object,
+      default: function _default() {
+        return {};
+      }
+    }
+  },
+  mixins: [model, validation]
+};var __vue_script__$9 = script$9;
+/* template */
 
-function _objectSpread$2(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys$3(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys$3(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
-var script$7 = {
+var __vue_render__$9 = function __vue_render__() {
+  var _vm = this;
+
+  var _h = _vm.$createElement;
+
+  var _c = _vm._self._c || _h;
+
+  return _c('div', {
+    staticClass: "ac-key-value-pairs-item"
+  }, [_vm._ssrNode("<div class=\"ac-is-3\">", "</div>", [_c('validation-provider', {
+    staticClass: "control has-icons-right",
+    attrs: {
+      "vid": _vm.schema.title.replace(/ /g, '-') + "-key-" + (_vm.index + 1) + "-provider",
+      "rules": "required",
+      "name": _vm.schema.title.replace(/ /g, '-') + "-key-" + (_vm.index + 1),
+      "tag": "div"
+    },
+    scopedSlots: _vm._u([{
+      key: "default",
+      fn: function fn(validationOb) {
+        return [_c('simple-input', {
+          attrs: {
+            "schema": {
+              title: 'Key',
+              type: 'string',
+              ui: {
+                tag: 'input',
+                type: 'text'
+              }
+            },
+            "type": "string",
+            "validationOb": validationOb
+          },
+          model: {
+            value: _vm.modelData.key,
+            callback: function callback($$v) {
+              _vm.$set(_vm.modelData, "key", $$v);
+            },
+            expression: "modelData.key"
+          }
+        })];
+      }
+    }])
+  })], 1), _vm._ssrNode(" "), _vm._ssrNode("<div class=\"ac-is-8\">", "</div>", [_vm.additionalProperties.type === 'object' ? [_c('validation-provider', {
+    attrs: {
+      "rules": _vm.ruleObject(true),
+      "name": _vm.schema.title.replace(/ /g, '-') + "-value-" + (_vm.index + 1),
+      "vid": _vm.schema.title.replace(/ /g, '-') + "-value-" + (_vm.index + 1) + "-provider",
+      "slim": ""
+    },
+    scopedSlots: _vm._u([{
+      key: "default",
+      fn: function fn(ref) {
+        var errors = ref.errors;
+        return [_c('object-form-wrapper', {
+          attrs: {
+            "schema": _vm.additionalProperties,
+            "isSelfRequired": true,
+            "type": _vm.additionalProperties.type,
+            "errors": errors
+          },
+          model: {
+            value: _vm.modelData.value,
+            callback: function callback($$v) {
+              _vm.$set(_vm.modelData, "value", $$v);
+            },
+            expression: "modelData.value"
+          }
+        })];
+      }
+    }], null, false, 1592170796)
+  })] : _vm.additionalProperties.type === 'key-value-pairs' ? [_c('validation-provider', {
+    attrs: {
+      "rules": _vm.ruleObject(true),
+      "name": _vm.schema.title.replace(/ /g, '-') + "-value-" + (_vm.index + 1),
+      "vid": _vm.schema.title.replace(/ /g, '-') + "-value-" + (_vm.index + 1) + "-provider",
+      "slim": ""
+    },
+    scopedSlots: _vm._u([{
+      key: "default",
+      fn: function fn(ref) {
+        var errors = ref.errors;
+        return [_c('key-value-pairs', {
+          attrs: {
+            "schema": _vm.additionalProperties,
+            "type": _vm.additionalProperties.type,
+            "errors": errors
+          },
+          model: {
+            value: _vm.modelData.value,
+            callback: function callback($$v) {
+              _vm.$set(_vm.modelData, "value", $$v);
+            },
+            expression: "modelData.value"
+          }
+        })];
+      }
+    }])
+  })] : _vm.additionalProperties.type === 'array' ? [_c('validation-provider', {
+    attrs: {
+      "rules": _vm.ruleArray(true),
+      "name": _vm.schema.title.replace(/ /g, '-') + "-value-" + (_vm.index + 1),
+      "vid": _vm.schema.title.replace(/ /g, '-') + "-value-" + (_vm.index + 1) + "-provider",
+      "slim": ""
+    },
+    scopedSlots: _vm._u([{
+      key: "default",
+      fn: function fn(ref) {
+        var errors = ref.errors;
+        return [_c('array-input', {
+          attrs: {
+            "schema": _vm.additionalProperties,
+            "type": _vm.additionalProperties.type,
+            "errors": errors
+          },
+          model: {
+            value: _vm.modelData.value,
+            callback: function callback($$v) {
+              _vm.$set(_vm.modelData, "value", $$v);
+            },
+            expression: "modelData.value"
+          }
+        })];
+      }
+    }])
+  })] : [_c('validation-provider', {
+    attrs: {
+      "rules": _vm.ruleString(true),
+      "name": _vm.schema.title.replace(/ /g, '-') + "-value-" + (_vm.index + 1),
+      "vid": _vm.schema.title.replace(/ /g, '-') + "-value-" + (_vm.index + 1) + "-provider",
+      "slim": ""
+    },
+    scopedSlots: _vm._u([{
+      key: "default",
+      fn: function fn(validationOb) {
+        return [_c('simple-input', {
+          attrs: {
+            "schema": _vm.additionalProperties,
+            "type": _vm.additionalProperties.type,
+            "validationOb": validationOb
+          },
+          model: {
+            value: _vm.modelData.value,
+            callback: function callback($$v) {
+              _vm.$set(_vm.modelData, "value", $$v);
+            },
+            expression: "modelData.value"
+          }
+        })];
+      }
+    }])
+  })]], 2)], 2);
+};
+
+var __vue_staticRenderFns__$9 = [];
+/* style */
+
+var __vue_inject_styles__$9 = undefined;
+/* scoped */
+
+var __vue_scope_id__$9 = undefined;
+/* module identifier */
+
+var __vue_module_identifier__$9 = "data-v-294ccbed";
+/* functional template */
+
+var __vue_is_functional_template__$9 = false;
+/* style inject */
+
+/* style inject SSR */
+
+/* style inject shadow dom */
+
+var __vue_component__$9 = normalizeComponent({
+  render: __vue_render__$9,
+  staticRenderFns: __vue_staticRenderFns__$9
+}, __vue_inject_styles__$9, __vue_script__$9, __vue_scope_id__$9, __vue_is_functional_template__$9, __vue_module_identifier__$9, false, undefined, undefined, undefined);function ownKeys$2(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread$1(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys$2(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys$2(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+var script$a = {
   name: "key-value-pairs",
   props: {
     schema: {
@@ -18206,6 +22778,9 @@ var script$7 = {
       default: false
     }
   },
+  components: {
+    KeyValuePairItems: __vue_component__$9
+  },
   mixins: [model, tabs, validation],
   data: function data() {
     return {
@@ -18225,17 +22800,25 @@ var script$7 = {
     initKeyValueArray: function initKeyValueArray() {
       var _this = this;
 
-      return Object.keys(this.value).map(function (key) {
+      this.keyValueArray = Object.keys(this.value).map(function (key) {
         return {
           key: key,
-          value: _this.value[key]
+          value: _this.value[key] || null
+        };
+      });
+    },
+    updateKeyValueArray: function updateKeyValueArray(value) {
+      this.keyValueArray = Object.keys(value).map(function (key) {
+        return {
+          key: key,
+          value: value[key]
         };
       });
     },
     reconstructObject: function reconstructObject(arr) {
       var result = {};
       arr.forEach(function (item) {
-        result = Object.assign({}, _objectSpread$2({}, result), _defineProperty({}, "".concat(item.key), item.value));
+        result = Object.assign({}, _objectSpread$1({}, result), _defineProperty({}, "".concat(item.key), item.value));
       });
       return result;
     },
@@ -18285,7 +22868,7 @@ var script$7 = {
     }
   },
   created: function created() {
-    this.keyValueArray = this.initKeyValueArray();
+    this.initKeyValueArray();
   },
   watch: {
     keyValueArray: {
@@ -18296,12 +22879,16 @@ var script$7 = {
           this.modelData = this.reconstructObject(newVal);
         }
       }
+    },
+    activeTab: function activeTab() {
+      // re-calculate keyValueArray
+      this.initKeyValueArray();
     }
   }
-};var __vue_script__$7 = script$7;
+};var __vue_script__$a = script$a;
 /* template */
 
-var __vue_render__$7 = function __vue_render__() {
+var __vue_render__$a = function __vue_render__() {
   var _vm = this;
 
   var _h = _vm.$createElement;
@@ -18337,164 +22924,32 @@ var __vue_render__$7 = function __vue_render__() {
           staticClass: "ac-level-right"
         }, [_c('tabs', {
           model: {
-            value: _vm.formShow,
+            value: _vm.activeTab,
             callback: function callback($$v) {
-              _vm.formShow = $$v;
+              _vm.activeTab = $$v;
             },
-            expression: "formShow"
+            expression: "activeTab"
           }
-        })], 1)]), _vm._v(" "), _vm.formShow ? [_c('div', {
+        })], 1)]), _vm._v(" "), _vm.activeTab === 'form' ? [_c('div', {
           staticClass: "ac-key-value-pairs-wrapper"
         }, [_vm._l(_vm.keyValueArray, function (prop, index) {
           return _c('div', {
-            key: index,
+            key: index + "-" + _vm.schema.title + "-form",
             staticClass: "ac-key-value-pairs"
-          }, [_c('div', {
-            staticClass: "ac-is-3"
-          }, [_c('validation-provider', {
-            staticClass: "control has-icons-right",
+          }, [_c('key-value-pair-items', {
             attrs: {
-              "vid": _vm.schema.title.replace(/ /g, '-') + "-key-" + (index + 1) + "-provider",
-              "rules": "required",
-              "name": _vm.schema.title.replace(/ /g, '-') + "-key-" + (index + 1),
-              "tag": "div"
+              "index": index,
+              "schema": _vm.schema,
+              "additionalProperties": _vm.additionalProperties
             },
-            scopedSlots: _vm._u([{
-              key: "default",
-              fn: function fn(validationOb) {
-                return [_c('simple-input', {
-                  attrs: {
-                    "schema": {
-                      title: 'Key',
-                      type: 'string',
-                      ui: {
-                        tag: 'input',
-                        type: 'text'
-                      }
-                    },
-                    "type": "string",
-                    "validationOb": validationOb
-                  },
-                  model: {
-                    value: prop.key,
-                    callback: function callback($$v) {
-                      _vm.$set(prop, "key", $$v);
-                    },
-                    expression: "prop.key"
-                  }
-                })];
-              }
-            }], null, true)
-          })], 1), _vm._v(" "), _c('div', {
-            staticClass: "ac-is-8"
-          }, [_vm.additionalProperties.type === 'object' ? [_c('validation-provider', {
-            attrs: {
-              "rules": _vm.ruleObject(true),
-              "name": _vm.schema.title.replace(/ /g, '-') + "-value-" + (index + 1),
-              "vid": _vm.schema.title.replace(/ /g, '-') + "-value-" + (index + 1) + "-provider",
-              "slim": ""
-            },
-            scopedSlots: _vm._u([{
-              key: "default",
-              fn: function fn(ref) {
-                var errors = ref.errors;
-                return [_c('object-form-wrapper', {
-                  attrs: {
-                    "schema": _vm.additionalProperties,
-                    "type": _vm.additionalProperties.type,
-                    "errors": errors
-                  },
-                  model: {
-                    value: prop.value,
-                    callback: function callback($$v) {
-                      _vm.$set(prop, "value", $$v);
-                    },
-                    expression: "prop.value"
-                  }
-                })];
-              }
-            }], null, true)
-          })] : _vm.additionalProperties.type === 'key-value-pairs' ? [_c('validation-provider', {
-            attrs: {
-              "rules": _vm.ruleObject(true),
-              "name": _vm.schema.title.replace(/ /g, '-') + "-value-" + (index + 1),
-              "vid": _vm.schema.title.replace(/ /g, '-') + "-value-" + (index + 1) + "-provider",
-              "slim": ""
-            },
-            scopedSlots: _vm._u([{
-              key: "default",
-              fn: function fn(ref) {
-                var errors = ref.errors;
-                return [_c('key-value-pairs', {
-                  attrs: {
-                    "schema": _vm.additionalProperties,
-                    "type": _vm.additionalProperties.type,
-                    "errors": errors
-                  },
-                  model: {
-                    value: prop.value,
-                    callback: function callback($$v) {
-                      _vm.$set(prop, "value", $$v);
-                    },
-                    expression: "prop.value"
-                  }
-                })];
-              }
-            }], null, true)
-          })] : _vm.additionalProperties.type === 'array' ? [_c('validation-provider', {
-            attrs: {
-              "rules": _vm.ruleArray(true),
-              "name": _vm.schema.title.replace(/ /g, '-') + "-value-" + (index + 1),
-              "vid": _vm.schema.title.replace(/ /g, '-') + "-value-" + (index + 1) + "-provider",
-              "slim": ""
-            },
-            scopedSlots: _vm._u([{
-              key: "default",
-              fn: function fn(ref) {
-                var errors = ref.errors;
-                return [_c('array-input', {
-                  attrs: {
-                    "schema": _vm.additionalProperties,
-                    "type": _vm.additionalProperties.type,
-                    "errors": errors
-                  },
-                  model: {
-                    value: prop.value,
-                    callback: function callback($$v) {
-                      _vm.$set(prop, "value", $$v);
-                    },
-                    expression: "prop.value"
-                  }
-                })];
-              }
-            }], null, true)
-          })] : [_c('validation-provider', {
-            attrs: {
-              "rules": _vm.ruleString(true),
-              "name": _vm.schema.title.replace(/ /g, '-') + "-value-" + (index + 1),
-              "vid": _vm.schema.title.replace(/ /g, '-') + "-value-" + (index + 1) + "-provider",
-              "slim": ""
-            },
-            scopedSlots: _vm._u([{
-              key: "default",
-              fn: function fn(validationOb) {
-                return [_c('simple-input', {
-                  attrs: {
-                    "schema": _vm.additionalProperties,
-                    "type": _vm.additionalProperties.type,
-                    "validationOb": validationOb
-                  },
-                  model: {
-                    value: prop.value,
-                    callback: function callback($$v) {
-                      _vm.$set(prop, "value", $$v);
-                    },
-                    expression: "prop.value"
-                  }
-                })];
-              }
-            }], null, true)
-          })]], 2), _vm._v(" "), _c('div', {
+            model: {
+              value: _vm.keyValueArray[index],
+              callback: function callback($$v) {
+                _vm.$set(_vm.keyValueArray, index, $$v);
+              },
+              expression: "keyValueArray[index]"
+            }
+          }), _vm._v(" "), _c('div', {
             staticClass: "ac-is-1"
           }, [_c('div', {
             staticClass: "buttons"
@@ -18510,7 +22965,7 @@ var __vue_render__$7 = function __vue_render__() {
             staticClass: "icon is-small"
           }, [_c('i', {
             staticClass: "fa fa-trash"
-          })])])])])]);
+          })])])])])], 1);
         }), _vm._v(" "), _c('validation-observer', {
           ref: _vm.schema.title.replace(/ /g, '-') + "-new",
           staticClass: "ac-key-value-pairs",
@@ -18571,6 +23026,7 @@ var __vue_render__$7 = function __vue_render__() {
               return [_c('object-form-wrapper', {
                 attrs: {
                   "is-last-child": true,
+                  "isSelfRequired": true,
                   "schema": _vm.additionalProperties,
                   "type": _vm.additionalProperties.type,
                   "errors": errors
@@ -18681,7 +23137,10 @@ var __vue_render__$7 = function __vue_render__() {
           }
         }, [_c('i', {
           staticClass: "fa fa-plus"
-        })])])])])], 2)] : [_c('json-form', {
+        })])])])])], 2)] : _vm.activeTab === 'yaml' ? [_c('yaml-form', {
+          on: {
+            "code::model-data-updated": _vm.updateKeyValueArray
+          },
           model: {
             value: _vm.modelData,
             callback: function callback($$v) {
@@ -18689,35 +23148,82 @@ var __vue_render__$7 = function __vue_render__() {
             },
             expression: "modelData"
           }
+        }), _vm._v(" "), _vm._l(_vm.keyValueArray, function (prop, index) {
+          return _c('div', {
+            directives: [{
+              name: "show",
+              rawName: "v-show",
+              value: false,
+              expression: "false"
+            }],
+            key: index + "-" + _vm.schema.title + "-yaml-" + JSON.stringify(_vm.modelData),
+            staticClass: "ac-key-value-pairs"
+          }, [_c('key-value-pair-items', {
+            attrs: {
+              "value": prop,
+              "index": index,
+              "schema": _vm.schema,
+              "additionalProperties": _vm.additionalProperties
+            }
+          })], 1);
+        })] : [_c('json-form', {
+          on: {
+            "code::model-data-updated": _vm.updateKeyValueArray
+          },
+          model: {
+            value: _vm.modelData,
+            callback: function callback($$v) {
+              _vm.modelData = $$v;
+            },
+            expression: "modelData"
+          }
+        }), _vm._v(" "), _vm._l(_vm.keyValueArray, function (prop, index) {
+          return _c('div', {
+            directives: [{
+              name: "show",
+              rawName: "v-show",
+              value: false,
+              expression: "false"
+            }],
+            key: index + "-" + _vm.schema.title + "-json-" + JSON.stringify(_vm.modelData),
+            staticClass: "ac-key-value-pairs"
+          }, [_c('key-value-pair-items', {
+            attrs: {
+              "value": prop,
+              "index": index,
+              "schema": _vm.schema,
+              "additionalProperties": _vm.additionalProperties
+            }
+          })], 1);
         })]];
       }
     }])
   });
 };
 
-var __vue_staticRenderFns__$7 = [];
+var __vue_staticRenderFns__$a = [];
 /* style */
 
-var __vue_inject_styles__$7 = undefined;
+var __vue_inject_styles__$a = undefined;
 /* scoped */
 
-var __vue_scope_id__$7 = undefined;
+var __vue_scope_id__$a = undefined;
 /* module identifier */
 
-var __vue_module_identifier__$7 = "data-v-e19b5368";
+var __vue_module_identifier__$a = "data-v-bc1539a4";
 /* functional template */
 
-var __vue_is_functional_template__$7 = false;
+var __vue_is_functional_template__$a = false;
 /* style inject */
 
 /* style inject SSR */
 
 /* style inject shadow dom */
 
-var __vue_component__$7 = normalizeComponent({
-  render: __vue_render__$7,
-  staticRenderFns: __vue_staticRenderFns__$7
-}, __vue_inject_styles__$7, __vue_script__$7, __vue_scope_id__$7, __vue_is_functional_template__$7, __vue_module_identifier__$7, false, undefined, undefined, undefined);var UNSCOPABLES = wellKnownSymbol('unscopables');
+var __vue_component__$a = normalizeComponent({
+  render: __vue_render__$a,
+  staticRenderFns: __vue_staticRenderFns__$a
+}, __vue_inject_styles__$a, __vue_script__$a, __vue_scope_id__$a, __vue_is_functional_template__$a, __vue_module_identifier__$a, false, undefined, undefined, undefined);var UNSCOPABLES = wellKnownSymbol('unscopables');
 var ArrayPrototype$1 = Array.prototype;
 
 // Array.prototype[@@unscopables]
@@ -18747,7 +23253,7 @@ _export({ target: 'Array', proto: true, forced: SKIPS_HOLES }, {
 });
 
 // https://tc39.github.io/ecma262/#sec-array.prototype-@@unscopables
-addToUnscopables(FIND);var script$8 = {
+addToUnscopables(FIND);var script$b = {
   name: "object-form",
   props: {
     properties: {
@@ -18774,6 +23280,12 @@ addToUnscopables(FIND);var script$8 = {
     }
   },
   mixins: [model, fold, validation],
+  computed: {
+    // for calculating if the property is actually required or not (Based on parent object self requirement)
+    propertiesRequired: function propertiesRequired() {
+      return this.isSelfRequired || Object.keys(this.modelData).length > 0;
+    }
+  },
   methods: {
     isRequired: function isRequired(key) {
       var item = this.required.find(function (itm) {
@@ -18782,10 +23294,10 @@ addToUnscopables(FIND);var script$8 = {
       return item ? true : false;
     }
   }
-};var __vue_script__$8 = script$8;
+};var __vue_script__$b = script$b;
 /* template */
 
-var __vue_render__$8 = function __vue_render__() {
+var __vue_render__$b = function __vue_render__() {
   var _vm = this;
 
   var _h = _vm.$createElement;
@@ -18800,7 +23312,7 @@ var __vue_render__$8 = function __vue_render__() {
     return [_vm.properties[key].type === 'object' ? _c('validation-provider', {
       key: key,
       attrs: {
-        "rules": _vm.ruleObject(_vm.isRequired(key)),
+        "rules": _vm.ruleObject(_vm.propertiesRequired && _vm.isRequired(key)),
         "name": "" + _vm.properties[key].title,
         "vid": _vm.properties[key].title.replace(/ /g, '-') + "-provider",
         "slim": ""
@@ -18813,6 +23325,7 @@ var __vue_render__$8 = function __vue_render__() {
             attrs: {
               "is-last-child": idx === Object.keys(_vm.properties).length - 1,
               "type": _vm.properties[key].type,
+              "isSelfRequired": _vm.propertiesRequired && _vm.isRequired(key),
               "schema": _vm.properties[key],
               "errors": errors
             },
@@ -18829,7 +23342,7 @@ var __vue_render__$8 = function __vue_render__() {
     }) : _vm.properties[key].type === 'key-value-pairs' ? _c('validation-provider', {
       key: key,
       attrs: {
-        "rules": _vm.ruleObject(_vm.isRequired(key)),
+        "rules": _vm.ruleObject(_vm.propertiesRequired && _vm.isRequired(key)),
         "name": "" + _vm.properties[key].title,
         "vid": _vm.properties[key].title.replace(/ /g, '-') + "-provider",
         "slim": ""
@@ -18858,7 +23371,7 @@ var __vue_render__$8 = function __vue_render__() {
     }) : _vm.properties[key].type === 'array' ? _c('validation-provider', {
       key: key,
       attrs: {
-        "rules": _vm.ruleArray(_vm.isRequired(key)),
+        "rules": _vm.ruleArray(_vm.propertiesRequired && _vm.isRequired(key)),
         "name": "" + _vm.properties[key].title,
         "vid": _vm.properties[key].title.replace(/ /g, '-') + "-provider",
         "slim": ""
@@ -18887,7 +23400,7 @@ var __vue_render__$8 = function __vue_render__() {
     }) : _c('validation-provider', {
       key: key,
       attrs: {
-        "rules": _vm.ruleString(_vm.isRequired(key)),
+        "rules": _vm.ruleString(_vm.propertiesRequired && _vm.isRequired(key)),
         "name": "" + _vm.properties[key].title,
         "vid": _vm.properties[key].title.replace(/ /g, '-') + "-provider",
         "slim": ""
@@ -18916,32 +23429,32 @@ var __vue_render__$8 = function __vue_render__() {
   })], 2);
 };
 
-var __vue_staticRenderFns__$8 = [];
+var __vue_staticRenderFns__$b = [];
 /* style */
 
-var __vue_inject_styles__$8 = undefined;
+var __vue_inject_styles__$b = undefined;
 /* scoped */
 
-var __vue_scope_id__$8 = undefined;
+var __vue_scope_id__$b = undefined;
 /* module identifier */
 
-var __vue_module_identifier__$8 = "data-v-3dc98bb6";
+var __vue_module_identifier__$b = "data-v-64237610";
 /* functional template */
 
-var __vue_is_functional_template__$8 = false;
+var __vue_is_functional_template__$b = false;
 /* style inject */
 
 /* style inject SSR */
 
 /* style inject shadow dom */
 
-var __vue_component__$8 = normalizeComponent({
-  render: __vue_render__$8,
-  staticRenderFns: __vue_staticRenderFns__$8
-}, __vue_inject_styles__$8, __vue_script__$8, __vue_scope_id__$8, __vue_is_functional_template__$8, __vue_module_identifier__$8, false, undefined, undefined, undefined);function ownKeys$4(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+var __vue_component__$b = normalizeComponent({
+  render: __vue_render__$b,
+  staticRenderFns: __vue_staticRenderFns__$b
+}, __vue_inject_styles__$b, __vue_script__$b, __vue_scope_id__$b, __vue_is_functional_template__$b, __vue_module_identifier__$b, false, undefined, undefined, undefined);function ownKeys$3(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
 
-function _objectSpread$3(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys$4(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys$4(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
-var script$9 = {
+function _objectSpread$2(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys$3(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys$3(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+var script$c = {
   name: "schema-model",
   props: {
     schemaModel: {
@@ -18974,7 +23487,7 @@ var script$9 = {
       this.model = JSON.stringify(this.schemaModel.model, null, 2);
     },
     updateForm: function updateForm() {
-      var newOb = _objectSpread$3({}, this.schemaModel);
+      var newOb = _objectSpread$2({}, this.schemaModel);
 
       try {
         newOb.schema = JSON.parse(this.schema);
@@ -19016,10 +23529,10 @@ var script$9 = {
     }
   }
 };/* script */
-var __vue_script__$9 = script$9;
+var __vue_script__$c = script$c;
 /* template */
 
-var __vue_render__$9 = function __vue_render__() {
+var __vue_render__$c = function __vue_render__() {
   var _vm = this;
 
   var _h = _vm.$createElement;
@@ -19053,30 +23566,30 @@ var __vue_render__$9 = function __vue_render__() {
   }), _vm._ssrNode(" " + (_vm.modelError ? "<p class=\"is-warning mt-10\"><span class=\"warning\"><i class=\"fa fa-warning\"></i></span>\n      The format is not correct\n    </p>" : "<!---->"))], 2), _vm._ssrNode(" <div class=\"buttons mt-20\"><button class=\"button is-primary\">\n      Update\n    </button></div>")], 2);
 };
 
-var __vue_staticRenderFns__$9 = [];
+var __vue_staticRenderFns__$c = [];
 /* style */
 
-var __vue_inject_styles__$9 = undefined;
+var __vue_inject_styles__$c = undefined;
 /* scoped */
 
-var __vue_scope_id__$9 = undefined;
+var __vue_scope_id__$c = undefined;
 /* module identifier */
 
-var __vue_module_identifier__$9 = "data-v-111f4e8e";
+var __vue_module_identifier__$c = "data-v-111f4e8e";
 /* functional template */
 
-var __vue_is_functional_template__$9 = false;
+var __vue_is_functional_template__$c = false;
 /* style inject */
 
 /* style inject SSR */
 
 /* style inject shadow dom */
 
-var __vue_component__$9 = normalizeComponent({
-  render: __vue_render__$9,
-  staticRenderFns: __vue_staticRenderFns__$9
-}, __vue_inject_styles__$9, __vue_script__$9, __vue_scope_id__$9, __vue_is_functional_template__$9, __vue_module_identifier__$9, false, undefined, undefined, undefined);//
-var script$a = {
+var __vue_component__$c = normalizeComponent({
+  render: __vue_render__$c,
+  staticRenderFns: __vue_staticRenderFns__$c
+}, __vue_inject_styles__$c, __vue_script__$c, __vue_scope_id__$c, __vue_is_functional_template__$c, __vue_module_identifier__$c, false, undefined, undefined, undefined);//
+var script$d = {
   name: "simple-input",
   data: function data() {
     return {
@@ -19136,15 +23649,18 @@ var script$a = {
         if (newVal) this.labelShow = true;else this.labelShow = false;
 
         if (oldVal !== null && oldVal !== undefined) {
-          this.$emit("input", newVal);
+          if (this.type === "number") {
+            // if the newVal string is empty, emit null
+            if (newVal === "") this.$emit("input", null);else this.$emit("input", +newVal);
+          } else this.$emit("input", newVal);
         }
       }
     }
   }
-};var __vue_script__$a = script$a;
+};var __vue_script__$d = script$d;
 /* template */
 
-var __vue_render__$a = function __vue_render__() {
+var __vue_render__$d = function __vue_render__() {
   var _vm = this;
 
   var _h = _vm.$createElement;
@@ -19168,29 +23684,29 @@ var __vue_render__$a = function __vue_render__() {
   }) + ">" + _vm._ssrEscape(_vm._s(_vm.modelData)) + "</textarea> " + (_vm.validationOb.validated ? (_vm.valid ? "<span class=\"icon is-small is-right is-success\"><i class=\"fa fa-check\"></i></span>" : "<!---->") + " " + (_vm.invalid ? "<span class=\"icon is-small is-right is-warning\"><i class=\"fa fa-times\"></i></span>" : "<!---->") : "<!---->") + " " + (_vm.validationOb.errors.length > 0 ? "<span class=\"is-warning\"><i class=\"fa fa-warning warning\"></i>" + _vm._ssrEscape("\n        " + _vm._s(_vm.validationOb.errors[0]) + "\n      ") + "</span>" : "<!---->") + "</div>" : "<!---->"))]);
 };
 
-var __vue_staticRenderFns__$a = [];
+var __vue_staticRenderFns__$d = [];
 /* style */
 
-var __vue_inject_styles__$a = undefined;
+var __vue_inject_styles__$d = undefined;
 /* scoped */
 
-var __vue_scope_id__$a = undefined;
+var __vue_scope_id__$d = undefined;
 /* module identifier */
 
-var __vue_module_identifier__$a = "data-v-0afb35fc";
+var __vue_module_identifier__$d = "data-v-2b40a56e";
 /* functional template */
 
-var __vue_is_functional_template__$a = false;
+var __vue_is_functional_template__$d = false;
 /* style inject */
 
 /* style inject SSR */
 
 /* style inject shadow dom */
 
-var __vue_component__$a = normalizeComponent({
-  render: __vue_render__$a,
-  staticRenderFns: __vue_staticRenderFns__$a
-}, __vue_inject_styles__$a, __vue_script__$a, __vue_scope_id__$a, __vue_is_functional_template__$a, __vue_module_identifier__$a, false, undefined, undefined, undefined);/* eslint-disable import/prefer-default-export */var components=/*#__PURE__*/Object.freeze({__proto__:null,VueOpenapiForm: __vue_component__$5,ArrayInput: __vue_component__$6,ComponentErrors: __vue_component__$2,JsonForm: __vue_component__$1,KeyValuePairs: __vue_component__$7,ObjectForm: __vue_component__$8,ObjectFormWrapper: __vue_component__$4,RightWrongSigns: __vue_component__$3,SchemaModel: __vue_component__$9,SimpleInput: __vue_component__$a,Tabs: __vue_component__});/**!
+var __vue_component__$d = normalizeComponent({
+  render: __vue_render__$d,
+  staticRenderFns: __vue_staticRenderFns__$d
+}, __vue_inject_styles__$d, __vue_script__$d, __vue_scope_id__$d, __vue_is_functional_template__$d, __vue_module_identifier__$d, false, undefined, undefined, undefined);/* eslint-disable import/prefer-default-export */var components=/*#__PURE__*/Object.freeze({__proto__:null,VueOpenapiForm: __vue_component__$6,ArrayInput: __vue_component__$8,ComponentErrors: __vue_component__$3,JsonForm: __vue_component__$1,KeyValuePairs: __vue_component__$a,ObjectForm: __vue_component__$b,ObjectFormWrapper: __vue_component__$5,RightWrongSigns: __vue_component__$4,SchemaModel: __vue_component__$c,SimpleInput: __vue_component__$d,Tabs: __vue_component__});/**!
  * @fileOverview Kickass library to create and place poppers near their reference elements.
  * @version 1.16.0
  * @license
@@ -19273,7 +23789,7 @@ var debounce$1 = supportsMicroTasks ? microtaskDebounce : taskDebounce;
  * @argument {Any} functionToCheck - variable to check
  * @returns {Boolean} answer to: is a function?
  */
-function isFunction(functionToCheck) {
+function isFunction$1(functionToCheck) {
   var getType = {};
   return functionToCheck && getType.toString.call(functionToCheck) === '[object Function]';
 }
@@ -19584,7 +24100,7 @@ var createClass = function () {
 
 
 
-var defineProperty$5 = function (obj, key, value) {
+var defineProperty$6 = function (obj, key, value) {
   if (key in obj) {
     Object.defineProperty(obj, key, {
       value: value,
@@ -20082,7 +24598,7 @@ function runModifiers(modifiers, data, ends) {
       console.warn('`modifier.function` is deprecated, use `modifier.fn`!');
     }
     var fn = modifier['function'] || modifier.fn; // eslint-disable-line dot-notation
-    if (modifier.enabled && isFunction(fn)) {
+    if (modifier.enabled && isFunction$1(fn)) {
       // Add properties to offsets to make them a complete clientRect object
       // we do this before each modifier to make sure the previous one doesn't
       // mess with these values
@@ -20663,7 +25179,7 @@ function arrow(data, options) {
   sideValue = Math.max(Math.min(popper[len] - arrowElementSize, sideValue), 0);
 
   data.arrowElement = arrowElement;
-  data.offsets.arrow = (_data$offsets$arrow = {}, defineProperty$5(_data$offsets$arrow, side, Math.round(sideValue)), defineProperty$5(_data$offsets$arrow, altSide, ''), _data$offsets$arrow);
+  data.offsets.arrow = (_data$offsets$arrow = {}, defineProperty$6(_data$offsets$arrow, side, Math.round(sideValue)), defineProperty$6(_data$offsets$arrow, altSide, ''), _data$offsets$arrow);
 
   return data;
 }
@@ -21093,7 +25609,7 @@ function preventOverflow(data, options) {
       if (popper[placement] < boundaries[placement] && !options.escapeWithReference) {
         value = Math.max(popper[placement], boundaries[placement]);
       }
-      return defineProperty$5({}, placement, value);
+      return defineProperty$6({}, placement, value);
     },
     secondary: function secondary(placement) {
       var mainSide = placement === 'right' ? 'left' : 'top';
@@ -21101,7 +25617,7 @@ function preventOverflow(data, options) {
       if (popper[placement] > boundaries[placement] && !options.escapeWithReference) {
         value = Math.min(popper[mainSide], boundaries[placement] - (placement === 'right' ? popper.width : popper.height));
       }
-      return defineProperty$5({}, mainSide, value);
+      return defineProperty$6({}, mainSide, value);
     }
   };
 
@@ -21138,8 +25654,8 @@ function shift(data) {
     var measurement = isVertical ? 'width' : 'height';
 
     var shiftOffsets = {
-      start: defineProperty$5({}, side, reference[side]),
-      end: defineProperty$5({}, side, reference[side] + reference[measurement] - popper[measurement])
+      start: defineProperty$6({}, side, reference[side]),
+      end: defineProperty$6({}, side, reference[side] + reference[measurement] - popper[measurement])
     };
 
     data.offsets.popper = _extends({}, popper, shiftOffsets[shiftvariation]);
@@ -21709,7 +26225,7 @@ var Popper = function () {
     // they could add new properties to their options configuration
     // BE AWARE: don't add options to `options.modifiers.name` but to `modifierOptions`!
     this.modifiers.forEach(function (modifierOptions) {
-      if (modifierOptions.enabled && isFunction(modifierOptions.onLoad)) {
+      if (modifierOptions.enabled && isFunction$1(modifierOptions.onLoad)) {
         modifierOptions.onLoad(_this.reference, _this.popper, _this.options, modifierOptions, _this.state);
       }
     });
@@ -21964,7 +26480,7 @@ function _defineProperty$1(obj, key, value) {
   return obj;
 }
 
-function _objectSpread$4(target) {
+function _objectSpread$3(target) {
   for (var i = 1; i < arguments.length; i++) {
     var source = arguments[i] != null ? arguments[i] : {};
     var ownKeys = Object.keys(source);
@@ -22154,7 +26670,7 @@ function () {
     });
 
     // apply user options over default ones
-    _options = _objectSpread$4({}, DEFAULT_OPTIONS, _options);
+    _options = _objectSpread$3({}, DEFAULT_OPTIONS, _options);
     _reference.jquery && (_reference = _reference[0]);
     this.show = this.show.bind(this);
     this.hide = this.hide.bind(this); // cache reference and options
@@ -22462,11 +26978,11 @@ function () {
 
       this._append(tooltipNode, container);
 
-      var popperOptions = _objectSpread$4({}, options.popperOptions, {
+      var popperOptions = _objectSpread$3({}, options.popperOptions, {
         placement: options.placement
       });
 
-      popperOptions.modifiers = _objectSpread$4({}, popperOptions.modifiers, {
+      popperOptions.modifiers = _objectSpread$3({}, popperOptions.modifiers, {
         arrow: {
           element: this.options.arrowSelector
         }
@@ -22863,7 +27379,7 @@ function getOptions(options) {
     hideOnTargetClick: typeof options.hideOnTargetClick !== 'undefined' ? options.hideOnTargetClick : directive.options.defaultHideOnTargetClick,
     loadingClass: typeof options.loadingClass !== 'undefined' ? options.loadingClass : directive.options.defaultLoadingClass,
     loadingContent: typeof options.loadingContent !== 'undefined' ? options.loadingContent : directive.options.defaultLoadingContent,
-    popperOptions: _objectSpread$4({}, typeof options.popperOptions !== 'undefined' ? options.popperOptions : directive.options.defaultPopperOptions)
+    popperOptions: _objectSpread$3({}, typeof options.popperOptions !== 'undefined' ? options.popperOptions : directive.options.defaultPopperOptions)
   };
 
   if (result.offset) {
@@ -22919,9 +27435,9 @@ function createTooltip(el, value) {
   var content = getContent(value);
   var classes = typeof value.classes !== 'undefined' ? value.classes : directive.options.defaultClass;
 
-  var opts = _objectSpread$4({
+  var opts = _objectSpread$3({
     title: content
-  }, getOptions(_objectSpread$4({}, value, {
+  }, getOptions(_objectSpread$3({}, value, {
     placement: getPlacement(value, modifiers)
   })));
 
@@ -22963,7 +27479,7 @@ function bind$1(el, _ref) {
 
       tooltip.setContent(content); // Options
 
-      tooltip.setOptions(_objectSpread$4({}, value, {
+      tooltip.setOptions(_objectSpread$3({}, value, {
         placement: getPlacement(value, modifiers)
       }));
     } else {
@@ -23087,7 +27603,7 @@ if (typeof window !== 'undefined') {
   Element = window.Element;
 }
 
-var script$b = {
+var script$e = {
   name: 'VPopover',
   components: {
     ResizeObserver: ResizeObserver
@@ -23368,25 +27884,25 @@ var script$b = {
       }
 
       if (!this.popperInstance) {
-        var popperOptions = _objectSpread$4({}, this.popperOptions, {
+        var popperOptions = _objectSpread$3({}, this.popperOptions, {
           placement: this.placement
         });
 
-        popperOptions.modifiers = _objectSpread$4({}, popperOptions.modifiers, {
-          arrow: _objectSpread$4({}, popperOptions.modifiers && popperOptions.modifiers.arrow, {
+        popperOptions.modifiers = _objectSpread$3({}, popperOptions.modifiers, {
+          arrow: _objectSpread$3({}, popperOptions.modifiers && popperOptions.modifiers.arrow, {
             element: this.$refs.arrow
           })
         });
 
         if (this.offset) {
           var offset = this.$_getOffset();
-          popperOptions.modifiers.offset = _objectSpread$4({}, popperOptions.modifiers && popperOptions.modifiers.offset, {
+          popperOptions.modifiers.offset = _objectSpread$3({}, popperOptions.modifiers && popperOptions.modifiers.offset, {
             offset: offset
           });
         }
 
         if (this.boundariesElement) {
-          popperOptions.modifiers.preventOverflow = _objectSpread$4({}, popperOptions.modifiers && popperOptions.modifiers.preventOverflow, {
+          popperOptions.modifiers.preventOverflow = _objectSpread$3({}, popperOptions.modifiers && popperOptions.modifiers.preventOverflow, {
             boundariesElement: this.boundariesElement
           });
         }
@@ -23835,10 +28351,10 @@ function normalizeComponent$1(template, style, script, scopeId, isFunctionalTemp
 var normalizeComponent_1 = normalizeComponent$1;
 
 /* script */
-var __vue_script__$b = script$b;
+var __vue_script__$e = script$e;
 /* template */
 
-var __vue_render__$b = function __vue_render__() {
+var __vue_render__$e = function __vue_render__() {
   var _vm = this;
 
   var _h = _vm.$createElement;
@@ -23896,28 +28412,28 @@ var __vue_render__$b = function __vue_render__() {
   })])])]);
 };
 
-var __vue_staticRenderFns__$b = [];
-__vue_render__$b._withStripped = true;
+var __vue_staticRenderFns__$e = [];
+__vue_render__$e._withStripped = true;
 /* style */
 
-var __vue_inject_styles__$b = undefined;
+var __vue_inject_styles__$e = undefined;
 /* scoped */
 
-var __vue_scope_id__$b = undefined;
+var __vue_scope_id__$e = undefined;
 /* module identifier */
 
-var __vue_module_identifier__$b = undefined;
+var __vue_module_identifier__$e = undefined;
 /* functional template */
 
-var __vue_is_functional_template__$b = false;
+var __vue_is_functional_template__$e = false;
 /* style inject */
 
 /* style inject SSR */
 
 var Popover = normalizeComponent_1({
-  render: __vue_render__$b,
-  staticRenderFns: __vue_staticRenderFns__$b
-}, __vue_inject_styles__$b, __vue_script__$b, __vue_scope_id__$b, __vue_is_functional_template__$b, __vue_module_identifier__$b, undefined, undefined);
+  render: __vue_render__$e,
+  staticRenderFns: __vue_staticRenderFns__$e
+}, __vue_inject_styles__$e, __vue_script__$e, __vue_scope_id__$e, __vue_is_functional_template__$e, __vue_module_identifier__$e, undefined, undefined);
 
 /**
  * Removes all key-value entries from the list cache.
@@ -24315,12 +28831,12 @@ var _baseGetTag = baseGetTag;
  * _.isObject(null);
  * // => false
  */
-function isObject$3(value) {
+function isObject$4(value) {
   var type = typeof value;
   return value != null && (type == 'object' || type == 'function');
 }
 
-var isObject_1 = isObject$3;
+var isObject_1$1 = isObject$4;
 
 /** `Object#toString` result references. */
 var asyncTag = '[object AsyncFunction]',
@@ -24345,8 +28861,8 @@ var asyncTag = '[object AsyncFunction]',
  * _.isFunction(/abc/);
  * // => false
  */
-function isFunction$1(value) {
-  if (!isObject_1(value)) {
+function isFunction$2(value) {
+  if (!isObject_1$1(value)) {
     return false;
   }
   // The use of `Object#toString` avoids issues with the `typeof` operator
@@ -24355,7 +28871,7 @@ function isFunction$1(value) {
   return tag == funcTag || tag == genTag || tag == asyncTag || tag == proxyTag;
 }
 
-var isFunction_1 = isFunction$1;
+var isFunction_1 = isFunction$2;
 
 /** Used to detect overreaching core-js shims. */
 var coreJsData = _root['__core-js_shared__'];
@@ -24442,7 +28958,7 @@ var reIsNative = RegExp('^' +
  *  else `false`.
  */
 function baseIsNative(value) {
-  if (!isObject_1(value) || _isMasked(value)) {
+  if (!isObject_1$1(value) || _isMasked(value)) {
     return false;
   }
   var pattern = isFunction_1(value) ? reIsNative : reIsHostCtor;
@@ -24820,7 +29336,7 @@ Stack.prototype.set = _stackSet;
 
 var _Stack = Stack;
 
-var defineProperty$6 = (function() {
+var defineProperty$7 = (function() {
   try {
     var func = _getNative(Object, 'defineProperty');
     func({}, '', {});
@@ -24828,7 +29344,7 @@ var defineProperty$6 = (function() {
   } catch (e) {}
 }());
 
-var _defineProperty$1$1 = defineProperty$6;
+var _defineProperty$1$1 = defineProperty$7;
 
 /**
  * The base implementation of `assignValue` and `assignMergeValue` without
@@ -25019,7 +29535,7 @@ var objectCreate$2 = Object.create;
 var baseCreate = (function() {
   function object() {}
   return function(proto) {
-    if (!isObject_1(proto)) {
+    if (!isObject_1$1(proto)) {
       return {};
     }
     if (objectCreate$2) {
@@ -25197,7 +29713,7 @@ var isArray$5 = Array.isArray;
 var isArray_1 = isArray$5;
 
 /** Used as references for various `Number` constants. */
-var MAX_SAFE_INTEGER$1 = 9007199254740991;
+var MAX_SAFE_INTEGER$2 = 9007199254740991;
 
 /**
  * Checks if `value` is a valid array-like length.
@@ -25227,7 +29743,7 @@ var MAX_SAFE_INTEGER$1 = 9007199254740991;
  */
 function isLength(value) {
   return typeof value == 'number' &&
-    value > -1 && value % 1 == 0 && value <= MAX_SAFE_INTEGER$1;
+    value > -1 && value % 1 == 0 && value <= MAX_SAFE_INTEGER$2;
 }
 
 var isLength_1 = isLength;
@@ -25744,7 +30260,7 @@ var hasOwnProperty$8 = objectProto$a.hasOwnProperty;
  * @returns {Array} Returns the array of property names.
  */
 function baseKeysIn(object) {
-  if (!isObject_1(object)) {
+  if (!isObject_1$1(object)) {
     return _nativeKeysIn(object);
   }
   var isProto = _isPrototype(object),
@@ -25879,7 +30395,7 @@ function baseMergeDeep(object, source, key, srcIndex, mergeFunc, customizer, sta
       if (isArguments_1(objValue)) {
         newValue = toPlainObject_1(objValue);
       }
-      else if (!isObject_1(objValue) || isFunction_1(objValue)) {
+      else if (!isObject_1$1(objValue) || isFunction_1(objValue)) {
         newValue = _initCloneObject(srcValue);
       }
     }
@@ -25914,7 +30430,7 @@ function baseMerge(object, source, srcIndex, customizer, stack) {
     return;
   }
   _baseFor(source, function(srcValue, key) {
-    if (isObject_1(srcValue)) {
+    if (isObject_1$1(srcValue)) {
       stack || (stack = new _Stack);
       _baseMergeDeep(object, source, key, srcIndex, baseMerge, customizer, stack);
     }
@@ -26133,7 +30649,7 @@ var _baseRest = baseRest;
  *  else `false`.
  */
 function isIterateeCall(value, index, object) {
-  if (!isObject_1(object)) {
+  if (!isObject_1$1(object)) {
     return false;
   }
   var type = typeof index;
@@ -26214,11 +30730,11 @@ var _createAssigner = createAssigner;
  * _.merge(object, other);
  * // => { 'a': [{ 'b': 2, 'c': 3 }, { 'd': 4, 'e': 5 }] }
  */
-var merge$1 = _createAssigner(function(object, source, srcIndex) {
+var merge$2 = _createAssigner(function(object, source, srcIndex) {
   _baseMerge(object, source, srcIndex);
 });
 
-var merge_1 = merge$1;
+var merge_1 = merge$2;
 
 function styleInject(css, ref) {
   if ( ref === void 0 ) ref = {};
@@ -26356,9 +30872,9 @@ var messages = {
 var en = {
 	code: code,
 	messages: messages
-};function ownKeys$5(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+};function ownKeys$4(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
 
-function _objectSpread$5(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys$5(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys$5(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+function _objectSpread$4(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys$4(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys$4(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
 var config = {
   bails: true,
   skipOptional: true,
@@ -26368,16 +30884,16 @@ var config = {
 };
 var initVeeValidate = function initVeeValidate() {
   configure(config);
-  extend("required", _objectSpread$5({}, required, {
+  extend$1("required", _objectSpread$4({}, required, {
     message: en.messages.required
   }));
-  extend("requiredArray", {
+  extend$1("requiredArray", {
     validate: function validate(value) {
       // console.log({ value });
       if (value.length < 2) return "{_field_} array must contain more than one element";else return true;
     }
   });
-  extend("requiredOb", {
+  extend$1("requiredOb", {
     validate: function validate(value) {
       if (Object.keys(value).length === 0) return "{_field_} object must not be empty";else return true;
     }
@@ -26417,4 +30933,4 @@ if (typeof window !== "undefined") {
 if (GlobalVue$2) {
   GlobalVue$2.use(plugin$2);
 } // Default export is library as a whole, registered via Vue.use()
-exports.ArrayInput=__vue_component__$6;exports.ComponentErrors=__vue_component__$2;exports.JsonForm=__vue_component__$1;exports.KeyValuePairs=__vue_component__$7;exports.ObjectForm=__vue_component__$8;exports.ObjectFormWrapper=__vue_component__$4;exports.RightWrongSigns=__vue_component__$3;exports.SchemaModel=__vue_component__$9;exports.SimpleInput=__vue_component__$a;exports.Tabs=__vue_component__;exports.VueOpenapiForm=__vue_component__$5;exports.default=plugin$2;
+exports.ArrayInput=__vue_component__$8;exports.ComponentErrors=__vue_component__$3;exports.JsonForm=__vue_component__$1;exports.KeyValuePairs=__vue_component__$a;exports.ObjectForm=__vue_component__$b;exports.ObjectFormWrapper=__vue_component__$5;exports.RightWrongSigns=__vue_component__$4;exports.SchemaModel=__vue_component__$c;exports.SimpleInput=__vue_component__$d;exports.Tabs=__vue_component__;exports.VueOpenapiForm=__vue_component__$6;exports.default=plugin$2;
