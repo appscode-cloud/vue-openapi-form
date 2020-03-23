@@ -3662,8 +3662,9 @@ _export({ target: 'Object', stat: true, forced: FAILS_ON_PRIMITIVES }, {
     },
     value: {
       deep: true,
-      handler: function handler() {
-        this.initModelData();
+      handler: function handler(newVal, oldVal) {
+        // do this only once, when the value object is initialized after api call or some delay
+        if (JSON.stringify(oldVal) !== JSON.stringify(newVal)) this.initModelData();
       }
     }
   }

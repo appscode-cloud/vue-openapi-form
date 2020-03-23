@@ -101,8 +101,10 @@ export const model = {
     },
     value: {
       deep: true,
-      handler() {
-        this.initModelData();
+      handler(newVal, oldVal) {
+        // do this only once, when the value object is initialized after api call or some delay
+        if (JSON.stringify(oldVal) !== JSON.stringify(newVal))
+          this.initModelData();
       }
     }
   }

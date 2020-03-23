@@ -106,9 +106,11 @@ export default {
     selectedJsonSchema: {
       deep: true,
       immediate: true,
-      handler(newVal) {
+      async handler(newVal) {
         this.jsonSchema = JSON.parse(JSON.stringify(newVal.schema));
-        this.model = JSON.parse(JSON.stringify(newVal.model));
+        await setTimeout(() => {
+          this.model = JSON.parse(JSON.stringify(newVal.model));
+        }, 2000);
         this.formTitle = newVal.title;
       }
     }
