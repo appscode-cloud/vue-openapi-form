@@ -87,8 +87,8 @@ export const model = {
       deep: true,
       handler(newVal, oldVal) {
         if (oldVal !== null && oldVal !== undefined) {
-          // clean the newVal if it's array or object
-          this.clean(newVal);
+          // clean the newVal if it's array or object if the cleanObject gloabl data is true
+          if (this.cleanObject) this.clean(newVal);
 
           // prevent number from converting to string
           if (this.type === "number") {

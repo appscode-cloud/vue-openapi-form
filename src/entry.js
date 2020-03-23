@@ -6,7 +6,7 @@ import VTooltip from "v-tooltip";
 import { initVeeValidate } from "@/plugins/vee-validate";
 
 // install function executed by Vue.use()
-const install = function installVueOpenapiForm(Vue) {
+const install = function installVueOpenapiForm(Vue, options) {
   if (install.installed) return;
   install.installed = true;
 
@@ -14,6 +14,17 @@ const install = function installVueOpenapiForm(Vue) {
   Vue.use(VTooltip);
   // declare vee-validate rules
   initVeeValidate();
+
+  // This is a global mixin, it is applied to every vue instance
+  Vue.mixin({
+    data: function() {
+      return {
+        get cleanObject() {
+          return options.cleanObject || false;
+        }
+      };
+    }
+  });
 
   Object.entries(components).forEach(([componentName, component]) => {
     Vue.component(componentName, component);

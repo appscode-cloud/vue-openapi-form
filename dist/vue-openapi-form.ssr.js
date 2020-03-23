@@ -3650,8 +3650,8 @@ _export({ target: 'Object', stat: true, forced: FAILS_ON_PRIMITIVES }, {
       deep: true,
       handler: function handler(newVal, oldVal) {
         if (oldVal !== null && oldVal !== undefined) {
-          // clean the newVal if it's array or object
-          this.clean(newVal); // prevent number from converting to string
+          // clean the newVal if it's array or object if the cleanObject gloabl data is true
+          if (this.cleanObject) this.clean(newVal); // prevent number from converting to string
 
           if (this.type === "number") {
             // if the newVal string is empty, emit null
@@ -30898,13 +30898,24 @@ var initVeeValidate = function initVeeValidate() {
       if (Object.keys(value).length === 0) return "{_field_} object must not be empty";else return true;
     }
   });
-};var install$2 = function installVueOpenapiForm(Vue) {
+};var install$2 = function installVueOpenapiForm(Vue, options) {
   if (install$2.installed) return;
   install$2.installed = true; // for v-tooltip
 
   Vue.use(plugin$1); // declare vee-validate rules
 
-  initVeeValidate();
+  initVeeValidate(); // This is a global mixin, it is applied to every vue instance
+
+  Vue.mixin({
+    data: function data() {
+      return {
+        get cleanObject() {
+          return options.cleanObject || false;
+        }
+
+      };
+    }
+  });
   Object.entries(components).forEach(function (_ref) {
     var _ref2 = _slicedToArray(_ref, 2),
         componentName = _ref2[0],
