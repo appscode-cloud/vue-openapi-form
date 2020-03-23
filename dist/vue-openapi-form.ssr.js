@@ -3659,6 +3659,12 @@ _export({ target: 'Object', stat: true, forced: FAILS_ON_PRIMITIVES }, {
           } else this.$emit("input", newVal);
         }
       }
+    },
+    value: {
+      deep: true,
+      handler: function handler() {
+        this.initModelData();
+      }
     }
   }
 };var fold = {

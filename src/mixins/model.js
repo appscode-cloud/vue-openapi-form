@@ -98,6 +98,12 @@ export const model = {
           } else this.$emit("input", newVal);
         }
       }
+    },
+    value: {
+      deep: true,
+      handler() {
+        this.initModelData();
+      }
     }
   }
 };

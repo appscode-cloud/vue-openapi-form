@@ -4031,6 +4031,12 @@ var model = {
           } else this.$emit("input", newVal);
         }
       }
+    },
+    value: {
+      deep: true,
+      handler: function handler() {
+        this.initModelData();
+      }
     }
   }
 };
