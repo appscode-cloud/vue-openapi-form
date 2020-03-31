@@ -15,19 +15,19 @@ import { ValidationObserver } from "vee-validate";
 export default {
   name: "custom-observer",
   components: {
-    ValidationObserver
+    ValidationObserver,
   },
   props: {
     disabled: {
       type: Boolean,
-      default: false
-    }
+      default: false,
+    },
   },
   mounted() {
     // Save a bound reference to the validate function.
     const validate = this.$refs.observer.validate.bind(this.$refs.observer);
 
-    this.$refs.observer.validate = async function() {
+    this.$refs.observer.validate = async function () {
       // You want to wait for Vue to update the 'disabled' prop,
       await this.$nextTick();
 
@@ -42,6 +42,6 @@ export default {
     this.validate = () => {
       return validate();
     };
-  }
+  },
 };
 </script>

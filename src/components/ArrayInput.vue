@@ -50,7 +50,7 @@
                   content: 'move up',
                   placement: 'top',
                   classes: ['is-button-info'],
-                  targetClasses: ['up-down-button']
+                  targetClasses: ['up-down-button'],
                 }"
               >
                 <span class="icon is-small">
@@ -66,7 +66,7 @@
                   content: 'move down',
                   placement: 'bottom',
                   classes: ['is-button-info'],
-                  targetClasses: ['up-down-button']
+                  targetClasses: ['up-down-button'],
                 }"
               >
                 <span class="icon is-small">
@@ -106,7 +106,7 @@
                   :isSelfRequired="true"
                   :schema="{
                     ...items,
-                    ...{ title: `${schema.title} new value` }
+                    ...{ title: `${schema.title} new value` },
                   }"
                   :type="items.type"
                   :errors="errors"
@@ -126,7 +126,7 @@
                   :is-last-child="true"
                   :schema="{
                     ...items,
-                    ...{ title: `${schema.title} new value` }
+                    ...{ title: `${schema.title} new value` },
                   }"
                   :errors="errors"
                   :type="items.type"
@@ -146,7 +146,7 @@
                   :is-last-child="true"
                   :schema="{
                     ...items,
-                    ...{ title: `${schema.title} new value` }
+                    ...{ title: `${schema.title} new value` },
                   }"
                   :errors="errors"
                   :type="items.type"
@@ -165,7 +165,7 @@
                 <simple-input
                   :schema="{
                     ...items,
-                    ...{ title: `${schema.title} new value` }
+                    ...{ title: `${schema.title} new value` },
                   }"
                   :required="true"
                   :type="items.type"
@@ -240,25 +240,25 @@ import ArrayInputItems from "./sub-components/ArrayInputItems.vue";
 export default {
   name: "array-input",
   components: {
-    ArrayInputItems
+    ArrayInputItems,
   },
   props: {
     schema: {
       type: Object,
-      default: () => ({})
+      default: () => ({}),
     },
     value: {
       type: null,
-      default: () => []
+      default: () => [],
     },
     errors: {
       type: Array,
-      default: () => []
+      default: () => [],
     },
     isLastChild: {
       type: Boolean,
-      default: false
-    }
+      default: false,
+    },
   },
 
   mixins: [model, tabs, validation],
@@ -266,14 +266,14 @@ export default {
   data() {
     return {
       newData: null,
-      updatePass: 0
+      updatePass: 0,
     };
   },
 
   computed: {
     items() {
       return this.schema.items || {};
-    }
+    },
   },
 
   methods: {
@@ -299,7 +299,7 @@ export default {
     deleteValue(index) {
       this.$delete(this.modelData, index);
       this.updatePass += 1;
-    }
-  }
+    },
+  },
 };
 </script>

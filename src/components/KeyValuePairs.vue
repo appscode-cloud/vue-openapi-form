@@ -73,7 +73,7 @@
                 :schema="{
                   title: 'Key',
                   type: 'string',
-                  ui: { tag: 'input', type: 'text' }
+                  ui: { tag: 'input', type: 'text' },
                 }"
                 :type="`string`"
                 :validationOb="validationOb"
@@ -231,20 +231,20 @@ export default {
   props: {
     schema: {
       type: Object,
-      default: () => ({})
+      default: () => ({}),
     },
     value: {
       type: Object,
-      default: () => ({})
+      default: () => ({}),
     },
     errors: {
       type: Array,
-      default: () => []
+      default: () => [],
     },
     isLastChild: {
       type: Boolean,
-      default: false
-    }
+      default: false,
+    },
   },
 
   components: { KeyValuePairItems },
@@ -257,39 +257,39 @@ export default {
       updatePass: 0,
       keyValueArray: null,
       newKey: "",
-      newValue: null
+      newValue: null,
     };
   },
 
   computed: {
     additionalProperties() {
       return this.schema.additionalProperties || {};
-    }
+    },
   },
 
   methods: {
     initKeyValueArray() {
-      this.keyValueArray = Object.keys(this.value).map(key => ({
+      this.keyValueArray = Object.keys(this.value).map((key) => ({
         key,
-        value: this.value[key] || null
+        value: this.value[key] || null,
       }));
     },
 
     updateKeyValueArray(value) {
-      this.keyValueArray = Object.keys(value).map(key => ({
+      this.keyValueArray = Object.keys(value).map((key) => ({
         key,
-        value: value[key]
+        value: value[key],
       }));
     },
 
     reconstructObject(arr) {
       let result = {};
-      arr.forEach(item => {
+      arr.forEach((item) => {
         result = Object.assign(
           {},
           { ...result },
           {
-            [`${item.key}`]: item.value
+            [`${item.key}`]: item.value,
           }
         );
       });
@@ -303,7 +303,7 @@ export default {
       if (isValid) {
         this.keyValueArray.push({
           key: this.newKey,
-          value: this.newValue
+          value: this.newValue,
         });
 
         this.newKey = "";
@@ -316,7 +316,7 @@ export default {
     deleteProp(index) {
       this.$delete(this.keyValueArray, index);
       this.updatePass += 1;
-    }
+    },
   },
 
   created() {
@@ -331,13 +331,13 @@ export default {
         if (oldVal !== null && oldVal !== undefined) {
           this.modelData = this.reconstructObject(newVal);
         }
-      }
+      },
     },
 
     activeTab() {
       // re-calculate keyValueArray
       this.initKeyValueArray();
-    }
-  }
+    },
+  },
 };
 </script>

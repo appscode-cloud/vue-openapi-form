@@ -5,12 +5,12 @@ import YamlForm from "../components/YamlForm.vue";
 export default {
   data() {
     return {
-      activeTab: "form"
+      activeTab: "form",
     };
   },
   components: {
     Tabs,
     JsonForm,
-    YamlForm
-  }
+    YamlForm,
+  },
 };

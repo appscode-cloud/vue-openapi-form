@@ -11,7 +11,7 @@
         <object-form-wrapper
           :schema="{
             ...items,
-            ...{ title: `${schema.title} ${index + 1}` }
+            ...{ title: `${schema.title} ${index + 1}` },
           }"
           :isSelfRequired="true"
           :type="items.type"
@@ -32,7 +32,7 @@
           :errors="errors"
           :schema="{
             ...items,
-            ...{ title: `${schema.title} ${index + 1}` }
+            ...{ title: `${schema.title} ${index + 1}` },
           }"
           :type="items.type"
           v-model="modelData[index]"
@@ -50,7 +50,7 @@
         <array-input
           :schema="{
             ...items,
-            ...{ title: `${schema.title} ${index + 1}` }
+            ...{ title: `${schema.title} ${index + 1}` },
           }"
           :type="items.type"
           :errors="errors"
@@ -69,7 +69,7 @@
         <simple-input
           :schema="{
             ...items,
-            ...{ title: `${schema.title} ${index + 1}` }
+            ...{ title: `${schema.title} ${index + 1}` },
           }"
           :type="items.type"
           :required="true"
@@ -90,21 +90,21 @@ export default {
   props: {
     items: {
       type: Object,
-      default: () => ({})
+      default: () => ({}),
     },
     schema: {
       type: Object,
-      default: () => ({})
+      default: () => ({}),
     },
     index: {
       type: Number,
-      default: 0
+      default: 0,
     },
     value: {
       type: null,
-      default: () => []
-    }
+      default: () => [],
+    },
   },
-  mixins: [model, validation]
+  mixins: [model, validation],
 };
 </script>

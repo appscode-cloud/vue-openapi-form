@@ -7,10 +7,10 @@ const config = {
   skipOptional: true,
   mode: "aggressive",
   useConstraintAttrs: true,
-  inject: false
+  inject: false,
 };
 
-export const initVeeValidate = function() {
+export const initVeeValidate = function () {
   configure(config);
 
   extend("required", { ...required, message: en.messages.required });
@@ -20,13 +20,13 @@ export const initVeeValidate = function() {
       if (value.length < 2)
         return "{_field_} array must contain more than one element";
       else return true;
-    }
+    },
   });
   extend("requiredOb", {
     validate(value) {
       if (Object.keys(value).length === 0)
         return "{_field_} object must not be empty";
       else return true;
-    }
+    },
   });
 };

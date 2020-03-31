@@ -6,15 +6,15 @@ export default {
   props: {
     isSelfRequired: {
       type: Boolean,
-      default: false
-    }
+      default: false,
+    },
   },
 
   components: {
     ValidationObserver,
     ValidationProvider,
     ComponentErrors,
-    RightWrongSigns
+    RightWrongSigns,
   },
 
   methods: {
@@ -38,7 +38,7 @@ export default {
 
     calcObserverError(errors, title) {
       let ansErrors = [];
-      Object.keys(errors).forEach(key => {
+      Object.keys(errors).forEach((key) => {
         // calculate new title
         let newKey = key.charAt(0).toUpperCase() + key.slice(1);
 
@@ -62,7 +62,7 @@ export default {
           try {
             ansErrors = [
               ...ansErrors,
-              ...errors[key].map(err => `${newTitle}: ${err}`)
+              ...errors[key].map((err) => `${newTitle}: ${err}`),
             ];
           } catch (e) {
             // console.log(e);
@@ -73,7 +73,7 @@ export default {
           try {
             ansErrors = [
               ...ansErrors,
-              ...this.calcObserverError(errors[key], newTitle)
+              ...this.calcObserverError(errors[key], newTitle),
             ];
           } catch (e) {
             // console.log(e);
@@ -84,6 +84,6 @@ export default {
         // console.log({ ansErrors });
       });
       return ansErrors;
-    }
-  }
+    },
+  },
 };

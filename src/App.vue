@@ -74,7 +74,7 @@ export default {
   name: "app",
   components: {
     VueOpenapiForm,
-    SchemaModel
+    SchemaModel,
   },
 
   data() {
@@ -84,7 +84,7 @@ export default {
       jsonSchema: {},
       model: {},
       formTitle: "",
-      modifiedSchema: false
+      modifiedSchema: false,
     };
   },
 
@@ -99,7 +99,7 @@ export default {
     resetForm() {
       this.modifiedSchema = false;
       this.selectedJsonSchema = Schemas[0];
-    }
+    },
   },
 
   watch: {
@@ -112,8 +112,8 @@ export default {
           this.model = JSON.parse(JSON.stringify(newVal.model));
         }, 2000);
         this.formTitle = newVal.title;
-      }
-    }
-  }
+      },
+    },
+  },
 };
 </script>

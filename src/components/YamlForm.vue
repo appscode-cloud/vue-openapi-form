@@ -19,14 +19,14 @@ export default {
   props: {
     value: {
       type: null,
-      default: () => ({})
-    }
+      default: () => ({}),
+    },
   },
 
   mixins: [model],
 
   components: {
-    codemirror
+    codemirror,
   },
 
   data() {
@@ -37,8 +37,8 @@ export default {
         mode: "yaml",
         theme: "default",
         readOnly: false,
-        lineNumbers: true
-      }
+        lineNumbers: true,
+      },
     };
   },
 
@@ -51,7 +51,7 @@ export default {
       let ans = null;
       try {
         ans = jsyaml.safeLoad(this.valueString, {
-          json: true
+          json: true,
         }); // yaml => jsObject
       } catch (e) {
         ans = this.modelData;
@@ -59,7 +59,7 @@ export default {
 
       this.modelData = ans;
       this.$emit("code::model-data-updated", ans);
-    }
+    },
   },
 
   created() {
@@ -69,7 +69,7 @@ export default {
   watch: {
     value() {
       this.initValueString();
-    }
-  }
+    },
+  },
 };
 </script>

@@ -88,20 +88,20 @@ export default {
   props: {
     properties: {
       type: Object,
-      default: () => ({})
+      default: () => ({}),
     },
     title: {
       type: String,
-      default: ""
+      default: "",
     },
     value: {
       type: Object,
-      default: () => ({})
+      default: () => ({}),
     },
     required: {
       type: Array,
-      default: () => []
-    }
+      default: () => [],
+    },
   },
 
   mixins: [model, fold, validation],
@@ -110,14 +110,14 @@ export default {
     // for calculating if the property is actually required or not (Based on parent object self requirement)
     propertiesRequired() {
       return this.isSelfRequired || Object.keys(this.modelData).length > 0;
-    }
+    },
   },
 
   methods: {
     isRequired(key) {
-      const item = this.required.find(itm => itm === key);
+      const item = this.required.find((itm) => itm === key);
       return item ? true : false;
-    }
-  }
+    },
+  },
 };
 </script>
