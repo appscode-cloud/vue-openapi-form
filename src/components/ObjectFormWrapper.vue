@@ -106,36 +106,36 @@ export default {
   props: {
     schema: {
       type: Object,
-      default: () => ({})
+      default: () => ({}),
     },
     value: {
       type: Object,
-      default: () => ({})
+      default: () => ({}),
     },
     isRoot: {
       type: Boolean,
-      default: false
+      default: false,
     },
     errors: {
       type: Array,
-      default: () => []
+      default: () => [],
     },
     isLastChild: {
       type: Boolean,
-      default: false
+      default: false,
     },
     onlyJson: {
       type: Boolean,
-      default: false
-    }
+      default: false,
+    },
   },
 
   methods: {
     submit() {
       this.$emit("vof:submitted");
-    }
+    },
   },
 
-  mixins: [model, fold, tabs, validation]
+  mixins: [model, fold, tabs, validation],
 };
 </script>

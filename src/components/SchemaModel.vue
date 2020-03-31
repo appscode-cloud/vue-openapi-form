@@ -36,8 +36,8 @@ export default {
   props: {
     schemaModel: {
       type: Object,
-      default: () => ({})
-    }
+      default: () => ({}),
+    },
   },
 
   components: { codemirror },
@@ -51,11 +51,11 @@ export default {
         mode: "application/json",
         theme: "default",
         readOnly: false,
-        lineNumbers: true
+        lineNumbers: true,
       },
 
       schemaError: false,
-      modelError: false
+      modelError: false,
     };
   },
 
@@ -86,7 +86,7 @@ export default {
       if (!this.schemaError && !this.modelError) {
         this.$emit("submit", newOb);
       }
-    }
+    },
   },
 
   created() {
@@ -99,14 +99,14 @@ export default {
       immediate: true,
       handler() {
         this.initSchemaModel();
-      }
+      },
     },
     schema() {
       this.schemaError = false;
     },
     model() {
       this.modelError = false;
-    }
-  }
+    },
+  },
 };
 </script>

@@ -31,37 +31,37 @@ export default {
   props: {
     schema: {
       type: Object,
-      default: () => ({})
+      default: () => ({}),
     },
     value: {
       type: Object,
-      default: () => ({})
+      default: () => ({}),
     },
     formTitle: {
       type: String,
-      default: "OpenAPI form"
+      default: "OpenAPI form",
     },
     onlyJson: {
       type: Boolean,
-      default: false
+      default: false,
     },
     onValid: {
       type: Function,
-      default: () => () => {}
+      default: () => () => {},
     },
     onInvalid: {
       type: Function,
-      default: () => () => {}
-    }
+      default: () => () => {},
+    },
   },
   mixins: [model, validation],
   components: {
-    "object-form-wrapper": ObjectFormWrapper
+    "object-form-wrapper": ObjectFormWrapper,
   },
   computed: {
     extendedSchema() {
       return ExtendSchema(this.schema, this.formTitle);
-    }
+    },
   },
   methods: {
     async onSubmit() {
@@ -72,8 +72,8 @@ export default {
       } else {
         this.onInvalid();
       }
-    }
-  }
+    },
+  },
 };
 </script>
 

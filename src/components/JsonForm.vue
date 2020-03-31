@@ -18,14 +18,14 @@ export default {
   props: {
     value: {
       type: null,
-      default: () => ({})
-    }
+      default: () => ({}),
+    },
   },
 
   mixins: [model],
 
   components: {
-    codemirror
+    codemirror,
   },
 
   data() {
@@ -36,8 +36,8 @@ export default {
         mode: "application/json",
         theme: "default",
         readOnly: false,
-        lineNumbers: true
-      }
+        lineNumbers: true,
+      },
     };
   },
 
@@ -56,7 +56,7 @@ export default {
 
       this.modelData = ans;
       this.$emit("code::model-data-updated", ans);
-    }
+    },
   },
 
   created() {
@@ -66,7 +66,7 @@ export default {
   watch: {
     value() {
       this.initValueString();
-    }
-  }
+    },
+  },
 };
 </script>

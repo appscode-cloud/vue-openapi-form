@@ -17,13 +17,13 @@ const install = function installVueOpenapiForm(Vue, options) {
 
   // This is a global mixin, it is applied to every vue instance
   Vue.mixin({
-    data: function() {
+    data: function () {
       return {
         get cleanObject() {
           return options.cleanObject || false;
-        }
+        },
       };
-    }
+    },
   });
 
   Object.entries(components).forEach(([componentName, component]) => {
@@ -33,7 +33,7 @@ const install = function installVueOpenapiForm(Vue, options) {
 
 // Create module definition for Vue.use()
 const plugin = {
-  install
+  install,
 };
 
 // To auto-install when vue is found

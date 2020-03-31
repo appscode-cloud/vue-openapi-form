@@ -37,7 +37,7 @@ export default {
   name: "tabs",
   data() {
     return {
-      activeTab: "form"
+      activeTab: "form",
     };
   },
 
@@ -53,7 +53,7 @@ export default {
     showYaml() {
       this.activeTab = "yaml";
       this.$emit("input", "yaml");
-    }
-  }
+    },
+  },
 };
 </script>

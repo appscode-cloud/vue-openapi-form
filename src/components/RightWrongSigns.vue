@@ -15,12 +15,12 @@ export default {
   props: {
     valid: {
       type: Boolean,
-      default: true
+      default: true,
     },
     invalid: {
       type: Boolean,
-      default: true
-    }
-  }
+      default: true,
+    },
+  },
 };
 </script>

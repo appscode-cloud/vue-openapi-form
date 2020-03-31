@@ -2,13 +2,13 @@ export const model = {
   props: {
     type: {
       type: String,
-      default: "string"
-    }
+      default: "string",
+    },
   },
 
   data() {
     return {
-      modelData: null
+      modelData: null,
     };
   },
 
@@ -38,7 +38,7 @@ export const model = {
     },
     clean(ob) {
       if (this.type === "object" || this.type === "key-value-pairs") {
-        Object.keys(ob).forEach(key => {
+        Object.keys(ob).forEach((key) => {
           let stringify = "";
           if (typeof ob[key] !== "string") stringify = JSON.stringify(ob[key]);
           else stringify = ob[key];
@@ -55,7 +55,7 @@ export const model = {
       } else if (this.type === "array") {
         let arrayOfDeleteIndexes = ob
           .map((item, idx) => ({ item, idx }))
-          .filter(el => {
+          .filter((el) => {
             const item = el.item;
             let stringify = "";
             if (typeof item !== "string") stringify = JSON.stringify(item);
@@ -71,10 +71,10 @@ export const model = {
               return true;
             } else return false;
           })
-          .map(item => item.idx);
-        arrayOfDeleteIndexes.forEach(idx => ob.splice(idx, 1));
+          .map((item) => item.idx);
+        arrayOfDeleteIndexes.forEach((idx) => ob.splice(idx, 1));
       }
-    }
+    },
   },
 
   created() {
@@ -97,7 +97,7 @@ export const model = {
             else this.$emit("input", +newVal);
           } else this.$emit("input", newVal);
         }
-      }
+      },
     },
     value: {
       deep: true,
@@ -105,7 +105,7 @@ export const model = {
         // do this only once, when the value object is initialized after api call or some delay
         if (JSON.stringify(oldVal) !== JSON.stringify(newVal))
           this.initModelData();
-      }
-    }
-  }
+      },
+    },
+  },
 };

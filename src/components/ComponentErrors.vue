@@ -11,8 +11,8 @@ export default {
   props: {
     errors: {
       type: Array,
-      default: () => []
-    }
+      default: () => [],
+    },
   },
 
   computed: {
@@ -21,17 +21,17 @@ export default {
         content: this.htmlContent,
         html: true,
         classes: ["is-errors-tooltip"],
-        targetClasses: ["is-warning"]
+        targetClasses: ["is-warning"],
       };
     },
     htmlContent() {
       let str = "<ul class='errors-wrapper'>";
-      this.errors.forEach(error => {
+      this.errors.forEach((error) => {
         str += `<li class='error-element'><span class="pr-5"><i class="fa fa-warning"></i></span>${error}</li>`;
       });
       str += "</ul>";
       return str;
-    }
-  }
+    },
+  },
 };
 </script>

@@ -28,7 +28,7 @@
             :type="ui.type"
             :class="{
               'is-success': validationOb.validated && validationOb.valid,
-              'is-danger': validationOb.validated && validationOb.invalid
+              'is-danger': validationOb.validated && validationOb.invalid,
             }"
             :placeholder="ui.placeholder || ''"
             v-model="modelData"
@@ -54,8 +54,8 @@
             class="is-warning"
             v-if="
               validationOb &&
-                validationOb.errors &&
-                validationOb.errors.length > 0
+              validationOb.errors &&
+              validationOb.errors.length > 0
             "
           >
             <span class="warning"><i class="fa fa-warning"></i></span>
@@ -72,7 +72,7 @@
           :type="ui.type"
           :class="{
             'is-success': validationOb.validated && validationOb.valid,
-            'is-danger': validationOb.validated && validationOb.invalid
+            'is-danger': validationOb.validated && validationOb.invalid,
           }"
           :placeholder="ui.placeholder || ''"
           v-model="modelData"
@@ -114,7 +114,7 @@ export default {
   name: "simple-input",
   data() {
     return {
-      labelShow: false
+      labelShow: false,
     };
   },
   methods: {
@@ -131,21 +131,21 @@ export default {
       this.labelShow = true;
       const inputField = this.$refs.inputField;
       inputField.focus();
-    }
+    },
   },
 
   props: {
     schema: {
       type: Object,
-      default: () => ({})
+      default: () => ({}),
     },
     value: {
-      default: ""
+      default: "",
     },
     validationOb: {
       type: Object,
-      default: () => ({})
-    }
+      default: () => ({}),
+    },
   },
 
   mounted() {
@@ -157,7 +157,7 @@ export default {
   computed: {
     ui() {
       return this.schema.ui || { tag: "input", type: "text" };
-    }
+    },
   },
 
   watch: {
@@ -175,8 +175,8 @@ export default {
             else this.$emit("input", +newVal);
           } else this.$emit("input", newVal);
         }
-      }
-    }
-  }
+      },
+    },
+  },
 };
 </script>

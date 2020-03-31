@@ -13,7 +13,7 @@
           :schema="{
             title: 'Key',
             type: 'string',
-            ui: { tag: 'input', type: 'text' }
+            ui: { tag: 'input', type: 'text' },
           }"
           :type="`string`"
           :validationOb="validationOb"
@@ -27,9 +27,9 @@
           v-slot="{ errors }"
           :rules="ruleObject(true)"
           :name="`${schema.title.replace(/ /g, '-')}-value-${index + 1}`"
-          :vid="
-            `${schema.title.replace(/ /g, '-')}-value-${index + 1}-provider`
-          "
+          :vid="`${schema.title.replace(/ /g, '-')}-value-${
+            index + 1
+          }-provider`"
           slim
         >
           <object-form-wrapper
@@ -46,9 +46,9 @@
           v-slot="{ errors }"
           :rules="ruleObject(true)"
           :name="`${schema.title.replace(/ /g, '-')}-value-${index + 1}`"
-          :vid="
-            `${schema.title.replace(/ /g, '-')}-value-${index + 1}-provider`
-          "
+          :vid="`${schema.title.replace(/ /g, '-')}-value-${
+            index + 1
+          }-provider`"
           slim
         >
           <key-value-pairs
@@ -64,9 +64,9 @@
           v-slot="{ errors }"
           :rules="ruleArray(true)"
           :name="`${schema.title.replace(/ /g, '-')}-value-${index + 1}`"
-          :vid="
-            `${schema.title.replace(/ /g, '-')}-value-${index + 1}-provider`
-          "
+          :vid="`${schema.title.replace(/ /g, '-')}-value-${
+            index + 1
+          }-provider`"
           slim
         >
           <array-input
@@ -82,9 +82,9 @@
           v-slot="validationOb"
           :rules="ruleString(true)"
           :name="`${schema.title.replace(/ /g, '-')}-value-${index + 1}`"
-          :vid="
-            `${schema.title.replace(/ /g, '-')}-value-${index + 1}-provider`
-          "
+          :vid="`${schema.title.replace(/ /g, '-')}-value-${
+            index + 1
+          }-provider`"
           slim
         >
           <simple-input
@@ -108,18 +108,18 @@ export default {
   props: {
     value: {
       type: Object,
-      default: () => ({})
+      default: () => ({}),
     },
     index: { type: Number, default: 0 },
     schema: {
       type: Object,
-      default: () => ({})
+      default: () => ({}),
     },
     additionalProperties: {
       type: Object,
-      default: () => ({})
-    }
+      default: () => ({}),
+    },
   },
-  mixins: [model, validation]
+  mixins: [model, validation],
 };
 </script>
