@@ -452,12 +452,15 @@
   }
 }
 .button.is-primary {
-  background-color: $primary-color !important;
+  background-color: $primary-color;
+  &:hover{
+    background-color: darken($primary-color,5);
+  }
 }
 // warning style
 .icon.is-warning,
 p.is-warning {
-  color: #e03056 !important;
+  color: #e03056;
 }
 p.is-warning {
   position: absolute;
@@ -466,7 +469,7 @@ p.is-warning {
   right: 0;
 }
 .icon.is-success {
-  color: $primary-color !important;
+  color: $primary-color;
 }
 /*================================================
            vue-open-api-form end
