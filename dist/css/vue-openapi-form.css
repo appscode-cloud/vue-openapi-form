@@ -1655,10 +1655,13 @@ h6 {
   margin-top: 20px; }
 
 .button.is-primary {
-  background-color: #1971bd !important; }
+  background-color: #1971bd; }
+
+.button.is-primary:hover {
+  background-color: #1664a6; }
 
 .icon.is-warning, p.is-warning {
-  color: #e03056 !important; }
+  color: #e03056; }
 
 p.is-warning {
   position: absolute;
@@ -1667,7 +1670,7 @@ p.is-warning {
   right: 0; }
 
 .icon.is-success {
-  color: #1971bd !important; }
+  color: #1971bd; }
 
 .tooltip {
   display: block !important;
