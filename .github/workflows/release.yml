@@ -21,7 +21,7 @@ jobs:
         run: |
           npm i -g firebase-tools
 
-      - name: Update node modeules
+      - name: Install node modeules
         run: |
           npm ci
 
