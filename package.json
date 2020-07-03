@@ -18,7 +18,8 @@
     "pkg": "cross-env NODE_ENV=production rollup --config build/rollup.config.js",
     "pkg:ssr": "cross-env NODE_ENV=production rollup --config build/rollup.config.js --format cjs",
     "pkg:es": "cross-env NODE_ENV=production rollup --config build/rollup.config.js --format es",
-    "pkg:unpkg": "cross-env NODE_ENV=production rollup --config build/rollup.config.js --format iife"
+    "pkg:unpkg": "cross-env NODE_ENV=production rollup --config build/rollup.config.js --format iife",
+    "deploy": "firebase use default && firebase deploy"
   },
   "dependencies": {
     "@babel/runtime": "^7.7.7",

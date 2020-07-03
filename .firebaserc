@@ -1,12 +1,12 @@
 {
   "projects": {
-    "default": "byte-builders"
+    "default": "kubedb-new-e7965"
   },
   "targets": {
-    "byte-builders": {
+    "kubedb-new-e7965": {
       "hosting": {
         "form": [
-          "byte-builders-form"
+          "vue-openapi-form"
         ]
       }
     }

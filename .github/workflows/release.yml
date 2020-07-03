@@ -1,0 +1,42 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - "*.*"
+
+jobs:
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+
+      - name: Use Node.js
+        uses: actions/setup-node@v1
+        with:
+          node-version: 10.x
+
+      - name: Install Firebase CLI
+        run: |
+          npm i -g firebase-tools
+
+      - name: Update node modeules
+        run: |
+          npm ci
+
+      - name: Deploy
+        env:
+          FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
+        run: |
+          npm run build
+          npm run deploy
+
+      - name: Publish
+        env:
+          NPM_AUTH_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
+        run: |
+          echo "//registry.npmjs.org/:_authToken=$NPM_AUTH_TOKEN" >> ~/.npmrc
+          npm --no-git-tag-version --allow-same-version version ${GITHUB_REF#"refs/tags/"}
+          npm run pkg
+          npm publish --access public
