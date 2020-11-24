@@ -39,7 +39,7 @@
 
         <button
           v-if="isRoot"
-          class="done-button button is-primary is-pulled-right"
+          class="done-button button ac-button is-primary is-pulled-right"
           @click.prevent="submit()"
         >
           <span>DONE</span>
