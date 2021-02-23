@@ -6,7 +6,7 @@
       v-model="valueString"
       :options="editorOptions"
       language="yaml"
-      class="editor-writable vh-50 is-clipped"
+      class="editor-writable vh-80 is-clipped"
     />
   </div>
 </template>

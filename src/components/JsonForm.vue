@@ -1,17 +1,21 @@
 <template>
   <div>
-    <codemirror
-      @blur="updateModelData()"
+    <monaco-editor
+      ref="monacoEditor"
+      @editorDidMount="onEditorMount"
       v-model="valueString"
-      :options="cmOptions"
+      :options="editorOptions"
+      language="json"
+      class="editor-writable vh-80 is-clipped"
     />
   </div>
 </template>
 
 <script>
 import { model } from "../mixins/model.js";
-import { codemirror } from "vue-codemirror";
-import "codemirror/mode/javascript/javascript.js";
+import MonacoEditor from "vue-monaco";
+import monacoEditorThemes from "@/plugins/monaco-editor-themes.js";
+import { mapGetters } from "vuex";
 
 export default {
   name: "json-form",
@@ -25,20 +29,26 @@ export default {
   mixins: [model],
 
   components: {
-    codemirror,
+    MonacoEditor,
   },
 
   data() {
     return {
       valueString: "",
 
-      cmOptions: {
-        mode: "application/json",
-        theme: "default",
+      editorOptions: {
+        minimap: {
+          enabled: true,
+        },
         readOnly: false,
-        lineNumbers: true,
       },
     };
+  },
+
+  computed: {
+    ...mapGetters({
+      editorTheme: "editorTheme",
+    }),
   },
 
   methods: {
@@ -56,6 +66,19 @@ export default {
 
       this.modelData = ans;
       this.$emit("code::model-data-updated", ans);
+    },
+
+    onEditorMount() {
+      const editor = this.$refs.monacoEditor.getEditor();
+
+      // add event listeners
+      editor.onDidBlurEditorText(this.updateModelData);
+
+      // set theme
+      monacoEditorThemes.setTheme(
+        this.$refs.monacoEditor.monaco.editor,
+        this.editorTheme
+      );
     },
   },
 
