@@ -3,3 +3,13 @@
 @import "./variable.scss";
 @import "./global.scss";
 @import "./form-style.scss";
+
+// BASE
+@import "~@appscode/design-system/base/utilities/initial-variables";
+@import "~@appscode/design-system/base/utilities/derived-variables";
+@import "~@appscode/design-system/base/utilities/typography";
+@import "~@appscode/design-system/base/utilities/default";
+@import "~@appscode/design-system/base/utilities/mixin";
+
+// COMPONENTS
+@import "~@appscode/design-system/components/ac-code-highlight";
