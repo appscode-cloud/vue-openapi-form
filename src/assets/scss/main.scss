@@ -5,11 +5,11 @@
 @import "./form-style.scss";
 
 // BASE
-@import "~@appscode/design-system/base/utilities/initial-variables";
-@import "~@appscode/design-system/base/utilities/derived-variables";
-@import "~@appscode/design-system/base/utilities/typography";
-@import "~@appscode/design-system/base/utilities/default";
-@import "~@appscode/design-system/base/utilities/mixin";
+@import "./../../../node_modules/@appscode/design-system/base/utilities/initial-variables";
+@import "./../../../node_modules/@appscode/design-system/base/utilities/derived-variables";
+@import "./../../../node_modules/@appscode/design-system/base/utilities/typography";
+@import "./../../../node_modules/@appscode/design-system/base/utilities/default";
+@import "./../../../node_modules/@appscode/design-system/base/utilities/mixin";
 
 // COMPONENTS
-@import "~@appscode/design-system/components/ac-code-highlight";
+@import "./../../../node_modules/@appscode/design-system/components/ac-code-highlight";

@@ -7,7 +7,7 @@ import commonjs from "@rollup/plugin-commonjs";
 import replace from "@rollup/plugin-replace";
 import resolve from "@rollup/plugin-node-resolve";
 import json from "@rollup/plugin-json";
-import babel from "rollup-plugin-babel";
+import babel from "@rollup/plugin-babel";
 import scss from "rollup-plugin-scss";
 import { terser } from "rollup-plugin-terser";
 import minimist from "minimist";
@@ -21,25 +21,25 @@ const esbrowserslist = fs
 
 const argv = minimist(process.argv.slice(2));
 
-const projectRoot = path.resolve(__dirname, "..");
+const projectRoot = path.resolve(__dirname, "");
 
 const baseConfig = {
   input: "src/entry.js",
   plugins: {
     preVue: [
-      resolve(),
       json(),
-      scss({ output: "dist/css/vue-openapi-form.css" }),
       replace({
         "process.env.NODE_ENV": JSON.stringify("production"),
       }),
-      commonjs(),
       alias({
         resolve: [".js", ".jsx", ".ts", ".tsx", ".vue"],
         entries: {
           "@": path.resolve(projectRoot, "src"),
         },
       }),
+      resolve(),
+      commonjs(),
+      scss({ output: "dist/css/vue-openapi-form.css" }),
     ],
     vue: {
       css: false,
@@ -50,6 +50,8 @@ const baseConfig = {
     babel: {
       exclude: "node_modules/**",
       extensions: [".js", ".jsx", ".ts", ".tsx", ".vue"],
+      babelHelpers: "runtime",
+      plugins: ["@babel/plugin-transform-runtime", {}],
     },
   },
 };
@@ -60,6 +62,7 @@ const external = [
   // list external dependencies, exactly the way it is written in the import statement.
   // eg. 'jquery'
   "vue",
+  "@babel/runtime/helpers/get",
 ];
 
 // UMD/IIFE shared settings: output.globals
@@ -68,6 +71,7 @@ const globals = {
   // Provide global variable names to replace your external imports
   // eg. jquery: '$'
   vue: "Vue",
+  "/@babel/runtime/": "BabelRuntime",
 };
 
 // Customize configs for individual targets
@@ -77,16 +81,18 @@ if (!argv.format || argv.format === "es") {
     ...baseConfig,
     external,
     output: {
+      compact: true,
       file: "dist/vue-openapi-form.esm.js",
       format: "esm",
+      name: "VueOpenapiForm",
       exports: "named",
+      globals,
     },
     plugins: [
       ...baseConfig.plugins.preVue,
       vue(baseConfig.plugins.vue),
       babel({
         ...baseConfig.plugins.babel,
-        runtimeHelpers: true,
         presets: [
           [
             "@babel/preset-env",
@@ -96,6 +102,7 @@ if (!argv.format || argv.format === "es") {
           ],
         ],
       }),
+      terser(),
     ],
   };
   buildFormats.push(esConfig);
@@ -122,7 +129,8 @@ if (!argv.format || argv.format === "cjs") {
           optimizeSSR: true,
         },
       }),
-      babel({ ...baseConfig.plugins.babel, runtimeHelpers: true }),
+      babel({ ...baseConfig.plugins.babel }),
+      terser(),
     ],
   };
   buildFormats.push(umdConfig);
@@ -143,12 +151,8 @@ if (!argv.format || argv.format === "iife") {
     plugins: [
       ...baseConfig.plugins.preVue,
       vue(baseConfig.plugins.vue),
-      babel({ ...baseConfig.plugins.babel, runtimeHelpers: true }),
-      terser({
-        output: {
-          ecma: 5,
-        },
-      }),
+      babel({ ...baseConfig.plugins.babel }),
+      terser(),
     ],
   };
   buildFormats.push(unpkgConfig);
