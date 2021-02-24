@@ -68,8 +68,7 @@ const recurse = function (schema, title) {
     newSchema = Object.assign({}, { ...newSchema }, { items: { ...newItems } });
   } else {
     let type = "";
-    if (schema.type === "number") type = "number";
-    if (schema.type === "integer") type = "number";
+    if (schema.type === "number" || schema.type === "integer") type = "number";
     else if (schema.type === "boolean") type = "checkbox";
     else type = "text";
 
