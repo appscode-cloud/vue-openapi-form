@@ -69,6 +69,7 @@ const recurse = function (schema, title) {
   } else {
     let type = "";
     if (schema.type === "number") type = "number";
+    if (schema.type === "integer") type = "number";
     else if (schema.type === "boolean") type = "checkbox";
     else type = "text";
 

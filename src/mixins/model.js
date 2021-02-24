@@ -24,7 +24,11 @@ export const model = {
           this.modelData = this.value;
         else if (this.type === "boolean" && this.value !== null)
           this.modelData = this.value;
-        else if (this.type === "string" || this.type === "number")
+        else if (
+          this.type === "string" ||
+          this.type === "number" ||
+          this.type === "integer"
+        )
           this.modelData = this.value;
         else this.modelData = this.initWithBlank();
       } else this.modelData = this.initWithBlank();
@@ -33,7 +37,7 @@ export const model = {
       if (this.type === "object" || this.type === "key-value-pairs") return {};
       else if (this.type === "array") return [];
       else if (this.type === "boolean") return false;
-      else if (this.type === "number") return null;
+      else if (this.type === "number" || this.type === "integer") return null;
       else return "";
     },
     clean(ob) {
@@ -91,7 +95,7 @@ export const model = {
           if (this.cleanObject) this.clean(newVal);
 
           // prevent number from converting to string
-          if (this.type === "number") {
+          if (this.type === "number" || this.type === "integer") {
             // if the newVal string is empty, emit null
             if (newVal === "") this.$emit("input", null);
             else this.$emit("input", +newVal);
