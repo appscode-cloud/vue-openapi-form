@@ -3,3 +3,13 @@
 @import "./variable.scss";
 @import "./global.scss";
 @import "./form-style.scss";
+
+// BASE
+@import "./../../../node_modules/@appscode/design-system/base/utilities/initial-variables";
+@import "./../../../node_modules/@appscode/design-system/base/utilities/derived-variables";
+@import "./../../../node_modules/@appscode/design-system/base/utilities/typography";
+@import "./../../../node_modules/@appscode/design-system/base/utilities/default";
+@import "./../../../node_modules/@appscode/design-system/base/utilities/mixin";
+
+// COMPONENTS
+@import "./../../../node_modules/@appscode/design-system/components/ac-code-highlight";
