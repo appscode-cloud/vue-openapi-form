@@ -1,6 +1,6 @@
 <template>
   <div class="vue-openapi-form">
-    <validation-observer ref="vofMainObserver" slim>
+    <validation-observer ref="vofMainObserver" v-slot="{ pending }" slim>
       <validation-provider
         :name="extendedSchema.title"
         :rules="ruleObject(true)"
@@ -13,7 +13,8 @@
           :onlyJson="onlyJson"
           :schema="extendedSchema"
           v-model="modelData"
-          @vof:submitted="onSubmit()"
+          @vof:submitted="onSubmit"
+          :is-form-submitting="pending || isFormSubmitting"
         />
       </validation-provider>
     </validation-observer>
@@ -39,7 +40,7 @@ export default {
     },
     formTitle: {
       type: String,
-      default: "OpenAPI form",
+      default: "",
     },
     onlyJson: {
       type: Boolean,
@@ -58,6 +59,11 @@ export default {
   components: {
     "object-form-wrapper": ObjectFormWrapper,
   },
+  data() {
+    return {
+      isFormSubmitting: false,
+    };
+  },
   computed: {
     extendedSchema() {
       return ExtendSchema(this.schema, this.formTitle);
@@ -65,13 +71,15 @@ export default {
   },
   methods: {
     async onSubmit() {
+      this.isFormSubmitting = true;
       const isValid = await this.$refs.vofMainObserver.validate();
       if (isValid) {
         // console.log("validated");
-        this.onValid();
+        await this.onValid();
       } else {
-        this.onInvalid();
+        await this.onInvalid();
       }
+      this.isFormSubmitting = false;
     },
   },
 };

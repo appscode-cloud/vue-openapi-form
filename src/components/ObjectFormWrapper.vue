@@ -40,6 +40,7 @@
         <button
           v-if="isRoot"
           class="done-button button ac-button is-primary is-pulled-right"
+          :class="{ 'is-loading': isFormSubmitting }"
           @click.prevent="submit()"
         >
           <span>DONE</span>
@@ -99,6 +100,10 @@ export default {
       default: false,
     },
     onlyJson: {
+      type: Boolean,
+      default: false,
+    },
+    isFormSubmitting: {
       type: Boolean,
       default: false,
     },

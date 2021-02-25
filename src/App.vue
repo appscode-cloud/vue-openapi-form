@@ -78,7 +78,7 @@ export default {
   data() {
     return {
       jsonSchemas: Schemas,
-      selectedJsonSchema: Schemas[2],
+      selectedJsonSchema: Schemas[0],
       jsonSchema: {},
       model: {},
       formTitle: "",
