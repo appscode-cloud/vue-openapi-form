@@ -115,6 +115,7 @@ export default {
   data() {
     return {
       labelShow: false,
+      isIntegerSetToNull: false,
     };
   },
   methods: {
@@ -168,11 +169,19 @@ export default {
         if (newVal) this.labelShow = true;
         else this.labelShow = false;
 
-        if (oldVal !== null && oldVal !== undefined) {
-          if (this.type === "number") {
+        if (
+          this.isIntegerSetToNull ||
+          (oldVal !== null && oldVal !== undefined)
+        ) {
+          if (this.isIntegerSetToNull && newVal) {
+            this.isIntegerSetToNull = false;
+          }
+          if (this.type === "number" || this.type === "integer") {
             // if the newVal string is empty, emit null
-            if (newVal === "") this.$emit("input", null);
-            else this.$emit("input", +newVal);
+            if (newVal === "") {
+              this.isIntegerSetToNull = true;
+              this.$emit("input", null);
+            } else this.$emit("input", +newVal);
           } else this.$emit("input", newVal);
         }
       },

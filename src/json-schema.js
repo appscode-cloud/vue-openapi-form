@@ -49,7 +49,7 @@ export default [
               type: "string",
             },
             demoProperty3: {
-              type: "string",
+              type: "integer",
             },
           },
           required: ["demoProperty1", "demoProperty2"],
@@ -70,6 +70,9 @@ export default [
           yearWorked: 32,
         },
       ],
+      demoObject: {
+        demoProperty3: 3,
+      },
     },
   },
   {
