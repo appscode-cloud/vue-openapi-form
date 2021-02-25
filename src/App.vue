@@ -28,9 +28,7 @@
                 </div>
               </div>
               <div class="level" v-else>
-                <div class="level-left">
-                  Schema has been modified
-                </div>
+                <div class="level-left">Schema has been modified</div>
                 <div class="level-right">
                   <button
                     class="button is-warning"
