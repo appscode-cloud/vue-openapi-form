@@ -34,6 +34,7 @@
         >
           <key-value-pair-items
             v-model="keyValueArray[index]"
+            :reference-model="referencekeyValueArray[index] || {}"
             :index="index"
             :schema="schema"
             :additionalProperties="additionalProperties"
@@ -78,6 +79,7 @@
                 :type="`string`"
                 :validationOb="validationOb"
                 v-model="newKey"
+                :reference-model="''"
               />
             </validation-provider>
           </div>
@@ -101,6 +103,7 @@
                   :type="additionalProperties.type"
                   :errors="errors"
                   v-model="newValue"
+                  :reference-model="{}"
                 />
               </validation-provider>
             </template>
@@ -121,6 +124,7 @@
                   :type="additionalProperties.type"
                   :errors="errors"
                   v-model="newValue"
+                  :reference-model="{}"
                 />
               </validation-provider>
             </template>
@@ -139,6 +143,7 @@
                   :type="additionalProperties.type"
                   :errors="errors"
                   v-model="newValue"
+                  :reference-model="[]"
                 />
               </validation-provider>
             </template>
@@ -156,6 +161,7 @@
                   :type="additionalProperties.type"
                   :validationOb="validationOb"
                   v-model="newValue"
+                  :reference-model="''"
                 />
               </validation-provider>
             </template>
@@ -178,6 +184,7 @@
       <yaml-form
         @code::model-data-updated="updateKeyValueArray"
         v-model="modelData"
+        :reference-model="referenceModel || {}"
       />
 
       <!-- required for validation obserber and validation provider to show proper validation in yaml tab -->
@@ -192,6 +199,7 @@
           :index="index"
           :schema="schema"
           :additionalProperties="additionalProperties"
+          :reference-model="{}"
         />
       </div>
     </template>
@@ -200,6 +208,7 @@
       <json-form
         @code::model-data-updated="updateKeyValueArray"
         v-model="modelData"
+        :reference-model="referenceModel || {}"
       />
 
       <!-- required for validation obserber and validation provider to show proper validation in json tab -->
@@ -214,6 +223,7 @@
           :index="index"
           :schema="schema"
           :additionalProperties="additionalProperties"
+          :reference-model="{}"
         />
       </div>
     </template>
@@ -256,6 +266,7 @@ export default {
       newData: null,
       updatePass: 0,
       keyValueArray: null,
+      referencekeyValueArray: null,
       newKey: "",
       newValue: null,
     };
@@ -273,6 +284,14 @@ export default {
         key,
         value: this.value[key] || null,
       }));
+    },
+    initReferenceKeyValueArray() {
+      this.referencekeyValueArray = Object.keys(this.referenceModel).map(
+        (key) => ({
+          key,
+          value: this.referenceModel[key] || null,
+        })
+      );
     },
 
     updateKeyValueArray(value) {
@@ -319,10 +338,6 @@ export default {
     },
   },
 
-  created() {
-    this.initKeyValueArray();
-  },
-
   watch: {
     keyValueArray: {
       immediate: true,
@@ -337,6 +352,20 @@ export default {
     activeTab() {
       // re-calculate keyValueArray
       this.initKeyValueArray();
+      this.initReferenceKeyValueArray();
+    },
+
+    value: {
+      deep: true,
+      immediate: true,
+      handler(n, o) {
+        const newStringifiedObject = JSON.stringify(n);
+        const oldStringifiedObject = JSON.stringify(o);
+        if (newStringifiedObject !== oldStringifiedObject)
+          this.initKeyValueArray();
+
+        this.initReferenceKeyValueArray();
+      },
     },
   },
 };

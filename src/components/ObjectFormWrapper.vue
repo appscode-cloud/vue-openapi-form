@@ -59,13 +59,14 @@
       :isRoot="isRoot"
       :isSelfFolded="isRoot ? false : isFolded"
       v-model="modelData"
+      :reference-model="referenceModel || {}"
     />
     <!-- declared in tabs component -->
     <template v-if="activeTab === 'yaml'">
-      <yaml-form v-model="modelData" />
+      <yaml-form v-model="modelData" :reference-model="referenceModel || {}" />
     </template>
     <template v-else-if="activeTab === 'json'">
-      <json-form v-model="modelData" />
+      <json-form v-model="modelData" :reference-model="referenceModel || {}" />
     </template>
   </validation-observer>
 </template>

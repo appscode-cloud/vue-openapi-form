@@ -18,6 +18,7 @@
           :schema="properties[key]"
           :errors="errors"
           v-model="modelData[key]"
+          :reference-model="referenceModel[key] || {}"
         />
       </validation-provider>
       <!-- if the property is additional property (key-value-pairs) -->
@@ -36,6 +37,7 @@
           :schema="properties[key]"
           :errors="errors"
           v-model="modelData[key]"
+          :reference-model="referenceModel[key] || {}"
         />
       </validation-provider>
       <!-- if the property is array -->
@@ -54,6 +56,7 @@
           :schema="properties[key]"
           :errors="errors"
           v-model="modelData[key]"
+          :reference-model="referenceModel[key] || []"
         />
       </validation-provider>
       <!-- if the property is simple string, number -->
@@ -72,6 +75,7 @@
           :schema="properties[key]"
           :validationOb="validationOb"
           v-model="modelData[key]"
+          :reference-model="referenceModel[key] || ''"
         />
       </validation-provider>
     </template>

@@ -18,6 +18,7 @@
           :type="`string`"
           :validationOb="validationOb"
           v-model="modelData.key"
+          :reference-model="referenceModel.key || ''"
         />
       </validation-provider>
     </div>
@@ -38,6 +39,7 @@
             :type="additionalProperties.type"
             :errors="errors"
             v-model="modelData.value"
+            :reference-model="referenceModel.value || {}"
           />
         </validation-provider>
       </template>
@@ -56,6 +58,7 @@
             :type="additionalProperties.type"
             :errors="errors"
             v-model="modelData.value"
+            :reference-model="referenceModel.value || {}"
           />
         </validation-provider>
       </template>
@@ -74,6 +77,7 @@
             :type="additionalProperties.type"
             :errors="errors"
             v-model="modelData.value"
+            :reference-model="referenceModel.value || []"
           />
         </validation-provider>
       </template>
@@ -92,6 +96,7 @@
             :type="additionalProperties.type"
             :validationOb="validationOb"
             v-model="modelData.value"
+            :reference-model="referenceModel.value || ''"
           />
         </validation-provider>
       </template>

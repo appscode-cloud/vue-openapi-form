@@ -4,6 +4,10 @@ export const model = {
       type: String,
       default: "string",
     },
+    referenceModel: {
+      type: null,
+      defult: () => ({}),
+    },
   },
 
   data() {
