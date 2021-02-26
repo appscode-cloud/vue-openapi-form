@@ -319,10 +319,6 @@ export default {
     },
   },
 
-  created() {
-    this.initKeyValueArray();
-  },
-
   watch: {
     keyValueArray: {
       immediate: true,
@@ -337,6 +333,17 @@ export default {
     activeTab() {
       // re-calculate keyValueArray
       this.initKeyValueArray();
+    },
+
+    value: {
+      deep: true,
+      immediate: true,
+      handler(n, o) {
+        const newStringifiedObject = JSON.stringify(n);
+        const oldStringifiedObject = JSON.stringify(o);
+        if (newStringifiedObject !== oldStringifiedObject)
+          this.initKeyValueArray();
+      },
     },
   },
 };

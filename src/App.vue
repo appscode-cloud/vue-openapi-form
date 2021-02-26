@@ -88,7 +88,8 @@ export default {
 
   methods: {
     onValid() {
-      // console.log("Form is Valid");
+      console.log("Form is Valid");
+      console.log(this.model);
     },
     updateSchema(e) {
       this.modifiedSchema = true;
