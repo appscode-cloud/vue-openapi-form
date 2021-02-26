@@ -1,13 +1,44 @@
 <template>
   <div>
-    <monaco-editor
-      ref="monacoEditor"
-      @editorDidMount="onEditorMount"
-      v-model="valueString"
-      :options="editorOptions"
-      language="yaml"
-      class="editor-writable vh-80 is-clipped"
-    />
+    <!-- tabs start  -->
+    <div class="tabs ac-tabs is-boxed mt-10 mb-2">
+      <ul>
+        <li :class="{ 'is-active': activeTab === 'file' }">
+          <a @click.prevent="activeTab = 'file'">
+            <span>File</span>
+          </a>
+        </li>
+        <li :class="{ 'is-active': activeTab === 'preview-changes' }">
+          <a @click.prevent="activeTab = 'preview-changes'">
+            <span>Preview Changes</span>
+          </a>
+        </li>
+      </ul>
+    </div>
+    <div v-if="activeTab === 'file'">
+      <monaco-editor
+        ref="monacoEditor"
+        @editorDidMount="onEditorMount"
+        v-model="valueString"
+        :options="editorOptions"
+        :diff-editor="activeTab === 'preview-changes'"
+        language="yaml"
+        class="editor-writable vh-80 is-clipped"
+      />
+    </div>
+
+    <div v-else>
+      <monaco-editor
+        :key="activeTab"
+        ref="monacoDiffEditor"
+        class="editor-writable vh-80 is-clipped"
+        :options="editorOptions"
+        :value="valueString"
+        :diff-editor="true"
+        :original="originalValueString"
+        language="yaml"
+      />
+    </div>
   </div>
 </template>
 
@@ -35,6 +66,8 @@ export default {
 
   data() {
     return {
+      activeTab: "file",
+
       valueString: "",
 
       editorOptions: {
@@ -42,6 +75,12 @@ export default {
           enabled: true,
         },
         readOnly: false,
+      },
+      diffEditorOptions: {
+        minimap: {
+          enabled: true,
+        },
+        readOnly: true,
       },
     };
   },
@@ -80,6 +119,14 @@ export default {
       // set theme
       monacoEditorThemes.setTheme(
         this.$refs.monacoEditor.monaco.editor,
+        this.editorTheme
+      );
+    },
+
+    onDiffEditorMount() {
+      // set theme
+      monacoEditorThemes.setTheme(
+        this.$refs.monacoDiffEditor.monaco.editor,
         this.editorTheme
       );
     },
