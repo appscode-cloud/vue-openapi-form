@@ -32,6 +32,7 @@
         :key="activeTab"
         ref="monacoDiffEditor"
         class="editor-writable vh-80 is-clipped"
+        @editorDidMount="onDiffEditorMount"
         :options="editorOptions"
         :value="valueString"
         :diff-editor="true"
@@ -89,6 +90,9 @@ export default {
     ...mapGetters({
       editorTheme: "editorTheme",
     }),
+    originalValueString() {
+      return jsyaml.safeDump(this.referenceModel, { lineWidth: 2000 }); // json -> yaml
+    },
   },
 
   methods: {

@@ -51,6 +51,7 @@
               <vue-openapi-form
                 :schema="jsonSchema"
                 v-model="model"
+                :reference-model="referenceModel || ''"
                 :formTitle="formTitle"
                 :key="JSON.stringify(selectedJsonSchema)"
                 :onValid="onValid"
@@ -81,6 +82,7 @@ export default {
       selectedJsonSchema: Schemas[0],
       jsonSchema: {},
       model: {},
+      referenceModel: {},
       formTitle: "",
       modifiedSchema: false,
     };
@@ -88,8 +90,8 @@ export default {
 
   methods: {
     onValid() {
-      console.log("Form is Valid");
-      console.log(this.model);
+      // console.log("Form is Valid");
+      // console.log(this.model);
     },
     updateSchema(e) {
       this.modifiedSchema = true;
@@ -109,6 +111,7 @@ export default {
         this.jsonSchema = JSON.parse(JSON.stringify(newVal.schema));
         await setTimeout(() => {
           this.model = JSON.parse(JSON.stringify(newVal.model));
+          this.referenceModel = JSON.parse(JSON.stringify(this.model));
         }, 2000);
         this.formTitle = newVal.title;
       },

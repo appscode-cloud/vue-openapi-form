@@ -17,6 +17,7 @@
           :type="items.type"
           :errors="errors"
           v-model="modelData[index]"
+          :reference-model="referenceModel[index] || {}"
         />
       </validation-provider>
     </template>
@@ -36,6 +37,7 @@
           }"
           :type="items.type"
           v-model="modelData[index]"
+          :reference-model="referenceModel[index] || {}"
         />
       </validation-provider>
     </template>
@@ -55,6 +57,7 @@
           :type="items.type"
           :errors="errors"
           v-model="modelData[index]"
+          :reference-model="referenceModel[index] || []"
         />
       </validation-provider>
     </template>
@@ -75,6 +78,7 @@
           :required="true"
           :validationOb="validationOb"
           v-model="modelData[index]"
+          :reference-model="referenceModel[index] || ''"
         />
       </validation-provider>
     </template>

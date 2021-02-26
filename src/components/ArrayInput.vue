@@ -36,6 +36,7 @@
           :schema="schema"
           :index="index"
           :value="modelData"
+          :reference-model="referenceModel || []"
         />
         <!-- for each item add control buttons -->
         <div class="form-right-item">
@@ -111,6 +112,7 @@
                   :type="items.type"
                   :errors="errors"
                   v-model="newData"
+                  :reference-model="{}"
                 />
               </validation-provider>
             </template>
@@ -131,6 +133,7 @@
                   :errors="errors"
                   :type="items.type"
                   v-model="newData"
+                  :reference-model="{}"
                 />
               </validation-provider>
             </template>
@@ -151,6 +154,7 @@
                   :errors="errors"
                   :type="items.type"
                   v-model="newData"
+                  :reference-model="[]"
                 />
               </validation-provider>
             </template>
@@ -171,6 +175,7 @@
                   :type="items.type"
                   :validationOb="validationOb"
                   v-model="newData"
+                  :reference-model="''"
                 />
               </validation-provider>
             </template>
@@ -190,7 +195,7 @@
     </template>
     <template v-else-if="activeTab === 'yaml'">
       <!-- declared in tabs component -->
-      <yaml-form v-model="modelData" />
+      <yaml-form v-model="modelData" :reference-model="referenceModel || []" />
 
       <!-- required for validation obserber and validation provider to show proper validation in yaml tab -->
       <div
@@ -205,12 +210,13 @@
           :schema="schema"
           :index="index"
           :value="modelData"
+          :reference-model="{}"
         />
       </div>
     </template>
     <template v-else>
       <!-- declared in tabs component -->
-      <json-form v-model="modelData" />
+      <json-form v-model="modelData" :reference-model="referenceModel || []" />
 
       <!-- required for validation obserber and validation provider to show proper validation in json tab -->
       <div
@@ -225,6 +231,7 @@
           :schema="schema"
           :index="index"
           :value="modelData"
+          :reference-model="{}"
         />
       </div>
     </template>

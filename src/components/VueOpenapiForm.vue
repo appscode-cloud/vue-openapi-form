@@ -13,6 +13,7 @@
           :onlyJson="onlyJson"
           :schema="extendedSchema"
           v-model="modelData"
+          :reference-model="referenceModel || {}"
           @vof:submitted="onSubmit"
           :is-form-submitting="pending || isFormSubmitting"
         />
