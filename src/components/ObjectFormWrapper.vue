@@ -62,12 +62,16 @@
       :reference-model="referenceModel || {}"
     />
     <!-- declared in tabs component -->
-    <template v-if="activeTab === 'yaml'">
-      <yaml-form v-model="modelData" :reference-model="referenceModel || {}" />
-    </template>
-    <template v-else-if="activeTab === 'json'">
-      <json-form v-model="modelData" :reference-model="referenceModel || {}" />
-    </template>
+    <yaml-form
+      v-if="activeTab === 'yaml'"
+      v-model="modelData"
+      :reference-model="referenceModel || {}"
+    />
+    <json-form
+      v-else-if="activeTab === 'json'"
+      v-model="modelData"
+      :reference-model="referenceModel || {}"
+    />
   </validation-observer>
 </template>
 
