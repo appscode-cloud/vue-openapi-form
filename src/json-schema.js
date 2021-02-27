@@ -9,6 +9,21 @@ export default [
           },
           type: "object",
         },
+        keyValuePairObject: {
+          additionalProperties: {
+            type: "object",
+            properties: {
+              name: {
+                type: "string",
+              },
+              namespace: {
+                type: "string",
+              },
+            },
+            required: ["name"],
+          },
+          type: "object",
+        },
         positions: {
           type: "array",
           items: {
@@ -60,6 +75,7 @@ export default [
     },
     model: {
       keyValuePair: { "demo-key": "demo-value" },
+      keyValuePairObject: { "demo-key": { name: "Sakib", namespace: "hihi" } },
       positions: ["Software Engineer", "Designer"],
       name: "John Doe",
       age: 23,

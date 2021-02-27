@@ -41,11 +41,7 @@ const recurse = function (schema, title) {
           {},
           { ...schema.additionalProperties },
           {
-            title: "Value",
-            ui: {
-              tag: "input",
-              type: "text",
-            },
+            ...recurse(schema.additionalProperties, "Value"),
           }
         );
       }

@@ -23,7 +23,7 @@
         <tabs v-model="activeTab" />
       </div>
     </div>
-    <template v-if="activeTab === 'form'">
+    <div v-show="activeTab === 'form'">
       <!-- existing values form -->
       <div
         class="form-container"
@@ -192,49 +192,19 @@
           </div>
         </div>
       </validation-observer>
-    </template>
-    <template v-else-if="activeTab === 'yaml'">
-      <!-- declared in tabs component -->
-      <yaml-form v-model="modelData" :reference-model="referenceModel || []" />
-
-      <!-- required for validation obserber and validation provider to show proper validation in yaml tab -->
-      <div
-        v-show="false"
-        :key="`${index}-${schema.title}-yaml-${JSON.stringify(modelData)}`"
-        class="form-container"
-        v-for="(item, index) in modelData"
-      >
-        <!-- for each item generate form -->
-        <array-input-items
-          :items="items"
-          :schema="schema"
-          :index="index"
-          :value="modelData"
-          :reference-model="{}"
-        />
-      </div>
-    </template>
-    <template v-else>
-      <!-- declared in tabs component -->
-      <json-form v-model="modelData" :reference-model="referenceModel || []" />
-
-      <!-- required for validation obserber and validation provider to show proper validation in json tab -->
-      <div
-        v-show="false"
-        :key="`${index}-${schema.title}-json-${JSON.stringify(modelData)}`"
-        class="form-container"
-        v-for="(item, index) in modelData"
-      >
-        <!-- for each item generate form -->
-        <array-input-items
-          :items="items"
-          :schema="schema"
-          :index="index"
-          :value="modelData"
-          :reference-model="{}"
-        />
-      </div>
-    </template>
+    </div>
+    <!-- declared in tabs component -->
+    <yaml-form
+      v-if="activeTab === 'yaml'"
+      v-model="modelData"
+      :reference-model="referenceModel || []"
+    />
+    <!-- declared in tabs component -->
+    <json-form
+      v-else-if="activeTab === 'json'"
+      v-model="modelData"
+      :reference-model="referenceModel || []"
+    />
   </validation-observer>
 </template>
 
