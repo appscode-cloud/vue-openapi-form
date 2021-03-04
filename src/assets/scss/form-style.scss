@@ -3,11 +3,13 @@
 ================================================*/
 .section-title {
   padding: 30px 0;
+
   h2 {
     font-size: 30px;
     margin-bottom: 15px;
   }
 }
+
 /*================================================
             section title end
 ================================================*/
@@ -23,10 +25,13 @@
     display: block;
   }
 }
+
 .left-content-wrapper {
-  border: 1px solid #e8e8e8;
+  background-color: #fff;
+  box-shadow: 0 1px 4px rgba(26, 80, 151, 0.16);
   padding: 30px;
   border-radius: 4px;
+
   .CodeMirror-vscrollbar,
   .CodeMirror-hscrollbar {
     /* width */
@@ -51,12 +56,14 @@
       background: $primary-color;
     }
   }
+
   .CodeMirror-hscrollbar {
     &::-webkit-scrollbar-thumb {
       height: 5px !important;
     }
   }
 }
+
 .schema-input,
 .model-input {
   h3 {
@@ -66,6 +73,7 @@
     font-weight: 600;
   }
 }
+
 /*================================================
            schema-input and model input end
 ================================================*/
@@ -75,6 +83,10 @@
 ================================================*/
 .vue-openapi-form {
   border-radius: 4px;
+  background: #fff;
+  padding: 30px;
+  box-shadow: 0 1px 4px rgba(26, 80, 151, 0.16);
+
   // title style
   .ac-level {
     display: flex;
@@ -85,6 +97,7 @@
     border-radius: 4px;
     position: relative;
     z-index: 1;
+
     &::after {
       position: absolute;
       content: "";
@@ -96,13 +109,16 @@
       margin-top: -0.5px;
       z-index: -1;
     }
+
     .ac-level-left {
       display: flex;
       align-items: center;
+
       .ac-form-title {
         h4 {
           font-size: 14px;
           font-weight: 700;
+
           span {
             font-size: 12px;
             color: #e03056;
@@ -113,19 +129,24 @@
         }
       }
     }
+
     .ac-level-right {
       &.is-root-done-button {
         display: flex;
         align-items: center;
+
         .tabs {
           margin: 0;
         }
+
         .button {
           font-weight: 600;
-          .icon{
+
+          .icon {
             height: auto;
           }
         }
+
         button.done-button {
           margin-right: -20px;
           margin-left: 15px;
@@ -134,9 +155,11 @@
           transition: 0.3s ease-in-out;
           border-radius: 0 4px 4px 0;
           height: 40px;
+
           span {
             position: relative;
             transition: 0.5s;
+
             &::after {
               content: "\f101";
               position: absolute;
@@ -148,9 +171,11 @@
               transition: 0.5s;
             }
           }
+
           &:hover {
             span {
               padding-right: 25px;
+
               &::after {
                 opacity: 1;
                 right: 0;
@@ -161,9 +186,11 @@
       }
     }
   }
+
   // collaps button style
   .collaps-button {
     margin-right: 10px;
+
     .button-circle {
       background-color: transparent;
       width: 20px;
@@ -177,6 +204,7 @@
       cursor: pointer;
     }
   }
+
   // toggle button style
   .ac-toggle-buttons {
     li {
@@ -199,6 +227,7 @@
     border-radius: 4px;
     position: relative;
     z-index: 1;
+
     &::after {
       position: absolute;
       content: "";
@@ -208,18 +237,21 @@
       width: 1px;
       height: calc(100% + 12px);
     }
+
     &.stop-line {
       &:after {
         height: 80px;
         top: -40px;
       }
     }
+
     .ac-field {
       position: relative;
       z-index: 1;
       margin-top: 20px;
       margin-left: 30px;
       margin-bottom: 10px;
+
       &::before {
         position: absolute;
         content: "";
@@ -230,6 +262,7 @@
         height: 1px;
         margin-top: 2px;
       }
+
       &::after {
         position: absolute;
         content: "";
@@ -239,6 +272,7 @@
         width: 1px;
         height: 83px;
       }
+
       .label {
         font-size: 14px;
         color: #808080;
@@ -253,6 +287,7 @@
         cursor: initial;
         padding: 0 5px;
       }
+
       .show-label {
         &.label {
           background-color: #fff;
@@ -261,6 +296,7 @@
           padding: 0 5px;
         }
       }
+
       input {
         border: 1px solid $border-dark-color;
         box-shadow: none;
@@ -269,6 +305,7 @@
         height: 40px;
         padding-left: 20px;
         border-radius: 4px;
+
         &:focus {
           outline: none;
           border-color: $primary-color;
@@ -277,21 +314,26 @@
       }
     }
   }
+
   .hide-upper-line {
     padding: 0;
+
     &::after {
       height: 0px;
     }
+
     > .ac-level {
       &::after {
         width: 0;
       }
     }
   }
+
   .vue-schema-form-object.ac-last-child,
   .vue-schema-form-array.ac-last-child {
     position: relative;
     z-index: 1;
+
     &::after {
       position: absolute;
       content: "";
@@ -303,17 +345,20 @@
     .ac-level {
       border-radius: 4px 4px 0px 0px;
     }
+
     .ac-key-value-pairs-wrapper {
       border: 1px solid #ddd;
       border-radius: 0 0 4px 4px;
       border-top: none;
       padding-right: 15px;
       padding-bottom: 15px;
+
       .ac-key-value-pairs {
         .ac-field::before,
         .ac-field::after {
           width: 0px;
         }
+
         .ac-key-value-pairs-item {
           width: 100%;
           display: flex;
@@ -321,6 +366,7 @@
       }
     }
   }
+
   // action button style
   .ac-key-value-action-button,
   .ac-list-action-button {
@@ -328,46 +374,33 @@
     padding: 0 5px;
     height: 40px;
     width: 32px;
-    i.fa{
-      padding: 0;
-    }
-    &.is-success {
-      background-color: #cce2f2 !important;
-      i.fa {
-        color: $primary-color;
-      }
-    }
-    &.is-danger {
-      background-color: #f9d5dd !important;
-      transition: 0.3s ease-in-out;
-      i.fa {
-        color: #e03056;
-        transition: 0.3s ease-in-out;
-      }
-      &:hover {
-        background-color: #fa9db1 !important;
-        i.fa {
-          color: #e03056;
-        }
-      }
-    }
   }
+
   // form inner content
   .form-container {
     display: flex;
     justify-content: space-between;
+
     .form-left-item {
       flex-grow: 0;
       flex-shrink: 0;
-      flex-basis: calc(100% - 85px);
+      flex-basis: calc(100% - 100px);
     }
+
     .form-right-item {
       margin-top: 20px;
+      .buttons{
+        .button{
+          margin-bottom: 0;
+        }
+      }
     }
   }
+
   .ac-level-from-button {
     display: flex;
     justify-content: space-between;
+
     .ac-level-10 {
       flex-grow: 0;
       flex-shrink: 0;
@@ -375,6 +408,7 @@
       margin-right: 15px;
     }
   }
+
   // for up-down button
   .group-buttons {
     .up-down-button {
@@ -385,23 +419,28 @@
       width: 32px;
       height: 20px;
       color: #a4a4a4;
+
       &:disabled {
         cursor: not-allowed;
       }
+
       &.is-info {
         background-color: $primary-color;
         color: #fff;
         transition: 0.3s;
+
         &:hover {
           background-color: scale-color($primary-color, $lightness: 5%);
         }
       }
     }
+
     border-radius: 4px;
     overflow: hidden;
     margin-right: 10px;
     position: relative;
     z-index: 1;
+
     &:after {
       position: absolute;
       content: "";
@@ -414,14 +453,17 @@
       opacity: 0.5;
     }
   }
+
   .ac-level-2 .buttons,
   .columns.is-gapless .column.is-1 .buttons {
     margin-top: 18px !important;
     float: right;
   }
+
   .buttons {
     .button {
       margin-right: 5px !important;
+
       &:last-child {
         margin-right: 0 !important;
       }
@@ -432,45 +474,82 @@
   .switch[type="checkbox"]:checked + label:before {
     background-color: $primary-color;
   }
+
   .switch[type="checkbox"] + label::before,
   .switch[type="checkbox"] + label:before {
     background-color: #a4a4a4;
   }
+
   .ac-key-value-pairs {
     display: flex;
     justify-content: space-between;
+
     .ac-is-3 {
       width: 35%;
     }
+
     .ac-is-8 {
       width: 66%;
       margin-right: 15px;
     }
+
     .ac-is-1 {
       margin-top: 20px;
+    }
+  }
+
+  // modify tabs
+
+  .tabs.ac-tabs {
+    &.is-boxed {
+      ul {
+        border-bottom: none;
+
+        li {
+          &.is-active {
+            a {
+              background-color: #f1f1f1;
+            }
+          }
+        }
+      }
+    }
+  }
+}
+.tabs.is-toggle.ac-toggle-buttons{
+  li{
+    &.is-active {
+      a{
+        background-color: $primary-color;
+      }
     }
   }
 }
 .button.is-primary {
   background-color: $primary-color;
-  &:hover{
-    background-color: darken($primary-color,5);
+
+  &:hover {
+    background-color: darken($primary-color, 5);
   }
 }
+
 // warning style
 .icon.is-warning,
 p.is-warning {
   color: #e03056;
 }
+
 p.is-warning {
   position: absolute;
   top: 100%;
   font-size: 13px;
   right: 0;
 }
+
 .icon.is-success {
   color: $primary-color;
 }
+
 /*================================================
            vue-open-api-form end
 ================================================*/
@@ -480,7 +559,7 @@ p.is-warning {
 .tooltip {
   display: block !important;
   z-index: 10000;
-  
+
   &.is-button-info {
     .tooltip-inner {
       background: #fff;
@@ -491,6 +570,7 @@ p.is-warning {
       font-weight: 500;
       font-size: 13px;
     }
+
     .tooltip-arrow {
       width: 0;
       height: 0;
@@ -500,6 +580,7 @@ p.is-warning {
       border-color: #fff;
     }
   }
+
   &.is-errors-tooltip {
     .tooltip-inner {
       background: #fff;
@@ -509,12 +590,14 @@ p.is-warning {
       box-shadow: 2px 2px 20px 2px rgba(0, 0, 0, 0.16);
       font-weight: 500;
       font-size: 13px;
+
       .errors-wrapper {
         .error-element {
           padding: 5px 0;
         }
       }
     }
+
     .tooltip-arrow {
       width: 0;
       height: 0;
@@ -524,6 +607,7 @@ p.is-warning {
       border-color: #fff;
     }
   }
+
   &[x-placement^="top"] {
     margin-bottom: 5px;
 
