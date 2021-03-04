@@ -67,7 +67,8 @@
 .schema-input,
 .model-input {
   h3 {
-    margin: 20px 0;
+    margin-bottom: 10px;
+    margin-top: 20px;
     font-size: 18px;
     line-height: 28px;
     font-weight: 600;
@@ -118,6 +119,7 @@
         h4 {
           font-size: 14px;
           font-weight: 700;
+          line-height: 24px;
 
           span {
             font-size: 12px;
@@ -245,7 +247,7 @@
       }
     }
 
-    .ac-field {
+    .ac-single-input {
       position: relative;
       z-index: 1;
       margin-top: 20px;
@@ -297,21 +299,6 @@
         }
       }
 
-      input {
-        border: 1px solid $border-dark-color;
-        box-shadow: none;
-        font-size: 14px;
-        font-weight: 500;
-        height: 40px;
-        padding-left: 20px;
-        border-radius: 4px;
-
-        &:focus {
-          outline: none;
-          border-color: $primary-color;
-          box-shadow: none;
-        }
-      }
     }
   }
 
@@ -354,8 +341,8 @@
       padding-bottom: 15px;
 
       .ac-key-value-pairs {
-        .ac-field::before,
-        .ac-field::after {
+        .ac-single-input::before,
+        .ac-single-input::after {
           width: 0px;
         }
 
@@ -384,7 +371,7 @@
     .form-left-item {
       flex-grow: 0;
       flex-shrink: 0;
-      flex-basis: calc(100% - 100px);
+      flex-basis: calc(100% - 95px);
     }
 
     .form-right-item {
@@ -416,8 +403,8 @@
       border: none;
       display: block;
       cursor: pointer;
-      width: 32px;
-      height: 20px;
+      width: 36px;
+      height: 18px;
       color: #a4a4a4;
 
       &:disabled {

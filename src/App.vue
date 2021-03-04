@@ -1,15 +1,16 @@
 <template>
   <div id="app">
+    <!-- title start  -->
+    <div class="section-title ">
+      <div class="container is-fluid">
+        <div class="title">
+          <h2>Vue OpenAPI Form</h2>
+        </div>
+      </div>
+    </div>
+    <!-- title end -->
     <div class="vue-form-scema-body mb-50">
       <div class="container is-fluid">
-        <div class="columns">
-          <div class="column">
-            <div class="section-title has-text-centered">
-              <h2>Vue OpenAPI Form</h2>
-              <p>Made with Vue, Bulma, vee-validate and v-tooltip</p>
-            </div>
-          </div>
-        </div>
         <div class="columns is-multiline">
           <div class="column is-4">
             <div class="left-content-wrapper">
@@ -119,3 +120,20 @@ export default {
   },
 };
 </script>
+<style lang="scss">
+.section-title{
+  background-color: #fff;
+  box-shadow: 0 1px 4px rgba(26, 80, 151, 0.16);
+  margin: 0;
+  padding: 0;
+  margin-bottom: 30px;
+  padding: 10px 0;
+  h2{
+    color: #333;
+    font-size: 24px;
+    font-weight: 700;
+    margin: 0;
+    padding: 0;
+  }
+}
+</style>

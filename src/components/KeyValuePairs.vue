@@ -42,7 +42,7 @@
         <div class="ac-is-1">
           <div class="buttons">
             <button
-              class="button ac-button is-square is-danger height-40 width-40"
+              class="button ac-button is-square is-danger is-small"
               @click.prevent="deleteProp(index)"
             >
               <span class="icon is-small">
@@ -166,7 +166,7 @@
         <div class="ac-is-1">
           <div class="buttons">
             <button
-              class="button ac-button is-square is-primary height-40 width-40"
+              class="button ac-button is-square is-primary is-small"
               @click.prevent="addProp()"
             >
               <i class="fa fa-plus"></i>

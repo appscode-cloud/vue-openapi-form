@@ -1,5 +1,5 @@
 <template>
-  <div class="field ac-field">
+  <div class="ac-single-input is-small ml-30 mt-20 mb-0">
     <template v-if="ui.tag === 'input'">
       <template v-if="ui.type === 'checkbox'">
         <div class="pt-13">
@@ -18,17 +18,18 @@
       <template v-else>
         <label
           @click.prevent="focusInput()"
-          :class="[labelShow ? 'show-label' : '', 'label']"
+          :class="[labelShow ? 'show-label' : '', 'ac-label']"
           >{{ schema.title }}</label
         >
         <div v-if="ui.tag === 'input'" class="control has-icons-right">
           <input
             ref="inputField"
-            class="input"
+            class="ac-input"
             :type="ui.type"
             :class="{
               'is-success': validationOb.validated && validationOb.valid,
               'is-danger': validationOb.validated && validationOb.invalid,
+              'bg-white': modelData,
             }"
             :placeholder="ui.placeholder || ''"
             v-model="modelData"
@@ -51,7 +52,7 @@
             </span>
           </template>
           <p
-            class="is-warning"
+            class="is-error"
             v-if="
               validationOb &&
               validationOb.errors &&

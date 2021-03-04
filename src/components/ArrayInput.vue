@@ -76,7 +76,7 @@
               </button>
             </div>
             <button
-              class="button ac-button is-square is-danger height-40 width-40"
+              class="button ac-button is-square is-danger is-small"
               @click.prevent="deleteValue(index)"
             >
               <i class="fa fa-trash"></i>
@@ -183,7 +183,7 @@
           <div class="ac-level-2">
             <div class="buttons">
               <button
-                class="button ac-button is-square is-primary height-40 width-40"
+                class="button ac-button is-square is-primary is-small"
                 @click.prevent="addNewValue()"
               >
                 <i class="fa fa-plus"></i>

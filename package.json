@@ -22,7 +22,7 @@
     "deploy": "firebase use default && firebase deploy"
   },
   "dependencies": {
-    "@appscode/design-system": "0.0.19-alpha.90",
+    "@appscode/design-system": "0.0.19-alpha.91",
     "@appscode/design-system-images": "0.0.13",
     "@babel/runtime": "^7.10.5",
     "bulma": "^0.8.0",
