@@ -8,13 +8,19 @@
         >
           <div class="is-flex is-align-items-center">
             <a href="https://byte.builders/" class="logo">
-              <img src="https://cdn.appscode.com/images/products/bytebuilders/bytebuilders.png" alt="" />
+              <img
+                src="https://cdn.appscode.com/images/products/bytebuilders/bytebuilders.png"
+                alt=""
+              />
             </a>
             <p class="pl-20">(Vue OpenAPI Form)</p>
           </div>
 
           <div class="social-link">
-            <a href="https://github.com/appscode/vue-openapi-form" class="icon-rounded">
+            <a
+              href="https://github.com/appscode/vue-openapi-form"
+              class="icon-rounded"
+            >
               <i class="fa fa-github" aria-hidden="true"></i>
             </a>
           </div>
@@ -62,6 +68,7 @@
           </div>
           <div class="column is-8">
             <div class="container">
+              <!-- use /:customClass="'is-medium'"/ for medium size input  -->
               <!-- key is required to properly update the new form when schema changes -->
               <vue-openapi-form
                 :schema="jsonSchema"
@@ -70,6 +77,7 @@
                 :formTitle="formTitle"
                 :key="JSON.stringify(selectedJsonSchema)"
                 :onValid="onValid"
+                :customClass="'is-medium'"
               />
             </div>
           </div>
