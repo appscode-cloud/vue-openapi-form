@@ -1,8 +1,5 @@
 @import "~bulma/css/bulma.min.css";
 @import "~bulma-switch/dist/css/bulma-switch.min.css";
-@import "./variable.scss";
-@import "./global.scss";
-@import "./form-style.scss";
 
 // BASE
 @import "./../../../node_modules/@appscode/design-system/base/utilities/initial-variables";
@@ -12,5 +9,10 @@
 @import "./../../../node_modules/@appscode/design-system/base/utilities/mixin";
 
 // COMPONENTS
-@import "./../../../node_modules/@appscode/design-system/components/ac-code-highlight";
-@import "./../../../node_modules/@appscode/design-system/components/ac-tabs";
+@import "./../../../node_modules/@appscode/design-system/components/_buttons";
+@import "./../../../node_modules/@appscode/design-system/components/_ac-input";
+@import "./../../../node_modules/@appscode/design-system/components/_ac-code-highlight";
+@import "./../../../node_modules/@appscode/design-system/components/_ac-tabs";
+
+// Custom style 
+@import "./form-style.scss";

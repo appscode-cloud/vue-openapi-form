@@ -1,15 +1,36 @@
 <template>
   <div id="app">
-    <div class="vue-form-scema-body mb-50">
+    <!-- title start  -->
+    <div class="open-api-form-header">
       <div class="container is-fluid">
-        <div class="columns">
-          <div class="column">
-            <div class="section-title has-text-centered">
-              <h2>Vue OpenAPI Form</h2>
-              <p>Made with Vue, Bulma, vee-validate and v-tooltip</p>
-            </div>
+        <div
+          class="is-flex is-justify-content-space-between is-align-items-center"
+        >
+          <div class="is-flex is-align-items-center">
+            <a href="https://byte.builders/" class="logo">
+              <img
+                src="https://cdn.appscode.com/images/products/bytebuilders/bytebuilders.png"
+                alt=""
+              />
+            </a>
+            <p class="pl-20">(Vue OpenAPI Form)</p>
+          </div>
+
+          <div class="social-link">
+            <a
+              href="https://github.com/appscode/vue-openapi-form"
+              class="icon-rounded"
+            >
+              <i class="fa fa-github" aria-hidden="true"></i>
+            </a>
           </div>
         </div>
+      </div>
+    </div>
+    <!-- title end -->
+
+    <div class="vue-form-scema-body mb-50">
+      <div class="container is-fluid">
         <div class="columns is-multiline">
           <div class="column is-4">
             <div class="left-content-wrapper">
@@ -47,6 +68,7 @@
           </div>
           <div class="column is-8">
             <div class="container">
+              <!-- use /:customClass="'is-medium'"/ for medium size input  -->
               <!-- key is required to properly update the new form when schema changes -->
               <vue-openapi-form
                 :schema="jsonSchema"
@@ -55,6 +77,7 @@
                 :formTitle="formTitle"
                 :key="JSON.stringify(selectedJsonSchema)"
                 :onValid="onValid"
+                size="medium"
               />
             </div>
           </div>

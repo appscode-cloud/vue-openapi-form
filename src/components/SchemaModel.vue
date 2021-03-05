@@ -34,7 +34,7 @@
     </div>
 
     <div class="buttons mt-20">
-      <button class="button is-primary" @click.prevent="updateForm()">
+      <button class="button ac-button is-primary" @click.prevent="updateForm()">
         Update
       </button>
     </div>

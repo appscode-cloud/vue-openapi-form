@@ -1,5 +1,5 @@
 <template>
-  <div class="vue-openapi-form">
+  <div class="vue-openapi-form" :class="{ 'is-medium': size === 'medium' }">
     <validation-observer ref="vofMainObserver" v-slot="{ pending }" slim>
       <validation-provider
         :name="extendedSchema.title"
@@ -54,6 +54,10 @@ export default {
     onInvalid: {
       type: Function,
       default: () => () => {},
+    },
+    size: {
+      type: String,
+      default: "small",
     },
   },
   mixins: [model, validation],

@@ -41,7 +41,7 @@
         <!-- for each item add control buttons -->
         <div class="form-right-item">
           <div class="buttons">
-            <div class="group-buttons">
+            <div class="up-down-buttons" :class="{ 'is-small': !isMedium }">
               <button
                 class="up-down-button"
                 :class="{ 'is-info': index !== 0 }"
@@ -76,7 +76,8 @@
               </button>
             </div>
             <button
-              class="button is-danger ac-list-action-button"
+              class="button ac-button is-square is-danger is-normal"
+              :class="{ 'is-small': !isMedium }"
               @click.prevent="deleteValue(index)"
             >
               <i class="fa fa-trash"></i>
@@ -183,7 +184,8 @@
           <div class="ac-level-2">
             <div class="buttons">
               <button
-                class="button is-success ac-list-action-button"
+                class="button ac-button is-square is-primary is-normal"
+                :class="{ 'is-small': !isMedium }"
                 @click.prevent="addNewValue()"
               >
                 <i class="fa fa-plus"></i>
@@ -212,6 +214,7 @@
 import { model } from "../mixins/model.js";
 import tabs from "../mixins/tabs.js";
 import validation from "../mixins/validation.js";
+import size from "../mixins/size.js";
 import ArrayInputItems from "./sub-components/ArrayInputItems.vue";
 
 export default {
@@ -238,7 +241,7 @@ export default {
     },
   },
 
-  mixins: [model, tabs, validation],
+  mixins: [model, tabs, validation, size],
 
   data() {
     return {
