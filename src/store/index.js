@@ -5,16 +5,16 @@ Vue.use(Vuex);
 
 export default new Vuex.Store({
   state: {
-    editorTheme: "acLightTheme"
+    editorTheme: "acLightTheme",
   },
   getters: {
-    editorTheme: state => state.editorTheme
+    editorTheme: (state) => state.editorTheme,
   },
   mutations: {
     editorTheme$set: (state, o) => {
       state.editorTheme = o || "acLightTheme";
-    }
+    },
   },
   actions: {},
-  modules: {}
+  modules: {},
 });
