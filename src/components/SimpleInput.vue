@@ -1,5 +1,8 @@
 <template>
-  <div class="ac-single-input is-small ml-30 mt-20 mb-0" ref="singleInp">
+  <div
+    class="ac-single-input ml-30 mt-20 mb-0"
+    :class="{ 'is-small': !isMedium }"
+  >
     <template v-if="ui.tag === 'input'">
       <template v-if="ui.type === 'checkbox'">
         <div class="pt-13">
@@ -110,6 +113,7 @@
 <script>
 import { model } from "../mixins/model.js";
 import validation from "../mixins/validation.js";
+import size from "../mixins/size.js";
 
 export default {
   name: "simple-input",
@@ -117,6 +121,7 @@ export default {
     return {
       labelShow: false,
       isIntegerSetToNull: false,
+      isMedium: false,
     };
   },
   methods: {
@@ -133,31 +138,6 @@ export default {
       this.labelShow = true;
       const inputField = this.$refs.inputField;
       inputField.focus();
-    },
-    // for medium size form
-    removeIsSmallClass() {
-      let inp = this.$refs.singleInp;
-      let form = document.querySelector(".vue-openapi-form");
-
-      if (form.classList.contains("is-medium")) {
-        // Remove from all input '.is-small'
-        inp.classList.remove("is-small");
-        // Select all square button and remove '.is-small' and add '.is-normal'
-        let sqrBtns = form.querySelectorAll(".ac-button.is-square");
-        Array.from(sqrBtns).forEach((btn) => {
-          if (btn.classList.contains("is-small")) {
-            btn.classList.remove("is-small");
-            btn.classList.add("is-normal");
-          }
-        });
-        // Remove '.is-small' from 'up-down-buttons'
-        let upDownBtns = form.querySelectorAll(".up-down-buttons");
-        Array.from(upDownBtns).forEach((btn) => {
-          if (btn.classList.contains("is-small")) {
-            btn.classList.remove("is-small");
-          }
-        });
-      }
     },
   },
 
@@ -177,10 +157,9 @@ export default {
 
   mounted() {
     if (this.modelData) this.labelShow = true;
-    this.removeIsSmallClass();
   },
 
-  mixins: [model, validation],
+  mixins: [model, validation, size],
 
   computed: {
     ui() {

@@ -42,7 +42,8 @@
         <div class="ac-is-1">
           <div class="buttons">
             <button
-              class="button ac-button is-square is-danger is-small"
+              class="button ac-button is-square is-danger is-normal"
+              :class="{ 'is-small': !isMedium }"
               @click.prevent="deleteProp(index)"
             >
               <span class="icon is-small">
@@ -166,7 +167,8 @@
         <div class="ac-is-1">
           <div class="buttons">
             <button
-              class="button ac-button is-square is-primary is-small"
+              class="button ac-button is-square is-primary is-normal"
+              :class="{ 'is-small': !isMedium }"
               @click.prevent="addProp()"
             >
               <i class="fa fa-plus"></i>
@@ -196,6 +198,7 @@
 import { model } from "../mixins/model.js";
 import tabs from "../mixins/tabs.js";
 import validation from "../mixins/validation.js";
+import size from "../mixins/size.js";
 import KeyValuePairItems from "./sub-components/KeyValuePairItems.vue";
 
 export default {
@@ -221,7 +224,7 @@ export default {
 
   components: { KeyValuePairItems },
 
-  mixins: [model, tabs, validation],
+  mixins: [model, tabs, validation, size],
 
   data() {
     return {
