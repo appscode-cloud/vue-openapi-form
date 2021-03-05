@@ -41,7 +41,7 @@
         <!-- for each item add control buttons -->
         <div class="form-right-item">
           <div class="buttons">
-            <div class="group-buttons">
+            <div class="up-down-buttons is-small">
               <button
                 class="up-down-button"
                 :class="{ 'is-info': index !== 0 }"
