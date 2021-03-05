@@ -357,7 +357,7 @@
     .form-left-item {
       flex-grow: 0;
       flex-shrink: 0;
-      flex-basis: calc(100% - 95px);
+      flex-basis: calc(100% - 102px);
     }
 
     .form-right-item {
@@ -384,6 +384,7 @@
   }
 
 .up-down-buttons{
+  margin-right: 15px;
   &.is-small{
     .up-down-button {
       width: 36px;
@@ -393,7 +394,7 @@
 }
   .ac-level-2 .buttons,
   .columns.is-gapless .column.is-1 .buttons {
-    margin-top: 18px !important;
+    margin-top: 20px !important;
     float: right;
   }
 
@@ -454,7 +455,7 @@
   }
   &.is-medium{
     .form-left-item{
-      flex-basis: calc(100% - 110px);
+      flex-basis: calc(100% - 120px);
     }
     .ac-level-10 {
       flex-basis: calc(100% - 60px);
