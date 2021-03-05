@@ -77,7 +77,7 @@
                 :formTitle="formTitle"
                 :key="JSON.stringify(selectedJsonSchema)"
                 :onValid="onValid"
-                :customClass="'is-medium'"
+                size="medium"
               />
             </div>
           </div>

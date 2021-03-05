@@ -121,7 +121,6 @@ export default {
     return {
       labelShow: false,
       isIntegerSetToNull: false,
-      isMedium: false,
     };
   },
   methods: {

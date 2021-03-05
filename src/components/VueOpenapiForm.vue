@@ -1,5 +1,5 @@
 <template>
-  <div class="vue-openapi-form" :class="customClass">
+  <div class="vue-openapi-form" :class="{ 'is-medium': size === 'medium' }">
     <validation-observer ref="vofMainObserver" v-slot="{ pending }" slim>
       <validation-provider
         :name="extendedSchema.title"
@@ -55,9 +55,9 @@ export default {
       type: Function,
       default: () => () => {},
     },
-    customClass: {
+    size: {
       type: String,
-      default: "",
+      default: "small",
     },
   },
   mixins: [model, validation],
