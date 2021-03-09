@@ -9,6 +9,7 @@
   margin-bottom: 30px;
   padding: 10px 0;
 }
+
 .social-link {
   a {
     display: inline-block;
@@ -21,6 +22,7 @@
     margin-left: 20px;
     color: #333;
     transition: 0.3s ease-in-out;
+
     &:hover {
       background-color: #0071bd;
       color: #fff;
@@ -28,6 +30,7 @@
     }
   }
 }
+
 /*================================================
             section title end
 ================================================*/
@@ -230,7 +233,7 @@
     &.stop-line {
       &:after {
         height: 80px;
-        top: -40px;
+        top: -42px;
       }
     }
 
@@ -259,7 +262,7 @@
         top: -60px;
         background-color: $ac-modal-header-bg;
         width: 1px;
-        height: 83px;
+        height: 80px;
       }
 
       .label {
@@ -383,15 +386,17 @@
     }
   }
 
-.up-down-buttons{
-  margin-right: 15px;
-  &.is-small{
-    .up-down-button {
-      width: 36px;
-      height: 18px;
+  .up-down-buttons {
+    margin-right: 15px;
+
+    &.is-small {
+      .up-down-button {
+        width: 36px;
+        height: 18px;
+      }
     }
   }
-}
+
   .ac-level-2 .buttons,
   .columns.is-gapless .column.is-1 .buttons {
     margin-top: 20px !important;
@@ -453,20 +458,32 @@
       }
     }
   }
-  &.is-medium{
-    .form-left-item{
+
+  &.is-medium {
+    .form-left-item {
       flex-basis: calc(100% - 120px);
     }
+
     .ac-level-10 {
       flex-basis: calc(100% - 60px);
-  }
-    .ac-level{
+    }
+
+    .ac-level {
       height: 45px;
     }
-    .vue-schema-form-array{
-      .ac-level{
+
+    .vue-schema-form-array {
+      .ac-level {
         border-radius: 4px;
       }
+    }
+    .vue-schema-form-key-value-pairs .ac-single-input::after,
+    .vue-schema-form-object .ac-single-input::after,
+    .vue-schema-form-array .ac-single-input::after,
+    .vue-schema-form-key-value-pairs.stop-line:after,
+    .vue-schema-form-object.stop-line:after,
+    .vue-schema-form-array.stop-line:after{
+      height: 85px;
     }
   }
 }
