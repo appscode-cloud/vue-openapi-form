@@ -68,7 +68,7 @@
           </div>
           <div class="column is-8">
             <div class="container">
-              <!-- use /:customClass="'is-medium'"/ for medium size input  -->
+              <!-- use /size="medium"/ for medium size input  -->
               <!-- key is required to properly update the new form when schema changes -->
               <vue-openapi-form
                 :schema="jsonSchema"
@@ -77,7 +77,6 @@
                 :formTitle="formTitle"
                 :key="JSON.stringify(selectedJsonSchema)"
                 :onValid="onValid"
-                size="medium"
               />
             </div>
           </div>
