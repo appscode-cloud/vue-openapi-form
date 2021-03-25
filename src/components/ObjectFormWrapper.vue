@@ -25,13 +25,13 @@
           </div>
         </div>
         <div class="ac-form-title">
-          <h4>
+          <h6>
             {{ schema.title || "Array Item Description" }}
             <!-- show errors-->
             <component-errors
               :errors="[...errors, ...calcObserverError(observerErrors)]"
             />
-          </h4>
+          </h6>
         </div>
       </div>
       <div class="ac-level-right is-root-done-button">
