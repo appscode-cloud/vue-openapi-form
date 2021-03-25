@@ -8,9 +8,9 @@
     :class="{ 'stop-line': isLastChild }"
     :key="updatePass"
   >
-    <div class="ac-level">
-      <div class="ac-level-left">
-        <div class="ac-form-title">
+    <div class="ac-content-header">
+      <div class="ac-cheader-left is-flex is-align-items-center">
+        <div class="ac-content-header">
           <h6>
             {{ schema.title || "Array Item Description" }}
             <component-errors
@@ -19,7 +19,7 @@
           </h6>
         </div>
       </div>
-      <div class="ac-level-right">
+      <div class="ac-cheader-right">
         <tabs v-model="activeTab" />
       </div>
     </div>
@@ -93,8 +93,8 @@
         :disabled="true"
         slim
       >
-        <div class="ac-level-from-button">
-          <div class="ac-level-10">
+        <div class="ac-content-header-from-button">
+          <div class="ac-content-header-10">
             <template v-if="items.type === 'object'">
               <validation-provider
                 v-slot="{ errors }"
@@ -181,7 +181,7 @@
               </validation-provider>
             </template>
           </div>
-          <div class="ac-level-2">
+          <div class="ac-content-header-2">
             <div class="buttons">
               <button
                 class="button ac-button is-square is-primary is-normal"

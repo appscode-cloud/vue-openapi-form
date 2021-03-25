@@ -1,7 +1,7 @@
 <template>
-  <div class="schema-model-wrapper">
-    <div class="schema-input">
-      <h3>Schema</h3>
+  <div class="schema-model-wrapper mt-30">
+    <div class="schema-input mb-30">
+      <h5 class="mb-15">Schema</h5>
       <monaco-editor
         ref="monacoSchemaEditor"
         @editorDidMount="setTheme"
@@ -17,7 +17,7 @@
       </p>
     </div>
     <div class="model-input">
-      <h3>Model</h3>
+      <h5 class="mb-15">Model</h5>
       <monaco-editor
         ref="monacoModelEditor"
         @editorDidMount="setTheme"

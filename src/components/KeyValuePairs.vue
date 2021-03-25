@@ -4,13 +4,13 @@
     :ref="`${schema.title.replace(/ /g, '-')}-observer`"
     :vid="`${schema.title.replace(/ /g, '-')}-observer`"
     v-slot="{ errors: observerErrors }"
-    class="vue-schema-form-key-value-pairs"
+    class="ac-content-layout style-2 pt-20 pr-0 pb-0 pl-30 is-border-none"
     :class="{ 'stop-line': isLastChild }"
     :key="updatePass"
   >
-    <div class="ac-level">
-      <div class="ac-level-left">
-        <div class="ac-form-title">
+    <div class="ac-content-header">
+      <div class="ac-cheader-left is-flex is-align-items-center">
+        <div class="ac-content-header">
           <h6>
             {{ schema.title || "Array Item Description"
             }}<!-- show errors-->
@@ -20,7 +20,7 @@
           </h6>
         </div>
       </div>
-      <div class="ac-level-right">
+      <div class="ac-cheader-right">
         <tabs v-model="activeTab" />
       </div>
     </div>
