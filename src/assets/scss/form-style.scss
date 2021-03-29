@@ -316,27 +316,27 @@
 //       border-radius: 4px 4px 0px 0px;
 //     }
 
-  //   .ac-key-value-pairs-wrapper {
-  //     border: 1px solid #ddd;
-  //     border-radius: 0 0 4px 4px;
-  //     border-top: none;
-  //     padding-right: 30px;
-  //     padding-bottom: 20px;
+//   .ac-key-value-pairs-wrapper {
+//     border: 1px solid #ddd;
+//     border-radius: 0 0 4px 4px;
+//     border-top: none;
+//     padding-right: 30px;
+//     padding-bottom: 20px;
 
-  //     .ac-key-value-pairs {
+//     .ac-key-value-pairs {
 
-  //       .ac-single-input::before,
-  //       .ac-single-input::after {
-  //         width: 0px;
-  //       }
+//       .ac-single-input::before,
+//       .ac-single-input::after {
+//         width: 0px;
+//       }
 
-  //       .ac-key-value-pairs-item {
-  //         width: 100%;
-  //         display: flex;
-  //       }
-  //     }
-  //   }
-  // }
+//       .ac-key-value-pairs-item {
+//         width: 100%;
+//         display: flex;
+//       }
+//     }
+//   }
+// }
 
 //   // action button style
 //   .ac-key-value-action-button,
@@ -519,10 +519,57 @@
 //   color: $ac-primary;
 // }
 
-.vue-openapi-form{
-  .ac-content-header{
-    min-height: 36px;
+.vue-openapi-form {
+  padding: 30px;
+  border: 1px solid $ac-white-light;
+  background-color: $ac-white;
+
+  .hide-upper-line > .ac-content-header:after {
+    width: 0 !important;
   }
+
+  .hide-upper-line {
+    padding: 0 !important;
+
+    &::after {
+      height: 0 !important;
+    }
+  }
+
+  .ac-content-layout.style-2 {
+    border-radius: 4px;
+    position: relative;
+    z-index: 1;
+
+    &::after {
+      position: absolute;
+      content: "";
+      background-color: #e8e8e8;
+      left: 15px;
+      bottom: 28px;
+      width: 1px;
+      height: calc(100% + 12px);
+    }
+
+    .ac-content-header {
+      min-height: 36px;
+      position: relative;
+      z-index: 1;
+
+      &:after {
+        position: absolute;
+        content: "";
+        left: -15px;
+        top: 50%;
+        width: 30px;
+        height: 1px;
+        background: #e8e8e8;
+        margin-top: -0.5px;
+        z-index: -1;
+      }
+    }
+  }
+
   .is-warning {
     font-size: 12px;
     color: $ac-danger;
@@ -530,34 +577,35 @@
 }
 
 // key value pairs items start
- .ac-key-value-pairs-wrapper {
-   border: 1px solid #ddd;
-   border-radius: 0 0 4px 4px;
-   border-top: none;
-   padding-right: 30px;
-   padding-bottom: 20px;
+.ac-key-value-pairs-wrapper {
+  border: 1px solid #ddd;
+  border-radius: 0 0 4px 4px;
+  border-top: none;
+  padding-right: 30px;
+  padding-bottom: 20px;
 
-   .ac-key-value-pairs {
+  .ac-key-value-pairs {
+    .ac-single-input::before,
+    .ac-single-input::after {
+      width: 0px;
+    }
 
-     .ac-single-input::before,
-     .ac-single-input::after {
-       width: 0px;
-     }
-
-     .ac-key-value-pairs-item {
-       width: 100%;
-       display: flex;
-     }
-   }
- }
+    .ac-key-value-pairs-item {
+      width: 100%;
+      display: flex;
+    }
+  }
+}
 
 .ac-key-value-pairs {
   display: flex;
   justify-content: space-between;
-  .ac-key-value-pairs-item{
+
+  .ac-key-value-pairs-item {
     display: flex;
     width: 100%;
   }
+
   .ac-is-3 {
     width: 35%;
   }
@@ -587,6 +635,21 @@
 }
 
 // ac toggle button end
+
+// form-container CSS start
+.form-container {
+  .form-left-item {
+    width: calc(100% - 92px);
+  }
+}
+
+.single-input-and-single-button {
+  .form-left-item {
+    width: calc(100% - 46px);
+  }
+}
+
+// form-container CSS end
 /*================================================
            vue-open-api-form end
 ================================================*/

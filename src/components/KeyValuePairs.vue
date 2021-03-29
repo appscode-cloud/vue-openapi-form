@@ -10,7 +10,7 @@
   >
     <div class="ac-content-header">
       <div class="ac-cheader-left is-flex is-align-items-center">
-        <div class="ac-content-header">
+        <div class="ac-content-title">
           <h6>
             {{ schema.title || "Array Item Description"
             }}<!-- show errors-->

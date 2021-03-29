@@ -4,13 +4,13 @@
     :ref="`${schema.title.replace(/ /g, '-')}-observer`"
     :vid="`${schema.title.replace(/ /g, '-')}-observer`"
     v-slot="{ errors: observerErrors }"
-    class="vue-schema-form-array"
+    class="vue-schema-form-array pt-20 pr-0 pb-0 pl-30"
     :class="{ 'stop-line': isLastChild }"
     :key="updatePass"
   >
     <div class="ac-content-header">
       <div class="ac-cheader-left is-flex is-align-items-center">
-        <div class="ac-content-header">
+        <div class="ac-content-title">
           <h6>
             {{ schema.title || "Array Item Description" }}
             <component-errors
@@ -26,7 +26,7 @@
     <div v-show="activeTab === 'form'">
       <!-- existing values form -->
       <div
-        class="form-container"
+        class="form-container is-flex is-justify-content-space-between"
         :key="`${index}-${schema.title}-form`"
         v-for="(item, index) in modelData"
       >
@@ -39,7 +39,7 @@
           :reference-model="referenceModel || []"
         />
         <!-- for each item add control buttons -->
-        <div class="form-right-item">
+        <div class="form-right-item mt-20">
           <div class="buttons">
             <div class="up-down-buttons" :class="{ 'is-small': !isMedium }">
               <button
@@ -76,7 +76,7 @@
               </button>
             </div>
             <button
-              class="button ac-button is-square is-danger is-normal"
+              class="button ac-button is-square is-danger is-normal mb-0"
               :class="{ 'is-small': !isMedium }"
               @click.prevent="deleteValue(index)"
             >
@@ -93,8 +93,10 @@
         :disabled="true"
         slim
       >
-        <div class="ac-content-header-from-button">
-          <div class="ac-content-header-10">
+        <div
+          class="single-input-and-single-button is-flex is-justify-content-space-between"
+        >
+          <div class="form-left-item">
             <template v-if="items.type === 'object'">
               <validation-provider
                 v-slot="{ errors }"
@@ -181,7 +183,7 @@
               </validation-provider>
             </template>
           </div>
-          <div class="ac-content-header-2">
+          <div class="form-right-item mt-20">
             <div class="buttons">
               <button
                 class="button ac-button is-square is-primary is-normal"
