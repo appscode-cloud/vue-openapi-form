@@ -1,14 +1,6 @@
 /*================================================
-            section title start
+            Social Icon start
 ================================================*/
-.open-api-form-header {
-  background-color: #fff;
-  box-shadow: 0 1px 4px rgba(26, 80, 151, 0.16);
-  margin: 0;
-  padding: 0;
-  margin-bottom: 30px;
-  padding: 10px 0;
-}
 
 .social-link {
   a {
@@ -16,23 +8,23 @@
     width: 30px;
     height: 30px;
     border-radius: 50%;
-    border: 1px solid #ddd;
+    border: 1px solid $table-header;
     text-align: center;
     line-height: 30px;
     margin-left: 20px;
-    color: #333;
+    color: $ac-color-text;
     transition: 0.3s ease-in-out;
 
     &:hover {
-      background-color: #0071bd;
-      color: #fff;
-      border: 1px solid #0071bd;
+      background-color: $ac-primary;
+      color: $ac-white;
+      border: 1px solid $ac-primary;
     }
   }
 }
 
 /*================================================
-            section title end
+            Social Icon end
 ================================================*/
 
 /*================================================
@@ -54,478 +46,34 @@
   border-radius: 4px;
 }
 
-.schema-input,
-.model-input {
-  h3 {
-    margin-bottom: 10px;
-    margin-top: 20px;
-    font-size: 18px;
-    line-height: 28px;
-    font-weight: 700;
-  }
-}
-
-/*================================================
-           schema-input and model input end
-================================================*/
-
-/*================================================
-           vue-open-api from start
-================================================*/
-// .vue-openapi-form {
-//   border-radius: 4px;
-//   background: $ac-white;
-//   padding: 30px;
-//   border: 1px solid $ac-white-light;
-
-//   // title style
-//   .ac-content-header {
-//     display: flex;
-//     justify-content: space-between;
-//     align-items: center;
-//     background-color: $table-header;
-//     padding: 4px 20px;
-//     border-radius: 4px;
-//     position: relative;
-//     z-index: 1;
-
-//     &::after {
-//       position: absolute;
-//       content: "";
-//       left: -15px;
-//       top: 50%;
-//       width: 30px;
-//       height: 1px;
-//       background: $ac-modal-header-bg;
-//       margin-top: -0.5px;
-//       z-index: -1;
-//     }
-
-//     .ac-cheader-left {
-//       display: flex;
-//       align-items: center;
-
-//       .ac-content-header {
-//         span {
-//           font-size: 12px;
-//           color: $ac-danger;
-//           font-weight: 500;
-//           margin-left: 10px;
-//           cursor: pointer;
-//         }
-//       }
-//     }
-
-//     .ac-cheader-right {
-//       &.is-root-done-button {
-//         display: flex;
-//         align-items: center;
-
-//         .tabs {
-//           margin: 0;
-//         }
-
-//         .button {
-//           font-weight: 600;
-
-//           .icon {
-//             height: auto;
-//           }
-//         }
-
-//         button.done-button {
-//           margin-right: -20px;
-//           margin-left: 15px;
-//           margin-top: -4px;
-//           margin-bottom: -4px;
-//           transition: 0.3s ease-in-out;
-//           border-radius: 0 4px 4px 0;
-//           height: 45px;
-
-//           span {
-//             position: relative;
-//             transition: 0.5s;
-
-//             &::after {
-//               content: "\f101";
-//               position: absolute;
-//               font-size: 16px;
-//               font-family: "fontawesome";
-//               opacity: 0;
-//               top: 0;
-//               right: -20px;
-//               transition: 0.5s;
-//             }
-//           }
-
-//           &:hover {
-//             span {
-//               padding-right: 25px;
-
-//               &::after {
-//                 opacity: 1;
-//                 right: 0;
-//               }
-//             }
-//           }
-//         }
-//       }
-//     }
-//   }
-
-//   // collaps button style
-//   .collaps-button {
-//     margin-right: 10px;
-
-//     .button-circle {
-//       background-color: transparent;
-//       width: 20px;
-//       height: 20px;
-//       color: $ac-color-heading;
-//       border: 1px solid $ac-color-heading;
-//       font-size: 10px;
-//       border-radius: 50%;
-//       text-align: center;
-//       line-height: 20px;
-//       cursor: pointer;
-//     }
-//   }
-
-//   // toggle button style
-.ac-toggle-buttons {
-  li {
-    a {
-      border: none !important;
-      font-size: 14px;
-      font-weight: 500;
-      padding: 4px 15px;
-      border-radius: 4px !important;
-    }
-  }
-}
-
-//   // array and obj style
-//   // form style
-//   .ac-content-layout style-2 p-0,
-//   .ac-content-layout style-2 p-0,
-//   .vue-schema-form-array {
-//     padding: 20px 0 0px 30px;
-//     border-radius: 4px;
-//     position: relative;
-//     z-index: 1;
-
-//     &::after {
-//       position: absolute;
-//       content: "";
-//       background-color: $ac-modal-header-bg;
-//       left: 15px;
-//       bottom: 28px;
-//       width: 1px;
-//       height: calc(100% + 12px);
-//     }
-
-//     &.stop-line {
-//       &:after {
-//         height: 80px;
-//         top: -42px;
-//       }
-//     }
-
-//     .ac-single-input {
-//       position: relative;
-//       z-index: 1;
-//       margin-top: 20px;
-//       margin-left: 30px;
-//       margin-bottom: 10px;
-
-//       &::before {
-//         position: absolute;
-//         content: "";
-//         left: -15px;
-//         top: 50%;
-//         background-color: $ac-modal-header-bg;
-//         width: 16px;
-//         height: 1px;
-//         margin-top: 2px;
-//       }
-
-//       &::after {
-//         position: absolute;
-//         content: "";
-//         left: -15px;
-//         top: -60px;
-//         background-color: $ac-modal-header-bg;
-//         width: 1px;
-//         height: 80px;
-//       }
-
-//       .label {
-//         font-size: 14px;
-//         color: #808080;
-//         position: absolute;
-//         z-index: 2;
-//         top: 15px;
-//         left: 15px;
-//         font-weight: 400;
-//         margin: 0;
-//         line-height: 14px;
-//         transition: 0.3s;
-//         cursor: initial;
-//         padding: 0 5px;
-//       }
-
-//       .show-label {
-//         &.label {
-//           background-color: $ac-white;
-//           top: -7px;
-//           cursor: pointer;
-//           padding: 0 5px;
-//         }
-//       }
-//     }
-//   }
-
-//   .hide-upper-line {
-//     padding: 0;
-
-//     &::after {
-//       height: 0px;
-//     }
-
-//     >.ac-content-header {
-//       &::after {
-//         width: 0;
-//       }
-//     }
-//   }
-
-//   .ac-content-layout style-2 p-0.ac-last-child,
-//   .vue-schema-form-array.ac-last-child {
-//     position: relative;
-//     z-index: 1;
-
-//     &::after {
-//       position: absolute;
-//       content: "";
-//       height: 0;
-//     }
-//   }
-
-//   .ac-content-layout style-2 p-0 {
-//     .ac-content-header {
-//       border-radius: 4px 4px 0px 0px;
-//     }
-
-//   .ac-key-value-pairs-wrapper {
-//     border: 1px solid #ddd;
-//     border-radius: 0 0 4px 4px;
-//     border-top: none;
-//     padding-right: 30px;
-//     padding-bottom: 20px;
-
-//     .ac-key-value-pairs {
-
-//       .ac-single-input::before,
-//       .ac-single-input::after {
-//         width: 0px;
-//       }
-
-//       .ac-key-value-pairs-item {
-//         width: 100%;
-//         display: flex;
-//       }
-//     }
-//   }
-// }
-
-//   // action button style
-//   .ac-key-value-action-button,
-//   .ac-list-action-button {
-//     margin: 0 !important;
-//     padding: 0 5px;
-//     height: 40px;
-//     width: 32px;
-//   }
-
-//   // form inner content
-//   .form-container {
-//     display: flex;
-//     justify-content: space-between;
-
-//     .form-left-item {
-//       flex-grow: 0;
-//       flex-shrink: 0;
-//       flex-basis: calc(100% - 102px);
-//     }
-
-//     .form-right-item {
-//       margin-top: 20px;
-
-//       .buttons {
-//         .button {
-//           margin-bottom: 0;
-//         }
-//       }
-//     }
-//   }
-
-//   .ac-content-header-from-button {
-//     display: flex;
-//     justify-content: space-between;
-
-//     .ac-content-header-10 {
-//       flex-grow: 0;
-//       flex-shrink: 0;
-//       flex-basis: calc(100% - 51px);
-//       margin-right: 15px;
-//     }
-//   }
-
-//   .up-down-buttons {
-//     margin-right: 15px;
-
-//     &.is-small {
-//       .up-down-button {
-//         width: 36px;
-//         height: 18px;
-//       }
-//     }
-//   }
-
-//   .ac-content-header-2 .buttons,
-//   .columns.is-gapless .column.is-1 .buttons {
-//     margin-top: 20px !important;
-//     float: right;
-//   }
-
-//   .buttons {
-//     .button {
-//       margin-right: 5px !important;
-
-//       &:last-child {
-//         margin-right: 0 !important;
-//       }
-//     }
-//   }
-
-//   .switch[type="checkbox"]:checked+label::before,
-//   .switch[type="checkbox"]:checked+label:before {
-//     background-color: $ac-primary;
-//   }
-
-//   .switch[type="checkbox"]+label::before,
-//   .switch[type="checkbox"]+label:before {
-//     background-color: #a4a4a4;
-//   }
-
-// .ac-key-value-pairs {
-//   display: flex;
-//   justify-content: space-between;
-
-//   .ac-is-3 {
-//     width: 35%;
-//   }
-
-//   .ac-is-8 {
-//     width: 66%;
-//     margin-right: 15px;
-//   }
-
-//   .ac-is-1 {
-//     margin-top: 20px;
-//   }
-// }
-
-//   // modify tabs
-
-//   .tabs.ac-tabs {
-//     &.is-boxed {
-//       ul {
-//         border-bottom: none;
-
-//         li {
-//           &.is-active {
-//             a {
-//               background-color: #f1f1f1;
-//             }
-//           }
-//         }
-//       }
-//     }
-//   }
-
-//   &.is-medium {
-//     .form-left-item {
-//       flex-basis: calc(100% - 120px);
-//     }
-
-//     .ac-content-header-10 {
-//       flex-basis: calc(100% - 60px);
-//     }
-
-//     .ac-content-header {
-//       height: 45px;
-//     }
-
-//     .vue-schema-form-array {
-//       .ac-content-header {
-//         border-radius: 4px;
-//       }
-//     }
-
-//     .ac-content-layout style-2 p-0 .ac-single-input::after,
-//     .ac-content-layout style-2 p-0 .ac-single-input::after,
-//     .vue-schema-form-array .ac-single-input::after,
-//     .ac-content-layout style-2 p-0.stop-line:after,
-//     .ac-content-layout style-2 p-0.stop-line:after,
-//     .vue-schema-form-array.stop-line:after {
-//       height: 85px;
-//     }
-//   }
-// }
-
-// .tabs.is-toggle.ac-toggle-buttons {
-//   li {
-//     &.is-active {
-//       a {
-//         background-color: $ac-primary;
-//       }
-//     }
-//   }
-// }
-
-// .button.is-primary {
-//   background-color: $ac-primary;
-
-//   &:hover {
-//     background-color: darken($ac-primary, 5);
-//   }
-// }
-
-// // warning style
-// .icon.is-warning,
-// p.is-warning {
-//   color: $ac-danger;
-// }
-
-// p.is-warning {
-//   position: absolute;
-//   top: 100%;
-//   font-size: 13px;
-//   right: 0;
-// }
-
-// .icon.is-success {
-//   color: $ac-primary;
-// }
-
 .vue-openapi-form {
   padding: 30px;
   border: 1px solid $ac-white-light;
   background-color: $ac-white;
+  border-radius: 4px;
 
-  .hide-upper-line > .ac-content-header:after {
-    width: 0 !important;
+  .ac-content-layout {
+    &.stop-line {
+      &:after {
+        height: 56px !important;
+        top: -18px;
+      }
+    }
+  }
+
+  .hide-upper-line > .ac-content-header {
+    &:after {
+      width: 0 !important;
+    }
+  }
+
+  .object-form-wrapper {
+    .done-button {
+      margin-right: -20px;
+      margin-left: 15px;
+      border-radius: 0 4px 4px 0;
+      height: 45px;
+    }
   }
 
   .hide-upper-line {
@@ -536,7 +84,8 @@
     }
   }
 
-  .ac-content-layout.style-2 {
+  .ac-content-layout.style-2,
+  .vue-schema-form-array {
     border-radius: 4px;
     position: relative;
     z-index: 1;
@@ -544,17 +93,24 @@
     &::after {
       position: absolute;
       content: "";
-      background-color: #e8e8e8;
+      background-color: $table-header;
       left: 15px;
-      bottom: 28px;
+      bottom: 18px;
       width: 1px;
-      height: calc(100% + 12px);
+      height: 100%;
+    }
+
+    &.key-value-pairs {
+      .ac-content-header {
+        border-radius: 4px 4px 0 0;
+      }
     }
 
     .ac-content-header {
       min-height: 36px;
       position: relative;
       z-index: 1;
+      border-radius: 4px;
 
       &:after {
         position: absolute;
@@ -563,9 +119,49 @@
         top: 50%;
         width: 30px;
         height: 1px;
-        background: #e8e8e8;
+        background: $table-header;
         margin-top: -0.5px;
         z-index: -1;
+      }
+    }
+
+    .ac-single-input {
+      position: relative;
+      z-index: 1;
+
+      &::before {
+        position: absolute;
+        content: "";
+        left: -15px;
+        top: 18px;
+        background-color: $table-header;
+        width: 16px;
+        height: 1px;
+        margin-top: 2px;
+      }
+
+      &::after {
+        position: absolute;
+        content: "";
+        left: -15px;
+        top: -56px;
+        background-color: $table-header;
+        width: 1px;
+        height: 77px;
+      }
+    }
+  }
+
+  .ac-key-value-pairs-wrapper {
+    .ac-key-value-pairs {
+      .ac-single-input {
+        &:before {
+          width: 0;
+        }
+
+        &:after {
+          width: 0;
+        }
       }
     }
   }
@@ -573,12 +169,57 @@
   .is-warning {
     font-size: 12px;
     color: $ac-danger;
+    font-family: $ac-family-paragraph;
+  }
+
+  .tabs {
+    &.is-toggle {
+      li {
+        &.is-active {
+          a {
+            background-color: $ac-primary;
+          }
+        }
+      }
+    }
+
+    &.ac-tabs {
+      &.is-boxed {
+        ul {
+          border-bottom: none;
+
+          li {
+            &.is-active {
+              a {
+                background-color: $ac-white-lighter;
+              }
+            }
+          }
+        }
+      }
+    }
   }
 }
 
+// button circle start
+.button-circle {
+  width: 24px;
+  height: 24px;
+  font-size: 10px;
+  line-height: 24px;
+  border: 1px solid $ac-color-heading;
+  color: $ac-color-heading;
+  border-radius: 50%;
+  cursor: pointer;
+  margin-right: 15px;
+  text-align: center;
+  padding-left: 1px;
+}
+
+// button circle end
 // key value pairs items start
 .ac-key-value-pairs-wrapper {
-  border: 1px solid #ddd;
+  border: 1px solid $table-header;
   border-radius: 0 0 4px 4px;
   border-top: none;
   padding-right: 30px;

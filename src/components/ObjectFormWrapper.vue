@@ -4,7 +4,7 @@
     :ref="`${schema.title.replace(/ /g, '-')}-observer`"
     :vid="`${schema.title.replace(/ /g, '-')}-observer`"
     v-slot="{ errors: observerErrors }"
-    class="ac-content-layout style-2 pt-20 pr-0 pb-0 pl-30 is-border-none"
+    class="ac-content-layout style-2 pt-20 pr-0 pb-0 pl-30 is-border-none object-form-wrapper"
     :class="{ 'stop-line': isLastChild, 'hide-upper-line': isRoot }"
   >
     <!-- {{ calcObserverError(observerErrors) }} -->
@@ -25,7 +25,7 @@
           </div>
         </div>
         <div class="ac-content-title">
-          <h6>
+          <h6 class="is-small">
             {{ schema.title || "Array Item Description" }}
             <!-- show errors-->
             <component-errors

@@ -4,14 +4,14 @@
     :ref="`${schema.title.replace(/ /g, '-')}-observer`"
     :vid="`${schema.title.replace(/ /g, '-')}-observer`"
     v-slot="{ errors: observerErrors }"
-    class="vue-schema-form-array pt-20 pr-0 pb-0 pl-30"
+    class="vue-schema-form-array pt-20 pr-0 pb-0 pl-30 array-input"
     :class="{ 'stop-line': isLastChild }"
     :key="updatePass"
   >
     <div class="ac-content-header">
       <div class="ac-cheader-left is-flex is-align-items-center">
         <div class="ac-content-title">
-          <h6>
+          <h6 class="is-small">
             {{ schema.title || "Array Item Description" }}
             <component-errors
               :errors="[...errors, ...calcObserverError(observerErrors)]"

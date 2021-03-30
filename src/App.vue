@@ -1,33 +1,46 @@
 <template>
   <div id="app">
-    <!-- title start  -->
-    <div class="open-api-form-header">
-      <div class="container is-fluid">
-        <div
-          class="is-flex is-justify-content-space-between is-align-items-center"
-        >
-          <div class="is-flex is-align-items-center">
-            <a href="https://byte.builders/" class="logo">
+    <div class="ac-navbar-area is-not-fixed mb-30" id="header">
+      <div class="ac-navbar-inner">
+        <!-- navbar start  -->
+        <nav class="ac-navbar">
+          <!-- navbar logo start  -->
+          <div class="ac-navbar-brand">
+            <a href="https://byte.builders/"
+              ><img
+                class="desktop-only"
+                src="https://cdn.appscode.com/images/products/bytebuilders/bytebuilders.png"
+              />
+
               <img
+                class="responsive-only"
                 src="https://cdn.appscode.com/images/products/bytebuilders/bytebuilders.png"
                 alt=""
               />
             </a>
-            <p class="pl-20">(Vue OpenAPI Form)</p>
           </div>
-
-          <div class="social-link">
-            <a
-              href="https://github.com/appscode/vue-openapi-form"
-              class="icon-rounded"
-            >
-              <i class="fa fa-github" aria-hidden="true"></i>
-            </a>
+          <!-- navbar logo end -->
+          <p class="pl-20">(Vue OpenAPI Form)</p>
+          <!-- navbar menus start  -->
+          <div class="ac-navbar-menu">
+            <!-- single navbar menu item start  -->
+            <div class="ac-menu-item">
+              <div class="social-link">
+                <a
+                  href="https://github.com/appscode/vue-openapi-form"
+                  class="icon-rounded"
+                >
+                  <i class="fa fa-github" aria-hidden="true"></i>
+                </a>
+              </div>
+            </div>
+            <!-- single navbar menu item end  -->
           </div>
-        </div>
+          <!-- navbar menus end -->
+        </nav>
+        <!-- navbar end -->
       </div>
     </div>
-    <!-- title end -->
 
     <div class="vue-form-scema-body mb-50">
       <div class="container is-fluid">
