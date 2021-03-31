@@ -25,7 +25,7 @@
           </div>
         </div>
         <div class="ac-content-title">
-          <h6 class="is-small">
+          <h6 :class="{ 'is-small': !isRoot }">
             {{ schema.title || "Array Item Description" }}
             <!-- show errors-->
             <component-errors
