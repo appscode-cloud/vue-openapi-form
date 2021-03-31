@@ -5,12 +5,12 @@
   >
     <template v-if="ui.tag === 'input'">
       <template v-if="ui.type === 'checkbox'">
-        <div class="pt-13">
+        <div class="ac-single-switch is-flex pb-10">
           <input
             :id="schema.title.replace(' ', '-')"
             type="checkbox"
             name="switchRoundedDefault"
-            class="switch is-rounded"
+            class="switch ac-switch is-rounded is-primary"
             v-model="modelData"
           />
           <label class="switch-label" :for="schema.title.replace(' ', '-')">{{

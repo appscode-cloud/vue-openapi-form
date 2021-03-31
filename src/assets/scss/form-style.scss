@@ -75,7 +75,9 @@
       height: 45px;
     }
   }
-
+  .ac-single-switch {
+    margin-left: -20px;
+  }
   .hide-upper-line {
     padding: 0 !important;
 
@@ -103,6 +105,13 @@
     &.key-value-pairs {
       .ac-content-header {
         border-radius: 4px 4px 0 0;
+      }
+    }
+
+    &.stop-line {
+      &:after {
+        height: 56px !important;
+        top: -18px;
       }
     }
 
@@ -213,7 +222,6 @@
   cursor: pointer;
   margin-right: 15px;
   text-align: center;
-  padding-left: 1px;
 }
 
 // button circle end
