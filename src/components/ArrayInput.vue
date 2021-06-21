@@ -8,25 +8,22 @@
     :class="{ 'stop-line': isLastChild }"
     :key="updatePass"
   >
-    <div class="ac-content-header">
-      <div class="ac-cheader-left is-flex is-align-items-center">
-        <div class="ac-content-title">
-          <h6 class="is-small">
-            {{ schema.title || "Array Item Description" }}
-            <component-errors
-              :errors="[...errors, ...calcObserverError(observerErrors)]"
-            />
-          </h6>
+    <div class="nested-header mb-5">
+      <h6 class="is-flex is-semi-normal">
+        <div class="collaps-icon">
+          <i class="fa fa-minus"></i>
         </div>
-      </div>
-      <div class="ac-cheader-right">
-        <tabs v-model="activeTab" />
-      </div>
+        {{ schema.title || "Array Item Description" }}
+        <component-errors
+          :errors="[...errors, ...calcObserverError(observerErrors)]"
+        />
+      </h6>
+      <tabs v-model="activeTab" />
     </div>
     <div v-show="activeTab === 'form'">
       <!-- existing values form -->
       <div
-        class="form-container is-flex is-justify-content-space-between"
+        class="nested-body"
         :key="`${index}-${schema.title}-form`"
         v-for="(item, index) in modelData"
       >
