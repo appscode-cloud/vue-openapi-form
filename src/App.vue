@@ -9,7 +9,7 @@
             <a href="https://byte.builders/"
               ><img
                 class="desktop-only"
-                src="https://cdn.appscode.com/images/products/bytebuilders/bytebuilders.png"
+                src="@/assets/images/bytebuilders-logo-white.svg"
               />
 
               <img
@@ -20,7 +20,7 @@
             </a>
           </div>
           <!-- navbar logo end -->
-          <p class="pl-20">(Vue OpenAPI Form)</p>
+          <p class="pl-20" style="color: white">(Vue OpenAPI Form)</p>
           <!-- navbar menus start  -->
           <div class="ac-navbar-menu">
             <!-- single navbar menu item start  -->
