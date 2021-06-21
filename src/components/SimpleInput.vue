@@ -1,8 +1,5 @@
 <template>
-  <div
-    class="ac-single-input ml-30 mt-20 mb-0"
-    :class="{ 'is-small': !isMedium }"
-  >
+  <div class="ac-single-input is-small">
     <template v-if="ui.tag === 'input'">
       <template v-if="ui.type === 'checkbox'">
         <div class="ac-single-switch is-flex pb-10">
