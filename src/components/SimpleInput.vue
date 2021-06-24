@@ -21,7 +21,7 @@
           :class="[labelShow ? 'show-label' : '', 'ac-label']"
           >{{ schema.title }}</label
         >
-        <div v-if="ui.tag === 'input'" class="control has-icons-right">
+        <div v-if="ui.tag === 'input'">
           <input
             ref="inputField"
             class="ac-input"
@@ -38,12 +38,9 @@
             @focusout="unTriggerInput()"
           />
           <template v-if="validationOb.validated">
-            <span
-              class="icon is-small is-right is-success"
-              v-if="validationOb.valid"
-            >
+            <button class="button is-information" v-if="validationOb.valid">
               <i class="fa fa-check"></i>
-            </span>
+            </button>
             <span
               class="icon is-small is-right is-warning"
               v-if="validationOb.invalid"
@@ -67,31 +64,29 @@
     </template>
 
     <template v-if="ui.tag === 'textarea'">
-      <div class="control has-icons-right">
-        <textarea
-          class="input"
-          :type="ui.type"
-          :class="{
-            'is-success': validationOb.validated && validationOb.valid,
-            'is-danger': validationOb.validated && validationOb.invalid,
-          }"
-          :placeholder="ui.placeholder || ''"
-          v-model="modelData"
-          @change="modelData = $event.target.value"
-        />
-        <template v-if="validationOb.validated">
-          <span class="icon is-small is-right is-success" v-if="valid">
-            <i class="fa fa-check"></i>
-          </span>
-          <span class="icon is-small is-right is-warning" v-if="invalid">
-            <i class="fa fa-times"></i>
-          </span>
-        </template>
-        <span class="is-warning" v-if="validationOb.errors.length > 0">
-          <i class="fa fa-warning warning"></i>
-          {{ validationOb.errors[0] }}
+      <textarea
+        class="input"
+        :type="ui.type"
+        :class="{
+          'is-success': validationOb.validated && validationOb.valid,
+          'is-danger': validationOb.validated && validationOb.invalid,
+        }"
+        :placeholder="ui.placeholder || ''"
+        v-model="modelData"
+        @change="modelData = $event.target.value"
+      />
+      <template v-if="validationOb.validated">
+        <span class="icon is-small is-right is-success" v-if="valid">
+          <i class="fa fa-check"></i>
         </span>
-      </div>
+        <span class="icon is-small is-right is-warning" v-if="invalid">
+          <i class="fa fa-times"></i>
+        </span>
+      </template>
+      <span class="is-warning" v-if="validationOb.errors.length > 0">
+        <i class="fa fa-warning warning"></i>
+        {{ validationOb.errors[0] }}
+      </span>
     </template>
 
     <!-- <div v-if="ui.tag === 'checkbox'" class="field">

@@ -1,5 +1,5 @@
 <template>
-  <div class="key-value-save">
+  <div class="key-value-save mb-15">
     <validation-provider
       :vid="`${schema.title.replace(/ /g, '-')}-key-${index + 1}-provider`"
       rules="required"
@@ -88,16 +88,14 @@
         />
       </validation-provider>
     </template>
-    <div class="buttons">
-      <button
-        class="button ac-button is-square is-danger is-small"
-        @click.prevent="deleteProp(index)"
-      >
-        <span class="icon is-small">
-          <i class="fa fa-trash"></i>
-        </span>
-      </button>
-    </div>
+    <button
+      class="button ac-button is-small is-square is-outlined-gray is-transparent"
+      @click.prevent="deleteProp(index)"
+    >
+      <span class="icon is-small">
+        <i class="fa fa-trash"></i>
+      </span>
+    </button>
   </div>
 </template>
 

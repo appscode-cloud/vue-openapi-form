@@ -23,3 +23,44 @@
 .ac-nested-elements .nested-header {
   width: 100%;
 }
+.vue-schema-form-array {
+  .nested-body {
+    margin-bottom: 15px;
+    display: flex;
+    .form-left-item {
+      margin-right: 10px;
+      width: calc(100% - 92px);
+    }
+  }
+}
+
+.nested-header {
+  .tabs.ac-tabs {
+    margin-bottom: 0;
+    opacity: 0;
+    visibility: hidden;
+    transition: 0.3s ease-in-out;
+  }
+  &:hover {
+    .tabs.ac-tabs {
+      opacity: 1;
+      visibility: visible;
+    }
+  }
+}
+
+.vue-openapi-form {
+  width: 720px;
+  margin: 0 auto;
+}
+
+.vue-form-scema-body {
+  .left-content {
+    width: 400px;
+    background-color: #f1f1f1;
+    margin-top: 30px;
+  }
+  .right-content {
+    width: 100%;
+  }
+}

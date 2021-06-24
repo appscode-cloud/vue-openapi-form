@@ -39,7 +39,7 @@
         :vid="`${schema.title.replace(/ /g, '-')}-new-observer`"
         :disabled="true"
         tag="div"
-        class="key-value-save"
+        class="key-value-save mb-15"
       >
         <validation-provider
           :vid="`${schema.title.replace(/ /g, '-')}-key-provider`"
@@ -139,7 +139,7 @@
           </validation-provider>
         </template>
         <button
-          class="button ac-button is-square is-primary is-normal"
+          class="button ac-button is-small is-square is-outlined-gray is-transparent"
           :class="{ 'is-small': !isMedium }"
           @click.prevent="addProp()"
         >
