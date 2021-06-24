@@ -9,9 +9,10 @@
   >
     <!-- {{ calcObserverError(observerErrors) }} -->
     <div class="nested-header mb-5">
-      <div v-if="!isRoot" class="collaps-button">
+      <h6 class="is-flex is-semi-normal">
         <div
-          class="button-circle"
+          v-if="!isRoot"
+          class="collaps-icon"
           :disabled="activeTab !== 'form'"
           @click.prevent="toggleFold()"
         >
@@ -20,17 +21,14 @@
             aria-hidden="true"
           ></i>
         </div>
-      </div>
-      <div class="nested-header mb-5">
-        <h6 class="is-flex is-semi-normal">
-          {{ schema.title || "Array Item Description" }}
-          <!-- show errors-->
-          <component-errors
-            :errors="[...errors, ...calcObserverError(observerErrors)]"
-          />
-        </h6>
-        <tabs v-if="!onlyJson" v-model="activeTab" />
-        <!-- 
+        {{ schema.title || "Array Item Description" }}
+        <!-- show errors-->
+        <component-errors
+          :errors="[...errors, ...calcObserverError(observerErrors)]"
+        />
+      </h6>
+      <tabs v-if="!onlyJson" v-model="activeTab" />
+      <!-- 
           <button
             v-if="isRoot"
             class="done-button button ac-button is-primary is-pulled-right"
@@ -39,7 +37,6 @@
           >
             <span>DONE</span>
           </button> -->
-      </div>
     </div>
     <!-- form for all the object's properties -->
     <object-form

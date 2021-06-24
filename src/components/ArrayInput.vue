@@ -36,7 +36,7 @@
           :reference-model="referenceModel || []"
         />
         <!-- for each item add control buttons -->
-        <div class="form-right-item mt-20">
+        <div class="form-right-item">
           <div class="buttons">
             <div class="up-down-buttons" :class="{ 'is-small': !isMedium }">
               <button
@@ -73,7 +73,7 @@
               </button>
             </div>
             <button
-              class="button ac-button is-square is-danger is-normal mb-0"
+              class="button ac-button is-small is-square is-outlined-gray is-transparent mb-0"
               :class="{ 'is-small': !isMedium }"
               @click.prevent="deleteValue(index)"
             >
@@ -90,107 +90,99 @@
         :disabled="true"
         slim
       >
-        <div
-          class="single-input-and-single-button is-flex is-justify-content-space-between"
-        >
-          <div class="form-left-item">
-            <template v-if="items.type === 'object'">
-              <validation-provider
-                v-slot="{ errors }"
-                :rules="ruleObject(true)"
-                :name="`${schema.title.replace(/ /g, '-')}-new-value`"
-                :vid="`${schema.title.replace(/ /g, '-')}-new-value-provider`"
-                slim
-              >
-                <object-form-wrapper
-                  :is-last-child="true"
-                  :isSelfRequired="true"
-                  :schema="{
-                    ...items,
-                    ...{ title: `${schema.title} new value` },
-                  }"
-                  :type="items.type"
-                  :errors="errors"
-                  v-model="newData"
-                  :reference-model="{}"
-                />
-              </validation-provider>
-            </template>
-            <template v-else-if="items.type === 'key-value-pairs'">
-              <validation-provider
-                v-slot="{ errors }"
-                :rules="ruleObject(true)"
-                :name="`${schema.title.replace(/ /g, '-')}-new-value`"
-                :vid="`${schema.title.replace(/ /g, '-')}-new-value-provider`"
-                slim
-              >
-                <key-value-pairs
-                  :is-last-child="true"
-                  :schema="{
-                    ...items,
-                    ...{ title: `${schema.title} new value` },
-                  }"
-                  :errors="errors"
-                  :type="items.type"
-                  v-model="newData"
-                  :reference-model="{}"
-                />
-              </validation-provider>
-            </template>
-            <template v-else-if="items.type === 'array'">
-              <validation-provider
-                v-slot="{ errors }"
-                :rules="ruleArray(true)"
-                :name="`${schema.title.replace(/ /g, '-')}-new-value`"
-                :vid="`${schema.title.replace(/ /g, '-')}-new-value-provider`"
-                slim
-              >
-                <array-input
-                  :is-last-child="true"
-                  :schema="{
-                    ...items,
-                    ...{ title: `${schema.title} new value` },
-                  }"
-                  :errors="errors"
-                  :type="items.type"
-                  v-model="newData"
-                  :reference-model="[]"
-                />
-              </validation-provider>
-            </template>
-            <template v-else>
-              <validation-provider
-                v-slot="validationOb"
-                :rules="ruleString(true)"
-                :name="`${schema.title.replace(/ /g, '-')}-new-value`"
-                :vid="`${schema.title.replace(/ /g, '-')}-new-value-provider`"
-                slim
-              >
-                <simple-input
-                  :schema="{
-                    ...items,
-                    ...{ title: `${schema.title} new value` },
-                  }"
-                  :required="true"
-                  :type="items.type"
-                  :validationOb="validationOb"
-                  v-model="newData"
-                  :reference-model="''"
-                />
-              </validation-provider>
-            </template>
-          </div>
-          <div class="form-right-item mt-20">
-            <div class="buttons">
-              <button
-                class="button ac-button is-square is-primary is-normal"
-                :class="{ 'is-small': !isMedium }"
-                @click.prevent="addNewValue()"
-              >
-                <i class="fa fa-plus"></i>
-              </button>
-            </div>
-          </div>
+        <div class="value-list-save">
+          <template v-if="items.type === 'object'">
+            <validation-provider
+              v-slot="{ errors }"
+              :rules="ruleObject(true)"
+              :name="`${schema.title.replace(/ /g, '-')}-new-value`"
+              :vid="`${schema.title.replace(/ /g, '-')}-new-value-provider`"
+              slim
+            >
+              <object-form-wrapper
+                :is-last-child="true"
+                :isSelfRequired="true"
+                :schema="{
+                  ...items,
+                  ...{ title: `${schema.title} new value` },
+                }"
+                :type="items.type"
+                :errors="errors"
+                v-model="newData"
+                :reference-model="{}"
+              />
+            </validation-provider>
+          </template>
+          <template v-else-if="items.type === 'key-value-pairs'">
+            <validation-provider
+              v-slot="{ errors }"
+              :rules="ruleObject(true)"
+              :name="`${schema.title.replace(/ /g, '-')}-new-value`"
+              :vid="`${schema.title.replace(/ /g, '-')}-new-value-provider`"
+              slim
+            >
+              <key-value-pairs
+                :is-last-child="true"
+                :schema="{
+                  ...items,
+                  ...{ title: `${schema.title} new value` },
+                }"
+                :errors="errors"
+                :type="items.type"
+                v-model="newData"
+                :reference-model="{}"
+              />
+            </validation-provider>
+          </template>
+          <template v-else-if="items.type === 'array'">
+            <validation-provider
+              v-slot="{ errors }"
+              :rules="ruleArray(true)"
+              :name="`${schema.title.replace(/ /g, '-')}-new-value`"
+              :vid="`${schema.title.replace(/ /g, '-')}-new-value-provider`"
+              slim
+            >
+              <array-input
+                :is-last-child="true"
+                :schema="{
+                  ...items,
+                  ...{ title: `${schema.title} new value` },
+                }"
+                :errors="errors"
+                :type="items.type"
+                v-model="newData"
+                :reference-model="[]"
+              />
+            </validation-provider>
+          </template>
+          <template v-else>
+            <validation-provider
+              v-slot="validationOb"
+              :rules="ruleString(true)"
+              :name="`${schema.title.replace(/ /g, '-')}-new-value`"
+              :vid="`${schema.title.replace(/ /g, '-')}-new-value-provider`"
+              slim
+            >
+              <simple-input
+                :schema="{
+                  ...items,
+                  ...{ title: `${schema.title} new value` },
+                }"
+                :required="true"
+                :type="items.type"
+                :validationOb="validationOb"
+                v-model="newData"
+                :reference-model="''"
+              />
+            </validation-provider>
+          </template>
+          <button
+            class="button ac-button is-small is-square is-outlined-gray is-transparent"
+            :class="{ 'is-small': !isMedium }"
+            @click.prevent="addNewValue()"
+          >
+            <i class="fa fa-plus"></i>
+          </button>
         </div>
       </validation-observer>
     </div>
