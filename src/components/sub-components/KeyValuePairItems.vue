@@ -1,5 +1,5 @@
 <template>
-  <div class="key-value-save mb-15">
+  <div class="key-value-save">
     <validation-provider
       :vid="`${schema.title.replace(/ /g, '-')}-key-${index + 1}-provider`"
       rules="required"

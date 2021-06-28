@@ -4,7 +4,7 @@
     :ref="`${schema.title.replace(/ /g, '-')}-observer`"
     :vid="`${schema.title.replace(/ /g, '-')}-observer`"
     v-slot="{ errors: observerErrors }"
-    class="vue-schema-form-array pt-20 pr-0 pb-0 pl-30 array-input"
+    class="ac-nested-elements vue-schema-form-array array-input"
     :class="{ 'stop-line': isLastChild }"
     :key="updatePass"
   >

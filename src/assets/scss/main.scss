@@ -23,9 +23,12 @@
 .ac-nested-elements .nested-header {
   width: 100%;
 }
+.ac-nested-elements:first-child {
+  margin-left: 0;
+}
 .vue-schema-form-array {
   .nested-body {
-    margin-bottom: 15px;
+    // margin-bottom: 15px;
     display: flex;
     .form-left-item {
       margin-right: 10px;
@@ -33,7 +36,9 @@
     }
   }
 }
-
+.ac-nested-elements .nested-body {
+  padding-left: 0px;
+}
 .nested-header {
   .tabs.ac-tabs {
     margin-bottom: 0;
@@ -50,17 +55,39 @@
 }
 
 .vue-openapi-form {
-  width: 720px;
+  width: 920px;
   margin: 0 auto;
 }
-
+.ac-single-input {
+  margin-left: 25px;
+  margin-bottom: 15px !important;
+}
 .vue-form-scema-body {
   .left-content {
-    width: 400px;
+    width: 650px;
     background-color: #f1f1f1;
-    margin-top: 30px;
+    padding: 30px;
   }
   .right-content {
     width: 100%;
+    margin-top: 30px;
   }
+}
+.vue-openapi-form .is-warning {
+  font-size: 12px;
+  color: #ea3d2f;
+  font-family: Roboto, sans-serif;
+  padding-left: 20px;
+}
+.v-tooltip-open {
+  background-color: #fff;
+}
+
+.ac-nested-elements::after {
+  top: 25px;
+  width: 1px;
+  height: calc(100% - 50px);
+}
+.ac-nested-elements::before {
+  bottom: 15px;
 }

@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <div class="ac-navbar-area is-not-fixed" id="header">
+    <div class="ac-navbar-area is-fixed" id="header">
       <div class="ac-navbar-inner">
         <!-- navbar start  -->
         <nav class="ac-navbar">
@@ -42,12 +42,14 @@
       </div>
     </div>
 
-    <div class="vue-form-scema-body mb-50">
+    <div class="vue-form-scema-body mb-50 mt-50">
       <div class="is-flex">
         <div class="left-content">
           <div class="left-content-wrapper">
             <div class="select-box-wrapper" v-if="!modifiedSchema">
-              <label for="schema-selection">Select Schema</label>
+              <label class="mb-10 is-block" for="schema-selection"
+                >Select Schema</label
+              >
               <div class="select is-fullwidth">
                 <select id="schema-selection" v-model="selectedJsonSchema">
                   <option
