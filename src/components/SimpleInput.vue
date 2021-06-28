@@ -1,5 +1,5 @@
 <template>
-  <div class="ac-single-input is-small">
+  <div class="ac-single-input is-small is-information">
     <template v-if="ui.tag === 'input'">
       <template v-if="ui.type === 'checkbox'">
         <div class="ac-single-switch is-flex pb-10">
@@ -41,12 +41,12 @@
             <button class="button is-information" v-if="validationOb.valid">
               <i class="fa fa-check"></i>
             </button>
-            <span
-              class="icon is-small is-right is-warning"
+            <button
+              class="button is-information is-warning"
               v-if="validationOb.invalid"
             >
               <i class="fa fa-times"></i>
-            </span>
+            </button>
           </template>
           <p
             class="is-error"
@@ -76,12 +76,12 @@
         @change="modelData = $event.target.value"
       />
       <template v-if="validationOb.validated">
-        <span class="icon is-small is-right is-success" v-if="valid">
+        <button class="button is-information is-success" v-if="valid">
           <i class="fa fa-check"></i>
-        </span>
-        <span class="icon is-small is-right is-warning" v-if="invalid">
+        </button>
+        <button class="button is-information is-warning" v-if="invalid">
           <i class="fa fa-times"></i>
-        </span>
+        </button>
       </template>
       <span class="is-warning" v-if="validationOb.errors.length > 0">
         <i class="fa fa-warning warning"></i>

@@ -10,6 +10,9 @@
   >
     <div class="nested-header mb-5">
       <h6 class="is-flex is-semi-normal">
+        <div class="collaps-icon is-disabled">
+          <i aria-hidden="true" class="fa fa-minus"></i>
+        </div>
         {{ schema.title || "Array Item Description"
         }}<!-- show errors-->
         <component-errors
@@ -39,7 +42,7 @@
         :vid="`${schema.title.replace(/ /g, '-')}-new-observer`"
         :disabled="true"
         tag="div"
-        class="key-value-save mb-15"
+        class="key-value-save"
       >
         <validation-provider
           :vid="`${schema.title.replace(/ /g, '-')}-key-provider`"
