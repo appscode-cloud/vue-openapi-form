@@ -10,7 +10,7 @@
   >
     <div class="nested-header mb-5">
       <h6 class="is-flex is-semi-normal">
-        <div class="collaps-icon">
+        <div class="collaps-icon is-disabled">
           <i class="fa fa-minus"></i>
         </div>
         {{ schema.title || "Array Item Description" }}
