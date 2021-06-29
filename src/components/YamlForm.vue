@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="ml-30">
     <!-- tabs start  -->
     <div class="tabs ac-tabs is-line">
       <ul>
