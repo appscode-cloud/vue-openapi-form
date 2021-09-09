@@ -15,7 +15,7 @@
 @import "./../../../node_modules/@appscode/design-system/components/_ac-code-highlight";
 @import "./../../../node_modules/@appscode/design-system/components/_ac-content-layout";
 @import "./../../../node_modules/@appscode/design-system/components/_ac-tabs";
-@import "~@appscode/design-system/components/ui-builder/ui-builder";
+@import "./../../../node_modules/@appscode/design-system/components/ui-builder/ui-builder";
 
 // Custom style
 // @import "./form-style.scss";
@@ -103,7 +103,6 @@
 .ac-nested-elements::before {
   bottom: 15px;
 }
-
 
 // for vue-tooltip
 
