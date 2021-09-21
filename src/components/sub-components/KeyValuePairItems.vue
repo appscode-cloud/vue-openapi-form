@@ -121,5 +121,10 @@ export default {
     },
   },
   mixins: [model, validation],
+  methods: {
+    deleteProp(index) {
+      this.$emit("delete-key-value", index);
+    },
+  },
 };
 </script>

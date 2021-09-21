@@ -34,6 +34,7 @@
           :index="index"
           :schema="schema"
           :additionalProperties="additionalProperties"
+          @delete-key-value="deleteProp"
         />
       </div>
       <!-- key input -->
