@@ -2,7 +2,7 @@
   <div class="ac-single-input is-small is-information">
     <template v-if="ui.tag === 'input'">
       <template v-if="ui.type === 'checkbox'">
-        <div class="ac-single-switch is-flex pb-10">
+        <div class="ac-single-switch is-small is-flex pb-10">
           <input
             :id="schema.title.replace(' ', '-')"
             type="checkbox"
@@ -38,15 +38,15 @@
             @focusout="unTriggerInput()"
           />
           <template v-if="validationOb.validated">
-            <button class="button is-information" v-if="validationOb.valid">
+            <span class="button is-information" v-if="validationOb.valid">
               <i class="fa fa-check"></i>
-            </button>
-            <button
+            </span>
+            <span
               class="button is-information is-warning"
               v-if="validationOb.invalid"
             >
               <i class="fa fa-times"></i>
-            </button>
+            </span>
           </template>
           <p
             class="is-error"
