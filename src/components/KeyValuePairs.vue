@@ -24,7 +24,6 @@
     <!-- existing key values -->
     <template v-if="activeTab === 'form'">
       <div
-        class="mb-15"
         v-for="(prop, index) in keyValueArray"
         :key="`${index}-${schema.title}-form`"
       >
