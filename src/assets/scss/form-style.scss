@@ -8,7 +8,7 @@
     width: 30px;
     height: 30px;
     border-radius: 50%;
-    border: 1px solid $table-header;
+    border: 1px solid $ac-white-light;
     text-align: center;
     line-height: 30px;
     margin-left: 20px;
@@ -99,7 +99,7 @@
     &::after {
       position: absolute;
       content: "";
-      background-color: $table-header;
+      background-color: $ac-white-light;
       left: 15px;
       bottom: 18px;
       width: 1px;
@@ -132,7 +132,7 @@
         top: 50%;
         width: 30px;
         height: 1px;
-        background: $table-header;
+        background: $ac-white-light;
         margin-top: -0.5px;
         z-index: -1;
       }
@@ -147,7 +147,7 @@
         content: "";
         left: -15px;
         top: 18px;
-        background-color: $table-header;
+        background-color: $ac-white-light;
         width: 16px;
         height: 1px;
         margin-top: 2px;
@@ -158,7 +158,7 @@
         content: "";
         left: -15px;
         top: -56px;
-        background-color: $table-header;
+        background-color: $ac-white-light;
         width: 1px;
         height: 77px;
       }
@@ -204,7 +204,7 @@
           li {
             &.is-active {
               a {
-                background-color: $ac-white-lighter;
+                background-color: $ac-white-light;
               }
             }
           }
@@ -231,7 +231,7 @@
 // button circle end
 // key value pairs items start
 .ac-key-value-pairs-wrapper {
-  border: 1px solid $table-header;
+  border: 1px solid $ac-white-light;
   border-radius: 0 0 4px 4px;
   border-top: none;
   padding-right: 30px;
@@ -447,5 +447,29 @@
     visibility: visible;
     opacity: 1;
     transition: opacity 0.15s;
+  }
+}
+
+.is-dark-theme {
+  .vue-openapi-form {
+    .ac-content-layout,
+    .vue-schema-form-array {
+      .ac-single-input::after {
+        background-color: $dark-bg-light;
+      }
+      &::after {
+        background-color: $dark-bg-light;
+      }
+    }
+  }
+  .ac-content-layout {
+    &.style-2 {
+      .ac-content-header {
+        background-color: $dark-bg-light;
+        &:after {
+          background-color: $dark-bg-light;
+        }
+      }
+    }
   }
 }
