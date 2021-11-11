@@ -1,5 +1,5 @@
 <template>
-  <div :class="{ 'is-hidden': isSelfFolded }">
+  <div class="mb-15" :class="{ 'is-hidden': isSelfFolded }">
     <template v-for="(key, idx) in Object.keys(properties)">
       <!-- if the property is another object -->
       <validation-provider

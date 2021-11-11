@@ -7,6 +7,7 @@
 @import "./../../../node_modules/@appscode/design-system/base/utilities/typography";
 @import "./../../../node_modules/@appscode/design-system/base/utilities/default";
 @import "./../../../node_modules/@appscode/design-system/base/utilities/mixin";
+@import "./../../../node_modules/@appscode/design-system/base/utilities/dark-theme";
 
 // COMPONENTS
 @import "./../../../node_modules/@appscode/design-system/components/_buttons";
@@ -15,6 +16,7 @@
 @import "./../../../node_modules/@appscode/design-system/components/_ac-code-highlight";
 @import "./../../../node_modules/@appscode/design-system/components/_ac-content-layout";
 @import "./../../../node_modules/@appscode/design-system/components/_ac-tabs";
+@import "./../../../node_modules/@appscode/design-system/components/_ac-select-box";
 @import "./../../../node_modules/@appscode/design-system/components/ui-builder/ui-builder";
 
 // Custom style
@@ -63,6 +65,9 @@
 .vue-openapi-form {
   width: 920px;
   margin: 0 auto;
+  .ac-single-switch {
+    margin-left: -15px;
+  }
 }
 
 .ac-single-input {
@@ -73,7 +78,7 @@
 .vue-form-scema-body {
   .left-content {
     width: 650px;
-    background-color: #f1f1f1;
+    background-color: $ac-white-lighter;
     padding: 30px;
   }
 
@@ -91,7 +96,7 @@
 }
 
 .v-tooltip-open {
-  background-color: #fff;
+  background-color: $ac-white;
 }
 
 .ac-nested-elements::after {
@@ -101,7 +106,7 @@
 }
 
 .ac-nested-elements::before {
-  bottom: 15px;
+  bottom: 12px;
 }
 
 // for vue-tooltip
