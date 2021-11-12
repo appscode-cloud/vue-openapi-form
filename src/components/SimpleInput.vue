@@ -22,7 +22,25 @@
           >{{ schema.title }}</label
         >
         <div v-if="ui.tag === 'input'">
+          <textarea
+            v-if="isMultilineValue"
+            ref="textareaField"
+            class="ac-input"
+            :type="ui.type"
+            :class="{
+              'is-success': validationOb.validated && validationOb.valid,
+              'is-danger': validationOb.validated && validationOb.invalid,
+              'bg-white': modelData,
+            }"
+            :placeholder="ui.placeholder || ''"
+            v-model="modelData"
+            @change="modelData = $event.target.value"
+            @focus="triggerInput()"
+            @focusout="unTriggerInput()"
+            @paste="onPaste"
+          />
           <input
+            v-else
             ref="inputField"
             class="ac-input"
             :type="ui.type"
@@ -36,6 +54,7 @@
             @change="modelData = $event.target.value"
             @focus="triggerInput()"
             @focusout="unTriggerInput()"
+            @paste="onPaste"
           />
           <template v-if="validationOb.validated">
             <span class="button is-information" v-if="validationOb.valid">
@@ -113,6 +132,7 @@ export default {
     return {
       labelShow: false,
       isIntegerSetToNull: false,
+      isMultilineValue: false,
     };
   },
   methods: {
@@ -129,6 +149,47 @@ export default {
       this.labelShow = true;
       const inputField = this.$refs.inputField;
       inputField.focus();
+    },
+    onPaste(evt) {
+      let pasteData = (evt.clipboardData || window.clipboardData).getData(
+        "text"
+      );
+
+      const finalData = this.updatedModelDataAfterPasteAndKeyDown(
+        evt.target,
+        pasteData
+      );
+
+      if (pasteData.includes("\n")) {
+        this.isMultilineValue = true;
+
+        this.modelData = finalData;
+      }
+    },
+    handleKeyDownEvent(evt) {
+      if (evt.code === "Enter" && evt.shiftKey) {
+        evt.preventDefault();
+
+        const finalData = this.updatedModelDataAfterPasteAndKeyDown(evt.target);
+
+        this.isMultilineValue = true;
+
+        this.modelData = finalData;
+      }
+    },
+
+    updatedModelDataAfterPasteAndKeyDown(el, addedData) {
+      const { selectionStart, selectionEnd } = el;
+
+      const prefix = this.modelData.substring(0, selectionStart);
+      const suffix = this.modelData.substring(
+        selectionEnd,
+        this.modelData.length
+      );
+
+      addedData = addedData ? addedData : "\n";
+
+      return prefix + addedData + suffix;
     },
   },
 
@@ -148,6 +209,13 @@ export default {
 
   mounted() {
     if (this.modelData) this.labelShow = true;
+    this.$refs.inputField?.addEventListener("keydown", this.handleKeyDownEvent);
+  },
+  destroyed() {
+    this.$refs.inputField?.removeEventListener(
+      "keydown",
+      this.handleKeyDownEvent
+    );
   },
 
   mixins: [model, validation, size],
@@ -163,6 +231,16 @@ export default {
       immediate: true,
       deep: true,
       handler(newVal, oldVal) {
+        if (this.isMultilineValue) {
+          setTimeout(() => {
+            this.$refs.textareaField.focus();
+          }, 0);
+        }
+
+        if (typeof newVal === "string" && newVal.includes("\n")) {
+          this.isMultilineValue = true;
+        }
+
         if (newVal) this.labelShow = true;
         else this.labelShow = false;
 
