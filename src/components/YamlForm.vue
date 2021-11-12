@@ -20,7 +20,13 @@
         ref="monacoEditor"
         @editorDidMount="onEditorMount"
         v-model="valueString"
-        :options="editorOptions"
+        :options="{
+          minimap: {
+            enabled: true,
+          },
+          theme: editorTheme,
+          readOnly: false,
+        }"
         :diff-editor="activeTab === 'preview-changes'"
         language="yaml"
         class="editor-writable vh-80 is-clipped"
@@ -33,7 +39,13 @@
         ref="monacoDiffEditor"
         class="editor-writable vh-80 is-clipped"
         @editorDidMount="onDiffEditorMount"
-        :options="editorOptions"
+        :options="{
+          minimap: {
+            enabled: true,
+          },
+          theme: editorTheme,
+          readOnly: true,
+        }"
         :value="valueString"
         :diff-editor="true"
         :original="originalValueString"
@@ -47,8 +59,6 @@
 import { model } from "../mixins/model.js";
 import jsyaml from "js-yaml";
 import MonacoEditor from "vue-monaco";
-import monacoEditorThemes from "@/plugins/monaco-editor-themes.js";
-import { mapGetters } from "vuex";
 
 export default {
   name: "yaml-form",
@@ -61,6 +71,8 @@ export default {
 
   mixins: [model],
 
+  inject: ["theme"],
+
   components: {
     MonacoEditor,
   },
@@ -70,28 +82,15 @@ export default {
       activeTab: "file",
 
       valueString: "",
-
-      editorOptions: {
-        minimap: {
-          enabled: true,
-        },
-        readOnly: false,
-      },
-      diffEditorOptions: {
-        minimap: {
-          enabled: true,
-        },
-        readOnly: true,
-      },
     };
   },
 
   computed: {
-    ...mapGetters({
-      editorTheme: "editorTheme",
-    }),
     originalValueString() {
       return jsyaml.safeDump(this.referenceModel, { lineWidth: 2000 }); // json -> yaml
+    },
+    editorTheme() {
+      return this.theme === "dark" ? `vs-${this.theme}` : "vs";
     },
   },
 
@@ -119,20 +118,6 @@ export default {
 
       // add event listeners
       editor.onDidBlurEditorText(this.updateModelData);
-
-      // set theme
-      monacoEditorThemes.setTheme(
-        this.$refs.monacoEditor.monaco.editor,
-        this.editorTheme
-      );
-    },
-
-    onDiffEditorMount() {
-      // set theme
-      monacoEditorThemes.setTheme(
-        this.$refs.monacoDiffEditor.monaco.editor,
-        this.editorTheme
-      );
     },
   },
 
