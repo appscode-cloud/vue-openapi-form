@@ -68,6 +68,11 @@
   .ac-single-switch {
     margin-left: -15px;
   }
+  .ac-single-input {
+    &:last-child {
+      margin-bottom: 15px;
+    }
+  }
 }
 
 .ac-single-input {
