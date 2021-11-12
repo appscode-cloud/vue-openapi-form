@@ -4,13 +4,13 @@
       <template v-if="ui.type === 'checkbox'">
         <div class="ac-single-switch is-small is-flex pb-10">
           <input
-            :id="schema.title.replace(' ', '-')"
+            :id="identifier"
             type="checkbox"
             name="switchRoundedDefault"
             class="switch ac-switch is-rounded is-primary"
             v-model="modelData"
           />
-          <label class="switch-label" :for="schema.title.replace(' ', '-')">{{
+          <label class="switch-label" :for="identifier">{{
             schema.title
           }}</label>
         </div>
@@ -223,6 +223,11 @@ export default {
   computed: {
     ui() {
       return this.schema.ui || { tag: "input", type: "text" };
+    },
+    identifier() {
+      return `id-${this.schema.title.replace(" ", "-")}-${JSON.stringify(
+        new Date().valueOf()
+      )}`;
     },
   },
 
