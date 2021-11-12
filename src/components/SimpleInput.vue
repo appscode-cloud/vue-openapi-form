@@ -26,6 +26,7 @@
             v-if="isMultilineValue"
             ref="textareaField"
             class="ac-input"
+            style="min-height: 100px"
             :type="ui.type"
             :class="{
               'is-success': validationOb.validated && validationOb.valid,
