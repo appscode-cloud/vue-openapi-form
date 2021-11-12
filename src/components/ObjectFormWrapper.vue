@@ -9,12 +9,11 @@
   >
     <!-- {{ calcObserverError(observerErrors) }} -->
     <div class="nested-header mb-5">
-      <h6 class="is-flex is-semi-normal">
+      <h6 class="is-flex is-semi-normal" @click.prevent="toggleFold()">
         <div
           v-if="!isRoot"
           class="collaps-icon"
           :disabled="activeTab !== 'form'"
-          @click.prevent="toggleFold()"
         >
           <i
             :class="['fa', isFolded ? 'fa-plus' : 'fa-minus']"
