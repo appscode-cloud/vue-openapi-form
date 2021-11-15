@@ -4,11 +4,16 @@
       <h5 class="mb-15">Schema</h5>
       <monaco-editor
         ref="monacoSchemaEditor"
-        @editorDidMount="setTheme"
         language="json"
         class="editor-writable vh-50 is-clipped"
         v-model="schema"
-        :options="editorOptions"
+        :options="{
+          minimap: {
+            enabled: false,
+          },
+          theme: editorTheme,
+          readOnly: false,
+        }"
       />
 
       <p class="is-warning mt-10" v-if="schemaError">
@@ -20,11 +25,16 @@
       <h5 class="mb-15">Model</h5>
       <monaco-editor
         ref="monacoModelEditor"
-        @editorDidMount="setTheme"
         language="json"
         class="editor-writable vh-50 is-clipped"
         v-model="model"
-        :options="editorOptions"
+        :options="{
+          minimap: {
+            enabled: false,
+          },
+          theme: editorTheme,
+          readOnly: false,
+        }"
       />
 
       <p class="is-warning mt-10" v-if="modelError">
@@ -43,8 +53,6 @@
 
 <script>
 import MonacoEditor from "vue-monaco";
-import monacoEditorThemes from "@/plugins/monaco-editor-themes.js";
-import { mapGetters } from "vuex";
 
 export default {
   name: "schema-model",
@@ -62,22 +70,17 @@ export default {
       schema: "",
       model: "",
 
-      editorOptions: {
-        minimap: {
-          enabled: false,
-        },
-        readOnly: false,
-      },
-
       schemaError: false,
       modelError: false,
     };
   },
 
   computed: {
-    ...mapGetters({
-      editorTheme: "editorTheme",
-    }),
+    editorTheme() {
+      return document.documentElement.classList.contains("is-dark-theme")
+        ? "vs-dark"
+        : "vs";
+    },
   },
 
   methods: {
@@ -107,19 +110,6 @@ export default {
       if (!this.schemaError && !this.modelError) {
         this.$emit("submit", newOb);
       }
-    },
-
-    setTheme() {
-      // set theme
-      monacoEditorThemes.setTheme(
-        this.$refs.monacoSchemaEditor.monaco.editor,
-        this.editorTheme
-      );
-      // set theme
-      monacoEditorThemes.setTheme(
-        this.$refs.monacoModelEditor.monaco.editor,
-        this.editorTheme
-      );
     },
   },
 

@@ -1,19 +1,16 @@
 <template>
-  <div
-    class="ac-single-input ml-30 mt-20 mb-0"
-    :class="{ 'is-small': !isMedium }"
-  >
+  <div class="ac-single-input is-small is-information">
     <template v-if="ui.tag === 'input'">
       <template v-if="ui.type === 'checkbox'">
-        <div class="ac-single-switch is-flex pb-10">
+        <div class="ac-single-switch is-small is-flex pb-10">
           <input
-            :id="schema.title.replace(' ', '-')"
+            :id="identifier"
             type="checkbox"
             name="switchRoundedDefault"
             class="switch ac-switch is-rounded is-primary"
             v-model="modelData"
           />
-          <label class="switch-label" :for="schema.title.replace(' ', '-')">{{
+          <label class="switch-label" :for="identifier">{{
             schema.title
           }}</label>
         </div>
@@ -24,8 +21,27 @@
           :class="[labelShow ? 'show-label' : '', 'ac-label']"
           >{{ schema.title }}</label
         >
-        <div v-if="ui.tag === 'input'" class="control has-icons-right">
+        <div v-if="ui.tag === 'input'">
+          <textarea
+            v-if="isMultilineValue"
+            ref="textareaField"
+            class="ac-input"
+            style="min-height: 100px"
+            :type="ui.type"
+            :class="{
+              'is-success': validationOb.validated && validationOb.valid,
+              'is-danger': validationOb.validated && validationOb.invalid,
+              'bg-white': modelData,
+            }"
+            :placeholder="ui.placeholder || ''"
+            v-model="modelData"
+            @change="modelData = $event.target.value"
+            @focus="triggerInput()"
+            @focusout="unTriggerInput()"
+            @paste="onPaste"
+          />
           <input
+            v-else
             ref="inputField"
             class="ac-input"
             :type="ui.type"
@@ -39,16 +55,14 @@
             @change="modelData = $event.target.value"
             @focus="triggerInput()"
             @focusout="unTriggerInput()"
+            @paste="onPaste"
           />
           <template v-if="validationOb.validated">
-            <span
-              class="icon is-small is-right is-success"
-              v-if="validationOb.valid"
-            >
+            <span class="button is-information" v-if="validationOb.valid">
               <i class="fa fa-check"></i>
             </span>
             <span
-              class="icon is-small is-right is-warning"
+              class="button is-information is-warning"
               v-if="validationOb.invalid"
             >
               <i class="fa fa-times"></i>
@@ -70,31 +84,29 @@
     </template>
 
     <template v-if="ui.tag === 'textarea'">
-      <div class="control has-icons-right">
-        <textarea
-          class="input"
-          :type="ui.type"
-          :class="{
-            'is-success': validationOb.validated && validationOb.valid,
-            'is-danger': validationOb.validated && validationOb.invalid,
-          }"
-          :placeholder="ui.placeholder || ''"
-          v-model="modelData"
-          @change="modelData = $event.target.value"
-        />
-        <template v-if="validationOb.validated">
-          <span class="icon is-small is-right is-success" v-if="valid">
-            <i class="fa fa-check"></i>
-          </span>
-          <span class="icon is-small is-right is-warning" v-if="invalid">
-            <i class="fa fa-times"></i>
-          </span>
-        </template>
-        <span class="is-warning" v-if="validationOb.errors.length > 0">
-          <i class="fa fa-warning warning"></i>
-          {{ validationOb.errors[0] }}
-        </span>
-      </div>
+      <textarea
+        class="input"
+        :type="ui.type"
+        :class="{
+          'is-success': validationOb.validated && validationOb.valid,
+          'is-danger': validationOb.validated && validationOb.invalid,
+        }"
+        :placeholder="ui.placeholder || ''"
+        v-model="modelData"
+        @change="modelData = $event.target.value"
+      />
+      <template v-if="validationOb.validated">
+        <button class="button is-information is-success" v-if="valid">
+          <i class="fa fa-check"></i>
+        </button>
+        <button class="button is-information is-warning" v-if="invalid">
+          <i class="fa fa-times"></i>
+        </button>
+      </template>
+      <span class="is-warning" v-if="validationOb.errors.length > 0">
+        <i class="fa fa-warning warning"></i>
+        {{ validationOb.errors[0] }}
+      </span>
     </template>
 
     <!-- <div v-if="ui.tag === 'checkbox'" class="field">
@@ -121,6 +133,7 @@ export default {
     return {
       labelShow: false,
       isIntegerSetToNull: false,
+      isMultilineValue: false,
     };
   },
   methods: {
@@ -137,6 +150,47 @@ export default {
       this.labelShow = true;
       const inputField = this.$refs.inputField;
       inputField.focus();
+    },
+    onPaste(evt) {
+      let pasteData = (evt.clipboardData || window.clipboardData).getData(
+        "text"
+      );
+
+      const finalData = this.updatedModelDataAfterPasteAndKeyDown(
+        evt.target,
+        pasteData
+      );
+
+      if (pasteData.includes("\n")) {
+        this.isMultilineValue = true;
+
+        this.modelData = finalData;
+      }
+    },
+    handleKeyDownEvent(evt) {
+      if (evt.code === "Enter" && evt.shiftKey) {
+        evt.preventDefault();
+
+        const finalData = this.updatedModelDataAfterPasteAndKeyDown(evt.target);
+
+        this.isMultilineValue = true;
+
+        this.modelData = finalData;
+      }
+    },
+
+    updatedModelDataAfterPasteAndKeyDown(el, addedData) {
+      const { selectionStart, selectionEnd } = el;
+
+      const prefix = this.modelData.substring(0, selectionStart);
+      const suffix = this.modelData.substring(
+        selectionEnd,
+        this.modelData.length
+      );
+
+      addedData = addedData ? addedData : "\n";
+
+      return prefix + addedData + suffix;
     },
   },
 
@@ -156,6 +210,13 @@ export default {
 
   mounted() {
     if (this.modelData) this.labelShow = true;
+    this.$refs.inputField?.addEventListener("keydown", this.handleKeyDownEvent);
+  },
+  destroyed() {
+    this.$refs.inputField?.removeEventListener(
+      "keydown",
+      this.handleKeyDownEvent
+    );
   },
 
   mixins: [model, validation, size],
@@ -164,6 +225,11 @@ export default {
     ui() {
       return this.schema.ui || { tag: "input", type: "text" };
     },
+    identifier() {
+      return `id-${this.schema.title.replace(" ", "-")}-${JSON.stringify(
+        new Date().valueOf()
+      )}`;
+    },
   },
 
   watch: {
@@ -171,6 +237,16 @@ export default {
       immediate: true,
       deep: true,
       handler(newVal, oldVal) {
+        if (this.isMultilineValue) {
+          setTimeout(() => {
+            this.$refs.textareaField.focus();
+          }, 0);
+        }
+
+        if (typeof newVal === "string" && newVal.includes("\n")) {
+          this.isMultilineValue = true;
+        }
+
         if (newVal) this.labelShow = true;
         else this.labelShow = false;
 

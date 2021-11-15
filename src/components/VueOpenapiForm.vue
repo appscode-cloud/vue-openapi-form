@@ -59,8 +59,17 @@ export default {
       type: String,
       default: "small",
     },
+    themeMode: {
+      type: String,
+      default: "light",
+    },
   },
   mixins: [model, validation],
+  provide() {
+    return {
+      theme: this.themeMode,
+    };
+  },
   components: {
     "object-form-wrapper": ObjectFormWrapper,
   },

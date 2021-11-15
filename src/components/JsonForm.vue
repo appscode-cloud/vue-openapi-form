@@ -1,7 +1,7 @@
 <template>
-  <div>
+  <div class="ml-30">
     <!-- tabs start  -->
-    <div class="tabs ac-tabs is-boxed mt-10 mb-0">
+    <div class="tabs ac-tabs is-line">
       <ul>
         <li :class="{ 'is-active': activeTab === 'file' }">
           <a @click.prevent="activeTab = 'file'">
@@ -20,7 +20,13 @@
         ref="monacoEditor"
         @editorDidMount="onEditorMount"
         v-model="valueString"
-        :options="editorOptions"
+        :options="{
+          minimap: {
+            enabled: true,
+          },
+          theme: editorTheme,
+          readOnly: false,
+        }"
         :diff-editor="activeTab === 'preview-changes'"
         language="yaml"
         class="editor-writable vh-80 is-clipped"
@@ -33,7 +39,13 @@
         ref="monacoDiffEditor"
         @editorDidMount="onDiffEditorMount"
         class="editor-writable vh-80 is-clipped"
-        :options="editorOptions"
+        :options="{
+          minimap: {
+            enabled: true,
+          },
+          theme: editorTheme,
+          readOnly: true,
+        }"
         :value="valueString"
         :diff-editor="true"
         :original="originalValueString"
@@ -47,8 +59,6 @@
 import { model } from "../mixins/model.js";
 import jsyaml from "js-yaml";
 import MonacoEditor from "vue-monaco";
-import monacoEditorThemes from "@/plugins/monaco-editor-themes.js";
-import { mapGetters } from "vuex";
 
 export default {
   name: "yaml-form",
@@ -58,6 +68,7 @@ export default {
       default: () => ({}),
     },
   },
+  inject: ["theme"],
 
   mixins: [model],
 
@@ -70,28 +81,15 @@ export default {
       activeTab: "file",
 
       valueString: "",
-
-      editorOptions: {
-        minimap: {
-          enabled: true,
-        },
-        readOnly: false,
-      },
-      diffEditorOptions: {
-        minimap: {
-          enabled: true,
-        },
-        readOnly: true,
-      },
     };
   },
 
   computed: {
-    ...mapGetters({
-      editorTheme: "editorTheme",
-    }),
     originalValueString() {
       return JSON.stringify(this.referenceModel, null, 2);
+    },
+    editorTheme() {
+      return this.theme === "dark" ? `vs-${this.theme}` : "vs";
     },
   },
 
@@ -119,20 +117,6 @@ export default {
 
       // add event listeners
       editor.onDidBlurEditorText(this.updateModelData);
-
-      // set theme
-      monacoEditorThemes.setTheme(
-        this.$refs.monacoEditor.monaco.editor,
-        this.editorTheme
-      );
-    },
-
-    onDiffEditorMount() {
-      // set theme
-      monacoEditorThemes.setTheme(
-        this.$refs.monacoDiffEditor.monaco.editor,
-        this.editorTheme
-      );
     },
   },
 
