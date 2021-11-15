@@ -1,18 +1,3 @@
-.ac-nested-elements {
-  .nested-header {
-    width: 100%;
-  }
-}
-
-.ac-nested-elements {
-  &:first-child {
-    margin-left: 0;
-  }
-  .nested-body {
-    padding-left: 0px;
-  }
-}
-
 .vue-schema-form-array {
   .nested-body {
     // margin-bottom: 15px;
@@ -43,7 +28,19 @@
 
 .vue-openapi-form {
   width: 920px;
-  margin: 0 auto;
+  padding: 20px;
+  .ac-nested-elements {
+    &:first-child {
+      margin-left: 0;
+    }
+    .nested-body {
+      padding-left: 0px;
+    }
+    .nested-header {
+      width: 100%;
+    }
+  }
+  
   .ac-single-switch {
     margin-left: -15px;
   }
