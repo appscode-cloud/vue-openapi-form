@@ -37,7 +37,6 @@
       <monaco-editor
         :key="activeTab"
         ref="monacoDiffEditor"
-        @editorDidMount="onDiffEditorMount"
         class="editor-writable vh-80 is-clipped"
         :options="{
           minimap: {
