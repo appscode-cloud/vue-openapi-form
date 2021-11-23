@@ -1,0 +1,1 @@
+"use strict";var e=require("./entry-238d3817.js"),r=require("./object-create-cce3d423.js"),o=e.w("unscopables"),t=Array.prototype;null==t[o]&&e.o.f(t,o,{configurable:!0,value:r.o(null)});exports.a=function(e){t[o][e]=!0};

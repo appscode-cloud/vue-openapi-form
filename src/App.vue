@@ -43,7 +43,7 @@
     </div>
 
     <div class="vue-form-scema-body mb-50 mt-50">
-      <div class="is-flex">
+      <div class="is-flex p-30">
         <div class="left-content">
           <div class="left-content-wrapper">
             <div class="select-box-wrapper" v-if="!modifiedSchema">
