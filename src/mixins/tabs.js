@@ -1,7 +1,3 @@
-import Tabs from "../components/Tabs.vue";
-import JsonForm from "../components/JsonForm.vue";
-import YamlForm from "../components/YamlForm.vue";
-
 export default {
   data() {
     return {
@@ -9,8 +5,11 @@ export default {
     };
   },
   components: {
-    Tabs,
-    JsonForm,
-    YamlForm,
+    Tabs: () =>
+      import("../components/Tabs.vue").then((module) => module.default),
+    JsonForm: () =>
+      import("../components/JsonForm.vue").then((module) => module.default),
+    YamlForm: () =>
+      import("../components/YamlForm.vue").then((module) => module.default),
   },
 };

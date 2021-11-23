@@ -23,7 +23,6 @@
 </template>
 
 <script>
-import ObjectFormWrapper from "./ObjectFormWrapper.vue";
 import ExtendSchema from "../functional-components/extend-schema.js";
 import validation from "../mixins/validation.js";
 import { model } from "../mixins/model.js";
@@ -69,9 +68,6 @@ export default {
     return {
       theme: this.themeMode,
     };
-  },
-  components: {
-    "object-form-wrapper": ObjectFormWrapper,
   },
   data() {
     return {

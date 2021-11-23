@@ -1,6 +1,4 @@
 import { ValidationObserver, ValidationProvider } from "vee-validate";
-import ComponentErrors from "../components/ComponentErrors.vue";
-import RightWrongSigns from "../components/RightWrongSigns.vue";
 
 export default {
   props: {
@@ -13,8 +11,14 @@ export default {
   components: {
     ValidationObserver,
     ValidationProvider,
-    ComponentErrors,
-    RightWrongSigns,
+    ComponentErrors: () =>
+      import("../components/ComponentErrors.vue").then(
+        (module) => module.default
+      ),
+    RightWrongSigns: () =>
+      import("../components/RightWrongSigns.vue").then(
+        (module) => module.default
+      ),
   },
 
   methods: {

@@ -172,7 +172,6 @@ import { model } from "../mixins/model.js";
 import tabs from "../mixins/tabs.js";
 import validation from "../mixins/validation.js";
 import size from "../mixins/size.js";
-import KeyValuePairItems from "./sub-components/KeyValuePairItems.vue";
 
 export default {
   name: "key-value-pairs",
@@ -195,7 +194,12 @@ export default {
     },
   },
 
-  components: { KeyValuePairItems },
+  components: {
+    KeyValuePairItems: () =>
+      import("./sub-components/KeyValuePairItems.vue").then(
+        (module) => module.default
+      ),
+  },
 
   mixins: [model, tabs, validation, size],
 
