@@ -206,12 +206,14 @@ import { model } from "../mixins/model.js";
 import tabs from "../mixins/tabs.js";
 import validation from "../mixins/validation.js";
 import size from "../mixins/size.js";
-import ArrayInputItems from "./sub-components/ArrayInputItems.vue";
 
 export default {
   name: "array-input",
   components: {
-    ArrayInputItems,
+    ArrayInputItems: () =>
+      import("./sub-components/ArrayInputItems.vue").then(
+        (module) => module.default
+      ),
   },
   props: {
     schema: {

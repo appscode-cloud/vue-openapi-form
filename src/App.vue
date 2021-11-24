@@ -93,14 +93,16 @@
 </template>
 
 <script>
-import VueOpenapiForm from "@/components/VueOpenapiForm";
 import Schemas from "@/json-schema";
 import SchemaModel from "@/components/SchemaModel";
 
 export default {
   name: "app",
   components: {
-    VueOpenapiForm,
+    VueOpenapiForm: () =>
+      import("@/components/VueOpenapiForm.vue").then(
+        (module) => module.default
+      ),
     SchemaModel,
   },
 

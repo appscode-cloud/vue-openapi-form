@@ -82,9 +82,10 @@ if (!argv.format || argv.format === "es") {
     external,
     output: {
       compact: true,
-      file: "dist/vue-openapi-form.esm.js",
+      dir: "dist",
       format: "esm",
       name: "VueOpenapiForm",
+      entryFileNames: "vue-openapi-form.esm.js",
       exports: "named",
       globals,
     },
@@ -114,9 +115,10 @@ if (!argv.format || argv.format === "cjs") {
     external,
     output: {
       compact: true,
-      file: "dist/vue-openapi-form.ssr.js",
+      dir: "dist",
       format: "cjs",
       name: "VueOpenapiForm",
+      entryFileNames: "vue-openapi-form.[format].js",
       exports: "named",
       globals,
     },
@@ -143,6 +145,7 @@ if (!argv.format || argv.format === "iife") {
     output: {
       compact: true,
       file: "dist/vue-openapi-form.min.js",
+      inlineDynamicImports: true,
       format: "iife",
       name: "VueOpenapiForm",
       exports: "named",

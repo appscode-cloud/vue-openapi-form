@@ -1,5 +1,5 @@
 // Import vue components
-import * as components from "@/components/index";
+import VueOpenapiForm from "@/components/VueOpenapiForm.vue";
 // Import 3rt party components and plugins that are required
 import VTooltip from "v-tooltip";
 // Import custom js that are required
@@ -26,9 +26,7 @@ const install = function installVueOpenapiForm(Vue, options) {
     },
   });
 
-  Object.entries(components).forEach(([componentName, component]) => {
-    Vue.component(componentName, component);
-  });
+  Vue.component("vue-openapi-form", VueOpenapiForm);
 };
 
 // Create module definition for Vue.use()
@@ -52,6 +50,3 @@ if (GlobalVue) {
 // Default export is library as a whole, registered via Vue.use()
 export default plugin;
 
-// To allow individual component use, export components
-// each can be registered via Vue.component()
-export * from "@/components/index";

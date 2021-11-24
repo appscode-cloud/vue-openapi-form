@@ -6,8 +6,23 @@ export const model = {
     },
     referenceModel: {
       type: null,
-      defult: () => ({}),
+      default: () => ({}),
     },
+  },
+
+  components: {
+    ObjectFormWrapper: () =>
+      import("@/components/ObjectFormWrapper.vue").then(
+        (module) => module.default
+      ),
+    ObjectForm: () =>
+      import("@/components/ObjectForm.vue").then((module) => module.default),
+    ArrayInput: () =>
+      import("@/components/ArrayInput.vue").then((module) => module.default),
+    KeyValuePairs: () =>
+      import("@/components/KeyValuePairs.vue").then((module) => module.default),
+    SimpleInput: () =>
+      import("@/components/SimpleInput.vue").then((module) => module.default),
   },
 
   data() {
