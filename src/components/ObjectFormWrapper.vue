@@ -5,7 +5,11 @@
     :vid="`${schema.title.replace(/ /g, '-')}-observer`"
     v-slot="{ errors: observerErrors }"
     class="ac-nested-elements object-form-wrapper"
-    :class="{ 'stop-line': isLastChild, 'hide-upper-line': isRoot }"
+    :class="{
+      'stop-line': isLastChild,
+      'hide-upper-line': isRoot,
+      'is-collapsed': isFolded,
+    }"
   >
     <!-- {{ calcObserverError(observerErrors) }} -->
     <div class="nested-header mb-5">

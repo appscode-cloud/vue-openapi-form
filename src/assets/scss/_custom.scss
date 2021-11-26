@@ -27,8 +27,6 @@
 }
 
 .vue-openapi-form {
-  width: 920px;
-  padding: 20px;
   .ac-nested-elements {
     &:first-child {
       margin-left: 0;
@@ -86,6 +84,12 @@
   bottom: 12px;
 }
 
+.is-collapsed {
+  &.ac-nested-elements::before, 
+  &.ac-nested-elements::after {
+    display: none;
+  }
+}
 // for vue-tooltip
 
 .tooltip {

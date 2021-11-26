@@ -8,7 +8,7 @@
         slim
       >
         <object-form-wrapper
-          :isRoot="true"
+          :expand-form="true"
           :isSelfRequired="true"
           :onlyJson="onlyJson"
           :schema="extendedSchema"
