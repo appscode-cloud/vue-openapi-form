@@ -79,6 +79,7 @@
         </div>
         <div class="right-content">
           <vue-openapi-form
+            class="ml-10"
             :schema="jsonSchema"
             v-model="model"
             :reference-model="referenceModel || ''"
