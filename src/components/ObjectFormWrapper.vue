@@ -51,6 +51,7 @@
       :isSelfRequired="isSelfRequired"
       :type="schema.type"
       :isRoot="isRoot"
+      :level="level"
       :isSelfFolded="isRoot ? false : isFolded"
       v-model="modelData"
       :reference-model="referenceModel || {}"
@@ -105,6 +106,10 @@ export default {
     isFormSubmitting: {
       type: Boolean,
       default: false,
+    },
+    level: {
+      type: Number,
+      default: 1,
     },
   },
 

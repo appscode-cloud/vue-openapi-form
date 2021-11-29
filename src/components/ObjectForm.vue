@@ -12,7 +12,9 @@
         slim
       >
         <object-form-wrapper
+          :expand-form="level < 2"
           :is-last-child="idx === Object.keys(properties).length - 1"
+          :level="level + 1"
           :type="properties[key].type"
           :isSelfRequired="propertiesRequired && isRequired(key)"
           :schema="properties[key]"
@@ -105,6 +107,10 @@ export default {
     required: {
       type: Array,
       default: () => [],
+    },
+    level: {
+      type: Number,
+      default: 1,
     },
   },
 

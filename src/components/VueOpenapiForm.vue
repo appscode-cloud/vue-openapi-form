@@ -9,6 +9,7 @@
       >
         <object-form-wrapper
           :expand-form="true"
+          :level="1"
           :isSelfRequired="true"
           :onlyJson="onlyJson"
           :schema="extendedSchema"
