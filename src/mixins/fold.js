@@ -4,12 +4,25 @@ export default {
       type: Boolean,
       default: () => false,
     },
+    expandForm: {
+      type: Boolean,
+      default: () => false,
+    },
   },
 
   data() {
     return {
       isFolded: true,
     };
+  },
+
+  watch: {
+    expandForm: {
+      immediate: true,
+      handler(n) {
+        this.isFolded = !n;
+      },
+    },
   },
 
   methods: {

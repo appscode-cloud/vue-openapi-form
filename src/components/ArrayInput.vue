@@ -101,6 +101,7 @@
             >
               <object-form-wrapper
                 :is-last-child="true"
+                :expand-form="true"
                 :isSelfRequired="true"
                 :schema="{
                   ...items,

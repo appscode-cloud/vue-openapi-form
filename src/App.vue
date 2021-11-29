@@ -43,7 +43,7 @@
     </div>
 
     <div class="vue-form-scema-body mb-50 mt-50">
-      <div class="is-flex">
+      <div class="is-flex p-30">
         <div class="left-content">
           <div class="left-content-wrapper">
             <div class="select-box-wrapper" v-if="!modifiedSchema">
@@ -79,6 +79,7 @@
         </div>
         <div class="right-content">
           <vue-openapi-form
+            class="ml-10"
             :schema="jsonSchema"
             v-model="model"
             :reference-model="referenceModel || ''"
@@ -95,14 +96,12 @@
 <script>
 import Schemas from "@/json-schema";
 import SchemaModel from "@/components/SchemaModel";
+import VueOpenapiForm from "@/components/VueOpenapiForm";
 
 export default {
   name: "app",
   components: {
-    VueOpenapiForm: () =>
-      import("@/components/VueOpenapiForm.vue").then(
-        (module) => module.default
-      ),
+    VueOpenapiForm,
     SchemaModel,
   },
 

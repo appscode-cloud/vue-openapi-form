@@ -5,7 +5,11 @@
     :vid="`${schema.title.replace(/ /g, '-')}-observer`"
     v-slot="{ errors: observerErrors }"
     class="ac-nested-elements object-form-wrapper"
-    :class="{ 'stop-line': isLastChild, 'hide-upper-line': isRoot }"
+    :class="{
+      'stop-line': isLastChild,
+      'hide-upper-line': isRoot,
+      'is-collapsed': isFolded,
+    }"
   >
     <!-- {{ calcObserverError(observerErrors) }} -->
     <div class="nested-header mb-5">
@@ -47,6 +51,7 @@
       :isSelfRequired="isSelfRequired"
       :type="schema.type"
       :isRoot="isRoot"
+      :level="level"
       :isSelfFolded="isRoot ? false : isFolded"
       v-model="modelData"
       :reference-model="referenceModel || {}"
@@ -101,6 +106,10 @@ export default {
     isFormSubmitting: {
       type: Boolean,
       default: false,
+    },
+    level: {
+      type: Number,
+      default: 1,
     },
   },
 
