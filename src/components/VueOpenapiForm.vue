@@ -66,8 +66,16 @@ export default {
   },
   mixins: [model, validation],
   provide() {
+    const providedData = {};
+
+    // using defineProperty to make provide data reactive
+    // ref : https://stackoverflow.com/a/65720394
+    Object.defineProperty(providedData, "theme", {
+      enumerable: true,
+      get: () => this.themeMode,
+    });
     return {
-      theme: this.themeMode,
+      providedData,
     };
   },
   data() {

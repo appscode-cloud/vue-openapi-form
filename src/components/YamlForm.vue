@@ -18,6 +18,7 @@
     <div v-if="activeTab === 'file'">
       <monaco-editor
         ref="monacoEditor"
+        :key="editorTheme"
         @editorDidMount="onEditorMount"
         v-model="valueString"
         :options="{
@@ -35,7 +36,7 @@
 
     <div v-else>
       <monaco-editor
-        :key="activeTab"
+        :key="activeTab + editorTheme"
         ref="monacoDiffEditor"
         class="editor-writable vh-80 is-clipped"
         :options="{
@@ -70,7 +71,7 @@ export default {
 
   mixins: [model],
 
-  inject: ["theme"],
+  inject: ["providedData"],
 
   components: {
     MonacoEditor,
@@ -87,6 +88,9 @@ export default {
   computed: {
     originalValueString() {
       return jsyaml.safeDump(this.referenceModel, { lineWidth: 2000 }); // json -> yaml
+    },
+    theme() {
+      return this.providedData.theme || "light";
     },
     editorTheme() {
       return this.theme === "dark" ? `vs-${this.theme}` : "vs";
