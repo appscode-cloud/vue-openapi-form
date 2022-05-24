@@ -61,7 +61,6 @@ const baseConfig = {
 const external = [
   // list external dependencies, exactly the way it is written in the import statement.
   // eg. 'jquery'
-  "vue",
   "@babel/runtime/helpers/get",
 ];
 
@@ -70,7 +69,6 @@ const external = [
 const globals = {
   // Provide global variable names to replace your external imports
   // eg. jquery: '$'
-  vue: "Vue",
   "/@babel/runtime/": "BabelRuntime",
 };
 
