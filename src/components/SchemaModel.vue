@@ -52,7 +52,7 @@
 </template>
 
 <script>
-import MonacoEditor from "vue-monaco";
+import MonacoEditor from "@appscode/design-system/vue-components/v2/editor/MonacoEditor.vue";
 
 export default {
   name: "schema-model",

@@ -1,1 +1,0 @@
-import{c as a,w as r,x as o}from"./entry-1e6d19f9.js";var e=a.f,l=r("unscopables"),n=Array.prototype;null==n[l]&&e(n,l,{configurable:!0,value:o(null)});var s=function(a){n[l][a]=!0};export{s as a};

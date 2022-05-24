@@ -17,7 +17,6 @@
     </div>
     <div v-if="activeTab === 'file'">
       <monaco-editor
-        ref="monacoEditor"
         :key="editorTheme"
         @editorDidMount="onEditorMount"
         v-model="valueString"
@@ -37,7 +36,6 @@
     <div v-else>
       <monaco-editor
         :key="activeTab + editorTheme"
-        ref="monacoDiffEditor"
         class="editor-writable vh-80 is-clipped"
         :options="{
           minimap: {
@@ -58,7 +56,7 @@
 <script>
 import { model } from "../mixins/model.js";
 import jsyaml from "js-yaml";
-import MonacoEditor from "vue-monaco";
+import MonacoEditor from "@appscode/design-system/vue-components/v2/editor/MonacoEditor.vue";
 
 export default {
   name: "yaml-form",
@@ -115,9 +113,7 @@ export default {
       this.$emit("code::model-data-updated", ans);
     },
 
-    onEditorMount() {
-      const editor = this.$refs.monacoEditor.getEditor();
-
+    onEditorMount(editor) {
       // add event listeners
       editor.onDidBlurEditorText(this.updateModelData);
     },
