@@ -1,9 +1,7 @@
 <template>
-  <validation-observer
-    tag="form"
-    :ref="`${schema.title.replace(/ /g, '-')}-observer`"
-    :vid="`${schema.title.replace(/ /g, '-')}-observer`"
+  <v-form
     v-slot="{ errors: observerErrors }"
+    as="form"
     class="ac-nested-elements object-form-wrapper"
     :class="{
       'stop-line': isLastChild,
@@ -24,7 +22,7 @@
             aria-hidden="true"
           ></i>
         </div>
-        {{ schema.title || "Array Item Description" }}
+        {{ schema.title || 'Array Item Description' }}
         <!-- show errors-->
         <component-errors
           :errors="[...errors, ...calcObserverError(observerErrors)]"
@@ -42,20 +40,20 @@
           </button> -->
     </div>
     <!-- form for all the object's properties -->
-    <object-form
+    <!-- <object-form
       v-show="!onlyJson && activeTab === 'form'"
       :key="`${schema.title}-form`"
+      v-model="modelData"
       :properties="schema.properties"
       :title="schema.title"
       :required="schema.required"
-      :isSelfRequired="isSelfRequired"
+      :is-self-required="isSelfRequired"
       :type="schema.type"
-      :isRoot="isRoot"
+      :is-root="isRoot"
       :level="level"
-      :isSelfFolded="isRoot ? false : isFolded"
-      v-model="modelData"
+      :is-self-folded="isRoot ? false : isFolded"
       :reference-model="referenceModel || {}"
-    />
+    /> -->
     <!-- declared in tabs component -->
     <yaml-form
       v-if="activeTab === 'yaml'"
@@ -67,23 +65,26 @@
       v-model="modelData"
       :reference-model="referenceModel || {}"
     />
-  </validation-observer>
+  </v-form>
 </template>
 
 <script>
-import { model } from "../mixins/model.js";
-import fold from "../mixins/fold.js";
-import tabs from "../mixins/tabs.js";
-import validation from "../mixins/validation.js";
+import { model } from '../mixins/model.js';
+import fold from '../mixins/fold.js';
+import tabs from '../mixins/tabs.js';
+import validation from '../mixins/validation.js';
+import { defineComponent } from 'vue';
 
-export default {
-  name: "object-form-wrapper",
+export default defineComponent({
+  name: 'ObjectFormWrapper',
+
+  mixins: [model, fold, tabs, validation],
   props: {
     schema: {
       type: Object,
       default: () => ({}),
     },
-    value: {
+    modelValue: {
       type: Object,
       default: () => ({}),
     },
@@ -113,12 +114,12 @@ export default {
     },
   },
 
+  emits: ['vof:submitted'],
+
   methods: {
     submit() {
-      this.$emit("vof:submitted");
+      this.$emit('vof:submitted');
     },
   },
-
-  mixins: [model, fold, tabs, validation],
-};
+});
 </script>

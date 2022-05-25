@@ -1,6 +1,25 @@
-import { ValidationObserver, ValidationProvider } from "vee-validate";
+import { defineAsyncComponent, defineComponent } from 'vue';
 
-export default {
+export default defineComponent({
+  components: {
+    VForm: defineAsyncComponent(() =>
+      import('vee-validate').then(({ Form }) => Form)
+    ),
+    VField: defineAsyncComponent(() =>
+      import('vee-validate').then(({ Field }) => Field)
+    ),
+    ComponentErrors: defineAsyncComponent(() =>
+      import('../components/ComponentErrors.vue').then(
+        (module) => module.default
+      )
+    ),
+    RightWrongSigns: defineAsyncComponent(() =>
+      import('../components/RightWrongSigns.vue').then(
+        (module) => module.default
+      )
+    ),
+  },
+
   props: {
     isSelfRequired: {
       type: Boolean,
@@ -8,23 +27,10 @@ export default {
     },
   },
 
-  components: {
-    ValidationObserver,
-    ValidationProvider,
-    ComponentErrors: () =>
-      import("../components/ComponentErrors.vue").then(
-        (module) => module.default
-      ),
-    RightWrongSigns: () =>
-      import("../components/RightWrongSigns.vue").then(
-        (module) => module.default
-      ),
-  },
-
   methods: {
     ruleString(required) {
-      let ans = "";
-      if (required) ans += "required";
+      let ans = '';
+      if (required) ans += 'required';
       return ans;
     },
 
@@ -47,16 +53,16 @@ export default {
         let newKey = key.charAt(0).toUpperCase() + key.slice(1);
 
         // remove the observer or provider word and replace '-' with ''
-        let split = newKey.split("-") || "";
+        let split = newKey.split('-') || '';
         if (split.length > 0) {
           const lastW = split[split.length - 1];
-          if (lastW === "provider" || lastW === "observer") split.pop();
+          if (lastW === 'provider' || lastW === 'observer') split.pop();
           // console.log({ split });
 
-          newKey = split.join(" ");
+          newKey = split.join(' ');
         }
-        newKey.replace(/([a-z0-9])([A-Z])/g, "$1 $2");
-        const newTitle = title ? title + " -> " + newKey : newKey;
+        newKey.replace(/([a-z0-9])([A-Z])/g, '$1 $2');
+        const newTitle = title ? title + ' -> ' + newKey : newKey;
 
         // console.log({ newKey });
 
@@ -90,4 +96,4 @@ export default {
       return ansErrors;
     },
   },
-};
+});

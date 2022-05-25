@@ -1,15 +1,12 @@
-import Vue from "vue";
-import App from "./App.vue";
-import store from "./store";
-import { initVeeValidate } from "@/plugins/vee-validate";
-import VTooltip from "v-tooltip";
-Vue.use(VTooltip);
+import { createApp } from 'vue';
+import App from './App.vue';
+import store from './store';
+import { registerValidationRules } from '@/plugins/vee-validate';
+import FloatingVue from 'floating-vue';
 
-Vue.config.productionTip = false;
+import { useMonaco } from './plugins/monaco';
+useMonaco();
 
-initVeeValidate();
+registerValidationRules();
 
-new Vue({
-  store,
-  render: (h) => h(App),
-}).$mount("#app");
+createApp(App).use(store).use(FloatingVue).mount('#app');

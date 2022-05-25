@@ -1,133 +1,66 @@
 <template>
   <div class="ml-30">
-    <!-- tabs start  -->
-    <div class="tabs ac-tabs is-line">
-      <ul>
-        <li :class="{ 'is-active': activeTab === 'file' }">
-          <a @click.prevent="activeTab = 'file'">
-            <span>File</span>
-          </a>
-        </li>
-        <li :class="{ 'is-active': activeTab === 'preview-changes' }">
-          <a @click.prevent="activeTab = 'preview-changes'">
-            <span>Preview Changes</span>
-          </a>
-        </li>
-      </ul>
-    </div>
-    <div v-if="activeTab === 'file'">
-      <monaco-editor
-        :key="editorTheme"
-        @editorDidMount="onEditorMount"
-        v-model="valueString"
-        :options="{
-          minimap: {
-            enabled: true,
-          },
-          theme: editorTheme,
-          readOnly: false,
-        }"
-        :diff-editor="activeTab === 'preview-changes'"
-        language="yaml"
-        class="editor-writable vh-80 is-clipped"
-      />
-    </div>
-
-    <div v-else>
-      <monaco-editor
-        :key="activeTab + editorTheme"
-        class="editor-writable vh-80 is-clipped"
-        :options="{
-          minimap: {
-            enabled: true,
-          },
-          theme: editorTheme,
-          readOnly: true,
-        }"
-        :value="valueString"
-        :diff-editor="true"
-        :original="originalValueString"
-        language="yaml"
-      />
-    </div>
+    <editor
+      :key="theme"
+      v-model="editorModel"
+      :original-value="originalValueString"
+      language="yaml"
+      :editor-height="80"
+    />
   </div>
 </template>
 
 <script>
-import { model } from "../mixins/model.js";
-import jsyaml from "js-yaml";
-import MonacoEditor from "@appscode/design-system/vue-components/v2/editor/MonacoEditor.vue";
+import { model } from '../mixins/model.js';
+import jsyaml from 'js-yaml';
+import { defineAsyncComponent, defineComponent } from 'vue';
 
-export default {
-  name: "yaml-form",
+export default defineComponent({
+  name: 'YamlForm',
+
+  components: {
+    Editor: defineAsyncComponent(() =>
+      import('@appscode/design-system/vue-components/v3/editor/Editor.vue')
+    ),
+  },
+
+  mixins: [model],
+  inject: ['providedData'],
   props: {
-    value: {
+    modelValue: {
       type: null,
       default: () => ({}),
     },
   },
 
-  mixins: [model],
-
-  inject: ["providedData"],
-
-  components: {
-    MonacoEditor,
-  },
-
-  data() {
-    return {
-      activeTab: "file",
-
-      valueString: "",
-    };
-  },
+  emits: ['code::model-data-updated'],
 
   computed: {
     originalValueString() {
       return jsyaml.safeDump(this.referenceModel, { lineWidth: 2000 }); // json -> yaml
     },
     theme() {
-      return this.providedData.theme || "light";
+      return this.providedData.theme || 'light';
     },
-    editorTheme() {
-      return this.theme === "dark" ? `vs-${this.theme}` : "vs";
-    },
-  },
+    editorModel: {
+      get() {
+        return jsyaml.safeDump(this.modelValue, { lineWidth: 2000 });
+      },
+      set(n) {
+        let ans = null;
+        try {
+          ans = jsyaml.safeLoad(n, {
+            json: true,
+          }); // yaml => jsObject
+        } catch (e) {
+          ans = this.modelData;
+        }
 
-  methods: {
-    initValueString() {
-      this.valueString = jsyaml.safeDump(this.value, { lineWidth: 2000 }); // jsObject => yaml
-    },
-
-    updateModelData() {
-      let ans = null;
-      try {
-        ans = jsyaml.safeLoad(this.valueString, {
-          json: true,
-        }); // yaml => jsObject
-      } catch (e) {
-        ans = this.modelData;
-      }
-
-      this.modelData = ans;
-      this.$emit("code::model-data-updated", ans);
-    },
-
-    onEditorMount(editor) {
-      // add event listeners
-      editor.onDidBlurEditorText(this.updateModelData);
+        this.modelData = ans;
+        this.$emit('code::model-data-updated', ans);
+      },
     },
   },
-
-  created() {
-    this.initValueString();
-  },
-
-  watch: {
-    value() {
-      this.initValueString();
-    },
-  },
-};
+});
 </script>
+

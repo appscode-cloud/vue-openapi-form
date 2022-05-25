@@ -1,13 +1,15 @@
 <template>
-  <span v-show="errors.length > 0" class="is-warning" v-tooltip="tooltipObj">
+  <span v-show="errors.length > 0" v-tooltip="tooltipObj" class="is-warning">
     <i class="fa fa-warning"></i>
-    Error in {{ errors.length }} field{{ errors.length > 1 ? "s" : "" }}
+    Error in {{ errors.length }} field{{ errors.length > 1 ? 's' : '' }}
   </span>
 </template>
 
 <script>
-export default {
-  name: "component-errors",
+import { defineComponent } from 'vue';
+
+export default defineComponent({
+  name: 'ComponentErrors',
   props: {
     errors: {
       type: Array,
@@ -20,8 +22,8 @@ export default {
       return {
         content: this.htmlContent,
         html: true,
-        classes: ["is-errors-tooltip"],
-        targetClasses: ["is-warning"],
+        classes: ['is-errors-tooltip'],
+        targetClasses: ['is-warning'],
       };
     },
     htmlContent() {
@@ -29,9 +31,9 @@ export default {
       this.errors.forEach((error) => {
         str += `<li class='error-element'><span class="pr-5"><i class="fa fa-warning"></i></span>${error}</li>`;
       });
-      str += "</ul>";
+      str += '</ul>';
       return str;
     },
   },
-};
+});
 </script>

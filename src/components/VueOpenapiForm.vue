@@ -1,47 +1,65 @@
 <template>
   <div class="vue-openapi-form" :class="{ 'is-medium': size === 'medium' }">
-    <validation-observer ref="vofMainObserver" v-slot="{ pending }" slim>
-      <validation-provider
+    <v-form v-slot="{ meta, validate }" as="">
+      <v-field
+        v-slot="{ field, handleChange }"
+        v-model="modelData"
         :name="extendedSchema.title"
+        :label="extendedSchema.title"
         :rules="ruleObject(true)"
-        :vid="`${extendedSchema.title}-vpid`"
-        slim
+        as=""
       >
         <object-form-wrapper
+          :model-value="field.value"
           :expand-form="true"
           :level="1"
-          :isSelfRequired="true"
-          :onlyJson="onlyJson"
+          :is-self-required="true"
+          :only-json="onlyJson"
           :schema="extendedSchema"
-          v-model="modelData"
           :reference-model="referenceModel || {}"
-          @vof:submitted="onSubmit"
-          :is-form-submitting="pending || isFormSubmitting"
+          :is-form-submitting="meta.pending || isFormSubmitting"
+          @vof:submitted="onSubmit(validate)"
+          @update:modelValue="handleChange"
         />
-      </validation-provider>
-    </validation-observer>
+      </v-field>
+    </v-form>
   </div>
 </template>
 
 <script>
-import ExtendSchema from "../functional-components/extend-schema.js";
-import validation from "../mixins/validation.js";
-import { model } from "../mixins/model.js";
+import ExtendSchema from '../functional-components/extend-schema.js';
+import validation from '../mixins/validation.js';
+import { model } from '../mixins/model.js';
+import { defineComponent } from 'vue';
 
-export default {
-  name: "vue-openapi-form",
+export default defineComponent({
+  name: 'VueOpenapiForm',
+  mixins: [model, validation],
+  provide() {
+    const providedData = {};
+
+    // using defineProperty to make provide data reactive
+    // ref : https://stackoverflow.com/a/65720394
+    Object.defineProperty(providedData, 'theme', {
+      enumerable: true,
+      get: () => this.themeMode,
+    });
+    return {
+      providedData,
+    };
+  },
   props: {
     schema: {
       type: Object,
       default: () => ({}),
     },
-    value: {
+    modelValue: {
       type: Object,
       default: () => ({}),
     },
     formTitle: {
       type: String,
-      default: "",
+      default: '',
     },
     onlyJson: {
       type: Boolean,
@@ -57,26 +75,12 @@ export default {
     },
     size: {
       type: String,
-      default: "small",
+      default: 'small',
     },
     themeMode: {
       type: String,
-      default: "light",
+      default: 'light',
     },
-  },
-  mixins: [model, validation],
-  provide() {
-    const providedData = {};
-
-    // using defineProperty to make provide data reactive
-    // ref : https://stackoverflow.com/a/65720394
-    Object.defineProperty(providedData, "theme", {
-      enumerable: true,
-      get: () => this.themeMode,
-    });
-    return {
-      providedData,
-    };
   },
   data() {
     return {
@@ -89,10 +93,10 @@ export default {
     },
   },
   methods: {
-    async onSubmit() {
+    async onSubmit(validate) {
       this.isFormSubmitting = true;
-      const isValid = await this.$refs.vofMainObserver.validate();
-      if (isValid) {
+      const { valid } = await validate();
+      if (valid) {
         // console.log("validated");
         await this.onValid();
       } else {
@@ -101,10 +105,10 @@ export default {
       this.isFormSubmitting = false;
     },
   },
-};
+});
 </script>
 
 <style lang="scss">
-@import "~font-awesome/css/font-awesome.min.css";
-@import "../assets/scss/main.scss";
+@import 'font-awesome/css/font-awesome.min.css';
+@import '../assets/scss/main.scss';
 </style>

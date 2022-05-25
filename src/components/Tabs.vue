@@ -33,27 +33,37 @@
 </template>
 
 <script>
-export default {
-  name: "tabs",
+import { defineComponent } from 'vue';
+
+export default defineComponent({
+  name: 'Tabs',
+  props: {
+    modelValue: {
+      type: String,
+      default: 'form',
+    },
+  },
+  emits: ['update:modelValue'],
+
   data() {
     return {
-      activeTab: "form",
+      activeTab: 'form',
     };
   },
 
   methods: {
     showForm() {
-      this.activeTab = "form";
-      this.$emit("input", "form");
+      this.activeTab = 'form';
+      this.$emit('update:modelValue', 'form');
     },
     showJson() {
-      this.activeTab = "json";
-      this.$emit("input", "json");
+      this.activeTab = 'json';
+      this.$emit('update:modelValue', 'json');
     },
     showYaml() {
-      this.activeTab = "yaml";
-      this.$emit("input", "yaml");
+      this.activeTab = 'yaml';
+      this.$emit('update:modelValue', 'yaml');
     },
   },
-};
+});
 </script>
