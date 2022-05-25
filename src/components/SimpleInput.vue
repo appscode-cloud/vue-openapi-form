@@ -5,10 +5,10 @@
         <div class="ac-single-switch is-small is-flex pb-10">
           <input
             :id="identifier"
+            v-model="modelData"
             type="checkbox"
             name="switchRoundedDefault"
             class="switch ac-switch is-rounded is-primary"
-            v-model="modelData"
           />
           <label class="switch-label" :for="identifier">{{
             schema.title
@@ -17,24 +17,24 @@
       </template>
       <template v-else>
         <label
-          @click.prevent="focusInput()"
           :class="[labelShow ? 'show-label' : '', 'ac-label']"
+          @click.prevent="focusInput()"
           >{{ schema.title }}</label
         >
         <div v-if="ui.tag === 'input'">
           <textarea
             v-if="isMultilineValue"
             ref="textareaField"
+            v-model="modelData"
             class="ac-input"
             style="min-height: 100px"
             :type="ui.type"
             :class="{
-              'is-success': validationOb.validated && validationOb.valid,
-              'is-danger': validationOb.validated && validationOb.invalid,
+              'is-success': validationOb.dirty && validationOb.valid,
+              'is-danger': validationOb.dirty && !validationOb.valid,
               'bg-white': modelData,
             }"
             :placeholder="ui.placeholder || ''"
-            v-model="modelData"
             @change="modelData = $event.target.value"
             @focus="triggerInput()"
             @focusout="unTriggerInput()"
@@ -43,38 +43,38 @@
           <input
             v-else
             ref="inputField"
+            v-model="modelData"
             class="ac-input"
             :type="ui.type"
             :class="{
-              'is-success': validationOb.validated && validationOb.valid,
-              'is-danger': validationOb.validated && validationOb.invalid,
+              'is-success': validationOb.dirty && validationOb.valid,
+              'is-danger': validationOb.dirty && !validationOb.valid,
               'bg-white': modelData,
             }"
             :placeholder="ui.placeholder || ''"
-            v-model="modelData"
             @change="modelData = $event.target.value"
             @focus="triggerInput()"
             @focusout="unTriggerInput()"
             @paste="onPaste"
           />
-          <template v-if="validationOb.validated">
-            <span class="button is-information" v-if="validationOb.valid">
+          <template v-if="validationOb.dirty">
+            <span v-if="validationOb.valid" class="button is-information">
               <i class="fa fa-check"></i>
             </span>
             <span
+              v-if="!validationOb.valid"
               class="button is-information is-warning"
-              v-if="validationOb.invalid"
             >
               <i class="fa fa-times"></i>
             </span>
           </template>
           <p
-            class="is-error"
             v-if="
               validationOb &&
               validationOb.errors &&
               validationOb.errors.length > 0
             "
+            class="is-error"
           >
             <span class="warning"><i class="fa fa-warning"></i></span>
             {{ validationOb.errors[0] }}
@@ -85,25 +85,25 @@
 
     <template v-if="ui.tag === 'textarea'">
       <textarea
+        v-model="modelData"
         class="input"
         :type="ui.type"
         :class="{
-          'is-success': validationOb.validated && validationOb.valid,
-          'is-danger': validationOb.validated && validationOb.invalid,
+          'is-success': validationOb.dirty && validationOb.valid,
+          'is-danger': validationOb.dirty && !validationOb.valid,
         }"
         :placeholder="ui.placeholder || ''"
-        v-model="modelData"
         @change="modelData = $event.target.value"
       />
-      <template v-if="validationOb.validated">
-        <button class="button is-information is-success" v-if="valid">
+      <template v-if="validationOb.dirty">
+        <button v-if="valid" class="button is-information is-success">
           <i class="fa fa-check"></i>
         </button>
-        <button class="button is-information is-warning" v-if="invalid">
+        <button v-if="invalid" class="button is-information is-warning">
           <i class="fa fa-times"></i>
         </button>
       </template>
-      <span class="is-warning" v-if="validationOb.errors.length > 0">
+      <span v-if="validationOb.errors.length > 0" class="is-warning">
         <i class="fa fa-warning warning"></i>
         {{ validationOb.errors[0] }}
       </span>
@@ -123,18 +123,97 @@
 </template>
 
 <script>
-import { model } from "../mixins/model.js";
-import validation from "../mixins/validation.js";
-import size from "../mixins/size.js";
+import { model } from '../mixins/model.js';
+import validation from '../mixins/validation.js';
+import size from '../mixins/size.js';
+import { defineComponent } from 'vue';
 
-export default {
-  name: "simple-input",
+export default defineComponent({
+  name: 'SimpleInput',
+
+  mixins: [model, validation, size],
+
+  props: {
+    schema: {
+      type: Object,
+      default: () => ({}),
+    },
+    modelValue: {
+      type: null,
+      default: '',
+    },
+    validationOb: {
+      type: Object,
+      default: () => ({}),
+    },
+  },
+  emits: ['update:modelValue'],
+
   data() {
     return {
       labelShow: false,
       isIntegerSetToNull: false,
       isMultilineValue: false,
     };
+  },
+
+  computed: {
+    ui() {
+      return this.schema.ui || { tag: 'input', type: 'text' };
+    },
+    identifier() {
+      return `id-${this.schema.title.replace(' ', '-')}-${JSON.stringify(
+        new Date().valueOf()
+      )}`;
+    },
+  },
+
+  watch: {
+    modelData: {
+      immediate: true,
+      deep: true,
+      handler(newVal, oldVal) {
+        if (this.isMultilineValue) {
+          setTimeout(() => {
+            this.$refs.textareaField.focus();
+          }, 0);
+        }
+
+        if (typeof newVal === 'string' && newVal.includes('\n')) {
+          this.isMultilineValue = true;
+        }
+
+        if (newVal) this.labelShow = true;
+        else this.labelShow = false;
+
+        if (
+          this.isIntegerSetToNull ||
+          (oldVal !== null && oldVal !== undefined)
+        ) {
+          if (this.isIntegerSetToNull && newVal) {
+            this.isIntegerSetToNull = false;
+          }
+          if (this.type === 'number' || this.type === 'integer') {
+            // if the newVal string is empty, emit null
+            if (newVal === '') {
+              this.isIntegerSetToNull = true;
+              this.$emit('update:modelValue', null);
+            } else this.$emit('update:modelValue', +newVal);
+          } else this.$emit('update:modelValue', newVal);
+        }
+      },
+    },
+  },
+
+  mounted() {
+    if (this.modelData) this.labelShow = true;
+    this.$refs.inputField?.addEventListener('keydown', this.handleKeyDownEvent);
+  },
+  destroyed() {
+    this.$refs.inputField?.removeEventListener(
+      'keydown',
+      this.handleKeyDownEvent
+    );
   },
   methods: {
     // to float up label when input is focused
@@ -153,7 +232,7 @@ export default {
     },
     onPaste(evt) {
       let pasteData = (evt.clipboardData || window.clipboardData).getData(
-        "text"
+        'text'
       );
 
       const finalData = this.updatedModelDataAfterPasteAndKeyDown(
@@ -161,14 +240,14 @@ export default {
         pasteData
       );
 
-      if (pasteData.includes("\n")) {
+      if (pasteData.includes('\n')) {
         this.isMultilineValue = true;
 
         this.modelData = finalData;
       }
     },
     handleKeyDownEvent(evt) {
-      if (evt.code === "Enter" && evt.shiftKey) {
+      if (evt.code === 'Enter' && evt.shiftKey) {
         evt.preventDefault();
 
         const finalData = this.updatedModelDataAfterPasteAndKeyDown(evt.target);
@@ -188,85 +267,10 @@ export default {
         this.modelData.length
       );
 
-      addedData = addedData ? addedData : "\n";
+      addedData = addedData ? addedData : '\n';
 
       return prefix + addedData + suffix;
     },
   },
-
-  props: {
-    schema: {
-      type: Object,
-      default: () => ({}),
-    },
-    value: {
-      default: "",
-    },
-    validationOb: {
-      type: Object,
-      default: () => ({}),
-    },
-  },
-
-  mounted() {
-    if (this.modelData) this.labelShow = true;
-    this.$refs.inputField?.addEventListener("keydown", this.handleKeyDownEvent);
-  },
-  destroyed() {
-    this.$refs.inputField?.removeEventListener(
-      "keydown",
-      this.handleKeyDownEvent
-    );
-  },
-
-  mixins: [model, validation, size],
-
-  computed: {
-    ui() {
-      return this.schema.ui || { tag: "input", type: "text" };
-    },
-    identifier() {
-      return `id-${this.schema.title.replace(" ", "-")}-${JSON.stringify(
-        new Date().valueOf()
-      )}`;
-    },
-  },
-
-  watch: {
-    modelData: {
-      immediate: true,
-      deep: true,
-      handler(newVal, oldVal) {
-        if (this.isMultilineValue) {
-          setTimeout(() => {
-            this.$refs.textareaField.focus();
-          }, 0);
-        }
-
-        if (typeof newVal === "string" && newVal.includes("\n")) {
-          this.isMultilineValue = true;
-        }
-
-        if (newVal) this.labelShow = true;
-        else this.labelShow = false;
-
-        if (
-          this.isIntegerSetToNull ||
-          (oldVal !== null && oldVal !== undefined)
-        ) {
-          if (this.isIntegerSetToNull && newVal) {
-            this.isIntegerSetToNull = false;
-          }
-          if (this.type === "number" || this.type === "integer") {
-            // if the newVal string is empty, emit null
-            if (newVal === "") {
-              this.isIntegerSetToNull = true;
-              this.$emit("input", null);
-            } else this.$emit("input", +newVal);
-          } else this.$emit("input", newVal);
-        }
-      },
-    },
-  },
-};
+});
 </script>

@@ -40,7 +40,7 @@
           </button> -->
     </div>
     <!-- form for all the object's properties -->
-    <!-- <object-form
+    <object-form
       v-show="!onlyJson && activeTab === 'form'"
       :key="`${schema.title}-form`"
       v-model="modelData"
@@ -53,7 +53,7 @@
       :level="level"
       :is-self-folded="isRoot ? false : isFolded"
       :reference-model="referenceModel || {}"
-    /> -->
+    />
     <!-- declared in tabs component -->
     <yaml-form
       v-if="activeTab === 'yaml'"

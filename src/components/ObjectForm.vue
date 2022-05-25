@@ -2,95 +2,106 @@
   <div class="mb-15" :class="{ 'is-hidden': isSelfFolded }">
     <template v-for="(key, idx) in Object.keys(properties)">
       <!-- if the property is another object -->
-      <validation-provider
+      <v-field
         v-if="properties[key].type === 'object'"
-        :key="key"
-        v-slot="{ errors }"
+        :key="key + '-object'"
+        v-slot="{ field, handleChange, errors }"
+        v-model="modelData[key]"
         :rules="ruleObject(propertiesRequired && isRequired(key))"
         :name="`${properties[key].title}`"
-        :vid="`${properties[key].title.replace(/ /g, '-')}-provider`"
-        slim
+        :label="`${properties[key].title}`"
+        as=""
       >
         <object-form-wrapper
+          :model-value="field.value"
           :expand-form="level < 2"
           :is-last-child="idx === Object.keys(properties).length - 1"
           :level="level + 1"
           :type="properties[key].type"
-          :isSelfRequired="propertiesRequired && isRequired(key)"
+          :is-self-required="propertiesRequired && isRequired(key)"
           :schema="properties[key]"
           :errors="errors"
-          v-model="modelData[key]"
           :reference-model="referenceModel[key] || {}"
+          @update:modelValue="handleChange"
         />
-      </validation-provider>
+      </v-field>
       <!-- if the property is additional property (key-value-pairs) -->
-      <validation-provider
+      <v-field
         v-else-if="properties[key].type === 'key-value-pairs'"
-        :key="key"
-        v-slot="{ errors }"
+        :key="key + '-key-value-pairs'"
+        v-slot="{ field, handleChange, errors }"
+        v-model="modelData[key]"
         :rules="ruleObject(propertiesRequired && isRequired(key))"
         :name="`${properties[key].title}`"
-        :vid="`${properties[key].title.replace(/ /g, '-')}-provider`"
-        slim
+        :label="`${properties[key].title}`"
+        as=""
       >
         <key-value-pairs
+          :model-value="field.value"
           :is-last-child="idx === Object.keys(properties).length - 1"
           :type="properties[key].type"
           :schema="properties[key]"
           :errors="errors"
-          v-model="modelData[key]"
           :reference-model="referenceModel[key] || {}"
+          @update:modelValue="handleChange"
         />
-      </validation-provider>
+      </v-field>
       <!-- if the property is array -->
-      <validation-provider
+      <v-field
         v-else-if="properties[key].type === 'array'"
-        :key="key"
-        v-slot="{ errors }"
+        :key="key + '-array'"
+        v-slot="{ field, handleChange, errors }"
+        v-model="modelData[key]"
         :rules="ruleArray(propertiesRequired && isRequired(key))"
         :name="`${properties[key].title}`"
-        :vid="`${properties[key].title.replace(/ /g, '-')}-provider`"
-        slim
+        :label="`${properties[key].title}`"
+        as=""
       >
         <array-input
+          :model-value="field.value"
           :is-last-child="idx === Object.keys(properties).length - 1"
           :type="properties[key].type"
           :schema="properties[key]"
           :errors="errors"
-          v-model="modelData[key]"
           :reference-model="referenceModel[key] || []"
+          @update:modelValue="handleChange"
         />
-      </validation-provider>
+      </v-field>
       <!-- if the property is simple string, number -->
-      <validation-provider
+      <v-field
         v-else
         :key="key"
-        v-slot="validationOb"
+        v-slot="{ field, handleChange, errors, meta }"
+        v-model="modelData[key]"
         :rules="ruleString(propertiesRequired && isRequired(key))"
         :name="`${properties[key].title}`"
-        :vid="`${properties[key].title.replace(/ /g, '-')}-provider`"
-        slim
+        :label="`${properties[key].title}`"
+        as=""
       >
         <simple-input
           :key="key"
+          :model-value="field.value"
           :type="properties[key].type"
           :schema="properties[key]"
-          :validationOb="validationOb"
-          v-model="modelData[key]"
+          :validation-ob="{ errors, ...meta }"
           :reference-model="referenceModel[key] || ''"
+          @update:modelValue="handleChange"
         />
-      </validation-provider>
+      </v-field>
     </template>
   </div>
 </template>
 
 <script>
-import { model } from "../mixins/model.js";
-import fold from "../mixins/fold.js";
-import validation from "../mixins/validation.js";
+import { model } from '../mixins/model.js';
+import fold from '../mixins/fold.js';
+import validation from '../mixins/validation.js';
+import { defineComponent } from 'vue';
 
-export default {
-  name: "object-form",
+export default defineComponent({
+  name: 'ObjectForm',
+
+  mixins: [model, fold, validation],
   props: {
     properties: {
       type: Object,
@@ -98,9 +109,9 @@ export default {
     },
     title: {
       type: String,
-      default: "",
+      default: '',
     },
-    value: {
+    modelValue: {
       type: Object,
       default: () => ({}),
     },
@@ -113,8 +124,6 @@ export default {
       default: 1,
     },
   },
-
-  mixins: [model, fold, validation],
 
   computed: {
     // for calculating if the property is actually required or not (Based on parent object self requirement)
@@ -129,5 +138,5 @@ export default {
       return item ? true : false;
     },
   },
-};
+});
 </script>
