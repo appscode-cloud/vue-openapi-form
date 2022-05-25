@@ -1,19 +1,18 @@
 <template>
-  <validation-observer
-    tag="div"
-    :ref="`${schema.title.replace(/ /g, '-')}-observer`"
-    :vid="`${schema.title.replace(/ /g, '-')}-observer`"
+  <v-form
+    :id="`${schema.title.replace(/ /g, '-')}-observer`"
     v-slot="{ errors: observerErrors }"
+    :key="updatePass"
+    as="div"
     class="ac-nested-elements key-value-pairs"
     :class="{ 'stop-line': isLastChild }"
-    :key="updatePass"
   >
     <div class="nested-header mb-5">
       <h6 class="is-flex is-semi-normal">
         <div class="collaps-icon is-disabled">
           <i aria-hidden="true" class="fa fa-minus"></i>
         </div>
-        {{ schema.title || "Array Item Description"
+        {{ schema.title || 'Array Item Description'
         }}<!-- show errors-->
         <component-errors
           :errors="[...errors, ...calcObserverError(observerErrors)]"
@@ -32,155 +31,184 @@
           :reference-model="referencekeyValueArray[index] || {}"
           :index="index"
           :schema="schema"
-          :additionalProperties="additionalProperties"
+          :additional-properties="additionalProperties"
           @delete-key-value="deleteProp"
         />
       </div>
       <!-- key input -->
-      <validation-observer
-        :ref="`${schema.title.replace(/ /g, '-')}-new`"
-        :vid="`${schema.title.replace(/ /g, '-')}-new-observer`"
-        :disabled="true"
-        tag="div"
+      <v-form
+        :id="`${schema.title.replace(/ /g, '-')}-new-observer`"
+        v-slot="{ validate }"
+        as="div"
         class="key-value-save"
       >
-        <validation-provider
-          :vid="`${schema.title.replace(/ /g, '-')}-key-provider`"
+        <v-field
+          :id="`${schema.title.replace(/ /g, '-')}-key-provider`"
+          v-slot="{ field, handleChange, errors: fieldErrors, meta }"
+          v-model="newKey"
           rules="required"
           :name="`${schema.title.replace(/ /g, '-')}-key`"
-          v-slot="validationOb"
-          tag="div"
+          :label="`${schema.title.replace(/ /g, '-')}-key`"
+          as="div"
         >
           <simple-input
+            :model-value="field.value"
             :schema="{
               title: 'Key',
               type: 'string',
               ui: { tag: 'input', type: 'text' },
             }"
             :type="`string`"
-            :validationOb="validationOb"
-            v-model="newKey"
+            :validation-ob="{ errors: fieldErrors, ...meta }"
             :reference-model="''"
+            @update:modelValue="handleChange"
           />
-        </validation-provider>
+        </v-field>
 
         <!-- new value input -->
         <!-- if value is object -->
         <template v-if="additionalProperties.type === 'object'">
-          <validation-provider
-            v-slot="{ errors }"
+          <v-field
+            :id="`${schema.title.replace(/ /g, '-')}-value-provider`"
+            v-slot="{ field, handleChange, errors: fieldErrors }"
+            v-model="newValue"
             rules="required"
             :name="`${schema.title.replace(/ /g, '-')}-value`"
-            :vid="`${schema.title.replace(/ /g, '-')}-value-provider`"
-            slim
+            :label="`${schema.title.replace(/ /g, '-')}-value`"
+            as=""
           >
             <object-form-wrapper
+              :model-value="field.value"
               :is-last-child="true"
-              :isSelfRequired="true"
+              :is-self-required="true"
               :schema="additionalProperties"
               :type="additionalProperties.type"
-              :errors="errors"
-              v-model="newValue"
+              :errors="fieldErrors"
               :reference-model="{}"
+              @update:modelValue="handleChange"
             />
-          </validation-provider>
+          </v-field>
         </template>
         <!-- if value is key value pairs -->
         <template v-else-if="additionalProperties.type === 'key-value-pairs'">
-          <validation-provider
-            v-slot="{ errors }"
+          <v-field
+            :id="`${schema.title.replace(/ /g, '-')}-value-provider`"
+            v-slot="{ field, handleChange, errors: fieldErrors }"
+            v-model="newValue"
             rules="required"
             :name="`${schema.title.replace(/ /g, '-')}-value`"
-            :vid="`${schema.title.replace(/ /g, '-')}-value-provider`"
-            slim
+            :label="`${schema.title.replace(/ /g, '-')}-value`"
+            as=""
           >
             <key-value-pairs
+              :model-value="field.value"
               :is-last-child="true"
               :schema="additionalProperties"
               :type="additionalProperties.type"
-              :errors="errors"
-              v-model="newValue"
+              :errors="fieldErrors"
               :reference-model="{}"
+              @update:modelValue="handleChange"
             />
-          </validation-provider>
+          </v-field>
         </template>
         <!-- if value is array -->
         <template v-else-if="additionalProperties.type === 'array'">
-          <validation-provider
-            v-slot="{ errors }"
+          <v-field
+            :id="`${schema.title.replace(/ /g, '-')}-value-provider`"
+            v-slot="{ field, handleChange, errors: fieldErrors }"
+            v-model="newValue"
             rules="required"
             :name="`${schema.title.replace(/ /g, '-')}-value`"
-            :vid="`${schema.title.replace(/ /g, '-')}-value-provider`"
-            slim
+            :label="`${schema.title.replace(/ /g, '-')}-value`"
+            as=""
           >
             <array-input
+              :model-value="field.value"
               :is-last-child="true"
               :schema="additionalProperties"
               :type="additionalProperties.type"
-              :errors="errors"
-              v-model="newValue"
+              :errors="fieldErrors"
               :reference-model="[]"
+              @update:modelValue="handleChange"
             />
-          </validation-provider>
+          </v-field>
         </template>
         <!-- if value is simple input -->
         <template v-else>
-          <validation-provider
-            v-slot="validationOb"
+          <v-field
+            :id="`${schema.title.replace(/ /g, '-')}-value-provider`"
+            v-slot="{ field, handleChange, errors: fieldErrors, meta }"
+            v-model="newValue"
             rules="required"
             :name="`${schema.title.replace(/ /g, '-')}-value`"
-            :vid="`${schema.title.replace(/ /g, '-')}-value-provider`"
-            slim
+            :label="`${schema.title.replace(/ /g, '-')}-value`"
+            as=""
           >
             <simple-input
+              :model-value="field.value"
               :schema="additionalProperties"
               :type="additionalProperties.type"
-              :validationOb="validationOb"
-              v-model="newValue"
+              :validation-ob="{ errors: fieldErrors, ...meta }"
               :reference-model="''"
+              @update:modelValue="handleChange"
             />
-          </validation-provider>
+          </v-field>
         </template>
         <button
-          class="button ac-button is-small is-square is-outlined-gray is-transparent"
+          class="
+            button
+            ac-button
+            is-small is-square is-outlined-gray is-transparent
+          "
           :class="{ 'is-small': !isMedium }"
-          @click.prevent="addProp()"
+          @click.prevent="addProp(validate)"
         >
           <i class="fa fa-plus"></i>
         </button>
-      </validation-observer>
+      </v-form>
     </template>
     <!-- declared in tabs component -->
     <yaml-form
       v-if="activeTab === 'yaml'"
-      @code::model-data-updated="updateKeyValueArray"
       v-model="modelData"
       :reference-model="referenceModel || {}"
+      @code::model-data-updated="updateKeyValueArray"
     />
     <!-- declared in tabs component -->
     <json-form
       v-else-if="activeTab === 'json'"
-      @code::model-data-updated="updateKeyValueArray"
       v-model="modelData"
       :reference-model="referenceModel || {}"
+      @code::model-data-updated="updateKeyValueArray"
     />
-  </validation-observer>
+  </v-form>
 </template>
 
 <script>
-import { model } from "../mixins/model.js";
-import tabs from "../mixins/tabs.js";
-import validation from "../mixins/validation.js";
-import size from "../mixins/size.js";
+import { model } from '../mixins/model.js';
+import tabs from '../mixins/tabs.js';
+import validation from '../mixins/validation.js';
+import size from '../mixins/size.js';
+import { defineAsyncComponent, defineComponent } from 'vue';
 
-export default {
-  name: "key-value-pairs",
+export default defineComponent({
+  name: 'KeyValuePairs',
+
+  components: {
+    KeyValuePairItems: defineAsyncComponent(() =>
+      import('./sub-components/KeyValuePairItems.vue').then(
+        (module) => module.default
+      )
+    ),
+  },
+
+  mixins: [model, tabs, validation, size],
   props: {
     schema: {
       type: Object,
       default: () => ({}),
     },
-    value: {
+    modelValue: {
       type: Object,
       default: () => ({}),
     },
@@ -194,22 +222,13 @@ export default {
     },
   },
 
-  components: {
-    KeyValuePairItems: () =>
-      import("./sub-components/KeyValuePairItems.vue").then(
-        (module) => module.default
-      ),
-  },
-
-  mixins: [model, tabs, validation, size],
-
   data() {
     return {
       newData: null,
       updatePass: 0,
       keyValueArray: null,
       referencekeyValueArray: null,
-      newKey: "",
+      newKey: '',
       newValue: null,
     };
   },
@@ -220,11 +239,42 @@ export default {
     },
   },
 
+  watch: {
+    keyValueArray: {
+      immediate: true,
+      deep: true,
+      handler(newVal, oldVal) {
+        if (oldVal !== null && oldVal !== undefined) {
+          this.modelData = this.reconstructObject(newVal);
+        }
+      },
+    },
+
+    activeTab() {
+      // re-calculate keyValueArray
+      this.initKeyValueArray();
+      this.initReferenceKeyValueArray();
+    },
+
+    modelValue: {
+      deep: true,
+      immediate: true,
+      handler(n, o) {
+        const newStringifiedObject = JSON.stringify(n);
+        const oldStringifiedObject = JSON.stringify(o);
+        if (newStringifiedObject !== oldStringifiedObject)
+          this.initKeyValueArray();
+
+        this.initReferenceKeyValueArray();
+      },
+    },
+  },
+
   methods: {
     initKeyValueArray() {
-      this.keyValueArray = Object.keys(this.value).map((key) => ({
+      this.keyValueArray = Object.keys(this.modelValue).map((key) => ({
         key,
-        value: this.value[key] || null,
+        value: this.modelValue[key] || null,
       }));
     },
     initReferenceKeyValueArray() {
@@ -257,17 +307,16 @@ export default {
       return result;
     },
 
-    async addProp() {
-      const observerRef = `${this.schema.title.replace(/ /g, "-")}-new`;
-      const isValid = await this.$refs[observerRef].validate();
+    async addProp(validate) {
+      const { valid } = await validate();
 
-      if (isValid) {
+      if (valid) {
         this.keyValueArray.push({
           key: this.newKey,
           value: this.newValue,
         });
 
-        this.newKey = "";
+        this.newKey = '';
         this.newValue = null;
 
         this.updatePass += 1;
@@ -275,40 +324,9 @@ export default {
     },
 
     deleteProp(index) {
-      this.$delete(this.keyValueArray, index);
+      this.keyValueArray.splice(index, 1);
       this.updatePass += 1;
     },
   },
-
-  watch: {
-    keyValueArray: {
-      immediate: true,
-      deep: true,
-      handler(newVal, oldVal) {
-        if (oldVal !== null && oldVal !== undefined) {
-          this.modelData = this.reconstructObject(newVal);
-        }
-      },
-    },
-
-    activeTab() {
-      // re-calculate keyValueArray
-      this.initKeyValueArray();
-      this.initReferenceKeyValueArray();
-    },
-
-    value: {
-      deep: true,
-      immediate: true,
-      handler(n, o) {
-        const newStringifiedObject = JSON.stringify(n);
-        const oldStringifiedObject = JSON.stringify(o);
-        if (newStringifiedObject !== oldStringifiedObject)
-          this.initKeyValueArray();
-
-        this.initReferenceKeyValueArray();
-      },
-    },
-  },
-};
+});
 </script>

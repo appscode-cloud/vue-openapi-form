@@ -1,19 +1,17 @@
 <template>
-  <validation-observer
-    tag="div"
-    :ref="`${schema.title.replace(/ /g, '-')}-observer`"
-    :vid="`${schema.title.replace(/ /g, '-')}-observer`"
+  <v-form
     v-slot="{ errors: observerErrors }"
+    :key="updatePass"
+    as="div"
     class="ac-nested-elements vue-schema-form-array array-input"
     :class="{ 'stop-line': isLastChild }"
-    :key="updatePass"
   >
     <div class="nested-header mb-5">
       <h6 class="is-flex is-semi-normal">
         <div class="collaps-icon is-disabled">
           <i class="fa fa-minus"></i>
         </div>
-        {{ schema.title || "Array Item Description" }}
+        {{ schema.title || 'Array Item Description' }}
         <component-errors
           :errors="[...errors, ...calcObserverError(observerErrors)]"
         />
@@ -23,16 +21,16 @@
     <div v-show="activeTab === 'form'">
       <!-- existing values form -->
       <div
-        class="nested-body"
-        :key="`${index}-${schema.title}-form`"
         v-for="(item, index) in modelData"
+        :key="`${index}-${schema.title}-form`"
+        class="nested-body"
       >
         <!-- for each item generate form -->
         <array-input-items
           :items="items"
           :schema="schema"
           :index="index"
-          :value="modelData"
+          :model-value="modelData"
           :reference-model="referenceModel || []"
         />
         <!-- for each item add control buttons -->
@@ -40,32 +38,32 @@
           <div class="buttons">
             <div class="up-down-buttons" :class="{ 'is-small': !isMedium }">
               <button
-                class="up-down-button"
-                :class="{ 'is-info': index !== 0 }"
-                :disabled="index === 0"
-                @click.prevent="swapElems(index - 1, index)"
                 v-tooltip="{
                   content: 'move up',
                   placement: 'top',
                   classes: ['is-button-info'],
                   targetClasses: ['up-down-button'],
                 }"
+                class="up-down-button"
+                :class="{ 'is-info': index !== 0 }"
+                :disabled="index === 0"
+                @click.prevent="swapElems(index - 1, index)"
               >
                 <span class="icon is-small">
                   <i class="fa fa-angle-up"></i>
                 </span>
               </button>
               <button
-                class="up-down-button"
-                :class="{ 'is-info': index !== modelData.length - 1 }"
-                :disabled="index === modelData.length - 1"
-                @click.prevent="swapElems(index, index + 1)"
                 v-tooltip="{
                   content: 'move down',
                   placement: 'bottom',
                   classes: ['is-button-info'],
                   targetClasses: ['up-down-button'],
                 }"
+                class="up-down-button"
+                :class="{ 'is-info': index !== modelData.length - 1 }"
+                :disabled="index === modelData.length - 1"
+                @click.prevent="swapElems(index, index + 1)"
               >
                 <span class="icon is-small">
                   <i class="fa fa-angle-down"></i>
@@ -73,7 +71,12 @@
               </button>
             </div>
             <button
-              class="button ac-button is-small is-square is-outlined-gray is-transparent mb-0"
+              class="
+                button
+                ac-button
+                is-small is-square is-outlined-gray is-transparent
+                mb-0
+              "
               :class="{ 'is-small': !isMedium }"
               @click.prevent="deleteValue(index)"
             >
@@ -84,108 +87,115 @@
       </div>
 
       <!-- new value input form -->
-      <validation-observer
-        :ref="`${schema.title.replace(/ /g, '-')}-new`"
-        :vid="`${schema.title.replace(/ /g, '-')}-new-observer`"
-        :disabled="true"
-        slim
-      >
+      <v-form v-slot="{ validate }" as="">
         <div class="value-list-save">
           <template v-if="items.type === 'object'">
-            <validation-provider
-              v-slot="{ errors }"
+            <v-field
+              v-slot="{ field, handleChange, errors: fieldErrors }"
+              v-model="newData"
               :rules="ruleObject(true)"
               :name="`${schema.title.replace(/ /g, '-')}-new-value`"
-              :vid="`${schema.title.replace(/ /g, '-')}-new-value-provider`"
-              slim
+              :label="`${schema.title.replace(/ /g, '-')}-new-value`"
+              as=""
             >
               <object-form-wrapper
+                :model-value="field.value"
                 :is-last-child="true"
                 :expand-form="true"
-                :isSelfRequired="true"
+                :is-self-required="true"
                 :schema="{
                   ...items,
                   ...{ title: `${schema.title} new value` },
                 }"
                 :type="items.type"
-                :errors="errors"
-                v-model="newData"
+                :errors="fieldErrors"
                 :reference-model="{}"
+                @update:modelValue="handleChange"
               />
-            </validation-provider>
+            </v-field>
           </template>
           <template v-else-if="items.type === 'key-value-pairs'">
-            <validation-provider
-              v-slot="{ errors }"
+            <v-field
+              v-slot="{ field, handleChange, errors: fieldErrors }"
+              v-model="newData"
               :rules="ruleObject(true)"
               :name="`${schema.title.replace(/ /g, '-')}-new-value`"
               :vid="`${schema.title.replace(/ /g, '-')}-new-value-provider`"
-              slim
+              as=""
             >
               <key-value-pairs
+                :model-value="field.value"
                 :is-last-child="true"
                 :schema="{
                   ...items,
                   ...{ title: `${schema.title} new value` },
                 }"
-                :errors="errors"
+                :errors="fieldErrors"
                 :type="items.type"
-                v-model="newData"
                 :reference-model="{}"
+                @update:modelValue="handleChange"
               />
-            </validation-provider>
+            </v-field>
           </template>
           <template v-else-if="items.type === 'array'">
-            <validation-provider
-              v-slot="{ errors }"
+            <v-field
+              v-slot="{ field, handleChange, errors: fieldErrors }"
+              v-model="newData"
               :rules="ruleArray(true)"
               :name="`${schema.title.replace(/ /g, '-')}-new-value`"
-              :vid="`${schema.title.replace(/ /g, '-')}-new-value-provider`"
-              slim
+              :label="`${schema.title.replace(/ /g, '-')}-new-value`"
+              as=""
             >
               <array-input
+                :model-value="field.value"
                 :is-last-child="true"
                 :schema="{
                   ...items,
                   ...{ title: `${schema.title} new value` },
                 }"
-                :errors="errors"
+                :errors="fieldErrors"
                 :type="items.type"
-                v-model="newData"
                 :reference-model="[]"
+                @update:modelValue="handleChange"
               />
-            </validation-provider>
+            </v-field>
           </template>
           <template v-else>
-            <validation-provider
-              v-slot="validationOb"
+            <v-field
+              v-slot="{ field, handleChange, errors: fieldErrors, meta }"
+              v-model="newData"
               :rules="ruleString(true)"
               :name="`${schema.title.replace(/ /g, '-')}-new-value`"
-              :vid="`${schema.title.replace(/ /g, '-')}-new-value-provider`"
-              slim
+              :label="`${schema.title.replace(/ /g, '-')}-new-value`"
+              as=""
             >
               <simple-input
+                :model-value="field.value"
                 :schema="{
                   ...items,
                   ...{ title: `${schema.title} new value` },
                 }"
                 :required="true"
                 :type="items.type"
-                :validationOb="validationOb"
-                v-model="newData"
+                :validation-ob="{ errors: fieldErrors, ...meta }"
                 :reference-model="''"
+                @update:modelValue="handleChange"
               />
-            </validation-provider>
+            </v-field>
           </template>
           <button
-            class="button ac-button is-small is-square is-outlined-gray is-transparent"
+            class="
+              button
+              ac-button
+              is-small is-square is-outlined-gray is-transparent
+            "
             :class="{ 'is-small': !isMedium }"
-            @click.prevent="addNewValue()"
+            @click.prevent="addNewValue(validate)"
           >
             <i class="fa fa-plus"></i>
           </button>
         </div>
-      </validation-observer>
+      </v-form>
     </div>
     <!-- declared in tabs component -->
     <yaml-form
@@ -199,29 +209,33 @@
       v-model="modelData"
       :reference-model="referenceModel || []"
     />
-  </validation-observer>
+  </v-form>
 </template>
 
 <script>
-import { model } from "../mixins/model.js";
-import tabs from "../mixins/tabs.js";
-import validation from "../mixins/validation.js";
-import size from "../mixins/size.js";
+import { model } from '../mixins/model.js';
+import tabs from '../mixins/tabs.js';
+import validation from '../mixins/validation.js';
+import size from '../mixins/size.js';
+import { defineAsyncComponent, defineComponent } from 'vue';
 
-export default {
-  name: "array-input",
+export default defineComponent({
+  name: 'ArrayInput',
   components: {
-    ArrayInputItems: () =>
-      import("./sub-components/ArrayInputItems.vue").then(
+    ArrayInputItems: defineAsyncComponent(() =>
+      import('./sub-components/ArrayInputItems.vue').then(
         (module) => module.default
-      ),
+      )
+    ),
   },
+
+  mixins: [model, tabs, validation, size],
   props: {
     schema: {
       type: Object,
       default: () => ({}),
     },
-    value: {
+    modelValue: {
       type: null,
       default: () => [],
     },
@@ -234,8 +248,6 @@ export default {
       default: false,
     },
   },
-
-  mixins: [model, tabs, validation, size],
 
   data() {
     return {
@@ -253,17 +265,14 @@ export default {
   methods: {
     swapElems(index1, index2) {
       const temp = this.modelData[index1];
-      this.$set(this.modelData, index1, this.modelData[index2]);
-      this.$set(this.modelData, index2, temp);
+      this.modelData[index1] = this.modelData[index2];
+      this.modelData[index2] = temp;
       this.updatePass += 1;
     },
 
-    async addNewValue() {
-      const observerRef = `${this.schema.title.replace(/ /g, "-")}-new`;
-      // console.log(observerRef);
-      const isValid = await this.$refs[observerRef].validate();
-
-      if (isValid) {
+    async addNewValue(validate) {
+      const { valid } = await validate();
+      if (valid) {
         this.modelData.push(this.newData);
         this.newData = null;
         this.updatePass += 1;
@@ -271,9 +280,9 @@ export default {
     },
 
     deleteValue(index) {
-      this.$delete(this.modelData, index);
+      this.modelData.splice(index, 1);
       this.updatePass += 1;
     },
   },
-};
+});
 </script>

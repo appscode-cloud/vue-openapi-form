@@ -4,12 +4,21 @@ import { getCurrentInstance } from 'vue';
 export const registerValidationRules = function () {
   defineRule('required', required);
   defineRule('requiredArray', (value) => {
-    if (value.length < 2)
+    if (
+      value !== null &&
+      typeof value === 'object' &&
+      Array.isArray(value) &&
+      value.length < 2
+    )
       return '{_field_} array must contain more than one element';
     else return true;
   });
   defineRule('requiredOb', (value) => {
-    if (Object.keys(value).length === 0)
+    if (
+      value !== null &&
+      typeof value === 'object' &&
+      Object.keys(value).length === 0
+    )
       return '{_field_} object must not be empty';
     else return true;
   });
