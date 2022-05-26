@@ -1,7 +1,5 @@
 <template>
-  <v-form
-    v-slot="{ errors: observerErrors }"
-    as="form"
+  <form
     class="ac-nested-elements object-form-wrapper"
     :class="{
       'stop-line': isLastChild,
@@ -9,7 +7,6 @@
       'is-collapsed': isFolded,
     }"
   >
-    <!-- {{ calcObserverError(observerErrors) }} -->
     <div class="nested-header mb-5">
       <h6 class="is-flex is-semi-normal" @click.prevent="toggleFold()">
         <div
@@ -24,9 +21,7 @@
         </div>
         {{ schema.title || 'Array Item Description' }}
         <!-- show errors-->
-        <component-errors
-          :errors="[...errors, ...calcObserverError(observerErrors)]"
-        />
+        <component-errors :errors="calcFormErrors(errors, fieldName)" />
       </h6>
       <tabs v-if="!onlyJson" v-model="activeTab" />
       <!-- 
@@ -44,6 +39,7 @@
       v-show="!onlyJson && activeTab === 'form'"
       :key="`${schema.title}-form`"
       v-model="modelData"
+      :field-name="fieldName"
       :properties="schema.properties"
       :title="schema.title"
       :required="schema.required"
@@ -53,6 +49,7 @@
       :level="level"
       :is-self-folded="isRoot ? false : isFolded"
       :reference-model="referenceModel || {}"
+      :errors="errors"
     />
     <!-- declared in tabs component -->
     <yaml-form
@@ -65,7 +62,7 @@
       v-model="modelData"
       :reference-model="referenceModel || {}"
     />
-  </v-form>
+  </form>
 </template>
 
 <script>
@@ -84,6 +81,10 @@ export default defineComponent({
       type: Object,
       default: () => ({}),
     },
+    fieldName: {
+      type: String,
+      default: '',
+    },
     modelValue: {
       type: Object,
       default: () => ({}),
@@ -93,8 +94,8 @@ export default defineComponent({
       default: false,
     },
     errors: {
-      type: Array,
-      default: () => [],
+      type: Object,
+      default: () => ({}),
     },
     isLastChild: {
       type: Boolean,

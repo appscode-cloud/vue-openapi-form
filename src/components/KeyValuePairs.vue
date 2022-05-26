@@ -1,7 +1,5 @@
 <template>
-  <v-form
-    :id="`${schema.title.replace(/ /g, '-')}-observer`"
-    v-slot="{ errors: observerErrors }"
+  <div
     :key="updatePass"
     as="div"
     class="ac-nested-elements key-value-pairs"
@@ -14,9 +12,7 @@
         </div>
         {{ schema.title || 'Array Item Description'
         }}<!-- show errors-->
-        <component-errors
-          :errors="[...errors, ...calcObserverError(observerErrors)]"
-        />
+        <component-errors :errors="calcFormErrors(errors, fieldName)" />
       </h6>
       <tabs v-model="activeTab" />
     </div>
@@ -28,17 +24,19 @@
       >
         <key-value-pair-items
           v-model="keyValueArray[index]"
+          :field-name="fieldName"
           :reference-model="referencekeyValueArray[index] || {}"
           :index="index"
           :schema="schema"
           :additional-properties="additionalProperties"
+          :errors="errors"
           @delete-key-value="deleteProp"
         />
       </div>
       <!-- key input -->
       <v-form
         :id="`${schema.title.replace(/ /g, '-')}-new-observer`"
-        v-slot="{ validate }"
+        v-slot="{ validate, errors: formErrors }"
         as="div"
         class="key-value-save"
       >
@@ -47,8 +45,8 @@
           v-slot="{ field, handleChange, errors: fieldErrors, meta }"
           v-model="newKey"
           rules="required"
-          :name="`${schema.title.replace(/ /g, '-')}-key`"
-          :label="`${schema.title.replace(/ /g, '-')}-key`"
+          name="newKey"
+          :label="`${schema.title} new key`"
           as="div"
         >
           <simple-input
@@ -70,20 +68,21 @@
         <template v-if="additionalProperties.type === 'object'">
           <v-field
             :id="`${schema.title.replace(/ /g, '-')}-value-provider`"
-            v-slot="{ field, handleChange, errors: fieldErrors }"
+            v-slot="{ field, handleChange }"
             v-model="newValue"
             rules="required"
-            :name="`${schema.title.replace(/ /g, '-')}-value`"
-            :label="`${schema.title.replace(/ /g, '-')}-value`"
+            name="newValue"
+            :label="`${schema.title} new value`"
             as=""
           >
             <object-form-wrapper
+              field-name="newValue"
               :model-value="field.value"
               :is-last-child="true"
               :is-self-required="true"
               :schema="additionalProperties"
               :type="additionalProperties.type"
-              :errors="fieldErrors"
+              :errors="formErrors"
               :reference-model="{}"
               @update:modelValue="handleChange"
             />
@@ -93,19 +92,20 @@
         <template v-else-if="additionalProperties.type === 'key-value-pairs'">
           <v-field
             :id="`${schema.title.replace(/ /g, '-')}-value-provider`"
-            v-slot="{ field, handleChange, errors: fieldErrors }"
+            v-slot="{ field, handleChange }"
             v-model="newValue"
             rules="required"
-            :name="`${schema.title.replace(/ /g, '-')}-value`"
-            :label="`${schema.title.replace(/ /g, '-')}-value`"
+            name="newValue"
+            :label="`${schema.title} new value`"
             as=""
           >
             <key-value-pairs
+              field-name="newValue"
               :model-value="field.value"
               :is-last-child="true"
               :schema="additionalProperties"
               :type="additionalProperties.type"
-              :errors="fieldErrors"
+              :errors="formErrors"
               :reference-model="{}"
               @update:modelValue="handleChange"
             />
@@ -115,19 +115,20 @@
         <template v-else-if="additionalProperties.type === 'array'">
           <v-field
             :id="`${schema.title.replace(/ /g, '-')}-value-provider`"
-            v-slot="{ field, handleChange, errors: fieldErrors }"
+            v-slot="{ field, handleChange }"
             v-model="newValue"
             rules="required"
-            :name="`${schema.title.replace(/ /g, '-')}-value`"
-            :label="`${schema.title.replace(/ /g, '-')}-value`"
+            name="newValue"
+            :label="`${schema.title} new value`"
             as=""
           >
             <array-input
+              field-name="newValue"
               :model-value="field.value"
               :is-last-child="true"
               :schema="additionalProperties"
               :type="additionalProperties.type"
-              :errors="fieldErrors"
+              :errors="formErrors"
               :reference-model="[]"
               @update:modelValue="handleChange"
             />
@@ -140,8 +141,8 @@
             v-slot="{ field, handleChange, errors: fieldErrors, meta }"
             v-model="newValue"
             rules="required"
-            :name="`${schema.title.replace(/ /g, '-')}-value`"
-            :label="`${schema.title.replace(/ /g, '-')}-value`"
+            name="newValue"
+            :label="`${schema.title} new value`"
             as=""
           >
             <simple-input
@@ -181,7 +182,7 @@
       :reference-model="referenceModel || {}"
       @code::model-data-updated="updateKeyValueArray"
     />
-  </v-form>
+  </div>
 </template>
 
 <script>
@@ -208,13 +209,17 @@ export default defineComponent({
       type: Object,
       default: () => ({}),
     },
+    fieldName: {
+      type: String,
+      default: '',
+    },
     modelValue: {
       type: Object,
       default: () => ({}),
     },
     errors: {
-      type: Array,
-      default: () => [],
+      type: Object,
+      default: () => ({}),
     },
     isLastChild: {
       type: Boolean,

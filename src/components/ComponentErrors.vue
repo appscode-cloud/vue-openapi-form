@@ -22,8 +22,6 @@ export default defineComponent({
       return {
         content: this.htmlContent,
         html: true,
-        classes: ['is-errors-tooltip'],
-        targetClasses: ['is-warning'],
       };
     },
     htmlContent() {

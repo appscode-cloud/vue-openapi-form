@@ -1,6 +1,5 @@
 <template>
-  <v-form
-    v-slot="{ errors: observerErrors }"
+  <div
     :key="updatePass"
     as="div"
     class="ac-nested-elements vue-schema-form-array array-input"
@@ -12,9 +11,7 @@
           <i class="fa fa-minus"></i>
         </div>
         {{ schema.title || 'Array Item Description' }}
-        <component-errors
-          :errors="[...errors, ...calcObserverError(observerErrors)]"
-        />
+        <component-errors :errors="calcFormErrors(errors, fieldName)" />
       </h6>
       <tabs v-model="activeTab" />
     </div>
@@ -27,10 +24,12 @@
       >
         <!-- for each item generate form -->
         <array-input-items
+          :field-name="fieldName"
           :items="items"
           :schema="schema"
           :index="index"
           :model-value="modelData"
+          :errors="errors"
           :reference-model="referenceModel || []"
         />
         <!-- for each item add control buttons -->
@@ -87,18 +86,19 @@
       </div>
 
       <!-- new value input form -->
-      <v-form v-slot="{ validate }" as="">
+      <v-form v-slot="{ validate, errors: formErrors }" as="">
         <div class="value-list-save">
           <template v-if="items.type === 'object'">
             <v-field
-              v-slot="{ field, handleChange, errors: fieldErrors }"
+              v-slot="{ field, handleChange }"
               v-model="newData"
               :rules="ruleObject(true)"
-              :name="`${schema.title.replace(/ /g, '-')}-new-value`"
-              :label="`${schema.title.replace(/ /g, '-')}-new-value`"
+              name="newItem"
+              :label="`${schema.title} new value`"
               as=""
             >
               <object-form-wrapper
+                field-name="newItem"
                 :model-value="field.value"
                 :is-last-child="true"
                 :expand-form="true"
@@ -108,7 +108,7 @@
                   ...{ title: `${schema.title} new value` },
                 }"
                 :type="items.type"
-                :errors="fieldErrors"
+                :errors="formErrors"
                 :reference-model="{}"
                 @update:modelValue="handleChange"
               />
@@ -116,21 +116,22 @@
           </template>
           <template v-else-if="items.type === 'key-value-pairs'">
             <v-field
-              v-slot="{ field, handleChange, errors: fieldErrors }"
+              v-slot="{ field, handleChange }"
               v-model="newData"
               :rules="ruleObject(true)"
-              :name="`${schema.title.replace(/ /g, '-')}-new-value`"
-              :vid="`${schema.title.replace(/ /g, '-')}-new-value-provider`"
+              name="newItem"
+              :label="`${schema.title} new value`"
               as=""
             >
               <key-value-pairs
+                field-name="newItem"
                 :model-value="field.value"
                 :is-last-child="true"
                 :schema="{
                   ...items,
                   ...{ title: `${schema.title} new value` },
                 }"
-                :errors="fieldErrors"
+                :errors="formErrors"
                 :type="items.type"
                 :reference-model="{}"
                 @update:modelValue="handleChange"
@@ -139,21 +140,22 @@
           </template>
           <template v-else-if="items.type === 'array'">
             <v-field
-              v-slot="{ field, handleChange, errors: fieldErrors }"
+              v-slot="{ field, handleChange }"
               v-model="newData"
               :rules="ruleArray(true)"
-              :name="`${schema.title.replace(/ /g, '-')}-new-value`"
-              :label="`${schema.title.replace(/ /g, '-')}-new-value`"
+              name="newItem"
+              :label="`${schema.title} new value`"
               as=""
             >
               <array-input
+                field-name="newItem"
                 :model-value="field.value"
                 :is-last-child="true"
                 :schema="{
                   ...items,
                   ...{ title: `${schema.title} new value` },
                 }"
-                :errors="fieldErrors"
+                :errors="formErrors"
                 :type="items.type"
                 :reference-model="[]"
                 @update:modelValue="handleChange"
@@ -165,8 +167,8 @@
               v-slot="{ field, handleChange, errors: fieldErrors, meta }"
               v-model="newData"
               :rules="ruleString(true)"
-              :name="`${schema.title.replace(/ /g, '-')}-new-value`"
-              :label="`${schema.title.replace(/ /g, '-')}-new-value`"
+              name="newItem"
+              :label="`${schema.title} new value`"
               as=""
             >
               <simple-input
@@ -209,7 +211,7 @@
       v-model="modelData"
       :reference-model="referenceModel || []"
     />
-  </v-form>
+  </div>
 </template>
 
 <script>
@@ -235,13 +237,17 @@ export default defineComponent({
       type: Object,
       default: () => ({}),
     },
+    fieldName: {
+      type: String,
+      default: '',
+    },
     modelValue: {
       type: null,
       default: () => [],
     },
     errors: {
-      type: Array,
-      default: () => [],
+      type: Object,
+      default: () => ({}),
     },
     isLastChild: {
       type: Boolean,

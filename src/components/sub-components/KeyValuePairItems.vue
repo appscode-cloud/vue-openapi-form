@@ -2,11 +2,11 @@
   <div class="key-value-save">
     <v-field
       :id="`${schema.title.replace(/ /g, '-')}-key-${index + 1}-provider`"
-      v-slot="{ field, handleChange, errors, meta }"
+      v-slot="{ field, handleChange, errors: fieldErrors, meta }"
       v-model="modelData.key"
       rules="required"
-      :name="`${schema.title.replace(/ /g, '-')}-key-${index + 1}`"
-      :label="`${schema.title.replace(/ /g, '-')}-key-${index + 1}`"
+      :name="`${fieldName}/key/${index + 1}`"
+      :label="`${schema.title} key ${index + 1}`"
       as="div"
     >
       <simple-input
@@ -17,7 +17,7 @@
           ui: { tag: 'input', type: 'text' },
         }"
         :type="`string`"
-        :validation-ob="{ errors, ...meta }"
+        :validation-ob="{ errors: fieldErrors, ...meta }"
         :reference-model="referenceModel.key || ''"
         @update:modelValue="handleChange"
       />
@@ -25,14 +25,15 @@
     <template v-if="additionalProperties.type === 'object'">
       <v-field
         :id="`${schema.title.replace(/ /g, '-')}-value-${index + 1}-provider`"
-        v-slot="{ field, handleChange, errors }"
+        v-slot="{ field, handleChange }"
         v-model="modelData.value"
         :rules="ruleObject(true)"
-        :name="`${schema.title.replace(/ /g, '-')}-value-${index + 1}`"
-        :label="`${schema.title.replace(/ /g, '-')}-value-${index + 1}`"
+        :name="`${fieldName}/value/${index + 1}`"
+        :label="`${schema.title} value ${index + 1}`"
         as=""
       >
         <object-form-wrapper
+          :field-name="`${fieldName}/value/${index + 1}`"
           :model-value="field.value"
           :schema="additionalProperties"
           :is-self-required="true"
@@ -46,14 +47,15 @@
     <template v-else-if="additionalProperties.type === 'key-value-pairs'">
       <v-field
         :id="`${schema.title.replace(/ /g, '-')}-value-${index + 1}-provider`"
-        v-slot="{ field, handleChange, errors }"
+        v-slot="{ field, handleChange }"
         v-model="modelData.value"
         :rules="ruleObject(true)"
-        :name="`${schema.title.replace(/ /g, '-')}-value-${index + 1}`"
-        :label="`${schema.title.replace(/ /g, '-')}-value-${index + 1}`"
+        :name="`${fieldName}/value/${index + 1}`"
+        :label="`${schema.title} value ${index + 1}`"
         as=""
       >
         <key-value-pairs
+          :field-name="`${fieldName}/value/${index + 1}`"
           :model-value="field.value"
           :schema="additionalProperties"
           :type="additionalProperties.type"
@@ -66,14 +68,15 @@
     <template v-else-if="additionalProperties.type === 'array'">
       <v-field
         :id="`${schema.title.replace(/ /g, '-')}-value-${index + 1}-provider`"
-        v-slot="{ field, handleChange, errors }"
+        v-slot="{ field, handleChange }"
         v-model="modelData.value"
         :rules="ruleArray(true)"
-        :name="`${schema.title.replace(/ /g, '-')}-value-${index + 1}`"
-        :label="`${schema.title.replace(/ /g, '-')}-value-${index + 1}`"
+        :name="`${fieldName}/value/${index + 1}`"
+        :label="`${schema.title} value ${index + 1}`"
         as=""
       >
         <array-input
+          :field-name="`${fieldName}/value/${index + 1}`"
           :model-value="field.value"
           :schema="additionalProperties"
           :type="additionalProperties.type"
@@ -86,18 +89,18 @@
     <template v-else>
       <v-field
         :id="`${schema.title.replace(/ /g, '-')}-value-${index + 1}-provider`"
-        v-slot="{ field, handleChange, errors, meta }"
+        v-slot="{ field, handleChange, errors: fieldErrors, meta }"
         v-model="modelData.value"
         :rules="ruleString(true)"
-        :name="`${schema.title.replace(/ /g, '-')}-value-${index + 1}`"
-        :label="`${schema.title.replace(/ /g, '-')}-value-${index + 1}`"
+        :name="`${fieldName}/value/${index + 1}`"
+        :label="`${schema.title} value ${index + 1}`"
         as=""
       >
         <simple-input
           :model-value="field.value"
           :schema="additionalProperties"
           :type="additionalProperties.type"
-          :validation-ob="{ errors, ...meta }"
+          :validation-ob="{ errors: fieldErrors, ...meta }"
           :reference-model="referenceModel.value || ''"
           @update:modelValue="handleChange"
         />
@@ -128,6 +131,14 @@ export default defineComponent({
   mixins: [model, validation],
   props: {
     modelValue: {
+      type: Object,
+      default: () => ({}),
+    },
+    fieldName: {
+      type: String,
+      default: '',
+    },
+    errors: {
       type: Object,
       default: () => ({}),
     },

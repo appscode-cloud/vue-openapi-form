@@ -1,1 +1,0 @@
-var n={data:function(){return{activeTab:"form"}},components:{Tabs:function(){return import("./Tabs-c993dc7b.js").then((function(n){return n.default}))},JsonForm:function(){return import("./JsonForm-3e109c0e.js").then((function(n){return n.default}))},YamlForm:function(){return import("./YamlForm-09dc566d.js").then((function(n){return n.default}))}}};export{n as t};

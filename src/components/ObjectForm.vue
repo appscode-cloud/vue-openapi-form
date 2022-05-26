@@ -5,15 +5,16 @@
       <v-field
         v-if="properties[key].type === 'object'"
         :key="key + '-object'"
-        v-slot="{ field, handleChange, errors }"
+        v-slot="{ field, handleChange }"
         v-model="modelData[key]"
+        :name="`${fieldName}/${key}`"
         :rules="ruleObject(propertiesRequired && isRequired(key))"
-        :name="`${properties[key].title}`"
         :label="`${properties[key].title}`"
         as=""
       >
         <object-form-wrapper
           :model-value="field.value"
+          :field-name="`${fieldName}/${key}`"
           :expand-form="level < 2"
           :is-last-child="idx === Object.keys(properties).length - 1"
           :level="level + 1"
@@ -29,15 +30,16 @@
       <v-field
         v-else-if="properties[key].type === 'key-value-pairs'"
         :key="key + '-key-value-pairs'"
-        v-slot="{ field, handleChange, errors }"
+        v-slot="{ field, handleChange }"
         v-model="modelData[key]"
+        :name="`${fieldName}/${key}`"
         :rules="ruleObject(propertiesRequired && isRequired(key))"
-        :name="`${properties[key].title}`"
         :label="`${properties[key].title}`"
         as=""
       >
         <key-value-pairs
           :model-value="field.value"
+          :field-name="`${fieldName}/${key}`"
           :is-last-child="idx === Object.keys(properties).length - 1"
           :type="properties[key].type"
           :schema="properties[key]"
@@ -50,15 +52,16 @@
       <v-field
         v-else-if="properties[key].type === 'array'"
         :key="key + '-array'"
-        v-slot="{ field, handleChange, errors }"
+        v-slot="{ field, handleChange }"
         v-model="modelData[key]"
+        :name="`${fieldName}/${key}`"
         :rules="ruleArray(propertiesRequired && isRequired(key))"
-        :name="`${properties[key].title}`"
         :label="`${properties[key].title}`"
         as=""
       >
         <array-input
           :model-value="field.value"
+          :field-name="`${fieldName}/${key}`"
           :is-last-child="idx === Object.keys(properties).length - 1"
           :type="properties[key].type"
           :schema="properties[key]"
@@ -71,10 +74,10 @@
       <v-field
         v-else
         :key="key"
-        v-slot="{ field, handleChange, errors, meta }"
+        v-slot="{ field, handleChange, errors: fieldErrors, meta }"
         v-model="modelData[key]"
         :rules="ruleString(propertiesRequired && isRequired(key))"
-        :name="`${properties[key].title}`"
+        :name="`${fieldName}/${key}`"
         :label="`${properties[key].title}`"
         as=""
       >
@@ -83,7 +86,7 @@
           :model-value="field.value"
           :type="properties[key].type"
           :schema="properties[key]"
-          :validation-ob="{ errors, ...meta }"
+          :validation-ob="{ errors: fieldErrors, ...meta }"
           :reference-model="referenceModel[key] || ''"
           @update:modelValue="handleChange"
         />
@@ -104,6 +107,14 @@ export default defineComponent({
   mixins: [model, fold, validation],
   props: {
     properties: {
+      type: Object,
+      default: () => ({}),
+    },
+    fieldName: {
+      type: String,
+      default: '',
+    },
+    errors: {
       type: Object,
       default: () => ({}),
     },

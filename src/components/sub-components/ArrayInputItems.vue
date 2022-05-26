@@ -2,14 +2,15 @@
   <div class="form-left-item">
     <template v-if="items.type === 'object'">
       <v-field
-        v-slot="{ field, handleChange, errors }"
+        v-slot="{ field, handleChange }"
         v-model="modelData[index]"
         :rules="ruleObject(true)"
-        :name="`${schema.title.replace(/ /g, '-')}-${index + 1}`"
-        :label="`${schema.title.replace(/ /g, '-')}-${index + 1}`"
+        :name="`${fieldName}/${index + 1}`"
+        :label="`${schema.title} ${index + 1}`"
         as=""
       >
         <object-form-wrapper
+          :field-name="`${fieldName}/${index + 1}`"
           :model-value="field.value"
           :schema="{
             ...items,
@@ -25,14 +26,15 @@
     </template>
     <template v-else-if="items.type === 'key-value-pairs'">
       <v-field
-        v-slot="{ field, handleChange, errors }"
+        v-slot="{ field, handleChange }"
         v-model="modelData[index]"
         :rules="ruleObject(true)"
-        :name="`${schema.title.replace(/ /g, '-')}-${index + 1}`"
-        :label="`${schema.title.replace(/ /g, '-')}-${index + 1}`"
+        :name="`${fieldName}/${index + 1}`"
+        :label="`${schema.title} ${index + 1}`"
         as=""
       >
         <key-value-pairs
+          :field-name="`${fieldName}/${index + 1}`"
           :model-value="field.value"
           :errors="errors"
           :schema="{
@@ -47,14 +49,15 @@
     </template>
     <template v-else-if="items.type === 'array'">
       <v-field
-        v-slot="{ field, handleChange, errors }"
+        v-slot="{ field, handleChange }"
         v-model="modelData[index]"
         :rules="ruleArray(true)"
-        :name="`${schema.title.replace(/ /g, '-')}-${index + 1}`"
-        :label="`${schema.title.replace(/ /g, '-')}-${index + 1}`"
+        :name="`${fieldName}/${index + 1}`"
+        :label="`${schema.title} ${index + 1}`"
         as=""
       >
         <array-input
+          :field-name="`${fieldName}/${index + 1}`"
           :model-value="field.value"
           :schema="{
             ...items,
@@ -69,11 +72,11 @@
     </template>
     <template v-else>
       <v-field
-        v-slot="{ field, handleChange, errors, meta }"
+        v-slot="{ field, handleChange, errors: fieldErrors, meta }"
         v-model="modelData[index]"
         :rules="ruleString(true)"
-        :name="`${schema.title.replace(/ /g, '-')}-${index + 1}`"
-        :label="`${schema.title.replace(/ /g, '-')}-${index + 1}`"
+        :name="`${fieldName}/${index + 1}`"
+        :label="`${schema.title} ${index + 1}`"
         as=""
       >
         <simple-input
@@ -84,7 +87,7 @@
           }"
           :type="items.type"
           :required="true"
-          :validation-ob="{ errors, ...meta }"
+          :validation-ob="{ errors: fieldErrors, ...meta }"
           :reference-model="referenceModel[index] || ''"
           @update:modelValue="handleChange"
         />
@@ -117,6 +120,14 @@ export default defineComponent({
     modelValue: {
       type: null,
       default: () => [],
+    },
+    fieldName: {
+      type: String,
+      default: '',
+    },
+    errors: {
+      type: Object,
+      default: () => ({}),
     },
   },
 });

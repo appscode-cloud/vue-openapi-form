@@ -95,5 +95,19 @@ export default defineComponent({
       });
       return ansErrors;
     },
+
+    calcFormErrors(errors, prefix) {
+      return Object.keys(errors)
+        .filter((key) => key.startsWith(prefix))
+        .map((key) => {
+          const path = key.replace(/^(\$\/)/, '');
+          const prefixedPath = prefix.replace(/^(\$\/)/, '');
+
+          const relativePath = path.replace(prefixedPath + '/', '');
+
+          const pfx = relativePath.includes('/') ? `${relativePath}: ` : '';
+          return `${pfx}${errors[key]}`;
+        });
+    },
   },
 });

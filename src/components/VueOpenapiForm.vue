@@ -1,6 +1,6 @@
 <template>
   <div class="vue-openapi-form" :class="{ 'is-medium': size === 'medium' }">
-    <v-form v-slot="{ meta, validate }" as="">
+    <v-form v-slot="{ meta, validate, errors }" as="">
       <v-field
         v-slot="{ field, handleChange }"
         v-model="modelData"
@@ -10,6 +10,7 @@
         as=""
       >
         <object-form-wrapper
+          field-name="$"
           :model-value="field.value"
           :expand-form="true"
           :level="1"
@@ -18,6 +19,7 @@
           :schema="extendedSchema"
           :reference-model="referenceModel || {}"
           :is-form-submitting="meta.pending || isFormSubmitting"
+          :errors="errors"
           @vof:submitted="onSubmit(validate)"
           @update:modelValue="handleChange"
         />
