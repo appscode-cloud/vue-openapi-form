@@ -1,0 +1,1 @@
+"use strict";var e=require("vue"),t=e.defineComponent({props:{isActive:{type:Boolean,default:!1}}});t.render=function(t,r,l,o,s,i){return e.openBlock(),e.createElementBlock("li",{class:e.normalizeClass({"is-active":t.isActive})},[e.renderSlot(t.$slots,"default")],2)},exports.default=t;
