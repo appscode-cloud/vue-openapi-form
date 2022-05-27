@@ -85,8 +85,23 @@
             :schema="jsonSchema"
             :reference-model="referenceModel || ''"
             :form-title="formTitle"
-            :on-valid="onValid"
-          />
+          >
+            <template #left-controls>
+              <ac-button
+                title="Cancel"
+                modifier-classes="is-outlined"
+                @click.prevent="cancelFunc"
+              />
+            </template>
+            <template #right-controls="{ validate }">
+              <ac-button
+                title="Done"
+                :is-loader-active="isLoading"
+                icon-class="check"
+                @click.prevent="submitFunc(validate)"
+              />
+            </template>
+          </vue-openapi-form>
         </div>
       </div>
     </div>
@@ -106,6 +121,9 @@ export default defineComponent({
     SchemaModel: defineAsyncComponent(() =>
       import('@/components/SchemaModel.vue').then((module) => module.default)
     ),
+    AcButton: defineAsyncComponent(() =>
+      import('@appscode/design-system/vue-components/v3/button/Button.vue')
+    ),
   },
 
   data() {
@@ -117,6 +135,7 @@ export default defineComponent({
       referenceModel: {},
       formTitle: '',
       modifiedSchema: false,
+      isLoading: false,
     };
   },
 
@@ -136,10 +155,6 @@ export default defineComponent({
   },
 
   methods: {
-    onValid() {
-      // console.log("Form is Valid");
-      // console.log(this.model);
-    },
     updateSchema(e) {
       this.modifiedSchema = true;
       this.selectedJsonSchema = e;
@@ -147,6 +162,19 @@ export default defineComponent({
     resetForm() {
       this.modifiedSchema = false;
       this.selectedJsonSchema = Schemas[0];
+    },
+    cancelFunc() {
+      console.log('form is canceled');
+    },
+    async submitFunc(validate) {
+      this.isLoading = true;
+      const { valid } = await validate();
+      if (valid) {
+        console.log('form is valid');
+      } else {
+        console.log('form is invalid');
+      }
+      this.isLoading = false;
     },
   },
 });

@@ -1,41 +1,72 @@
 <template>
-  <div class="vue-openapi-form" :class="{ 'is-medium': size === 'medium' }">
-    <v-form v-slot="{ meta, validate, errors }" as="">
-      <v-field
-        v-slot="{ field, handleChange }"
-        v-model="modelData"
-        :name="extendedSchema.title"
-        :label="extendedSchema.title"
-        :rules="ruleObject(true)"
-        as=""
-      >
-        <object-form-wrapper
-          field-name="$"
-          :model-value="field.value"
-          :expand-form="true"
-          :level="1"
-          :is-self-required="true"
-          :only-json="onlyJson"
-          :schema="extendedSchema"
-          :reference-model="referenceModel || {}"
-          :is-form-submitting="meta.pending || isFormSubmitting"
-          :errors="errors"
-          @vof:submitted="onSubmit(validate)"
-          @update:modelValue="handleChange"
-        />
-      </v-field>
-    </v-form>
-  </div>
+  <v-form v-slot="{ meta, validate, errors }" as="">
+    <ac-form>
+      <div class="vue-openapi-form" :class="{ 'is-medium': size === 'medium' }">
+        <v-field
+          v-slot="{ field, handleChange }"
+          v-model="modelData"
+          :name="extendedSchema.title"
+          :label="extendedSchema.title"
+          :rules="ruleObject(true)"
+          as=""
+        >
+          <object-form-wrapper
+            field-name="$"
+            :model-value="field.value"
+            :expand-form="true"
+            :is-root="true"
+            :level="1"
+            :is-self-required="true"
+            :only-json="onlyJson"
+            :schema="extendedSchema"
+            :reference-model="referenceModel || {}"
+            :errors="errors"
+            @update:modelValue="handleChange"
+          />
+        </v-field>
+      </div>
+      <template #form-left-controls>
+        <form-footer-control>
+          <slot
+            name="left-controls"
+            :validate="validate"
+            :form-status="meta"
+            :errors="errors"
+          />
+        </form-footer-control>
+      </template>
+      <template #form-right-controls>
+        <form-footer-control>
+          <slot
+            name="right-controls"
+            :validate="validate"
+            :form-status="meta"
+            :errors="errors"
+          />
+        </form-footer-control>
+      </template>
+    </ac-form>
+  </v-form>
 </template>
 
 <script>
 import ExtendSchema from '../functional-components/extend-schema.js';
 import validation from '../mixins/validation.js';
 import { model } from '../mixins/model.js';
-import { defineComponent } from 'vue';
+import { defineAsyncComponent, defineComponent } from 'vue';
 
 export default defineComponent({
   name: 'VueOpenapiForm',
+  components: {
+    AcForm: defineAsyncComponent(() =>
+      import('@appscode/design-system/vue-components/v3/form/Form.vue')
+    ),
+    FormFooterControl: defineAsyncComponent(() =>
+      import(
+        '@appscode/design-system/vue-components/v2/form/FormFooterControl.vue'
+      )
+    ),
+  },
   mixins: [model, validation],
   provide() {
     const providedData = {};
@@ -67,14 +98,6 @@ export default defineComponent({
       type: Boolean,
       default: false,
     },
-    onValid: {
-      type: Function,
-      default: () => () => {},
-    },
-    onInvalid: {
-      type: Function,
-      default: () => () => {},
-    },
     size: {
       type: String,
       default: 'small',
@@ -84,27 +107,9 @@ export default defineComponent({
       default: 'light',
     },
   },
-  data() {
-    return {
-      isFormSubmitting: false,
-    };
-  },
   computed: {
     extendedSchema() {
       return ExtendSchema(this.schema, this.formTitle);
-    },
-  },
-  methods: {
-    async onSubmit(validate) {
-      this.isFormSubmitting = true;
-      const { valid } = await validate();
-      if (valid) {
-        // console.log("validated");
-        await this.onValid();
-      } else {
-        await this.onInvalid();
-      }
-      this.isFormSubmitting = false;
     },
   },
 });

@@ -3,7 +3,6 @@
     class="ac-nested-elements object-form-wrapper"
     :class="{
       'stop-line': isLastChild,
-      'hide-upper-line': isRoot,
       'is-collapsed': isFolded,
     }"
   >
@@ -24,15 +23,6 @@
         <component-errors :errors="calcFormErrors(errors, fieldName)" />
       </h6>
       <tabs v-if="!onlyJson" v-model="activeTab" />
-      <!-- 
-          <button
-            v-if="isRoot"
-            class="done-button button ac-button is-primary is-pulled-right"
-            :class="{ 'is-loading': isFormSubmitting }"
-            @click.prevent="submit()"
-          >
-            <span>DONE</span>
-          </button> -->
     </div>
     <!-- form for all the object's properties -->
     <object-form
@@ -45,9 +35,8 @@
       :required="schema.required"
       :is-self-required="isSelfRequired"
       :type="schema.type"
-      :is-root="isRoot"
       :level="level"
-      :is-self-folded="isRoot ? false : isFolded"
+      :is-self-folded="isFolded"
       :reference-model="referenceModel || {}"
       :errors="errors"
     />
@@ -105,21 +94,9 @@ export default defineComponent({
       type: Boolean,
       default: false,
     },
-    isFormSubmitting: {
-      type: Boolean,
-      default: false,
-    },
     level: {
       type: Number,
       default: 1,
-    },
-  },
-
-  emits: ['vof:submitted'],
-
-  methods: {
-    submit() {
-      this.$emit('vof:submitted');
     },
   },
 });
