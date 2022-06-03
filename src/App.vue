@@ -79,6 +79,7 @@
         </div>
         <div class="right-content">
           <vue-openapi-form
+            ref="vof"
             :key="JSON.stringify(selectedJsonSchema)"
             v-model="model"
             class="ml-10"
@@ -103,6 +104,12 @@
             </template>
           </vue-openapi-form>
         </div>
+        <ac-button
+          title="Call Validate"
+          :is-loader-active="isLoading"
+          icon-class="check"
+          @click.prevent="callValidate"
+        />
       </div>
     </div>
   </div>
@@ -175,6 +182,10 @@ export default defineComponent({
         console.log('form is invalid');
       }
       this.isLoading = false;
+    },
+    async callValidate() {
+      const { valid } = await this.$refs.vof.$refs['v-form'].validate();
+      console.log(valid);
     },
   },
 });
