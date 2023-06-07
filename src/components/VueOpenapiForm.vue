@@ -63,7 +63,7 @@ export default defineComponent({
     ),
     FormFooterControl: defineAsyncComponent(() =>
       import(
-        '@appscode/design-system/vue-components/v2/form/FormFooterControl.vue'
+        '@appscode/design-system/vue-components/v3/form/FormFooterControl.vue'
       )
     ),
   },
