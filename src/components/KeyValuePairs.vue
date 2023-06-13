@@ -2,7 +2,7 @@
   <div
     :key="updatePass"
     as="div"
-    class="ac-nested-elements key-value-pairs"
+    class="ac-nested-elements key-value-pairs is-flex is-flex-direction-column gap-16"
     :class="{ 'stop-line': isLastChild }"
   >
     <div class="nested-header mb-5">
