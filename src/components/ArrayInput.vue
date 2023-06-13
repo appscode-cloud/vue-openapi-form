@@ -15,7 +15,10 @@
       </h6>
       <tabs v-model="activeTab" />
     </div>
-    <div v-show="activeTab === 'form'">
+    <div
+      v-show="activeTab === 'form'"
+      class="is-flex gap-16 is-flex-direction-column"
+    >
       <!-- existing values form -->
       <div
         v-for="(item, index) in modelData"
@@ -34,17 +37,20 @@
         />
         <!-- for each item add control buttons -->
         <div class="form-right-item">
-          <div class="buttons">
-            <div class="up-down-buttons" :class="{ 'is-small': !isMedium }">
+          <div class="buttons" style="gap: 4px">
+            <div
+              class="buttons up-down-buttons"
+              :class="{ 'is-small': !isMedium }"
+            >
               <button
                 v-tooltip="{
                   content: 'move up',
                   placement: 'top',
-                  classes: ['is-button-info'],
+                  classes: ['is-primary'],
                   targetClasses: ['up-down-button'],
                 }"
                 class="up-down-button"
-                :class="{ 'is-info': index !== 0 }"
+                :class="{ 'is-primary': index !== 0 }"
                 :disabled="index === 0"
                 @click.prevent="swapElems(index - 1, index)"
               >
@@ -56,11 +62,11 @@
                 v-tooltip="{
                   content: 'move down',
                   placement: 'bottom',
-                  classes: ['is-button-info'],
+                  classes: ['is-primary'],
                   targetClasses: ['up-down-button'],
                 }"
                 class="up-down-button"
-                :class="{ 'is-info': index !== modelData.length - 1 }"
+                :class="{ 'is-primary': index !== modelData.length - 1 }"
                 :disabled="index === modelData.length - 1"
                 @click.prevent="swapElems(index, index + 1)"
               >
@@ -70,16 +76,25 @@
               </button>
             </div>
             <button
-              class="
-                button
-                ac-button
-                is-small is-square is-outlined-gray is-transparent
-                mb-0
-              "
-              :class="{ 'is-small': !isMedium }"
+              class="button ac-button is-medium mb-0"
               @click.prevent="deleteValue(index)"
             >
-              <i class="fa fa-trash"></i>
+              <span class="icon">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke-width="1.5"
+                  stroke="currentColor"
+                  class="w-6 h-6"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0"
+                  />
+                </svg>
+              </span>
             </button>
           </div>
         </div>
@@ -186,15 +201,25 @@
             </v-field>
           </template>
           <button
-            class="
-              button
-              ac-button
-              is-small is-square is-outlined-gray is-transparent
-            "
-            :class="{ 'is-small': !isMedium }"
+            class="button ac-button is-medium"
             @click.prevent="addNewValue(validate)"
           >
-            <i class="fa fa-plus"></i>
+            <div class="icon">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke-width="1.5"
+                stroke="currentColor"
+                class="w-6 h-6"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M12 4.5v15m7.5-7.5h-15"
+                />
+              </svg>
+            </div>
           </button>
         </div>
       </v-form>

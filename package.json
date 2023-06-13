@@ -17,14 +17,14 @@
     "deploy": "firebase use default && firebase deploy"
   },
   "dependencies": {
-    "@appscode/design-system": "v1.1.0-beta.20",
+    "@appscode/design-system": "v1.1.0-beta.30",
     "@appscode/design-system-images": "0.0.13",
     "@vee-validate/rules": "^4.5.11",
-    "bulma": "^0.9.3",
+    "bulma": "^0.9.4",
     "bulma-switch": "^2.0.0",
+    "floating-vue": "^2.0.0-beta.15",
     "font-awesome": "^4.7.0",
     "js-yaml": "^3.14.1",
-    "floating-vue": "^2.0.0-beta.15",
     "vee-validate": "^4.4.7",
     "vue": "^3.0.5"
   },
