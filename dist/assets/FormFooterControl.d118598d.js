@@ -1,1 +1,0 @@
-import{b as e,o as r,h as t,f as s}from"./index.73bd9567.js";const c={},n={class:"form-footer-control"};function a(o,f){return r(),t("div",n,[s(o.$slots,"default")])}var _=e(c,[["render",a]]);export{_ as default};

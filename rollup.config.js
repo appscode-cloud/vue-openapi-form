@@ -11,6 +11,7 @@ import babel from '@rollup/plugin-babel';
 import scss from 'rollup-plugin-scss';
 import { terser } from 'rollup-plugin-terser';
 import minimist from 'minimist';
+import typescript from 'rollup-plugin-typescript'
 
 // Get browserslist config and remove ie from es build targets
 const esbrowserslist = fs
@@ -57,6 +58,7 @@ const baseConfig = {
         extensions: ['.js', '.jsx', '.ts', '.tsx', '.vue'],
       }),
       commonjs(),
+      typescript(),
       scss(),
     ],
     babel: {

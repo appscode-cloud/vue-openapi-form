@@ -1,0 +1,1 @@
+import{openBlock as t,createElementBlock as s,createElementVNode as a,renderSlot as e}from"vue";const l={class:"tabs ac-tabs"};const n={render:function(n,o){return t(),s("div",l,[a("ul",null,[e(n.$slots,"default")])])}};export{n as default};

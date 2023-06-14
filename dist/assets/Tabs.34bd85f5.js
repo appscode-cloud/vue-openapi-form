@@ -1,1 +1,0 @@
-import{b as s,o as a,h as t,g as o,f as r}from"./index.73bd9567.js";const c={},n={class:"tabs ac-tabs"};function l(e,_){return a(),t("div",n,[o("ul",null,[r(e.$slots,"default")])])}var f=s(c,[["render",l]]);export{f as default};
