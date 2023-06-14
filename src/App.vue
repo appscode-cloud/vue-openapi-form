@@ -80,7 +80,7 @@
             <template #left-controls>
               <ac-button
                 title="Cancel"
-                modifier-classes="is-outlined"
+                modifier-classes="is-outlined is-danger"
                 @click.prevent="cancelFunc"
               />
             </template>
@@ -94,13 +94,15 @@
             </template>
           </vue-openapi-form>
         </div>
+
+        <ac-button
+          title="Call Validate"
+          :is-loader-active="isLoading"
+          icon-class="check"
+          class="mt-50"
+          @click.prevent="callValidate"
+        />
       </div>
-      <ac-button
-        title="Call Validate"
-        :is-loader-active="isLoading"
-        icon-class="check"
-        @click.prevent="callValidate"
-      />
     </div>
   </div>
 </template>
