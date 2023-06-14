@@ -1,1 +1,0 @@
-"use strict";var e=require("vue");const r={class:"form-footer-control"};const t={render:function(t,o){return e.openBlock(),e.createElementBlock("div",r,[e.renderSlot(t.$slots,"default")])}};exports.default=t;

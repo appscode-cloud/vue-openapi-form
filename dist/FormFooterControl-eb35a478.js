@@ -1,1 +1,0 @@
-import{openBlock as o,createElementBlock as t,renderSlot as r}from"vue";const e={class:"form-footer-control"};const n={render:function(n,s){return o(),t("div",e,[r(n.$slots,"default")])}};export{n as default};
