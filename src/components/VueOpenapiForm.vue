@@ -1,7 +1,7 @@
 <template>
   <v-form ref="v-form" v-slot="{ meta, validate, errors }" as="">
     <ac-form>
-      <div class="vue-openapi-form" :class="{ 'is-medium': size === 'medium' }">
+      <div class="vue-openapi-form pl-20" :class="{ 'is-medium': size === 'medium' }">
         <v-field
           v-slot="{ field, handleChange }"
           v-model="modelData"
