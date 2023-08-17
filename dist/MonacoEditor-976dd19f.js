@@ -1,0 +1,1 @@
+import{openBlock as e,createElementBlock as t,normalizeStyle as o}from"vue";const r={render:function(r,n){return e(),t("div",{class:"monaco-editor-vue3",style:o(r.style)}," WOWO ",4)}};export{r as default};
