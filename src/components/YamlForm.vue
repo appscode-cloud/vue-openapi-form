@@ -1,6 +1,12 @@
 <template>
   <div class="ml-30">
-The editor was the main problem 
+    <editor
+      :key="theme"
+      v-model="editorModel"
+      :original-value="originalValueString"
+      language="yaml"
+      :editor-height="80"
+    />
   </div>
 </template>
 
@@ -12,6 +18,11 @@ import { defineAsyncComponent, defineComponent } from 'vue';
 export default defineComponent({
   name: 'YamlForm',
 
+  components: {
+    Editor: defineAsyncComponent(() =>
+      import('@appscode/design-system/vue-components/v3/editor/Editor.vue')
+    ),
+  },
 
   mixins: [model],
   inject: ['providedData'],
