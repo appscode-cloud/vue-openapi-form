@@ -60,11 +60,6 @@
                 </button>
               </div>
             </div>
-            <schema-model
-              :key="JSON.stringify(selectedJsonSchema)"
-              :schema-model="selectedJsonSchema"
-              @submit="updateSchema"
-            />
           </div>
         </div>
         <div class="right-content">
