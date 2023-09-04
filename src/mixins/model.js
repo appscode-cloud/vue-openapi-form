@@ -46,7 +46,7 @@ export const model = defineComponent({
       deep: true,
       handler(newVal, oldVal) {
         if (oldVal !== null && oldVal !== undefined) {
-          // clean the newVal if it's array or object if the cleanObject gloabl data is true
+          // clean the newVal if it's array or object if the cleanObject global data is true
           if (this.cleanObject) this.clean(newVal);
 
           // prevent number from converting to string
@@ -79,9 +79,9 @@ export const model = defineComponent({
           (this.type === 'object' || this.type === 'key-value-pairs') &&
           Object.keys(this.modelValue).length > 0
         )
-          this.modelData = this.modelValue;
+          this.modelData = JSON.parse(JSON.stringify(this.modelValue));
         else if (this.type === 'array' && this.modelValue.length > 0)
-          this.modelData = this.modelValue;
+          this.modelData = JSON.parse(JSON.stringify(this.modelValue));
         else if (this.type === 'boolean' && this.modelValue !== null)
           this.modelData = this.modelValue;
         else if (

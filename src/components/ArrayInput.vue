@@ -1,6 +1,5 @@
 <template>
   <div
-    :key="updatePass"
     as="div"
     class="ac-nested-elements vue-schema-form-array array-input"
     :class="{ 'stop-line': isLastChild }"
@@ -16,7 +15,7 @@
       <tabs v-model="activeTab" />
     </div>
     <div
-      v-show="activeTab === 'form'"
+      v-if="activeTab === 'form'"
       class="is-flex gap-16 is-flex-direction-column"
     >
       <!-- existing values form -->
@@ -31,7 +30,7 @@
           :items="items"
           :schema="schema"
           :index="index"
-          :model-value="modelData"
+          :model-value="JSON.parse(JSON.stringify(modelData))"
           :errors="errors"
           :reference-model="referenceModel || []"
         />
@@ -101,7 +100,7 @@
       </div>
 
       <!-- new value input form -->
-      <v-form v-slot="{ validate, errors: formErrors }" as="">
+      <v-form v-slot="{ validate, errors: formErrors }" :key="updatePass" as="">
         <div class="value-list-save">
           <template v-if="items.type === 'object'">
             <v-field
@@ -226,7 +225,7 @@
     </div>
     <!-- declared in tabs component -->
     <yaml-form
-      v-if="activeTab === 'yaml'"
+      v-else-if="activeTab === 'yaml'"
       v-model="modelData"
       :reference-model="referenceModel || []"
     />
@@ -295,8 +294,8 @@ export default defineComponent({
 
   methods: {
     swapElems(index1, index2) {
-      const temp = this.modelData[index1];
-      this.modelData[index1] = this.modelData[index2];
+      const temp = JSON.parse(JSON.stringify(this.modelData[index1]));
+      this.modelData[index1] = JSON.parse(JSON.stringify(this.modelData[index2]));
       this.modelData[index2] = temp;
       this.updatePass += 1;
     },

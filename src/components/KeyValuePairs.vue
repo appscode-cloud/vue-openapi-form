@@ -1,7 +1,5 @@
 <template>
   <div
-    :key="updatePass"
-    as="div"
     class="ac-nested-elements key-value-pairs is-flex is-flex-direction-column gap-16"
     :class="{ 'stop-line': isLastChild }"
   >
@@ -37,6 +35,7 @@
       <v-form
         :id="`${schema.title.replace(/ /g, '-')}-new-observer`"
         v-slot="{ validate, errors: formErrors }"
+        :key="updatePass"
         as="div"
         class="key-value-save"
       >
@@ -260,7 +259,8 @@ export default defineComponent({
       deep: true,
       handler(newVal, oldVal) {
         if (oldVal !== null && oldVal !== undefined) {
-          this.modelData = this.reconstructObject(newVal);
+          const stringNewVal = JSON.stringify(newVal);
+          this.modelData = this.reconstructObject(JSON.parse(stringNewVal));
         }
       },
     },
