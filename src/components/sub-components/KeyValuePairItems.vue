@@ -21,16 +21,6 @@
         :reference-model="referenceModel.key || ''"
       />
     </v-field>
-    <!-- <simple-input
-        v-model="modelData.key"
-        :schema="{
-          title: 'Key',
-          type: 'string',
-          ui: { tag: 'input', type: 'text' },
-        }"
-        :type="`string`"
-        :reference-model="referenceModel.key || ''"
-      /> -->
     <template v-if="additionalProperties.type === 'object'">
       <v-field
         :id="`${schema.title.replace(/ /g, '-')}-value-${index + 1}-provider`"
