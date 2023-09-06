@@ -1,4 +1,6 @@
-export default {
+import { defineComponent } from 'vue';
+
+export default defineComponent({
   props: {
     isSelfFolded: {
       type: Boolean,
@@ -30,4 +32,4 @@ export default {
       this.isFolded = !this.isFolded;
     },
   },
-};
+});

@@ -1,17 +1,11 @@
 <template>
-  <validation-observer
-    tag="form"
-    :ref="`${schema.title.replace(/ /g, '-')}-observer`"
-    :vid="`${schema.title.replace(/ /g, '-')}-observer`"
-    v-slot="{ errors: observerErrors }"
+  <form
     class="ac-nested-elements object-form-wrapper"
     :class="{
       'stop-line': isLastChild,
-      'hide-upper-line': isRoot,
       'is-collapsed': isFolded,
     }"
   >
-    <!-- {{ calcObserverError(observerErrors) }} -->
     <div class="nested-header mb-5">
       <h6 class="is-flex is-semi-normal" @click.prevent="toggleFold()">
         <div
@@ -24,37 +18,27 @@
             aria-hidden="true"
           ></i>
         </div>
-        {{ schema.title || "Array Item Description" }}
+        {{ schema.title || 'Array Item Description' }}
         <!-- show errors-->
-        <component-errors
-          :errors="[...errors, ...calcObserverError(observerErrors)]"
-        />
+        <component-errors :errors="calcFormErrors(errors, fieldName)" />
       </h6>
       <tabs v-if="!onlyJson" v-model="activeTab" />
-      <!-- 
-          <button
-            v-if="isRoot"
-            class="done-button button ac-button is-primary is-pulled-right"
-            :class="{ 'is-loading': isFormSubmitting }"
-            @click.prevent="submit()"
-          >
-            <span>DONE</span>
-          </button> -->
     </div>
     <!-- form for all the object's properties -->
     <object-form
       v-show="!onlyJson && activeTab === 'form'"
       :key="`${schema.title}-form`"
+      v-model="modelData"
+      :field-name="fieldName"
       :properties="schema.properties"
       :title="schema.title"
       :required="schema.required"
-      :isSelfRequired="isSelfRequired"
+      :is-self-required="isSelfRequired"
       :type="schema.type"
-      :isRoot="isRoot"
       :level="level"
-      :isSelfFolded="isRoot ? false : isFolded"
-      v-model="modelData"
+      :is-self-folded="isFolded"
       :reference-model="referenceModel || {}"
+      :errors="errors"
     />
     <!-- declared in tabs component -->
     <yaml-form
@@ -67,23 +51,30 @@
       v-model="modelData"
       :reference-model="referenceModel || {}"
     />
-  </validation-observer>
+  </form>
 </template>
 
 <script>
-import { model } from "../mixins/model.js";
-import fold from "../mixins/fold.js";
-import tabs from "../mixins/tabs.js";
-import validation from "../mixins/validation.js";
+import { model } from '../mixins/model.js';
+import fold from '../mixins/fold.js';
+import tabs from '../mixins/tabs.js';
+import validation from '../mixins/validation.js';
+import { defineComponent } from 'vue';
 
-export default {
-  name: "object-form-wrapper",
+export default defineComponent({
+  name: 'ObjectFormWrapper',
+
+  mixins: [model, fold, tabs, validation],
   props: {
     schema: {
       type: Object,
       default: () => ({}),
     },
-    value: {
+    fieldName: {
+      type: String,
+      default: '',
+    },
+    modelValue: {
       type: Object,
       default: () => ({}),
     },
@@ -92,8 +83,8 @@ export default {
       default: false,
     },
     errors: {
-      type: Array,
-      default: () => [],
+      type: Object,
+      default: () => ({}),
     },
     isLastChild: {
       type: Boolean,
@@ -103,22 +94,10 @@ export default {
       type: Boolean,
       default: false,
     },
-    isFormSubmitting: {
-      type: Boolean,
-      default: false,
-    },
     level: {
       type: Number,
       default: 1,
     },
   },
-
-  methods: {
-    submit() {
-      this.$emit("vof:submitted");
-    },
-  },
-
-  mixins: [model, fold, tabs, validation],
-};
+});
 </script>

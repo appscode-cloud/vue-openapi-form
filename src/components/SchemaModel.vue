@@ -3,10 +3,9 @@
     <div class="schema-input mb-30">
       <h5 class="mb-15">Schema</h5>
       <monaco-editor
-        ref="monacoSchemaEditor"
+        :value="schema"
         language="json"
         class="editor-writable vh-50 is-clipped"
-        v-model="schema"
         :options="{
           minimap: {
             enabled: false,
@@ -14,9 +13,10 @@
           theme: editorTheme,
           readOnly: false,
         }"
+        @change="onSchemaChange"
       />
 
-      <p class="is-warning mt-10" v-if="schemaError">
+      <p v-if="schemaError" class="is-warning mt-10">
         <span class="warning"><i class="fa fa-warning"></i></span>
         The format is not correct
       </p>
@@ -24,10 +24,9 @@
     <div class="model-input">
       <h5 class="mb-15">Model</h5>
       <monaco-editor
-        ref="monacoModelEditor"
+        :value="model"
         language="json"
         class="editor-writable vh-50 is-clipped"
-        v-model="model"
         :options="{
           minimap: {
             enabled: false,
@@ -35,9 +34,10 @@
           theme: editorTheme,
           readOnly: false,
         }"
+        @change="onModelChange"
       />
 
-      <p class="is-warning mt-10" v-if="modelError">
+      <p v-if="modelError" class="is-warning mt-10">
         <span class="warning"><i class="fa fa-warning"></i></span>
         The format is not correct
       </p>
@@ -52,23 +52,30 @@
 </template>
 
 <script>
-import MonacoEditor from "vue-monaco";
+import { defineAsyncComponent, defineComponent } from 'vue';
 
-export default {
-  name: "schema-model",
+export default defineComponent({
+  name: 'SchemaModel',
+
+  components: {
+    MonacoEditor: defineAsyncComponent(() =>
+      import(
+        '@appscode/design-system/vue-components/v3/editor/MonacoEditor.vue'
+      ).then((module) => module.default)
+    ),
+  },
   props: {
     schemaModel: {
       type: Object,
       default: () => ({}),
     },
   },
-
-  components: { MonacoEditor },
+  emits: ['submit'],
 
   data() {
     return {
-      schema: "",
-      model: "",
+      schema: '',
+      model: '',
 
       schemaError: false,
       modelError: false,
@@ -77,10 +84,30 @@ export default {
 
   computed: {
     editorTheme() {
-      return document.documentElement.classList.contains("is-dark-theme")
-        ? "vs-dark"
-        : "vs";
+      return document.documentElement.classList.contains('is-dark-theme')
+        ? 'vs-dark'
+        : 'vs';
     },
+  },
+
+  watch: {
+    schemaModel: {
+      deep: true,
+      immediate: true,
+      handler() {
+        this.initSchemaModel();
+      },
+    },
+    schema() {
+      this.schemaError = false;
+    },
+    model() {
+      this.modelError = false;
+    },
+  },
+
+  created() {
+    this.initSchemaModel();
   },
 
   methods: {
@@ -108,29 +135,16 @@ export default {
       }
 
       if (!this.schemaError && !this.modelError) {
-        this.$emit("submit", newOb);
+        this.$emit('submit', newOb);
       }
     },
-  },
 
-  created() {
-    this.initSchemaModel();
-  },
-
-  watch: {
-    schemaModel: {
-      deep: true,
-      immediate: true,
-      handler() {
-        this.initSchemaModel();
-      },
+    onSchemaChange(e) {
+      if (typeof e === 'string') this.schema = e;
     },
-    schema() {
-      this.schemaError = false;
-    },
-    model() {
-      this.modelError = false;
+    onModelChange(e) {
+      if (typeof e === 'string') this.model = e;
     },
   },
-};
+});
 </script>

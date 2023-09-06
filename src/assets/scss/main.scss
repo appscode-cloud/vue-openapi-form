@@ -1,21 +1,8 @@
-@import "~bulma/css/bulma.min.css";
-@import "~bulma-switch/dist/css/bulma-switch.min.css";
-
+@import 'bulma/bulma.sass';
+@import 'bulma-switch/dist/css/bulma-switch.min.css';
+@import 'floating-vue/dist/style.css';
 // BASE
-@import "./../../../node_modules/@appscode/design-system/base/utilities/initial-variables";
-@import "./../../../node_modules/@appscode/design-system/base/utilities/derived-variables";
-@import "./../../../node_modules/@appscode/design-system/base/utilities/typography";
-@import "./../../../node_modules/@appscode/design-system/base/utilities/default";
-@import "./../../../node_modules/@appscode/design-system/base/utilities/mixin";
-@import "./../../../node_modules/@appscode/design-system/base/utilities/dark-theme";
-
+@import './../../../node_modules/@appscode/design-system/base/utilities/all.scss';
 // COMPONENTS
-@import "./../../../node_modules/@appscode/design-system/components/_buttons";
-@import "./../../../node_modules/@appscode/design-system/components/_navbar";
-@import "./../../../node_modules/@appscode/design-system/components/_ac-input";
-@import "./../../../node_modules/@appscode/design-system/components/_ac-code-highlight";
-@import "./../../../node_modules/@appscode/design-system/components/_ac-content-layout";
-@import "./../../../node_modules/@appscode/design-system/components/_ac-tabs";
-@import "./../../../node_modules/@appscode/design-system/components/_ac-select-box";
-@import "./../../../node_modules/@appscode/design-system/components/ui-builder/ui-builder";
-@import "./../../../node_modules/@appscode/design-system/components/ui-builder/vue-open-api";
+@import './../../../node_modules/@appscode/design-system/components/ui-builder/ui-builder';
+@import './../../../node_modules/@appscode/design-system/components/ui-builder/vue-open-api';

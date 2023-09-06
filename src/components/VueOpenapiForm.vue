@@ -1,68 +1,71 @@
 <template>
-  <div class="vue-openapi-form" :class="{ 'is-medium': size === 'medium' }">
-    <validation-observer ref="vofMainObserver" v-slot="{ pending }" slim>
-      <validation-provider
-        :name="extendedSchema.title"
-        :rules="ruleObject(true)"
-        :vid="`${extendedSchema.title}-vpid`"
-        slim
-      >
-        <object-form-wrapper
-          :expand-form="true"
-          :level="1"
-          :isSelfRequired="true"
-          :onlyJson="onlyJson"
-          :schema="extendedSchema"
+  <v-form ref="v-form" v-slot="{ meta, validate, errors }" as="">
+    <ac-form>
+      <div class="vue-openapi-form pl-20" :class="{ 'is-medium': size === 'medium' }">
+        <v-field
+          v-slot="{ field, handleChange }"
           v-model="modelData"
-          :reference-model="referenceModel || {}"
-          @vof:submitted="onSubmit"
-          :is-form-submitting="pending || isFormSubmitting"
-        />
-      </validation-provider>
-    </validation-observer>
-  </div>
+          :name="extendedSchema.title"
+          :label="extendedSchema.title"
+          :rules="ruleObject(true)"
+          as=""
+        >
+          <object-form-wrapper
+            field-name="$"
+            :model-value="field.value"
+            :expand-form="true"
+            :is-root="true"
+            :level="1"
+            :is-self-required="true"
+            :only-json="onlyJson"
+            :schema="extendedSchema"
+            :reference-model="referenceModel || {}"
+            :errors="errors"
+            @update:modelValue="handleChange"
+          />
+        </v-field>
+      </div>
+      <template #form-left-controls>
+        <form-footer-control>
+          <slot
+            name="left-controls"
+            :validate="validate"
+            :form-status="meta"
+            :errors="errors"
+          />
+        </form-footer-control>
+      </template>
+      <template #form-right-controls>
+        <form-footer-control>
+          <slot
+            name="right-controls"
+            :validate="validate"
+            :form-status="meta"
+            :errors="errors"
+          />
+        </form-footer-control>
+      </template>
+    </ac-form>
+  </v-form>
 </template>
 
 <script>
-import ExtendSchema from "../functional-components/extend-schema.js";
-import validation from "../mixins/validation.js";
-import { model } from "../mixins/model.js";
+import ExtendSchema from '../functional-components/extend-schema.js';
+import validation from '../mixins/validation.js';
+import { model } from '../mixins/model.js';
+import { defineAsyncComponent, defineComponent } from 'vue';
 
-export default {
-  name: "vue-openapi-form",
-  props: {
-    schema: {
-      type: Object,
-      default: () => ({}),
-    },
-    value: {
-      type: Object,
-      default: () => ({}),
-    },
-    formTitle: {
-      type: String,
-      default: "",
-    },
-    onlyJson: {
-      type: Boolean,
-      default: false,
-    },
-    onValid: {
-      type: Function,
-      default: () => () => {},
-    },
-    onInvalid: {
-      type: Function,
-      default: () => () => {},
-    },
-    size: {
-      type: String,
-      default: "small",
-    },
-    themeMode: {
-      type: String,
-      default: "light",
-    },
+export default defineComponent({
+  name: 'VueOpenapiForm',
+  components: {
+    AcForm: defineAsyncComponent(() =>
+      import('@appscode/design-system/vue-components/v3/form/Form.vue')
+    ),
+    FormFooterControl: defineAsyncComponent(() =>
+      import(
+        '@appscode/design-system/vue-components/v3/form/FormFooterControl.vue'
+      )
+    ),
   },
   mixins: [model, validation],
   provide() {
@@ -70,7 +73,7 @@ export default {
 
     // using defineProperty to make provide data reactive
     // ref : https://stackoverflow.com/a/65720394
-    Object.defineProperty(providedData, "theme", {
+    Object.defineProperty(providedData, 'theme', {
       enumerable: true,
       get: () => this.themeMode,
     });
@@ -78,33 +81,41 @@ export default {
       providedData,
     };
   },
-  data() {
-    return {
-      isFormSubmitting: false,
-    };
+  props: {
+    schema: {
+      type: Object,
+      default: () => ({}),
+    },
+    modelValue: {
+      type: Object,
+      default: () => ({}),
+    },
+    formTitle: {
+      type: String,
+      default: '',
+    },
+    onlyJson: {
+      type: Boolean,
+      default: false,
+    },
+    size: {
+      type: String,
+      default: 'small',
+    },
+    themeMode: {
+      type: String,
+      default: 'light',
+    },
   },
   computed: {
     extendedSchema() {
       return ExtendSchema(this.schema, this.formTitle);
     },
   },
-  methods: {
-    async onSubmit() {
-      this.isFormSubmitting = true;
-      const isValid = await this.$refs.vofMainObserver.validate();
-      if (isValid) {
-        // console.log("validated");
-        await this.onValid();
-      } else {
-        await this.onInvalid();
-      }
-      this.isFormSubmitting = false;
-    },
-  },
-};
+});
 </script>
 
 <style lang="scss">
-@import "~font-awesome/css/font-awesome.min.css";
-@import "../assets/scss/main.scss";
+@import 'font-awesome/css/font-awesome.min.css';
+@import '../assets/scss/main.scss';
 </style>
