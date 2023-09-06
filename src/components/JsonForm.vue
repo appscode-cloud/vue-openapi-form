@@ -5,7 +5,7 @@
       v-model="editorModel"
       :original-value="originalValueString"
       language="json"
-      :editor-height="80"
+      :editor-height="70"
     />
   </div>
 </template>

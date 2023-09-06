@@ -2,7 +2,7 @@
   <div class="key-value-save">
     <v-field
       :id="`${schema.title.replace(/ /g, '-')}-key-${index + 1}-provider`"
-      v-slot="{ field, handleChange, errors: fieldErrors, meta }"
+      v-slot="{ componentField, errors: fieldErrors, meta }"
       v-model="modelData.key"
       rules="required"
       :name="`${fieldName}/key/${index + 1}`"
@@ -10,7 +10,7 @@
       as="div"
     >
       <simple-input
-        :model-value="field.value"
+        v-bind="componentField"
         :schema="{
           title: 'Key',
           type: 'string',
@@ -19,7 +19,6 @@
         :type="`string`"
         :validation-ob="{ errors: fieldErrors, ...meta }"
         :reference-model="referenceModel.key || ''"
-        @update:modelValue="handleChange"
       />
     </v-field>
     <template v-if="additionalProperties.type === 'object'">

@@ -5,7 +5,7 @@
       v-model="editorModel"
       :original-value="originalValueString"
       language="yaml"
-      :editor-height="80"
+      :editor-height="70"
     />
   </div>
 </template>
@@ -63,4 +63,3 @@ export default defineComponent({
   },
 });
 </script>
-
