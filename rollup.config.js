@@ -11,6 +11,7 @@ import babel from '@rollup/plugin-babel';
 import scss from 'rollup-plugin-scss';
 import { terser } from 'rollup-plugin-terser';
 import minimist from 'minimist';
+import typescript from 'rollup-plugin-typescript'
 
 // Get browserslist config and remove ie from es build targets
 const esbrowserslist = fs
@@ -50,6 +51,12 @@ const baseConfig = {
       template: {
         isProduction: true,
       },
+      preprocessStyles: true,
+      preprocessOptions: {
+        scss: {
+          additionalData: `@import "@appscode/design-system/base/utilities/colors";`,
+        },
+      },
     },
     postVue: [
       resolve({
@@ -57,6 +64,7 @@ const baseConfig = {
         extensions: ['.js', '.jsx', '.ts', '.tsx', '.vue'],
       }),
       commonjs(),
+      typescript(),
       scss(),
     ],
     babel: {
@@ -73,6 +81,8 @@ const external = [
   // list external dependencies, exactly the way it is written in the import statement.
   // eg. 'jquery'
   'vue',
+  "qs",
+  "monaco-editor",
 ];
 
 // UMD/IIFE shared settings: output.globals
@@ -81,6 +91,8 @@ const globals = {
   // Provide global variable names to replace your external imports
   // eg. jquery: '$'
   vue: 'Vue',
+  qs: 'qs',
+  'monaco-editor': 'monaco',
 };
 
 // Customize configs for individual targets

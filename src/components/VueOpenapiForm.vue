@@ -1,7 +1,7 @@
 <template>
   <v-form ref="v-form" v-slot="{ meta, validate, errors }" as="">
     <ac-form>
-      <div class="vue-openapi-form" :class="{ 'is-medium': size === 'medium' }">
+      <div class="vue-openapi-form pl-20" :class="{ 'is-medium': size === 'medium' }">
         <v-field
           v-slot="{ field, handleChange }"
           v-model="modelData"
@@ -63,7 +63,7 @@ export default defineComponent({
     ),
     FormFooterControl: defineAsyncComponent(() =>
       import(
-        '@appscode/design-system/vue-components/v2/form/FormFooterControl.vue'
+        '@appscode/design-system/vue-components/v3/form/FormFooterControl.vue'
       )
     ),
   },

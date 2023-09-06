@@ -8,31 +8,23 @@
           <div class="ac-navbar-brand">
             <a href="https://byte.builders/"
               ><img
-                class="desktop-only"
-                src="@/assets/images/bytebuilders-logo-white.svg"
-              />
-
-              <img
-                class="responsive-only"
                 src="https://cdn.appscode.com/images/products/bytebuilders/bytebuilders.png"
-                alt=""
               />
             </a>
+            <strong>(Vue OpenAPI Form)</strong>
           </div>
           <!-- navbar logo end -->
-          <p class="pl-20" style="color: white">(Vue OpenAPI Form)</p>
+
           <!-- navbar menus start  -->
           <div class="ac-navbar-menu">
             <!-- single navbar menu item start  -->
             <div class="ac-menu-item">
-              <div class="social-link">
-                <a
-                  href="https://github.com/appscode/vue-openapi-form"
-                  class="icon-rounded"
-                >
-                  <i class="fa fa-github" aria-hidden="true"></i>
-                </a>
-              </div>
+              <a
+                href="https://github.com/appscode/vue-openapi-form"
+                class="button ac-nav-button"
+              >
+                <i class="fa fa-github" aria-hidden="true"></i>
+              </a>
             </div>
             <!-- single navbar menu item end  -->
           </div>
@@ -42,14 +34,12 @@
       </div>
     </div>
 
-    <div class="vue-form-scema-body mb-50 mt-50">
-      <div class="is-flex p-30">
+    <div class="vue-form-scema-body mt-50">
+      <div class="is-flex gap-20">
         <div class="left-content">
           <div class="left-content-wrapper">
             <div v-if="!modifiedSchema" class="select-box-wrapper">
-              <label class="mb-10 is-block" for="schema-selection"
-                >Select Schema</label
-              >
+              <h5 class="mb-10 is-block">Select Schema</h5>
               <div class="select is-fullwidth">
                 <select id="schema-selection" v-model="selectedJsonSchema">
                   <option
@@ -90,7 +80,7 @@
             <template #left-controls>
               <ac-button
                 title="Cancel"
-                modifier-classes="is-outlined"
+                modifier-classes="is-outlined is-danger"
                 @click.prevent="cancelFunc"
               />
             </template>
@@ -104,10 +94,12 @@
             </template>
           </vue-openapi-form>
         </div>
+
         <ac-button
           title="Call Validate"
           :is-loader-active="isLoading"
           icon-class="check"
+          class="mt-50"
           @click.prevent="callValidate"
         />
       </div>
@@ -190,3 +182,100 @@ export default defineComponent({
   },
 });
 </script>
+
+<style lang="scss">
+.ac-navbar-area {
+  position: fixed;
+  width: 100%;
+  top: 0;
+  z-index: 999;
+  background-color: $primary-97;
+  border-bottom: 1px solid $primary-90;
+
+  &.is-full {
+    margin-left: 0;
+
+    .ac-navbar {
+      grid-template-columns: 250px auto auto;
+      width: 100%;
+      gap: 20px;
+      .ac-navbar-brand {
+        padding-left: 15px;
+      }
+    }
+  }
+
+  .ac-navbar {
+    display: inline-grid;
+    grid-template-columns: auto auto;
+    // margin-left: 255px;
+    grid-gap: 20px;
+    align-items: center;
+    width: 100%;
+    height: 50px;
+    padding: 0 20px;
+
+    .ac-navbar-brand {
+      display: flex;
+      align-items: center;
+      .logo {
+        font-size: 20px;
+        font-weight: 600;
+        color: $white-100;
+      }
+
+      img {
+        height: 30px;
+      }
+    }
+    .ac-navbar-cluster-switcher {
+      max-width: 350px;
+    }
+    .ac-navbar-menu {
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+
+      .ac-menu-item {
+        position: relative;
+        z-index: 1;
+      }
+    }
+  }
+}
+// for sidebar-collapsed
+.sidebar-collapsed {
+  .ac-navbar {
+    .ac-navbar-brand {
+      padding-left: 70px !important;
+    }
+  }
+}
+
+.ac-menu-item {
+  .ac-nav-button {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    padding: 5px;
+    transition: all 0.3s ease-in-out;
+    position: relative;
+    z-index: 99;
+    user-select: none;
+    cursor: pointer;
+
+    &:after {
+      position: absolute;
+      content: '';
+      left: 0;
+      top: 0;
+      background-color: hsl(208, 77%, 80%);
+      opacity: 0.2;
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      transition: 0.3s ease-in-out;
+    }
+  }
+}
+</style>
