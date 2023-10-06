@@ -3,21 +3,21 @@ import { defineAsyncComponent, defineComponent } from 'vue';
 export const model = defineComponent({
   components: {
     ObjectFormWrapper: defineAsyncComponent(() =>
-      import('@/components/ObjectFormWrapper.vue').then(
+      import('@appscode/vue-openapi-form/src/components/ObjectFormWrapper.vue').then(
         (module) => module.default
       )
     ),
     ObjectForm: defineAsyncComponent(() =>
-      import('@/components/ObjectForm.vue').then((module) => module.default)
+      import('@appscode/vue-openapi-form/src/components/ObjectForm.vue').then((module) => module.default)
     ),
     ArrayInput: defineAsyncComponent(() =>
-      import('@/components/ArrayInput.vue').then((module) => module.default)
+      import('@appscode/vue-openapi-form/src/components/ArrayInput.vue').then((module) => module.default)
     ),
     KeyValuePairs: defineAsyncComponent(() =>
-      import('@/components/KeyValuePairs.vue').then((module) => module.default)
+      import('@appscode/vue-openapi-form/src/components/KeyValuePairs.vue').then((module) => module.default)
     ),
     SimpleInput: defineAsyncComponent(() =>
-      import('@/components/SimpleInput.vue').then((module) => module.default)
+      import('@appscode/vue-openapi-form/src/components/SimpleInput.vue').then((module) => module.default)
     ),
   },
 

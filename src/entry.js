@@ -1,5 +1,6 @@
 // Import vue components
 export { default as VueOpenapiForm } from '@/components/VueOpenapiForm.vue';
+export { default as SchemaModel } from '@/components/SchemaModel.vue';
 // Import custom js that are required
 import { registerValidationRules } from '@/plugins/vee-validate';
 
