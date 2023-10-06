@@ -36,7 +36,7 @@
         />
         <!-- for each item add control buttons -->
         <div class="form-right-item">
-          <div class="buttons" style="gap: 4px">
+          <div class="buttons" style="gap: 16px">
             <div
               class="buttons up-down-buttons"
               :class="{ 'is-small': !isMedium }"
