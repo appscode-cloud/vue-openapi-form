@@ -1,12 +1,12 @@
 @import "./../../../node_modules/@appscode/design-system/base/utilities/customize-bulma.scss";
 
-@import 'bulma/bulma.sass';
-@import "bulma-checkradio";
-@import "bulma-switch";
-@import "bulma-tooltip";
-@import 'floating-vue/dist/style.css';
+@import "bulma/bulma.sass";
+@import "bulma-checkradio/dist/css/bulma-checkradio.sass";
+@import "bulma-switch/src/sass/index.sass";
+@import "bulma-tooltip/src/sass/index.sass";
+@import "floating-vue/dist/style.css";
 // BASE
-@import './../../../node_modules/@appscode/design-system/base/utilities/all.scss';
+@import "./../../../node_modules/@appscode/design-system/base/utilities/all.scss";
 // COMPONENTS
-@import './../../../node_modules/@appscode/design-system/components/ui-builder/ui-builder';
-@import './../../../node_modules/@appscode/design-system/components/ui-builder/vue-open-api';
+@import "./../../../node_modules/@appscode/design-system/components/ui-builder/ui-builder";
+@import "./../../../node_modules/@appscode/design-system/components/ui-builder/vue-open-api";

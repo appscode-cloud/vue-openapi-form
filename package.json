@@ -17,7 +17,7 @@
     "deploy": "firebase use default && firebase deploy"
   },
   "dependencies": {
-    "@appscode/design-system": "^2.0.16",
+    "@appscode/design-system": "^2.0.18",
     "@appscode/design-system-images": "0.0.13",
     "@vee-validate/rules": "^4.5.11",
     "bulma": "^0.9.4",

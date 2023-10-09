@@ -1,7 +1,6 @@
 @charset "UTF-8";
 @import 'font-awesome/css/font-awesome.min.css';
-@import 'bulma-switch/dist/css/bulma-switch.min.css';
-@import 'floating-vue/dist/style.css';
+@import "floating-vue/dist/style.css";
 @import url("https://fonts.googleapis.com/css2?family=Inconsolata:wght@200;300;400;500;600;700&family=Roboto:ital,wght@0,400;0,500;0,700;0,900;1,400;1,500;1,700&display=swap");
 .text-primary-10 {
   color: hsl(208, 77%, 10%);
@@ -209,6 +208,110 @@
 
 .bg-green-97 {
   background-color: hsl(141, 53%, 97%);
+}
+
+.text-yellow-10 {
+  color: hsl(38, 93%, 10%);
+}
+
+.text-yellow-20 {
+  color: hsl(38, 93%, 20%);
+}
+
+.text-yellow-30 {
+  color: hsl(38, 93%, 30%);
+}
+
+.text-yellow-40 {
+  color: hsl(38, 93%, 40%);
+}
+
+.text-yellow-50 {
+  color: hsl(38, 93%, 50%);
+}
+
+.text-yellow-60 {
+  color: hsl(38, 93%, 60%);
+}
+
+.text-yellow-70 {
+  color: hsl(38, 93%, 70%);
+}
+
+.text-yellow-80 {
+  color: hsl(38, 93%, 80%);
+}
+
+.text-yellow-90 {
+  color: hsl(38, 93%, 90%);
+}
+
+.bg-yellow-10 {
+  background-color: hsl(38, 93%, 10%);
+}
+
+.bg-yellow-20 {
+  background-color: hsl(38, 93%, 20%);
+}
+
+.bg-yellow-30 {
+  background-color: hsl(38, 93%, 30%);
+}
+
+.bg-yellow-40 {
+  background-color: hsl(38, 93%, 40%);
+}
+
+.bg-yellow-50 {
+  background-color: hsl(38, 93%, 50%);
+}
+
+.bg-yellow-60 {
+  background-color: hsl(38, 93%, 60%);
+}
+
+.bg-yellow-70 {
+  background-color: hsl(38, 93%, 70%);
+}
+
+.bg-yellow-80 {
+  background-color: hsl(38, 93%, 80%);
+}
+
+.bg-yellow-90 {
+  background-color: hsl(38, 93%, 90%);
+}
+
+.text-yellow-5 {
+  color: hsl(38, 93%, 5%);
+}
+
+.bg-yellow-5 {
+  background-color: hsl(38, 93%, 5%);
+}
+
+.text-yellow-93 {
+  color: hsl(38, 93%, 93%);
+}
+
+.text-yellow-95 {
+  color: hsl(38, 93%, 95%);
+}
+
+.text-yellow-97 {
+  color: hsl(38, 93%, 97%);
+}
+
+.bg-yellow-93 {
+  background-color: hsl(38, 93%, 93%);
+}
+
+.bg-yellow-95 {
+  background-color: hsl(38, 93%, 95%);
+}
+
+.bg-yellow-97 {
+  background-color: hsl(38, 93%, 97%);
 }
 
 .text-purple-10 {
@@ -540,7 +643,8 @@ fieldset[disabled] .file-name, fieldset[disabled] .select select, .select fields
   padding: 0;
 }
 
-/* Bulma Base */ /*! minireset.css v0.0.6 | MIT License | github.com/jgthms/minireset.css */
+/* Bulma Base */
+/*! minireset.css v0.0.6 | MIT License | github.com/jgthms/minireset.css */
 html,
 body,
 p,
@@ -1999,7 +2103,7 @@ a.box:active {
 }
 
 .button.is-small {
-  font-size: 0.75rem;
+  font-size: 0.846rem;
 }
 
 .button.is-small:not(.is-rounded) {
@@ -2011,11 +2115,11 @@ a.box:active {
 }
 
 .button.is-medium {
-  font-size: 1.25rem;
+  font-size: 1.213rem;
 }
 
 .button.is-large {
-  font-size: 1.5rem;
+  font-size: 1.385rem;
 }
 
 .button[disabled], fieldset[disabled] .button {
@@ -2080,7 +2184,7 @@ a.box:active {
 }
 
 .buttons.are-small .button:not(.is-normal):not(.is-medium):not(.is-large) {
-  font-size: 0.75rem;
+  font-size: 0.846rem;
 }
 
 .buttons.are-small .button:not(.is-normal):not(.is-medium):not(.is-large):not(.is-rounded) {
@@ -2088,11 +2192,11 @@ a.box:active {
 }
 
 .buttons.are-medium .button:not(.is-small):not(.is-normal):not(.is-large) {
-  font-size: 1.25rem;
+  font-size: 1.213rem;
 }
 
 .buttons.are-large .button:not(.is-small):not(.is-normal):not(.is-medium) {
-  font-size: 1.5rem;
+  font-size: 1.385rem;
 }
 
 .buttons.has-addons .button:not(:first-child) {
@@ -2147,14 +2251,14 @@ a.box:active {
 
 @media screen and (max-width: 768px) {
   .button.is-responsive.is-small {
-    font-size: 0.5625rem;
+    font-size: 0.6345rem;
   }
   .button.is-responsive,
   .button.is-responsive.is-normal {
-    font-size: 0.65625rem;
+    font-size: 0.74025rem;
   }
   .button.is-responsive.is-medium {
-    font-size: 0.75rem;
+    font-size: 0.846rem;
   }
   .button.is-responsive.is-large {
     font-size: 1rem;
@@ -2162,17 +2266,17 @@ a.box:active {
 }
 @media screen and (min-width: 769px) and (max-width: 1023px) {
   .button.is-responsive.is-small {
-    font-size: 0.65625rem;
+    font-size: 0.74025rem;
   }
   .button.is-responsive,
   .button.is-responsive.is-normal {
-    font-size: 0.75rem;
+    font-size: 0.846rem;
   }
   .button.is-responsive.is-medium {
     font-size: 1rem;
   }
   .button.is-responsive.is-large {
-    font-size: 1.25rem;
+    font-size: 1.213rem;
   }
 }
 .container {
@@ -2409,7 +2513,7 @@ a.box:active {
 }
 
 .content.is-small {
-  font-size: 0.75rem;
+  font-size: 0.846rem;
 }
 
 .content.is-normal {
@@ -2417,11 +2521,11 @@ a.box:active {
 }
 
 .content.is-medium {
-  font-size: 1.25rem;
+  font-size: 1.213rem;
 }
 
 .content.is-large {
-  font-size: 1.5rem;
+  font-size: 1.385rem;
 }
 
 .icon {
@@ -2939,15 +3043,15 @@ div.icon-text {
 }
 
 .progress.is-small {
-  height: 0.75rem;
+  height: 0.846rem;
 }
 
 .progress.is-medium {
-  height: 1.25rem;
+  height: 1.213rem;
 }
 
 .progress.is-large {
-  height: 1.5rem;
+  height: 1.385rem;
 }
 
 @keyframes moveIndeterminate {
@@ -3188,7 +3292,7 @@ div.icon-text {
 }
 
 .tags.are-large .tag:not(.is-normal):not(.is-medium) {
-  font-size: 1.25rem;
+  font-size: 1.213rem;
 }
 
 .tags.is-centered {
@@ -3233,7 +3337,7 @@ div.icon-text {
   border-radius: 4px;
   color: hsl(0, 0%, 29%);
   display: inline-flex;
-  font-size: 0.75rem;
+  font-size: 0.846rem;
   height: 2em;
   justify-content: center;
   line-height: 1.5;
@@ -3328,7 +3432,7 @@ div.icon-text {
 }
 
 .tag:not(body).is-normal {
-  font-size: 0.75rem;
+  font-size: 0.846rem;
 }
 
 .tag:not(body).is-medium {
@@ -3336,7 +3440,7 @@ div.icon-text {
 }
 
 .tag:not(body).is-large {
-  font-size: 1.25rem;
+  font-size: 1.213rem;
 }
 
 .tag:not(body) .icon:first-child:not(:last-child) {
@@ -3427,7 +3531,7 @@ a.tag:hover {
 
 .title {
   color: hsl(0, 0%, 21%);
-  font-size: 2rem;
+  font-size: 1.692rem;
   font-weight: 600;
   line-height: 1.125;
 }
@@ -3442,23 +3546,23 @@ a.tag:hover {
 }
 
 .title.is-1 {
-  font-size: 3rem;
+  font-size: 2.462rem;
 }
 
 .title.is-2 {
-  font-size: 2.5rem;
-}
-
-.title.is-3 {
   font-size: 2rem;
 }
 
+.title.is-3 {
+  font-size: 1.692rem;
+}
+
 .title.is-4 {
-  font-size: 1.5rem;
+  font-size: 1.385rem;
 }
 
 .title.is-5 {
-  font-size: 1.25rem;
+  font-size: 1.213rem;
 }
 
 .title.is-6 {
@@ -3466,12 +3570,12 @@ a.tag:hover {
 }
 
 .title.is-7 {
-  font-size: 0.75rem;
+  font-size: 0.846rem;
 }
 
 .subtitle {
   color: hsl(0, 0%, 29%);
-  font-size: 1.25rem;
+  font-size: 1.213rem;
   font-weight: 400;
   line-height: 1.25;
 }
@@ -3486,23 +3590,23 @@ a.tag:hover {
 }
 
 .subtitle.is-1 {
-  font-size: 3rem;
+  font-size: 2.462rem;
 }
 
 .subtitle.is-2 {
-  font-size: 2.5rem;
-}
-
-.subtitle.is-3 {
   font-size: 2rem;
 }
 
+.subtitle.is-3 {
+  font-size: 1.692rem;
+}
+
 .subtitle.is-4 {
-  font-size: 1.5rem;
+  font-size: 1.385rem;
 }
 
 .subtitle.is-5 {
-  font-size: 1.25rem;
+  font-size: 1.213rem;
 }
 
 .subtitle.is-6 {
@@ -3510,7 +3614,7 @@ a.tag:hover {
 }
 
 .subtitle.is-7 {
-  font-size: 0.75rem;
+  font-size: 0.846rem;
 }
 
 .heading {
@@ -3526,7 +3630,7 @@ a.tag:hover {
   background-color: hsl(0, 0%, 96%);
   border-radius: 9999px;
   display: inline-flex;
-  font-size: 1.25rem;
+  font-size: 1.213rem;
   height: 2em;
   justify-content: center;
   margin-right: 1.5rem;
@@ -3684,15 +3788,15 @@ a.tag:hover {
 
 .is-small.textarea, .is-small.input {
   border-radius: 2px;
-  font-size: 0.75rem;
+  font-size: 0.846rem;
 }
 
 .is-medium.textarea, .is-medium.input {
-  font-size: 1.25rem;
+  font-size: 1.213rem;
 }
 
 .is-large.textarea, .is-large.input {
-  font-size: 1.5rem;
+  font-size: 1.385rem;
 }
 
 .is-fullwidth.textarea, .is-fullwidth.input {
@@ -3983,15 +4087,15 @@ a.tag:hover {
 
 .select.is-small {
   border-radius: 2px;
-  font-size: 0.75rem;
+  font-size: 0.846rem;
 }
 
 .select.is-medium {
-  font-size: 1.25rem;
+  font-size: 1.213rem;
 }
 
 .select.is-large {
-  font-size: 1.5rem;
+  font-size: 1.385rem;
 }
 
 .select.is-disabled::after {
@@ -4016,15 +4120,15 @@ a.tag:hover {
 }
 
 .select.is-loading.is-small:after {
-  font-size: 0.75rem;
+  font-size: 0.846rem;
 }
 
 .select.is-loading.is-medium:after {
-  font-size: 1.25rem;
+  font-size: 1.213rem;
 }
 
 .select.is-loading.is-large:after {
-  font-size: 1.5rem;
+  font-size: 1.385rem;
 }
 
 .file {
@@ -4275,7 +4379,7 @@ a.tag:hover {
 }
 
 .file.is-small {
-  font-size: 0.75rem;
+  font-size: 0.846rem;
 }
 
 .file.is-normal {
@@ -4283,7 +4387,7 @@ a.tag:hover {
 }
 
 .file.is-medium {
-  font-size: 1.25rem;
+  font-size: 1.213rem;
 }
 
 .file.is-medium .file-icon .fa {
@@ -4291,7 +4395,7 @@ a.tag:hover {
 }
 
 .file.is-large {
-  font-size: 1.5rem;
+  font-size: 1.385rem;
 }
 
 .file.is-large .file-icon .fa {
@@ -4475,20 +4579,20 @@ a.tag:hover {
 }
 
 .label.is-small {
-  font-size: 0.75rem;
+  font-size: 0.846rem;
 }
 
 .label.is-medium {
-  font-size: 1.25rem;
+  font-size: 1.213rem;
 }
 
 .label.is-large {
-  font-size: 1.5rem;
+  font-size: 1.385rem;
 }
 
 .help {
   display: block;
-  font-size: 0.75rem;
+  font-size: 0.846rem;
   margin-top: 0.25rem;
 }
 
@@ -4681,18 +4785,18 @@ a.tag:hover {
     text-align: right;
   }
   .field-label.is-small {
-    font-size: 0.75rem;
+    font-size: 0.846rem;
     padding-top: 0.375em;
   }
   .field-label.is-normal {
     padding-top: 0.375em;
   }
   .field-label.is-medium {
-    font-size: 1.25rem;
+    font-size: 1.213rem;
     padding-top: 0.375em;
   }
   .field-label.is-large {
-    font-size: 1.5rem;
+    font-size: 1.385rem;
     padding-top: 0.375em;
   }
 }
@@ -4737,19 +4841,19 @@ a.tag:hover {
 .control.has-icons-left .input.is-small ~ .icon,
 .control.has-icons-left .select.is-small ~ .icon, .control.has-icons-right .input.is-small ~ .icon,
 .control.has-icons-right .select.is-small ~ .icon {
-  font-size: 0.75rem;
+  font-size: 0.846rem;
 }
 
 .control.has-icons-left .input.is-medium ~ .icon,
 .control.has-icons-left .select.is-medium ~ .icon, .control.has-icons-right .input.is-medium ~ .icon,
 .control.has-icons-right .select.is-medium ~ .icon {
-  font-size: 1.25rem;
+  font-size: 1.213rem;
 }
 
 .control.has-icons-left .input.is-large ~ .icon,
 .control.has-icons-left .select.is-large ~ .icon, .control.has-icons-right .input.is-large ~ .icon,
 .control.has-icons-right .select.is-large ~ .icon {
-  font-size: 1.5rem;
+  font-size: 1.385rem;
 }
 
 .control.has-icons-left .icon, .control.has-icons-right .icon {
@@ -4788,15 +4892,15 @@ a.tag:hover {
 }
 
 .control.is-loading.is-small:after {
-  font-size: 0.75rem;
+  font-size: 0.846rem;
 }
 
 .control.is-loading.is-medium:after {
-  font-size: 1.25rem;
+  font-size: 1.213rem;
 }
 
 .control.is-loading.is-large:after {
-  font-size: 1.5rem;
+  font-size: 1.385rem;
 }
 
 /* Bulma Components */
@@ -4864,15 +4968,15 @@ a.tag:hover {
 }
 
 .breadcrumb.is-small {
-  font-size: 0.75rem;
+  font-size: 0.846rem;
 }
 
 .breadcrumb.is-medium {
-  font-size: 1.25rem;
+  font-size: 1.213rem;
 }
 
 .breadcrumb.is-large {
-  font-size: 1.5rem;
+  font-size: 1.385rem;
 }
 
 .breadcrumb.has-arrow-separator li + li::before {
@@ -5248,15 +5352,15 @@ button.dropdown-item.is-active {
 }
 
 .menu.is-small {
-  font-size: 0.75rem;
+  font-size: 0.846rem;
 }
 
 .menu.is-medium {
-  font-size: 1.25rem;
+  font-size: 1.213rem;
 }
 
 .menu.is-large {
-  font-size: 1.5rem;
+  font-size: 1.385rem;
 }
 
 .menu-list {
@@ -5317,15 +5421,15 @@ button.dropdown-item.is-active {
 }
 
 .message.is-small {
-  font-size: 0.75rem;
+  font-size: 0.846rem;
 }
 
 .message.is-medium {
-  font-size: 1.25rem;
+  font-size: 1.213rem;
 }
 
 .message.is-large {
-  font-size: 1.5rem;
+  font-size: 1.385rem;
 }
 
 .message.is-white {
@@ -5580,7 +5684,7 @@ button.dropdown-item.is-active {
   color: hsl(0, 0%, 21%);
   flex-grow: 1;
   flex-shrink: 0;
-  font-size: 1.5rem;
+  font-size: 1.385rem;
   line-height: 1;
 }
 
@@ -6679,15 +6783,15 @@ a.navbar-item:focus, a.navbar-item:focus-within, a.navbar-item:hover, a.navbar-i
 }
 
 .pagination.is-small {
-  font-size: 0.75rem;
+  font-size: 0.846rem;
 }
 
 .pagination.is-medium {
-  font-size: 1.25rem;
+  font-size: 1.213rem;
 }
 
 .pagination.is-large {
-  font-size: 1.5rem;
+  font-size: 1.385rem;
 }
 
 .pagination.is-rounded .pagination-previous,
@@ -7244,15 +7348,15 @@ label.panel-block:hover {
 }
 
 .tabs.is-small {
-  font-size: 0.75rem;
+  font-size: 0.846rem;
 }
 
 .tabs.is-medium {
-  font-size: 1.25rem;
+  font-size: 1.213rem;
 }
 
 .tabs.is-large {
-  font-size: 1.5rem;
+  font-size: 1.385rem;
 }
 
 /* Bulma Grid */
@@ -10136,23 +10240,23 @@ a.has-text-danger-dark:hover, a.has-text-danger-dark:focus {
 }
 
 .is-size-1 {
-  font-size: 3rem !important;
+  font-size: 2.462rem !important;
 }
 
 .is-size-2 {
-  font-size: 2.5rem !important;
-}
-
-.is-size-3 {
   font-size: 2rem !important;
 }
 
+.is-size-3 {
+  font-size: 1.692rem !important;
+}
+
 .is-size-4 {
-  font-size: 1.5rem !important;
+  font-size: 1.385rem !important;
 }
 
 .is-size-5 {
-  font-size: 1.25rem !important;
+  font-size: 1.213rem !important;
 }
 
 .is-size-6 {
@@ -10160,145 +10264,145 @@ a.has-text-danger-dark:hover, a.has-text-danger-dark:focus {
 }
 
 .is-size-7 {
-  font-size: 0.75rem !important;
+  font-size: 0.846rem !important;
 }
 
 @media screen and (max-width: 768px) {
   .is-size-1-mobile {
-    font-size: 3rem !important;
+    font-size: 2.462rem !important;
   }
   .is-size-2-mobile {
-    font-size: 2.5rem !important;
-  }
-  .is-size-3-mobile {
     font-size: 2rem !important;
   }
+  .is-size-3-mobile {
+    font-size: 1.692rem !important;
+  }
   .is-size-4-mobile {
-    font-size: 1.5rem !important;
+    font-size: 1.385rem !important;
   }
   .is-size-5-mobile {
-    font-size: 1.25rem !important;
+    font-size: 1.213rem !important;
   }
   .is-size-6-mobile {
     font-size: 1rem !important;
   }
   .is-size-7-mobile {
-    font-size: 0.75rem !important;
+    font-size: 0.846rem !important;
   }
 }
 @media screen and (min-width: 769px), print {
   .is-size-1-tablet {
-    font-size: 3rem !important;
+    font-size: 2.462rem !important;
   }
   .is-size-2-tablet {
-    font-size: 2.5rem !important;
-  }
-  .is-size-3-tablet {
     font-size: 2rem !important;
   }
+  .is-size-3-tablet {
+    font-size: 1.692rem !important;
+  }
   .is-size-4-tablet {
-    font-size: 1.5rem !important;
+    font-size: 1.385rem !important;
   }
   .is-size-5-tablet {
-    font-size: 1.25rem !important;
+    font-size: 1.213rem !important;
   }
   .is-size-6-tablet {
     font-size: 1rem !important;
   }
   .is-size-7-tablet {
-    font-size: 0.75rem !important;
+    font-size: 0.846rem !important;
   }
 }
 @media screen and (max-width: 1023px) {
   .is-size-1-touch {
-    font-size: 3rem !important;
+    font-size: 2.462rem !important;
   }
   .is-size-2-touch {
-    font-size: 2.5rem !important;
-  }
-  .is-size-3-touch {
     font-size: 2rem !important;
   }
+  .is-size-3-touch {
+    font-size: 1.692rem !important;
+  }
   .is-size-4-touch {
-    font-size: 1.5rem !important;
+    font-size: 1.385rem !important;
   }
   .is-size-5-touch {
-    font-size: 1.25rem !important;
+    font-size: 1.213rem !important;
   }
   .is-size-6-touch {
     font-size: 1rem !important;
   }
   .is-size-7-touch {
-    font-size: 0.75rem !important;
+    font-size: 0.846rem !important;
   }
 }
 @media screen and (min-width: 1024px) {
   .is-size-1-desktop {
-    font-size: 3rem !important;
+    font-size: 2.462rem !important;
   }
   .is-size-2-desktop {
-    font-size: 2.5rem !important;
-  }
-  .is-size-3-desktop {
     font-size: 2rem !important;
   }
+  .is-size-3-desktop {
+    font-size: 1.692rem !important;
+  }
   .is-size-4-desktop {
-    font-size: 1.5rem !important;
+    font-size: 1.385rem !important;
   }
   .is-size-5-desktop {
-    font-size: 1.25rem !important;
+    font-size: 1.213rem !important;
   }
   .is-size-6-desktop {
     font-size: 1rem !important;
   }
   .is-size-7-desktop {
-    font-size: 0.75rem !important;
+    font-size: 0.846rem !important;
   }
 }
 @media screen and (min-width: 1216px) {
   .is-size-1-widescreen {
-    font-size: 3rem !important;
+    font-size: 2.462rem !important;
   }
   .is-size-2-widescreen {
-    font-size: 2.5rem !important;
-  }
-  .is-size-3-widescreen {
     font-size: 2rem !important;
   }
+  .is-size-3-widescreen {
+    font-size: 1.692rem !important;
+  }
   .is-size-4-widescreen {
-    font-size: 1.5rem !important;
+    font-size: 1.385rem !important;
   }
   .is-size-5-widescreen {
-    font-size: 1.25rem !important;
+    font-size: 1.213rem !important;
   }
   .is-size-6-widescreen {
     font-size: 1rem !important;
   }
   .is-size-7-widescreen {
-    font-size: 0.75rem !important;
+    font-size: 0.846rem !important;
   }
 }
 @media screen and (min-width: 1408px) {
   .is-size-1-fullhd {
-    font-size: 3rem !important;
+    font-size: 2.462rem !important;
   }
   .is-size-2-fullhd {
-    font-size: 2.5rem !important;
-  }
-  .is-size-3-fullhd {
     font-size: 2rem !important;
   }
+  .is-size-3-fullhd {
+    font-size: 1.692rem !important;
+  }
   .is-size-4-fullhd {
-    font-size: 1.5rem !important;
+    font-size: 1.385rem !important;
   }
   .is-size-5-fullhd {
-    font-size: 1.25rem !important;
+    font-size: 1.213rem !important;
   }
   .is-size-6-fullhd {
     font-size: 1rem !important;
   }
   .is-size-7-fullhd {
-    font-size: 0.75rem !important;
+    font-size: 0.846rem !important;
   }
 }
 .has-text-centered {
@@ -11809,6 +11913,3664 @@ a.has-text-danger-dark:hover, a.has-text-danger-dark:focus {
   padding: 3rem 1.5rem 6rem;
 }
 
+/* Bulma Utilities */
+.button, .input, .textarea, .select select, .file-cta,
+.file-name, .pagination-previous,
+.pagination-next,
+.pagination-link,
+.pagination-ellipsis {
+  -moz-appearance: none;
+  -webkit-appearance: none;
+  align-items: center;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  box-shadow: none;
+  display: inline-flex;
+  font-size: 1rem;
+  height: 2.5em;
+  justify-content: flex-start;
+  line-height: 1.5;
+  padding-bottom: calc(0.5em - 1px);
+  padding-left: calc(0.75em - 1px);
+  padding-right: calc(0.75em - 1px);
+  padding-top: calc(0.5em - 1px);
+  position: relative;
+  vertical-align: top;
+}
+
+.button:focus, .input:focus, .textarea:focus, .select select:focus, .file-cta:focus,
+.file-name:focus, .pagination-previous:focus,
+.pagination-next:focus,
+.pagination-link:focus,
+.pagination-ellipsis:focus, .is-focused.button, .is-focused.input, .is-focused.textarea, .select select.is-focused, .is-focused.file-cta,
+.is-focused.file-name, .is-focused.pagination-previous,
+.is-focused.pagination-next,
+.is-focused.pagination-link,
+.is-focused.pagination-ellipsis, .button:active, .input:active, .textarea:active, .select select:active, .file-cta:active,
+.file-name:active, .pagination-previous:active,
+.pagination-next:active,
+.pagination-link:active,
+.pagination-ellipsis:active, .is-active.button, .is-active.input, .is-active.textarea, .select select.is-active, .is-active.file-cta,
+.is-active.file-name, .is-active.pagination-previous,
+.is-active.pagination-next,
+.is-active.pagination-link,
+.is-active.pagination-ellipsis {
+  outline: none;
+}
+
+[disabled].button, [disabled].input, [disabled].textarea, .select select[disabled], [disabled].file-cta,
+[disabled].file-name, [disabled].pagination-previous,
+[disabled].pagination-next,
+[disabled].pagination-link,
+[disabled].pagination-ellipsis, fieldset[disabled] .button, fieldset[disabled] .input, fieldset[disabled] .textarea, fieldset[disabled] .select select, .select fieldset[disabled] select, fieldset[disabled] .file-cta,
+fieldset[disabled] .file-name, fieldset[disabled] .pagination-previous,
+fieldset[disabled] .pagination-next,
+fieldset[disabled] .pagination-link,
+fieldset[disabled] .pagination-ellipsis {
+  cursor: not-allowed;
+}
+
+.button, .file, .breadcrumb, .pagination-previous,
+.pagination-next,
+.pagination-link,
+.pagination-ellipsis, .tabs, .is-unselectable {
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+.select:not(.is-multiple):not(.is-loading)::after, .navbar-link:not(.is-arrowless)::after {
+  border: 3px solid transparent;
+  border-radius: 2px;
+  border-right: 0;
+  border-top: 0;
+  content: " ";
+  display: block;
+  height: 0.625em;
+  margin-top: -0.4375em;
+  pointer-events: none;
+  position: absolute;
+  top: 50%;
+  transform: rotate(-45deg);
+  transform-origin: center;
+  width: 0.625em;
+}
+
+.box:not(:last-child), .content:not(:last-child), .notification:not(:last-child), .progress:not(:last-child), .table:not(:last-child), .table-container:not(:last-child), .title:not(:last-child),
+.subtitle:not(:last-child), .block:not(:last-child), .breadcrumb:not(:last-child), .level:not(:last-child), .message:not(:last-child), .pagination:not(:last-child), .tabs:not(:last-child) {
+  margin-bottom: 1.5rem;
+}
+
+.delete, .modal-close {
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  -moz-appearance: none;
+  -webkit-appearance: none;
+  background-color: rgba(10, 10, 10, 0.2);
+  border: none;
+  border-radius: 9999px;
+  cursor: pointer;
+  pointer-events: auto;
+  display: inline-block;
+  flex-grow: 0;
+  flex-shrink: 0;
+  font-size: 0;
+  height: 20px;
+  max-height: 20px;
+  max-width: 20px;
+  min-height: 20px;
+  min-width: 20px;
+  outline: none;
+  position: relative;
+  vertical-align: top;
+  width: 20px;
+}
+
+.delete::before, .modal-close::before, .delete::after, .modal-close::after {
+  background-color: hsl(0, 0%, 100%);
+  content: "";
+  display: block;
+  left: 50%;
+  position: absolute;
+  top: 50%;
+  transform: translateX(-50%) translateY(-50%) rotate(45deg);
+  transform-origin: center center;
+}
+
+.delete::before, .modal-close::before {
+  height: 2px;
+  width: 50%;
+}
+
+.delete::after, .modal-close::after {
+  height: 50%;
+  width: 2px;
+}
+
+.delete:hover, .modal-close:hover, .delete:focus, .modal-close:focus {
+  background-color: rgba(10, 10, 10, 0.3);
+}
+
+.delete:active, .modal-close:active {
+  background-color: rgba(10, 10, 10, 0.4);
+}
+
+.is-small.delete, .is-small.modal-close {
+  height: 16px;
+  max-height: 16px;
+  max-width: 16px;
+  min-height: 16px;
+  min-width: 16px;
+  width: 16px;
+}
+
+.is-medium.delete, .is-medium.modal-close {
+  height: 24px;
+  max-height: 24px;
+  max-width: 24px;
+  min-height: 24px;
+  min-width: 24px;
+  width: 24px;
+}
+
+.is-large.delete, .is-large.modal-close {
+  height: 32px;
+  max-height: 32px;
+  max-width: 32px;
+  min-height: 32px;
+  min-width: 32px;
+  width: 32px;
+}
+
+.button.is-loading::after, .loader, .select.is-loading::after, .control.is-loading::after {
+  animation: spinAround 500ms infinite linear;
+  border: 2px solid hsl(0, 0%, 86%);
+  border-radius: 9999px;
+  border-right-color: transparent;
+  border-top-color: transparent;
+  content: "";
+  display: block;
+  height: 1em;
+  position: relative;
+  width: 1em;
+}
+
+.image.is-square img,
+.image.is-square .has-ratio, .image.is-1by1 img,
+.image.is-1by1 .has-ratio, .image.is-5by4 img,
+.image.is-5by4 .has-ratio, .image.is-4by3 img,
+.image.is-4by3 .has-ratio, .image.is-3by2 img,
+.image.is-3by2 .has-ratio, .image.is-5by3 img,
+.image.is-5by3 .has-ratio, .image.is-16by9 img,
+.image.is-16by9 .has-ratio, .image.is-2by1 img,
+.image.is-2by1 .has-ratio, .image.is-3by1 img,
+.image.is-3by1 .has-ratio, .image.is-4by5 img,
+.image.is-4by5 .has-ratio, .image.is-3by4 img,
+.image.is-3by4 .has-ratio, .image.is-2by3 img,
+.image.is-2by3 .has-ratio, .image.is-3by5 img,
+.image.is-3by5 .has-ratio, .image.is-9by16 img,
+.image.is-9by16 .has-ratio, .image.is-1by2 img,
+.image.is-1by2 .has-ratio, .image.is-1by3 img,
+.image.is-1by3 .has-ratio, .modal, .modal-background, .is-overlay, .hero-video {
+  bottom: 0;
+  left: 0;
+  position: absolute;
+  right: 0;
+  top: 0;
+}
+
+.navbar-burger {
+  -moz-appearance: none;
+  -webkit-appearance: none;
+  appearance: none;
+  background: none;
+  border: none;
+  color: currentColor;
+  font-family: inherit;
+  font-size: 1em;
+  margin: 0;
+  padding: 0;
+}
+
+.is-checkradio[type=radio],
+.is-checkradio[type=checkbox] {
+  outline: 0;
+  user-select: none;
+  display: none;
+  position: absolute;
+  opacity: 0;
+}
+
+.is-checkradio[type=radio] + label,
+.is-checkradio[type=checkbox] + label {
+  position: relative;
+  display: initial;
+  cursor: pointer;
+  vertical-align: middle;
+  margin: 0.5em;
+  padding: 0.2rem 0.5rem 0.2rem 0;
+  border-radius: 4px;
+}
+
+.is-checkradio[type=radio] + label:first-of-type,
+.is-checkradio[type=checkbox] + label:first-of-type {
+  margin-left: 0;
+}
+
+.is-checkradio[type=radio] + label:hover::before, .is-checkradio[type=radio] + label:hover:before,
+.is-checkradio[type=checkbox] + label:hover::before,
+.is-checkradio[type=checkbox] + label:hover:before {
+  animation-duration: 0.4s;
+  animation-fill-mode: both;
+  animation-name: hover-color;
+}
+
+.is-checkradio[type=radio] + label::before, .is-checkradio[type=radio] + label:before,
+.is-checkradio[type=checkbox] + label::before,
+.is-checkradio[type=checkbox] + label:before {
+  position: absolute;
+  left: 0;
+  top: 0rem;
+  content: "";
+  border: 0.1rem solid hsl(0, 0%, 86%);
+}
+
+.is-checkradio[type=radio] + label::after, .is-checkradio[type=radio] + label:after,
+.is-checkradio[type=checkbox] + label::after,
+.is-checkradio[type=checkbox] + label:after {
+  position: absolute;
+  display: none;
+  content: "";
+  top: 0rem;
+}
+
+.is-checkradio[type=radio].is-rtl + label,
+.is-checkradio[type=checkbox].is-rtl + label {
+  margin-right: 0rem;
+  margin-left: 0.5rem;
+}
+
+.is-checkradio[type=radio].is-rtl + label::before, .is-checkradio[type=radio].is-rtl + label:before,
+.is-checkradio[type=checkbox].is-rtl + label::before,
+.is-checkradio[type=checkbox].is-rtl + label:before {
+  left: auto;
+  right: 0;
+}
+
+.is-checkradio[type=radio]:focus + label::before, .is-checkradio[type=radio]:focus + label:before,
+.is-checkradio[type=checkbox]:focus + label::before,
+.is-checkradio[type=checkbox]:focus + label:before {
+  outline: 1px dotted hsl(0, 0%, 71%);
+}
+
+.is-checkradio[type=radio]:hover:not([disabled]) + label::before, .is-checkradio[type=radio]:hover:not([disabled]) + label:before,
+.is-checkradio[type=checkbox]:hover:not([disabled]) + label::before,
+.is-checkradio[type=checkbox]:hover:not([disabled]) + label:before {
+  border-color: hsl(208, 77%, 40%) !important;
+}
+
+.is-checkradio[type=radio]:checked + label::before, .is-checkradio[type=radio]:checked + label:before,
+.is-checkradio[type=checkbox]:checked + label::before,
+.is-checkradio[type=checkbox]:checked + label:before {
+  border: 0.1rem solid hsl(0, 0%, 86%);
+}
+
+.is-checkradio[type=radio]:checked[disabled],
+.is-checkradio[type=checkbox]:checked[disabled] {
+  cursor: not-allowed;
+}
+
+.is-checkradio[type=radio]:checked[disabled] + label,
+.is-checkradio[type=checkbox]:checked[disabled] + label {
+  opacity: 0.5;
+}
+
+.is-checkradio[type=radio]:checked + label::before, .is-checkradio[type=radio]:checked + label:before,
+.is-checkradio[type=checkbox]:checked + label::before,
+.is-checkradio[type=checkbox]:checked + label:before {
+  animation-name: none;
+}
+
+.is-checkradio[type=radio]:checked + label::after, .is-checkradio[type=radio]:checked + label:after,
+.is-checkradio[type=checkbox]:checked + label::after,
+.is-checkradio[type=checkbox]:checked + label:after {
+  display: inline-block;
+}
+
+.is-checkradio[type=radio][disabled],
+.is-checkradio[type=checkbox][disabled] {
+  cursor: not-allowed;
+}
+
+.is-checkradio[type=radio][disabled] + label,
+.is-checkradio[type=checkbox][disabled] + label {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.is-checkradio[type=radio][disabled] + label:hover, .is-checkradio[type=radio][disabled] + label:before, .is-checkradio[type=radio][disabled] + label::before, .is-checkradio[type=radio][disabled] + label::after, .is-checkradio[type=radio][disabled] + label:after,
+.is-checkradio[type=checkbox][disabled] + label:hover,
+.is-checkradio[type=checkbox][disabled] + label:before,
+.is-checkradio[type=checkbox][disabled] + label::before,
+.is-checkradio[type=checkbox][disabled] + label::after,
+.is-checkradio[type=checkbox][disabled] + label:after {
+  cursor: not-allowed;
+}
+
+.is-checkradio[type=radio][disabled]:hover,
+.is-checkradio[type=checkbox][disabled]:hover {
+  cursor: not-allowed;
+}
+
+.is-checkradio[type=radio][disabled]:hover::before, .is-checkradio[type=radio][disabled]:hover:before,
+.is-checkradio[type=checkbox][disabled]:hover::before,
+.is-checkradio[type=checkbox][disabled]:hover:before {
+  animation-name: none;
+}
+
+.is-checkradio[type=radio][disabled]::before, .is-checkradio[type=radio][disabled]:before,
+.is-checkradio[type=checkbox][disabled]::before,
+.is-checkradio[type=checkbox][disabled]:before {
+  cursor: not-allowed;
+}
+
+.is-checkradio[type=radio][disabled]::after, .is-checkradio[type=radio][disabled]:after,
+.is-checkradio[type=checkbox][disabled]::after,
+.is-checkradio[type=checkbox][disabled]:after {
+  cursor: not-allowed;
+}
+
+.is-checkradio[type=radio].has-no-border + label::before, .is-checkradio[type=radio].has-no-border + label:before,
+.is-checkradio[type=checkbox].has-no-border + label::before,
+.is-checkradio[type=checkbox].has-no-border + label:before {
+  border: none !important;
+}
+
+.is-checkradio[type=radio].is-block,
+.is-checkradio[type=checkbox].is-block {
+  display: none !important;
+}
+
+.is-checkradio[type=radio].is-block + label,
+.is-checkradio[type=checkbox].is-block + label {
+  width: 100% !important;
+  background: hsl(0, 0%, 96%);
+  color: rgba(0, 0, 0, 0.7);
+  padding-right: 0.75em;
+}
+
+.is-checkradio[type=radio].is-block:hover:not([disabled]) + label,
+.is-checkradio[type=checkbox].is-block:hover:not([disabled]) + label {
+  background: #e8e8e8;
+}
+
+.is-checkradio[type=checkbox] + label::before, .is-checkradio[type=checkbox] + label:before {
+  border-radius: 4px;
+}
+
+.is-checkradio[type=checkbox] + label::after, .is-checkradio[type=checkbox] + label:after {
+  box-sizing: border-box;
+  transform: translateY(0rem) rotate(45deg);
+  border-width: 0.1rem;
+  border-style: solid;
+  border-color: hsl(208, 77%, 40%);
+  border-top: 0;
+  border-left: 0;
+}
+
+.is-checkradio[type=checkbox].is-circle + label::before, .is-checkradio[type=checkbox].is-circle + label:before {
+  border-radius: 50%;
+}
+
+.is-checkradio[type=checkbox] + label {
+  font-size: 1rem;
+  padding-left: 2rem;
+}
+
+.is-checkradio[type=checkbox] + label::before, .is-checkradio[type=checkbox] + label:before {
+  width: 1.5rem;
+  height: 1.5rem;
+}
+
+.is-checkradio[type=checkbox] + label::after, .is-checkradio[type=checkbox] + label:after {
+  width: 0.375rem;
+  height: 0.6rem;
+  top: 0.405rem;
+  left: 0.6rem;
+}
+
+.is-checkradio[type=checkbox].is-block + label::before, .is-checkradio[type=checkbox].is-block + label:before {
+  width: 1.25rem;
+  height: 1.25rem;
+  left: 0.175rem;
+  top: 0.175rem;
+}
+
+.is-checkradio[type=checkbox].is-block + label::after, .is-checkradio[type=checkbox].is-block + label:after {
+  top: 0.325rem;
+  left: 0.65rem;
+}
+
+.is-checkradio[type=checkbox].is-rtl + label {
+  padding-left: 0;
+  padding-right: 2rem;
+}
+
+.is-checkradio[type=checkbox].is-rtl + label::after, .is-checkradio[type=checkbox].is-rtl + label:after {
+  left: auto;
+  right: 0.6rem;
+}
+
+.is-checkradio[type=checkbox].is-small + label {
+  font-size: 0.846rem;
+  padding-left: 1.692rem;
+}
+
+.is-checkradio[type=checkbox].is-small + label::before, .is-checkradio[type=checkbox].is-small + label:before {
+  width: 1.269rem;
+  height: 1.269rem;
+}
+
+.is-checkradio[type=checkbox].is-small + label::after, .is-checkradio[type=checkbox].is-small + label:after {
+  width: 0.31725rem;
+  height: 0.5076rem;
+  top: 0.34263rem;
+  left: 0.5076rem;
+}
+
+.is-checkradio[type=checkbox].is-small.is-block + label::before, .is-checkradio[type=checkbox].is-small.is-block + label:before {
+  width: 1.0575rem;
+  height: 1.0575rem;
+  left: 0.175rem;
+  top: 0.175rem;
+}
+
+.is-checkradio[type=checkbox].is-small.is-block + label::after, .is-checkradio[type=checkbox].is-small.is-block + label:after {
+  top: 0.30575rem;
+  left: 0.5807rem;
+}
+
+.is-checkradio[type=checkbox].is-small.is-rtl + label {
+  padding-left: 0;
+  padding-right: 1.692rem;
+}
+
+.is-checkradio[type=checkbox].is-small.is-rtl + label::after, .is-checkradio[type=checkbox].is-small.is-rtl + label:after {
+  left: auto;
+  right: 0.5076rem;
+}
+
+.is-checkradio[type=checkbox].is-medium + label {
+  font-size: 1.213rem;
+  padding-left: 2.426rem;
+}
+
+.is-checkradio[type=checkbox].is-medium + label::before, .is-checkradio[type=checkbox].is-medium + label:before {
+  width: 1.8195rem;
+  height: 1.8195rem;
+}
+
+.is-checkradio[type=checkbox].is-medium + label::after, .is-checkradio[type=checkbox].is-medium + label:after {
+  width: 0.454875rem;
+  height: 0.7278rem;
+  top: 0.491265rem;
+  left: 0.7278rem;
+}
+
+.is-checkradio[type=checkbox].is-medium.is-block + label::before, .is-checkradio[type=checkbox].is-medium.is-block + label:before {
+  width: 1.51625rem;
+  height: 1.51625rem;
+  left: 0.175rem;
+  top: 0.175rem;
+}
+
+.is-checkradio[type=checkbox].is-medium.is-block + label::after, .is-checkradio[type=checkbox].is-medium.is-block + label:after {
+  top: 0.351625rem;
+  left: 0.74585rem;
+}
+
+.is-checkradio[type=checkbox].is-medium.is-rtl + label {
+  padding-left: 0;
+  padding-right: 2.426rem;
+}
+
+.is-checkradio[type=checkbox].is-medium.is-rtl + label::after, .is-checkradio[type=checkbox].is-medium.is-rtl + label:after {
+  left: auto;
+  right: 0.7278rem;
+}
+
+.is-checkradio[type=checkbox].is-large + label {
+  font-size: 1.385rem;
+  padding-left: 2.77rem;
+}
+
+.is-checkradio[type=checkbox].is-large + label::before, .is-checkradio[type=checkbox].is-large + label:before {
+  width: 2.0775rem;
+  height: 2.0775rem;
+}
+
+.is-checkradio[type=checkbox].is-large + label::after, .is-checkradio[type=checkbox].is-large + label:after {
+  width: 0.519375rem;
+  height: 0.831rem;
+  top: 0.560925rem;
+  left: 0.831rem;
+}
+
+.is-checkradio[type=checkbox].is-large.is-block + label::before, .is-checkradio[type=checkbox].is-large.is-block + label:before {
+  width: 1.73125rem;
+  height: 1.73125rem;
+  left: 0.175rem;
+  top: 0.175rem;
+}
+
+.is-checkradio[type=checkbox].is-large.is-block + label::after, .is-checkradio[type=checkbox].is-large.is-block + label:after {
+  top: 0.373125rem;
+  left: 0.82325rem;
+}
+
+.is-checkradio[type=checkbox].is-large.is-rtl + label {
+  padding-left: 0;
+  padding-right: 2.77rem;
+}
+
+.is-checkradio[type=checkbox].is-large.is-rtl + label::after, .is-checkradio[type=checkbox].is-large.is-rtl + label:after {
+  left: auto;
+  right: 0.831rem;
+}
+
+.is-checkradio[type=checkbox].is-white.has-background-color + label::before, .is-checkradio[type=checkbox].is-white.has-background-color + label:before {
+  border-color: transparent !important;
+  background-color: hsl(0, 0%, 100%) !important;
+}
+
+.is-checkradio[type=checkbox].is-white:hover:not([disabled]) + label::before, .is-checkradio[type=checkbox].is-white:hover:not([disabled]) + label:before {
+  border-color: hsl(0, 0%, 100%) !important;
+}
+
+.is-checkradio[type=checkbox].is-white:checked + label::after, .is-checkradio[type=checkbox].is-white:checked + label:after {
+  border-color: hsl(0, 0%, 100%) !important;
+}
+
+.is-checkradio[type=checkbox].is-white:checked.has-background-color + label::before, .is-checkradio[type=checkbox].is-white:checked.has-background-color + label:before {
+  border-color: transparent !important;
+  background-color: hsl(0, 0%, 100%) !important;
+}
+
+.is-checkradio[type=checkbox].is-white:checked.has-background-color + label::after, .is-checkradio[type=checkbox].is-white:checked.has-background-color + label:after {
+  border-color: hsl(0, 0%, 4%) !important;
+  background-color: hsl(0, 0%, 100%) !important;
+}
+
+.is-checkradio[type=checkbox].is-white.is-block:hover:not([disabled]) + label::after, .is-checkradio[type=checkbox].is-white.is-block:hover:not([disabled]) + label:after, .is-checkradio[type=checkbox].is-white.is-block:hover:not([disabled]) + label::before, .is-checkradio[type=checkbox].is-white.is-block:hover:not([disabled]) + label:before {
+  border-color: hsl(0, 0%, 100%) !important;
+}
+
+.is-checkradio[type=checkbox].is-white.is-block:checked + label {
+  color: hsl(0, 0%, 4%);
+  border-color: hsl(0, 0%, 100%) !important;
+  background: hsl(0, 0%, 100%);
+}
+
+.is-checkradio[type=checkbox].is-white.is-block:checked + label::after, .is-checkradio[type=checkbox].is-white.is-block:checked + label:after {
+  border-color: hsl(0, 0%, 4%) !important;
+}
+
+.is-checkradio[type=checkbox].is-white.is-block:checked:hover:not([disabled]) + label {
+  background: #f2f2f2;
+}
+
+.is-checkradio[type=checkbox].is-white.is-block:checked:hover:not([disabled]) + label::after, .is-checkradio[type=checkbox].is-white.is-block:checked:hover:not([disabled]) + label:after, .is-checkradio[type=checkbox].is-white.is-block:checked:hover:not([disabled]) + label::before, .is-checkradio[type=checkbox].is-white.is-block:checked:hover:not([disabled]) + label:before {
+  border-color: black !important;
+}
+
+.is-checkradio[type=checkbox].is-black.has-background-color + label::before, .is-checkradio[type=checkbox].is-black.has-background-color + label:before {
+  border-color: transparent !important;
+  background-color: hsl(0, 0%, 4%) !important;
+}
+
+.is-checkradio[type=checkbox].is-black:hover:not([disabled]) + label::before, .is-checkradio[type=checkbox].is-black:hover:not([disabled]) + label:before {
+  border-color: hsl(0, 0%, 4%) !important;
+}
+
+.is-checkradio[type=checkbox].is-black:checked + label::after, .is-checkradio[type=checkbox].is-black:checked + label:after {
+  border-color: hsl(0, 0%, 4%) !important;
+}
+
+.is-checkradio[type=checkbox].is-black:checked.has-background-color + label::before, .is-checkradio[type=checkbox].is-black:checked.has-background-color + label:before {
+  border-color: transparent !important;
+  background-color: hsl(0, 0%, 4%) !important;
+}
+
+.is-checkradio[type=checkbox].is-black:checked.has-background-color + label::after, .is-checkradio[type=checkbox].is-black:checked.has-background-color + label:after {
+  border-color: hsl(0, 0%, 100%) !important;
+  background-color: hsl(0, 0%, 4%) !important;
+}
+
+.is-checkradio[type=checkbox].is-black.is-block:hover:not([disabled]) + label::after, .is-checkradio[type=checkbox].is-black.is-block:hover:not([disabled]) + label:after, .is-checkradio[type=checkbox].is-black.is-block:hover:not([disabled]) + label::before, .is-checkradio[type=checkbox].is-black.is-block:hover:not([disabled]) + label:before {
+  border-color: hsl(0, 0%, 4%) !important;
+}
+
+.is-checkradio[type=checkbox].is-black.is-block:checked + label {
+  color: hsl(0, 0%, 100%);
+  border-color: hsl(0, 0%, 4%) !important;
+  background: hsl(0, 0%, 4%);
+}
+
+.is-checkradio[type=checkbox].is-black.is-block:checked + label::after, .is-checkradio[type=checkbox].is-black.is-block:checked + label:after {
+  border-color: hsl(0, 0%, 100%) !important;
+}
+
+.is-checkradio[type=checkbox].is-black.is-block:checked:hover:not([disabled]) + label {
+  background: black;
+}
+
+.is-checkradio[type=checkbox].is-black.is-block:checked:hover:not([disabled]) + label::after, .is-checkradio[type=checkbox].is-black.is-block:checked:hover:not([disabled]) + label:after, .is-checkradio[type=checkbox].is-black.is-block:checked:hover:not([disabled]) + label::before, .is-checkradio[type=checkbox].is-black.is-block:checked:hover:not([disabled]) + label:before {
+  border-color: #f2f2f2 !important;
+}
+
+.is-checkradio[type=checkbox].is-light.has-background-color + label::before, .is-checkradio[type=checkbox].is-light.has-background-color + label:before {
+  border-color: transparent !important;
+  background-color: hsl(0, 0%, 96%) !important;
+}
+
+.is-checkradio[type=checkbox].is-light:hover:not([disabled]) + label::before, .is-checkradio[type=checkbox].is-light:hover:not([disabled]) + label:before {
+  border-color: hsl(0, 0%, 96%) !important;
+}
+
+.is-checkradio[type=checkbox].is-light:checked + label::after, .is-checkradio[type=checkbox].is-light:checked + label:after {
+  border-color: hsl(0, 0%, 96%) !important;
+}
+
+.is-checkradio[type=checkbox].is-light:checked.has-background-color + label::before, .is-checkradio[type=checkbox].is-light:checked.has-background-color + label:before {
+  border-color: transparent !important;
+  background-color: hsl(0, 0%, 96%) !important;
+}
+
+.is-checkradio[type=checkbox].is-light:checked.has-background-color + label::after, .is-checkradio[type=checkbox].is-light:checked.has-background-color + label:after {
+  border-color: rgba(0, 0, 0, 0.7) !important;
+  background-color: hsl(0, 0%, 96%) !important;
+}
+
+.is-checkradio[type=checkbox].is-light.is-block:hover:not([disabled]) + label::after, .is-checkradio[type=checkbox].is-light.is-block:hover:not([disabled]) + label:after, .is-checkradio[type=checkbox].is-light.is-block:hover:not([disabled]) + label::before, .is-checkradio[type=checkbox].is-light.is-block:hover:not([disabled]) + label:before {
+  border-color: hsl(0, 0%, 96%) !important;
+}
+
+.is-checkradio[type=checkbox].is-light.is-block:checked + label {
+  color: rgba(0, 0, 0, 0.7);
+  border-color: hsl(0, 0%, 96%) !important;
+  background: hsl(0, 0%, 96%);
+}
+
+.is-checkradio[type=checkbox].is-light.is-block:checked + label::after, .is-checkradio[type=checkbox].is-light.is-block:checked + label:after {
+  border-color: rgba(0, 0, 0, 0.7) !important;
+}
+
+.is-checkradio[type=checkbox].is-light.is-block:checked:hover:not([disabled]) + label {
+  background: #e8e8e8;
+}
+
+.is-checkradio[type=checkbox].is-light.is-block:checked:hover:not([disabled]) + label::after, .is-checkradio[type=checkbox].is-light.is-block:checked:hover:not([disabled]) + label:after, .is-checkradio[type=checkbox].is-light.is-block:checked:hover:not([disabled]) + label::before, .is-checkradio[type=checkbox].is-light.is-block:checked:hover:not([disabled]) + label:before {
+  border-color: rgba(0, 0, 0, 0.7) !important;
+}
+
+.is-checkradio[type=checkbox].is-dark.has-background-color + label::before, .is-checkradio[type=checkbox].is-dark.has-background-color + label:before {
+  border-color: transparent !important;
+  background-color: hsl(0, 0%, 21%) !important;
+}
+
+.is-checkradio[type=checkbox].is-dark:hover:not([disabled]) + label::before, .is-checkradio[type=checkbox].is-dark:hover:not([disabled]) + label:before {
+  border-color: hsl(0, 0%, 21%) !important;
+}
+
+.is-checkradio[type=checkbox].is-dark:checked + label::after, .is-checkradio[type=checkbox].is-dark:checked + label:after {
+  border-color: hsl(0, 0%, 21%) !important;
+}
+
+.is-checkradio[type=checkbox].is-dark:checked.has-background-color + label::before, .is-checkradio[type=checkbox].is-dark:checked.has-background-color + label:before {
+  border-color: transparent !important;
+  background-color: hsl(0, 0%, 21%) !important;
+}
+
+.is-checkradio[type=checkbox].is-dark:checked.has-background-color + label::after, .is-checkradio[type=checkbox].is-dark:checked.has-background-color + label:after {
+  border-color: #fff !important;
+  background-color: hsl(0, 0%, 21%) !important;
+}
+
+.is-checkradio[type=checkbox].is-dark.is-block:hover:not([disabled]) + label::after, .is-checkradio[type=checkbox].is-dark.is-block:hover:not([disabled]) + label:after, .is-checkradio[type=checkbox].is-dark.is-block:hover:not([disabled]) + label::before, .is-checkradio[type=checkbox].is-dark.is-block:hover:not([disabled]) + label:before {
+  border-color: hsl(0, 0%, 21%) !important;
+}
+
+.is-checkradio[type=checkbox].is-dark.is-block:checked + label {
+  color: #fff;
+  border-color: hsl(0, 0%, 21%) !important;
+  background: hsl(0, 0%, 21%);
+}
+
+.is-checkradio[type=checkbox].is-dark.is-block:checked + label::after, .is-checkradio[type=checkbox].is-dark.is-block:checked + label:after {
+  border-color: #fff !important;
+}
+
+.is-checkradio[type=checkbox].is-dark.is-block:checked:hover:not([disabled]) + label {
+  background: #292929;
+}
+
+.is-checkradio[type=checkbox].is-dark.is-block:checked:hover:not([disabled]) + label::after, .is-checkradio[type=checkbox].is-dark.is-block:checked:hover:not([disabled]) + label:after, .is-checkradio[type=checkbox].is-dark.is-block:checked:hover:not([disabled]) + label::before, .is-checkradio[type=checkbox].is-dark.is-block:checked:hover:not([disabled]) + label:before {
+  border-color: #f2f2f2 !important;
+}
+
+.is-checkradio[type=checkbox].is-primary.has-background-color + label::before, .is-checkradio[type=checkbox].is-primary.has-background-color + label:before {
+  border-color: transparent !important;
+  background-color: hsl(208, 77%, 40%) !important;
+}
+
+.is-checkradio[type=checkbox].is-primary:hover:not([disabled]) + label::before, .is-checkradio[type=checkbox].is-primary:hover:not([disabled]) + label:before {
+  border-color: hsl(208, 77%, 40%) !important;
+}
+
+.is-checkradio[type=checkbox].is-primary:checked + label::after, .is-checkradio[type=checkbox].is-primary:checked + label:after {
+  border-color: hsl(208, 77%, 40%) !important;
+}
+
+.is-checkradio[type=checkbox].is-primary:checked.has-background-color + label::before, .is-checkradio[type=checkbox].is-primary:checked.has-background-color + label:before {
+  border-color: transparent !important;
+  background-color: hsl(208, 77%, 40%) !important;
+}
+
+.is-checkradio[type=checkbox].is-primary:checked.has-background-color + label::after, .is-checkradio[type=checkbox].is-primary:checked.has-background-color + label:after {
+  border-color: #fff !important;
+  background-color: hsl(208, 77%, 40%) !important;
+}
+
+.is-checkradio[type=checkbox].is-primary.is-block:hover:not([disabled]) + label::after, .is-checkradio[type=checkbox].is-primary.is-block:hover:not([disabled]) + label:after, .is-checkradio[type=checkbox].is-primary.is-block:hover:not([disabled]) + label::before, .is-checkradio[type=checkbox].is-primary.is-block:hover:not([disabled]) + label:before {
+  border-color: hsl(208, 77%, 40%) !important;
+}
+
+.is-checkradio[type=checkbox].is-primary.is-block:checked + label {
+  color: #fff;
+  border-color: hsl(208, 77%, 40%) !important;
+  background: hsl(208, 77%, 40%);
+}
+
+.is-checkradio[type=checkbox].is-primary.is-block:checked + label::after, .is-checkradio[type=checkbox].is-primary.is-block:checked + label:after {
+  border-color: #fff !important;
+}
+
+.is-checkradio[type=checkbox].is-primary.is-block:checked:hover:not([disabled]) + label {
+  background: #155e9e;
+}
+
+.is-checkradio[type=checkbox].is-primary.is-block:checked:hover:not([disabled]) + label::after, .is-checkradio[type=checkbox].is-primary.is-block:checked:hover:not([disabled]) + label:after, .is-checkradio[type=checkbox].is-primary.is-block:checked:hover:not([disabled]) + label::before, .is-checkradio[type=checkbox].is-primary.is-block:checked:hover:not([disabled]) + label:before {
+  border-color: #f2f2f2 !important;
+}
+
+.is-checkradio[type=checkbox].is-link.has-background-color + label::before, .is-checkradio[type=checkbox].is-link.has-background-color + label:before {
+  border-color: transparent !important;
+  background-color: hsl(229, 53%, 53%) !important;
+}
+
+.is-checkradio[type=checkbox].is-link:hover:not([disabled]) + label::before, .is-checkradio[type=checkbox].is-link:hover:not([disabled]) + label:before {
+  border-color: hsl(229, 53%, 53%) !important;
+}
+
+.is-checkradio[type=checkbox].is-link:checked + label::after, .is-checkradio[type=checkbox].is-link:checked + label:after {
+  border-color: hsl(229, 53%, 53%) !important;
+}
+
+.is-checkradio[type=checkbox].is-link:checked.has-background-color + label::before, .is-checkradio[type=checkbox].is-link:checked.has-background-color + label:before {
+  border-color: transparent !important;
+  background-color: hsl(229, 53%, 53%) !important;
+}
+
+.is-checkradio[type=checkbox].is-link:checked.has-background-color + label::after, .is-checkradio[type=checkbox].is-link:checked.has-background-color + label:after {
+  border-color: #fff !important;
+  background-color: hsl(229, 53%, 53%) !important;
+}
+
+.is-checkradio[type=checkbox].is-link.is-block:hover:not([disabled]) + label::after, .is-checkradio[type=checkbox].is-link.is-block:hover:not([disabled]) + label:after, .is-checkradio[type=checkbox].is-link.is-block:hover:not([disabled]) + label::before, .is-checkradio[type=checkbox].is-link.is-block:hover:not([disabled]) + label:before {
+  border-color: hsl(229, 53%, 53%) !important;
+}
+
+.is-checkradio[type=checkbox].is-link.is-block:checked + label {
+  color: #fff;
+  border-color: hsl(229, 53%, 53%) !important;
+  background: hsl(229, 53%, 53%);
+}
+
+.is-checkradio[type=checkbox].is-link.is-block:checked + label::after, .is-checkradio[type=checkbox].is-link.is-block:checked + label:after {
+  border-color: #fff !important;
+}
+
+.is-checkradio[type=checkbox].is-link.is-block:checked:hover:not([disabled]) + label {
+  background: #3a51bb;
+}
+
+.is-checkradio[type=checkbox].is-link.is-block:checked:hover:not([disabled]) + label::after, .is-checkradio[type=checkbox].is-link.is-block:checked:hover:not([disabled]) + label:after, .is-checkradio[type=checkbox].is-link.is-block:checked:hover:not([disabled]) + label::before, .is-checkradio[type=checkbox].is-link.is-block:checked:hover:not([disabled]) + label:before {
+  border-color: #f2f2f2 !important;
+}
+
+.is-checkradio[type=checkbox].is-info.has-background-color + label::before, .is-checkradio[type=checkbox].is-info.has-background-color + label:before {
+  border-color: transparent !important;
+  background-color: hsl(217, 71%, 50%) !important;
+}
+
+.is-checkradio[type=checkbox].is-info:hover:not([disabled]) + label::before, .is-checkradio[type=checkbox].is-info:hover:not([disabled]) + label:before {
+  border-color: hsl(217, 71%, 50%) !important;
+}
+
+.is-checkradio[type=checkbox].is-info:checked + label::after, .is-checkradio[type=checkbox].is-info:checked + label:after {
+  border-color: hsl(217, 71%, 50%) !important;
+}
+
+.is-checkradio[type=checkbox].is-info:checked.has-background-color + label::before, .is-checkradio[type=checkbox].is-info:checked.has-background-color + label:before {
+  border-color: transparent !important;
+  background-color: hsl(217, 71%, 50%) !important;
+}
+
+.is-checkradio[type=checkbox].is-info:checked.has-background-color + label::after, .is-checkradio[type=checkbox].is-info:checked.has-background-color + label:after {
+  border-color: #fff !important;
+  background-color: hsl(217, 71%, 50%) !important;
+}
+
+.is-checkradio[type=checkbox].is-info.is-block:hover:not([disabled]) + label::after, .is-checkradio[type=checkbox].is-info.is-block:hover:not([disabled]) + label:after, .is-checkradio[type=checkbox].is-info.is-block:hover:not([disabled]) + label::before, .is-checkradio[type=checkbox].is-info.is-block:hover:not([disabled]) + label:before {
+  border-color: hsl(217, 71%, 50%) !important;
+}
+
+.is-checkradio[type=checkbox].is-info.is-block:checked + label {
+  color: #fff;
+  border-color: hsl(217, 71%, 50%) !important;
+  background: hsl(217, 71%, 50%);
+}
+
+.is-checkradio[type=checkbox].is-info.is-block:checked + label::after, .is-checkradio[type=checkbox].is-info.is-block:checked + label:after {
+  border-color: #fff !important;
+}
+
+.is-checkradio[type=checkbox].is-info.is-block:checked:hover:not([disabled]) + label {
+  background: #2160c4;
+}
+
+.is-checkradio[type=checkbox].is-info.is-block:checked:hover:not([disabled]) + label::after, .is-checkradio[type=checkbox].is-info.is-block:checked:hover:not([disabled]) + label:after, .is-checkradio[type=checkbox].is-info.is-block:checked:hover:not([disabled]) + label::before, .is-checkradio[type=checkbox].is-info.is-block:checked:hover:not([disabled]) + label:before {
+  border-color: #f2f2f2 !important;
+}
+
+.is-checkradio[type=checkbox].is-success.has-background-color + label::before, .is-checkradio[type=checkbox].is-success.has-background-color + label:before {
+  border-color: transparent !important;
+  background-color: hsl(141, 53%, 40%) !important;
+}
+
+.is-checkradio[type=checkbox].is-success:hover:not([disabled]) + label::before, .is-checkradio[type=checkbox].is-success:hover:not([disabled]) + label:before {
+  border-color: hsl(141, 53%, 40%) !important;
+}
+
+.is-checkradio[type=checkbox].is-success:checked + label::after, .is-checkradio[type=checkbox].is-success:checked + label:after {
+  border-color: hsl(141, 53%, 40%) !important;
+}
+
+.is-checkradio[type=checkbox].is-success:checked.has-background-color + label::before, .is-checkradio[type=checkbox].is-success:checked.has-background-color + label:before {
+  border-color: transparent !important;
+  background-color: hsl(141, 53%, 40%) !important;
+}
+
+.is-checkradio[type=checkbox].is-success:checked.has-background-color + label::after, .is-checkradio[type=checkbox].is-success:checked.has-background-color + label:after {
+  border-color: #fff !important;
+  background-color: hsl(141, 53%, 40%) !important;
+}
+
+.is-checkradio[type=checkbox].is-success.is-block:hover:not([disabled]) + label::after, .is-checkradio[type=checkbox].is-success.is-block:hover:not([disabled]) + label:after, .is-checkradio[type=checkbox].is-success.is-block:hover:not([disabled]) + label::before, .is-checkradio[type=checkbox].is-success.is-block:hover:not([disabled]) + label:before {
+  border-color: hsl(141, 53%, 40%) !important;
+}
+
+.is-checkradio[type=checkbox].is-success.is-block:checked + label {
+  color: #fff;
+  border-color: hsl(141, 53%, 40%) !important;
+  background: hsl(141, 53%, 40%);
+}
+
+.is-checkradio[type=checkbox].is-success.is-block:checked + label::after, .is-checkradio[type=checkbox].is-success.is-block:checked + label:after {
+  border-color: #fff !important;
+}
+
+.is-checkradio[type=checkbox].is-success.is-block:checked:hover:not([disabled]) + label {
+  background: #2a894b;
+}
+
+.is-checkradio[type=checkbox].is-success.is-block:checked:hover:not([disabled]) + label::after, .is-checkradio[type=checkbox].is-success.is-block:checked:hover:not([disabled]) + label:after, .is-checkradio[type=checkbox].is-success.is-block:checked:hover:not([disabled]) + label::before, .is-checkradio[type=checkbox].is-success.is-block:checked:hover:not([disabled]) + label:before {
+  border-color: #f2f2f2 !important;
+}
+
+.is-checkradio[type=checkbox].is-warning.has-background-color + label::before, .is-checkradio[type=checkbox].is-warning.has-background-color + label:before {
+  border-color: transparent !important;
+  background-color: hsl(38, 93%, 50%) !important;
+}
+
+.is-checkradio[type=checkbox].is-warning:hover:not([disabled]) + label::before, .is-checkradio[type=checkbox].is-warning:hover:not([disabled]) + label:before {
+  border-color: hsl(38, 93%, 50%) !important;
+}
+
+.is-checkradio[type=checkbox].is-warning:checked + label::after, .is-checkradio[type=checkbox].is-warning:checked + label:after {
+  border-color: hsl(38, 93%, 50%) !important;
+}
+
+.is-checkradio[type=checkbox].is-warning:checked.has-background-color + label::before, .is-checkradio[type=checkbox].is-warning:checked.has-background-color + label:before {
+  border-color: transparent !important;
+  background-color: hsl(38, 93%, 50%) !important;
+}
+
+.is-checkradio[type=checkbox].is-warning:checked.has-background-color + label::after, .is-checkradio[type=checkbox].is-warning:checked.has-background-color + label:after {
+  border-color: #fff !important;
+  background-color: hsl(38, 93%, 50%) !important;
+}
+
+.is-checkradio[type=checkbox].is-warning.is-block:hover:not([disabled]) + label::after, .is-checkradio[type=checkbox].is-warning.is-block:hover:not([disabled]) + label:after, .is-checkradio[type=checkbox].is-warning.is-block:hover:not([disabled]) + label::before, .is-checkradio[type=checkbox].is-warning.is-block:hover:not([disabled]) + label:before {
+  border-color: hsl(38, 93%, 50%) !important;
+}
+
+.is-checkradio[type=checkbox].is-warning.is-block:checked + label {
+  color: #fff;
+  border-color: hsl(38, 93%, 50%) !important;
+  background: hsl(38, 93%, 50%);
+}
+
+.is-checkradio[type=checkbox].is-warning.is-block:checked + label::after, .is-checkradio[type=checkbox].is-warning.is-block:checked + label:after {
+  border-color: #fff !important;
+}
+
+.is-checkradio[type=checkbox].is-warning.is-block:checked:hover:not([disabled]) + label {
+  background: #dd8f08;
+}
+
+.is-checkradio[type=checkbox].is-warning.is-block:checked:hover:not([disabled]) + label::after, .is-checkradio[type=checkbox].is-warning.is-block:checked:hover:not([disabled]) + label:after, .is-checkradio[type=checkbox].is-warning.is-block:checked:hover:not([disabled]) + label::before, .is-checkradio[type=checkbox].is-warning.is-block:checked:hover:not([disabled]) + label:before {
+  border-color: #f2f2f2 !important;
+}
+
+.is-checkradio[type=checkbox].is-danger.has-background-color + label::before, .is-checkradio[type=checkbox].is-danger.has-background-color + label:before {
+  border-color: transparent !important;
+  background-color: hsl(348, 100%, 40%) !important;
+}
+
+.is-checkradio[type=checkbox].is-danger:hover:not([disabled]) + label::before, .is-checkradio[type=checkbox].is-danger:hover:not([disabled]) + label:before {
+  border-color: hsl(348, 100%, 40%) !important;
+}
+
+.is-checkradio[type=checkbox].is-danger:checked + label::after, .is-checkradio[type=checkbox].is-danger:checked + label:after {
+  border-color: hsl(348, 100%, 40%) !important;
+}
+
+.is-checkradio[type=checkbox].is-danger:checked.has-background-color + label::before, .is-checkradio[type=checkbox].is-danger:checked.has-background-color + label:before {
+  border-color: transparent !important;
+  background-color: hsl(348, 100%, 40%) !important;
+}
+
+.is-checkradio[type=checkbox].is-danger:checked.has-background-color + label::after, .is-checkradio[type=checkbox].is-danger:checked.has-background-color + label:after {
+  border-color: #fff !important;
+  background-color: hsl(348, 100%, 40%) !important;
+}
+
+.is-checkradio[type=checkbox].is-danger.is-block:hover:not([disabled]) + label::after, .is-checkradio[type=checkbox].is-danger.is-block:hover:not([disabled]) + label:after, .is-checkradio[type=checkbox].is-danger.is-block:hover:not([disabled]) + label::before, .is-checkradio[type=checkbox].is-danger.is-block:hover:not([disabled]) + label:before {
+  border-color: hsl(348, 100%, 40%) !important;
+}
+
+.is-checkradio[type=checkbox].is-danger.is-block:checked + label {
+  color: #fff;
+  border-color: hsl(348, 100%, 40%) !important;
+  background: hsl(348, 100%, 40%);
+}
+
+.is-checkradio[type=checkbox].is-danger.is-block:checked + label::after, .is-checkradio[type=checkbox].is-danger.is-block:checked + label:after {
+  border-color: #fff !important;
+}
+
+.is-checkradio[type=checkbox].is-danger.is-block:checked:hover:not([disabled]) + label {
+  background: #b30024;
+}
+
+.is-checkradio[type=checkbox].is-danger.is-block:checked:hover:not([disabled]) + label::after, .is-checkradio[type=checkbox].is-danger.is-block:checked:hover:not([disabled]) + label:after, .is-checkradio[type=checkbox].is-danger.is-block:checked:hover:not([disabled]) + label::before, .is-checkradio[type=checkbox].is-danger.is-block:checked:hover:not([disabled]) + label:before {
+  border-color: #f2f2f2 !important;
+}
+
+.is-checkradio[type=checkbox]:indeterminate + label::after, .is-checkradio[type=checkbox]:indeterminate + label:after {
+  display: inline-block;
+  transform: rotate(90deg);
+  border-bottom: none;
+}
+
+.is-checkradio[type=checkbox]:indeterminate.is-white + label::after, .is-checkradio[type=checkbox]:indeterminate.is-white + label:after {
+  border-color: hsl(0, 0%, 100%);
+}
+
+.is-checkradio[type=checkbox]:indeterminate.is-black + label::after, .is-checkradio[type=checkbox]:indeterminate.is-black + label:after {
+  border-color: hsl(0, 0%, 4%);
+}
+
+.is-checkradio[type=checkbox]:indeterminate.is-light + label::after, .is-checkradio[type=checkbox]:indeterminate.is-light + label:after {
+  border-color: hsl(0, 0%, 96%);
+}
+
+.is-checkradio[type=checkbox]:indeterminate.is-dark + label::after, .is-checkradio[type=checkbox]:indeterminate.is-dark + label:after {
+  border-color: hsl(0, 0%, 21%);
+}
+
+.is-checkradio[type=checkbox]:indeterminate.is-primary + label::after, .is-checkradio[type=checkbox]:indeterminate.is-primary + label:after {
+  border-color: hsl(208, 77%, 40%);
+}
+
+.is-checkradio[type=checkbox]:indeterminate.is-link + label::after, .is-checkradio[type=checkbox]:indeterminate.is-link + label:after {
+  border-color: hsl(229, 53%, 53%);
+}
+
+.is-checkradio[type=checkbox]:indeterminate.is-info + label::after, .is-checkradio[type=checkbox]:indeterminate.is-info + label:after {
+  border-color: hsl(217, 71%, 50%);
+}
+
+.is-checkradio[type=checkbox]:indeterminate.is-success + label::after, .is-checkradio[type=checkbox]:indeterminate.is-success + label:after {
+  border-color: hsl(141, 53%, 40%);
+}
+
+.is-checkradio[type=checkbox]:indeterminate.is-warning + label::after, .is-checkradio[type=checkbox]:indeterminate.is-warning + label:after {
+  border-color: hsl(38, 93%, 50%);
+}
+
+.is-checkradio[type=checkbox]:indeterminate.is-danger + label::after, .is-checkradio[type=checkbox]:indeterminate.is-danger + label:after {
+  border-color: hsl(348, 100%, 40%);
+}
+
+.is-checkradio[type=radio] + label::before, .is-checkradio[type=radio] + label:before {
+  border-radius: 50%;
+}
+
+.is-checkradio[type=radio] + label::after, .is-checkradio[type=radio] + label:after {
+  border-radius: 50%;
+  background: hsl(208, 77%, 40%);
+  left: 0;
+  transform: scale(0.5);
+}
+
+.is-checkradio[type=radio]:checked.has-background-color + label::before, .is-checkradio[type=radio]:checked.has-background-color + label:before {
+  border-color: hsl(0, 0%, 29%) !important;
+  background-color: hsl(0, 0%, 29%) !important;
+}
+
+.is-checkradio[type=radio]:checked.has-background-color + label::after, .is-checkradio[type=radio]:checked.has-background-color + label:after {
+  border-color: hsl(0, 0%, 29%) !important;
+  background-color: hsl(0, 0%, 29%) !important;
+}
+
+.is-checkradio[type=radio].is-rtl + label {
+  padding-left: 0;
+}
+
+.is-checkradio[type=radio].is-rtl + label::after, .is-checkradio[type=radio].is-rtl + label:after {
+  left: auto;
+  right: 0;
+}
+
+.is-checkradio[type=radio] + label {
+  font-size: 1rem;
+  line-height: 1.5rem;
+  padding-left: 2rem;
+}
+
+.is-checkradio[type=radio] + label::before, .is-checkradio[type=radio] + label:before, .is-checkradio[type=radio] + label::after, .is-checkradio[type=radio] + label:after {
+  width: 1.5rem;
+  height: 1.5rem;
+}
+
+.is-checkradio[type=radio].is-rtl + label {
+  padding-right: 2rem;
+}
+
+.is-checkradio[type=radio].is-small + label {
+  font-size: 0.846rem;
+  line-height: 1.269rem;
+  padding-left: 1.692rem;
+}
+
+.is-checkradio[type=radio].is-small + label::before, .is-checkradio[type=radio].is-small + label:before, .is-checkradio[type=radio].is-small + label::after, .is-checkradio[type=radio].is-small + label:after {
+  width: 1.269rem;
+  height: 1.269rem;
+}
+
+.is-checkradio[type=radio].is-small.is-rtl + label {
+  padding-right: 1.692rem;
+}
+
+.is-checkradio[type=radio].is-medium + label {
+  font-size: 1.213rem;
+  line-height: 1.8195rem;
+  padding-left: 2.426rem;
+}
+
+.is-checkradio[type=radio].is-medium + label::before, .is-checkradio[type=radio].is-medium + label:before, .is-checkradio[type=radio].is-medium + label::after, .is-checkradio[type=radio].is-medium + label:after {
+  width: 1.8195rem;
+  height: 1.8195rem;
+}
+
+.is-checkradio[type=radio].is-medium.is-rtl + label {
+  padding-right: 2.426rem;
+}
+
+.is-checkradio[type=radio].is-large + label {
+  font-size: 1.385rem;
+  line-height: 2.0775rem;
+  padding-left: 2.77rem;
+}
+
+.is-checkradio[type=radio].is-large + label::before, .is-checkradio[type=radio].is-large + label:before, .is-checkradio[type=radio].is-large + label::after, .is-checkradio[type=radio].is-large + label:after {
+  width: 2.0775rem;
+  height: 2.0775rem;
+}
+
+.is-checkradio[type=radio].is-large.is-rtl + label {
+  padding-right: 2.77rem;
+}
+
+.is-checkradio[type=radio].is-white.has-background-color + label::before, .is-checkradio[type=radio].is-white.has-background-color + label:before {
+  border-color: hsl(0, 0%, 100%) !important;
+  background-color: hsl(0, 0%, 100%) !important;
+}
+
+.is-checkradio[type=radio].is-white:hover:not([disabled]) + label::before, .is-checkradio[type=radio].is-white:hover:not([disabled]) + label:before {
+  border-color: hsl(0, 0%, 100%) !important;
+}
+
+.is-checkradio[type=radio].is-white:checked + label::after, .is-checkradio[type=radio].is-white:checked + label:after {
+  border-color: hsl(0, 0%, 100%) !important;
+  background-color: hsl(0, 0%, 100%) !important;
+}
+
+.is-checkradio[type=radio].is-white:checked.has-background-color + label::before, .is-checkradio[type=radio].is-white:checked.has-background-color + label:before {
+  border-color: hsl(0, 0%, 100%) !important;
+  background-color: hsl(0, 0%, 100%) !important;
+}
+
+.is-checkradio[type=radio].is-white:checked.has-background-color + label::after, .is-checkradio[type=radio].is-white:checked.has-background-color + label:after {
+  border-color: hsl(0, 0%, 4%) !important;
+  background-color: hsl(0, 0%, 4%) !important;
+}
+
+.is-checkradio[type=radio].is-black.has-background-color + label::before, .is-checkradio[type=radio].is-black.has-background-color + label:before {
+  border-color: hsl(0, 0%, 4%) !important;
+  background-color: hsl(0, 0%, 4%) !important;
+}
+
+.is-checkradio[type=radio].is-black:hover:not([disabled]) + label::before, .is-checkradio[type=radio].is-black:hover:not([disabled]) + label:before {
+  border-color: hsl(0, 0%, 4%) !important;
+}
+
+.is-checkradio[type=radio].is-black:checked + label::after, .is-checkradio[type=radio].is-black:checked + label:after {
+  border-color: hsl(0, 0%, 4%) !important;
+  background-color: hsl(0, 0%, 4%) !important;
+}
+
+.is-checkradio[type=radio].is-black:checked.has-background-color + label::before, .is-checkradio[type=radio].is-black:checked.has-background-color + label:before {
+  border-color: hsl(0, 0%, 4%) !important;
+  background-color: hsl(0, 0%, 4%) !important;
+}
+
+.is-checkradio[type=radio].is-black:checked.has-background-color + label::after, .is-checkradio[type=radio].is-black:checked.has-background-color + label:after {
+  border-color: hsl(0, 0%, 100%) !important;
+  background-color: hsl(0, 0%, 100%) !important;
+}
+
+.is-checkradio[type=radio].is-light.has-background-color + label::before, .is-checkradio[type=radio].is-light.has-background-color + label:before {
+  border-color: hsl(0, 0%, 96%) !important;
+  background-color: hsl(0, 0%, 96%) !important;
+}
+
+.is-checkradio[type=radio].is-light:hover:not([disabled]) + label::before, .is-checkradio[type=radio].is-light:hover:not([disabled]) + label:before {
+  border-color: hsl(0, 0%, 96%) !important;
+}
+
+.is-checkradio[type=radio].is-light:checked + label::after, .is-checkradio[type=radio].is-light:checked + label:after {
+  border-color: hsl(0, 0%, 96%) !important;
+  background-color: hsl(0, 0%, 96%) !important;
+}
+
+.is-checkradio[type=radio].is-light:checked.has-background-color + label::before, .is-checkradio[type=radio].is-light:checked.has-background-color + label:before {
+  border-color: hsl(0, 0%, 96%) !important;
+  background-color: hsl(0, 0%, 96%) !important;
+}
+
+.is-checkradio[type=radio].is-light:checked.has-background-color + label::after, .is-checkradio[type=radio].is-light:checked.has-background-color + label:after {
+  border-color: rgba(0, 0, 0, 0.7) !important;
+  background-color: rgba(0, 0, 0, 0.7) !important;
+}
+
+.is-checkradio[type=radio].is-dark.has-background-color + label::before, .is-checkradio[type=radio].is-dark.has-background-color + label:before {
+  border-color: hsl(0, 0%, 21%) !important;
+  background-color: hsl(0, 0%, 21%) !important;
+}
+
+.is-checkradio[type=radio].is-dark:hover:not([disabled]) + label::before, .is-checkradio[type=radio].is-dark:hover:not([disabled]) + label:before {
+  border-color: hsl(0, 0%, 21%) !important;
+}
+
+.is-checkradio[type=radio].is-dark:checked + label::after, .is-checkradio[type=radio].is-dark:checked + label:after {
+  border-color: hsl(0, 0%, 21%) !important;
+  background-color: hsl(0, 0%, 21%) !important;
+}
+
+.is-checkradio[type=radio].is-dark:checked.has-background-color + label::before, .is-checkradio[type=radio].is-dark:checked.has-background-color + label:before {
+  border-color: hsl(0, 0%, 21%) !important;
+  background-color: hsl(0, 0%, 21%) !important;
+}
+
+.is-checkradio[type=radio].is-dark:checked.has-background-color + label::after, .is-checkradio[type=radio].is-dark:checked.has-background-color + label:after {
+  border-color: #fff !important;
+  background-color: #fff !important;
+}
+
+.is-checkradio[type=radio].is-primary.has-background-color + label::before, .is-checkradio[type=radio].is-primary.has-background-color + label:before {
+  border-color: hsl(208, 77%, 40%) !important;
+  background-color: hsl(208, 77%, 40%) !important;
+}
+
+.is-checkradio[type=radio].is-primary:hover:not([disabled]) + label::before, .is-checkradio[type=radio].is-primary:hover:not([disabled]) + label:before {
+  border-color: hsl(208, 77%, 40%) !important;
+}
+
+.is-checkradio[type=radio].is-primary:checked + label::after, .is-checkradio[type=radio].is-primary:checked + label:after {
+  border-color: hsl(208, 77%, 40%) !important;
+  background-color: hsl(208, 77%, 40%) !important;
+}
+
+.is-checkradio[type=radio].is-primary:checked.has-background-color + label::before, .is-checkradio[type=radio].is-primary:checked.has-background-color + label:before {
+  border-color: hsl(208, 77%, 40%) !important;
+  background-color: hsl(208, 77%, 40%) !important;
+}
+
+.is-checkradio[type=radio].is-primary:checked.has-background-color + label::after, .is-checkradio[type=radio].is-primary:checked.has-background-color + label:after {
+  border-color: #fff !important;
+  background-color: #fff !important;
+}
+
+.is-checkradio[type=radio].is-link.has-background-color + label::before, .is-checkradio[type=radio].is-link.has-background-color + label:before {
+  border-color: hsl(229, 53%, 53%) !important;
+  background-color: hsl(229, 53%, 53%) !important;
+}
+
+.is-checkradio[type=radio].is-link:hover:not([disabled]) + label::before, .is-checkradio[type=radio].is-link:hover:not([disabled]) + label:before {
+  border-color: hsl(229, 53%, 53%) !important;
+}
+
+.is-checkradio[type=radio].is-link:checked + label::after, .is-checkradio[type=radio].is-link:checked + label:after {
+  border-color: hsl(229, 53%, 53%) !important;
+  background-color: hsl(229, 53%, 53%) !important;
+}
+
+.is-checkradio[type=radio].is-link:checked.has-background-color + label::before, .is-checkradio[type=radio].is-link:checked.has-background-color + label:before {
+  border-color: hsl(229, 53%, 53%) !important;
+  background-color: hsl(229, 53%, 53%) !important;
+}
+
+.is-checkradio[type=radio].is-link:checked.has-background-color + label::after, .is-checkradio[type=radio].is-link:checked.has-background-color + label:after {
+  border-color: #fff !important;
+  background-color: #fff !important;
+}
+
+.is-checkradio[type=radio].is-info.has-background-color + label::before, .is-checkradio[type=radio].is-info.has-background-color + label:before {
+  border-color: hsl(217, 71%, 50%) !important;
+  background-color: hsl(217, 71%, 50%) !important;
+}
+
+.is-checkradio[type=radio].is-info:hover:not([disabled]) + label::before, .is-checkradio[type=radio].is-info:hover:not([disabled]) + label:before {
+  border-color: hsl(217, 71%, 50%) !important;
+}
+
+.is-checkradio[type=radio].is-info:checked + label::after, .is-checkradio[type=radio].is-info:checked + label:after {
+  border-color: hsl(217, 71%, 50%) !important;
+  background-color: hsl(217, 71%, 50%) !important;
+}
+
+.is-checkradio[type=radio].is-info:checked.has-background-color + label::before, .is-checkradio[type=radio].is-info:checked.has-background-color + label:before {
+  border-color: hsl(217, 71%, 50%) !important;
+  background-color: hsl(217, 71%, 50%) !important;
+}
+
+.is-checkradio[type=radio].is-info:checked.has-background-color + label::after, .is-checkradio[type=radio].is-info:checked.has-background-color + label:after {
+  border-color: #fff !important;
+  background-color: #fff !important;
+}
+
+.is-checkradio[type=radio].is-success.has-background-color + label::before, .is-checkradio[type=radio].is-success.has-background-color + label:before {
+  border-color: hsl(141, 53%, 40%) !important;
+  background-color: hsl(141, 53%, 40%) !important;
+}
+
+.is-checkradio[type=radio].is-success:hover:not([disabled]) + label::before, .is-checkradio[type=radio].is-success:hover:not([disabled]) + label:before {
+  border-color: hsl(141, 53%, 40%) !important;
+}
+
+.is-checkradio[type=radio].is-success:checked + label::after, .is-checkradio[type=radio].is-success:checked + label:after {
+  border-color: hsl(141, 53%, 40%) !important;
+  background-color: hsl(141, 53%, 40%) !important;
+}
+
+.is-checkradio[type=radio].is-success:checked.has-background-color + label::before, .is-checkradio[type=radio].is-success:checked.has-background-color + label:before {
+  border-color: hsl(141, 53%, 40%) !important;
+  background-color: hsl(141, 53%, 40%) !important;
+}
+
+.is-checkradio[type=radio].is-success:checked.has-background-color + label::after, .is-checkradio[type=radio].is-success:checked.has-background-color + label:after {
+  border-color: #fff !important;
+  background-color: #fff !important;
+}
+
+.is-checkradio[type=radio].is-warning.has-background-color + label::before, .is-checkradio[type=radio].is-warning.has-background-color + label:before {
+  border-color: hsl(38, 93%, 50%) !important;
+  background-color: hsl(38, 93%, 50%) !important;
+}
+
+.is-checkradio[type=radio].is-warning:hover:not([disabled]) + label::before, .is-checkradio[type=radio].is-warning:hover:not([disabled]) + label:before {
+  border-color: hsl(38, 93%, 50%) !important;
+}
+
+.is-checkradio[type=radio].is-warning:checked + label::after, .is-checkradio[type=radio].is-warning:checked + label:after {
+  border-color: hsl(38, 93%, 50%) !important;
+  background-color: hsl(38, 93%, 50%) !important;
+}
+
+.is-checkradio[type=radio].is-warning:checked.has-background-color + label::before, .is-checkradio[type=radio].is-warning:checked.has-background-color + label:before {
+  border-color: hsl(38, 93%, 50%) !important;
+  background-color: hsl(38, 93%, 50%) !important;
+}
+
+.is-checkradio[type=radio].is-warning:checked.has-background-color + label::after, .is-checkradio[type=radio].is-warning:checked.has-background-color + label:after {
+  border-color: #fff !important;
+  background-color: #fff !important;
+}
+
+.is-checkradio[type=radio].is-danger.has-background-color + label::before, .is-checkradio[type=radio].is-danger.has-background-color + label:before {
+  border-color: hsl(348, 100%, 40%) !important;
+  background-color: hsl(348, 100%, 40%) !important;
+}
+
+.is-checkradio[type=radio].is-danger:hover:not([disabled]) + label::before, .is-checkradio[type=radio].is-danger:hover:not([disabled]) + label:before {
+  border-color: hsl(348, 100%, 40%) !important;
+}
+
+.is-checkradio[type=radio].is-danger:checked + label::after, .is-checkradio[type=radio].is-danger:checked + label:after {
+  border-color: hsl(348, 100%, 40%) !important;
+  background-color: hsl(348, 100%, 40%) !important;
+}
+
+.is-checkradio[type=radio].is-danger:checked.has-background-color + label::before, .is-checkradio[type=radio].is-danger:checked.has-background-color + label:before {
+  border-color: hsl(348, 100%, 40%) !important;
+  background-color: hsl(348, 100%, 40%) !important;
+}
+
+.is-checkradio[type=radio].is-danger:checked.has-background-color + label::after, .is-checkradio[type=radio].is-danger:checked.has-background-color + label:after {
+  border-color: #fff !important;
+  background-color: #fff !important;
+}
+
+.switch[type=checkbox] {
+  outline: 0;
+  user-select: none;
+  display: inline-block;
+  position: absolute;
+  opacity: 0;
+}
+
+.switch[type=checkbox]:focus + label::before, .switch[type=checkbox]:focus + label:before, .switch[type=checkbox]:focus + label::after, .switch[type=checkbox]:focus + label:after {
+  outline: 1px dotted hsl(0, 0%, 71%);
+}
+
+.switch[type=checkbox][disabled] {
+  cursor: not-allowed;
+}
+
+.switch[type=checkbox][disabled] + label {
+  opacity: 0.5;
+}
+
+.switch[type=checkbox][disabled] + label::before, .switch[type=checkbox][disabled] + label:before {
+  opacity: 0.5;
+}
+
+.switch[type=checkbox][disabled] + label::after, .switch[type=checkbox][disabled] + label:after {
+  opacity: 0.5;
+}
+
+.switch[type=checkbox][disabled] + label:hover {
+  cursor: not-allowed;
+}
+
+.switch[type=checkbox] + label {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: flex-start;
+  font-size: 1rem;
+  height: 2.5em;
+  line-height: 1.5;
+  padding-left: 3.5rem;
+  padding-top: 0.2rem;
+  cursor: pointer;
+}
+
+.switch[type=checkbox] + label::before, .switch[type=checkbox] + label:before {
+  position: absolute;
+  display: block;
+  top: calc(50% - 0.75rem);
+  left: 0;
+  width: 3rem;
+  height: 1.5rem;
+  border: 0.1rem solid transparent;
+  border-radius: 4px;
+  background: hsl(0, 0%, 71%);
+  content: "";
+}
+
+.switch[type=checkbox] + label::after, .switch[type=checkbox] + label:after {
+  display: block;
+  position: absolute;
+  top: calc(50% - 0.5rem);
+  left: 0.25rem;
+  width: 1rem;
+  height: 1rem;
+  transform: translate3d(0, 0, 0);
+  border-radius: 4px;
+  background: hsl(0, 0%, 100%);
+  transition: all 0.25s ease-out;
+  content: "";
+}
+
+.switch[type=checkbox] + label .switch-active, .switch[type=checkbox] + label .switch-inactive {
+  font-size: 0.9rem;
+  z-index: 1;
+  margin-top: -4px;
+}
+
+.switch[type=checkbox] + label.has-text-inside .switch-inactive {
+  margin-left: -1.925rem;
+}
+
+.switch[type=checkbox] + label.has-text-inside .switch-active {
+  margin-left: -3.25rem;
+}
+
+.switch[type=checkbox].is-rtl + label {
+  padding-left: 0;
+  padding-right: 3.5rem;
+}
+
+.switch[type=checkbox].is-rtl + label::before, .switch[type=checkbox].is-rtl + label:before {
+  left: auto;
+  right: 0;
+}
+
+.switch[type=checkbox].is-rtl + label::after, .switch[type=checkbox].is-rtl + label:after {
+  left: auto;
+  right: 1.625rem;
+}
+
+.switch[type=checkbox]:checked + label::before, .switch[type=checkbox]:checked + label:before {
+  background: hsl(208, 77%, 40%);
+}
+
+.switch[type=checkbox]:checked + label::after {
+  left: 1.625rem;
+}
+
+.switch[type=checkbox]:checked.is-rtl + label::after, .switch[type=checkbox]:checked.is-rtl + label:after {
+  left: auto;
+  right: 0.25rem;
+}
+
+.switch[type=checkbox].is-outlined + label::before, .switch[type=checkbox].is-outlined + label:before {
+  background-color: transparent;
+  border-color: hsl(0, 0%, 71%);
+}
+
+.switch[type=checkbox].is-outlined + label::after, .switch[type=checkbox].is-outlined + label:after {
+  background: hsl(0, 0%, 71%);
+}
+
+.switch[type=checkbox].is-outlined:checked + label::before, .switch[type=checkbox].is-outlined:checked + label:before {
+  background-color: transparent;
+  border-color: hsl(208, 77%, 40%);
+}
+
+.switch[type=checkbox].is-outlined:checked + label::after, .switch[type=checkbox].is-outlined:checked + label:after {
+  background: hsl(208, 77%, 40%);
+}
+
+.switch[type=checkbox].is-thin + label::before, .switch[type=checkbox].is-thin + label:before {
+  top: 0.5454545456rem;
+  height: 0.375rem;
+}
+
+.switch[type=checkbox].is-thin + label::after, .switch[type=checkbox].is-thin + label:after {
+  box-shadow: 0px 0px 3px hsl(0, 0%, 48%);
+}
+
+.switch[type=checkbox].is-rounded + label::before, .switch[type=checkbox].is-rounded + label:before {
+  border-radius: 24px;
+}
+
+.switch[type=checkbox].is-rounded + label::after, .switch[type=checkbox].is-rounded + label:after {
+  border-radius: 50%;
+}
+
+.switch[type=checkbox].is-small + label {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: flex-start;
+  font-size: 0.846rem;
+  height: 2.5em;
+  line-height: 1.5;
+  padding-left: 3.038rem;
+  padding-top: 0.2rem;
+  cursor: pointer;
+}
+
+.switch[type=checkbox].is-small + label::before, .switch[type=checkbox].is-small + label:before {
+  position: absolute;
+  display: block;
+  top: calc(50% - 0.6345rem);
+  left: 0;
+  width: 2.538rem;
+  height: 1.269rem;
+  border: 0.1rem solid transparent;
+  border-radius: 4px;
+  background: hsl(0, 0%, 71%);
+  content: "";
+}
+
+.switch[type=checkbox].is-small + label::after, .switch[type=checkbox].is-small + label:after {
+  display: block;
+  position: absolute;
+  top: calc(50% - 0.3845rem);
+  left: 0.25rem;
+  width: 0.769rem;
+  height: 0.769rem;
+  transform: translate3d(0, 0, 0);
+  border-radius: 4px;
+  background: hsl(0, 0%, 100%);
+  transition: all 0.25s ease-out;
+  content: "";
+}
+
+.switch[type=checkbox].is-small + label .switch-active, .switch[type=checkbox].is-small + label .switch-inactive {
+  font-size: 0.746rem;
+  z-index: 1;
+  margin-top: -4px;
+}
+
+.switch[type=checkbox].is-small + label.has-text-inside .switch-inactive {
+  margin-left: -1.694rem;
+}
+
+.switch[type=checkbox].is-small + label.has-text-inside .switch-active {
+  margin-left: -2.788rem;
+}
+
+.switch[type=checkbox].is-small.is-rtl + label {
+  padding-left: 0;
+  padding-right: 3.038rem;
+}
+
+.switch[type=checkbox].is-small.is-rtl + label::before, .switch[type=checkbox].is-small.is-rtl + label:before {
+  left: auto;
+  right: 0;
+}
+
+.switch[type=checkbox].is-small.is-rtl + label::after, .switch[type=checkbox].is-small.is-rtl + label:after {
+  left: auto;
+  right: 1.394rem;
+}
+
+.switch[type=checkbox].is-small:checked + label::before, .switch[type=checkbox].is-small:checked + label:before {
+  background: hsl(208, 77%, 40%);
+}
+
+.switch[type=checkbox].is-small:checked + label::after {
+  left: 1.394rem;
+}
+
+.switch[type=checkbox].is-small:checked.is-rtl + label::after, .switch[type=checkbox].is-small:checked.is-rtl + label:after {
+  left: auto;
+  right: 0.25rem;
+}
+
+.switch[type=checkbox].is-small.is-outlined + label::before, .switch[type=checkbox].is-small.is-outlined + label:before {
+  background-color: transparent;
+  border-color: hsl(0, 0%, 71%);
+}
+
+.switch[type=checkbox].is-small.is-outlined + label::after, .switch[type=checkbox].is-small.is-outlined + label:after {
+  background: hsl(0, 0%, 71%);
+}
+
+.switch[type=checkbox].is-small.is-outlined:checked + label::before, .switch[type=checkbox].is-small.is-outlined:checked + label:before {
+  background-color: transparent;
+  border-color: hsl(208, 77%, 40%);
+}
+
+.switch[type=checkbox].is-small.is-outlined:checked + label::after, .switch[type=checkbox].is-small.is-outlined:checked + label:after {
+  background: hsl(208, 77%, 40%);
+}
+
+.switch[type=checkbox].is-small.is-thin + label::before, .switch[type=checkbox].is-small.is-thin + label:before {
+  top: 0.4614545456rem;
+  height: 0.31725rem;
+}
+
+.switch[type=checkbox].is-small.is-thin + label::after, .switch[type=checkbox].is-small.is-thin + label:after {
+  box-shadow: 0px 0px 3px hsl(0, 0%, 48%);
+}
+
+.switch[type=checkbox].is-small.is-rounded + label::before, .switch[type=checkbox].is-small.is-rounded + label:before {
+  border-radius: 24px;
+}
+
+.switch[type=checkbox].is-small.is-rounded + label::after, .switch[type=checkbox].is-small.is-rounded + label:after {
+  border-radius: 50%;
+}
+
+.switch[type=checkbox].is-medium + label {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: flex-start;
+  font-size: 1.213rem;
+  height: 2.5em;
+  line-height: 1.5;
+  padding-left: 4.139rem;
+  padding-top: 0.2rem;
+  cursor: pointer;
+}
+
+.switch[type=checkbox].is-medium + label::before, .switch[type=checkbox].is-medium + label:before {
+  position: absolute;
+  display: block;
+  top: calc(50% - 0.90975rem);
+  left: 0;
+  width: 3.639rem;
+  height: 1.8195rem;
+  border: 0.1rem solid transparent;
+  border-radius: 4px;
+  background: hsl(0, 0%, 71%);
+  content: "";
+}
+
+.switch[type=checkbox].is-medium + label::after, .switch[type=checkbox].is-medium + label:after {
+  display: block;
+  position: absolute;
+  top: calc(50% - 0.65975rem);
+  left: 0.25rem;
+  width: 1.3195rem;
+  height: 1.3195rem;
+  transform: translate3d(0, 0, 0);
+  border-radius: 4px;
+  background: hsl(0, 0%, 100%);
+  transition: all 0.25s ease-out;
+  content: "";
+}
+
+.switch[type=checkbox].is-medium + label .switch-active, .switch[type=checkbox].is-medium + label .switch-inactive {
+  font-size: 1.113rem;
+  z-index: 1;
+  margin-top: -4px;
+}
+
+.switch[type=checkbox].is-medium + label.has-text-inside .switch-inactive {
+  margin-left: -2.2445rem;
+}
+
+.switch[type=checkbox].is-medium + label.has-text-inside .switch-active {
+  margin-left: -3.889rem;
+}
+
+.switch[type=checkbox].is-medium.is-rtl + label {
+  padding-left: 0;
+  padding-right: 4.139rem;
+}
+
+.switch[type=checkbox].is-medium.is-rtl + label::before, .switch[type=checkbox].is-medium.is-rtl + label:before {
+  left: auto;
+  right: 0;
+}
+
+.switch[type=checkbox].is-medium.is-rtl + label::after, .switch[type=checkbox].is-medium.is-rtl + label:after {
+  left: auto;
+  right: 1.9445rem;
+}
+
+.switch[type=checkbox].is-medium:checked + label::before, .switch[type=checkbox].is-medium:checked + label:before {
+  background: hsl(208, 77%, 40%);
+}
+
+.switch[type=checkbox].is-medium:checked + label::after {
+  left: 1.9445rem;
+}
+
+.switch[type=checkbox].is-medium:checked.is-rtl + label::after, .switch[type=checkbox].is-medium:checked.is-rtl + label:after {
+  left: auto;
+  right: 0.25rem;
+}
+
+.switch[type=checkbox].is-medium.is-outlined + label::before, .switch[type=checkbox].is-medium.is-outlined + label:before {
+  background-color: transparent;
+  border-color: hsl(0, 0%, 71%);
+}
+
+.switch[type=checkbox].is-medium.is-outlined + label::after, .switch[type=checkbox].is-medium.is-outlined + label:after {
+  background: hsl(0, 0%, 71%);
+}
+
+.switch[type=checkbox].is-medium.is-outlined:checked + label::before, .switch[type=checkbox].is-medium.is-outlined:checked + label:before {
+  background-color: transparent;
+  border-color: hsl(208, 77%, 40%);
+}
+
+.switch[type=checkbox].is-medium.is-outlined:checked + label::after, .switch[type=checkbox].is-medium.is-outlined:checked + label:after {
+  background: hsl(208, 77%, 40%);
+}
+
+.switch[type=checkbox].is-medium.is-thin + label::before, .switch[type=checkbox].is-medium.is-thin + label:before {
+  top: 0.6616363637rem;
+  height: 0.454875rem;
+}
+
+.switch[type=checkbox].is-medium.is-thin + label::after, .switch[type=checkbox].is-medium.is-thin + label:after {
+  box-shadow: 0px 0px 3px hsl(0, 0%, 48%);
+}
+
+.switch[type=checkbox].is-medium.is-rounded + label::before, .switch[type=checkbox].is-medium.is-rounded + label:before {
+  border-radius: 24px;
+}
+
+.switch[type=checkbox].is-medium.is-rounded + label::after, .switch[type=checkbox].is-medium.is-rounded + label:after {
+  border-radius: 50%;
+}
+
+.switch[type=checkbox].is-large + label {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: flex-start;
+  font-size: 1.385rem;
+  height: 2.5em;
+  line-height: 1.5;
+  padding-left: 4.655rem;
+  padding-top: 0.2rem;
+  cursor: pointer;
+}
+
+.switch[type=checkbox].is-large + label::before, .switch[type=checkbox].is-large + label:before {
+  position: absolute;
+  display: block;
+  top: calc(50% - 1.03875rem);
+  left: 0;
+  width: 4.155rem;
+  height: 2.0775rem;
+  border: 0.1rem solid transparent;
+  border-radius: 4px;
+  background: hsl(0, 0%, 71%);
+  content: "";
+}
+
+.switch[type=checkbox].is-large + label::after, .switch[type=checkbox].is-large + label:after {
+  display: block;
+  position: absolute;
+  top: calc(50% - 0.78875rem);
+  left: 0.25rem;
+  width: 1.5775rem;
+  height: 1.5775rem;
+  transform: translate3d(0, 0, 0);
+  border-radius: 4px;
+  background: hsl(0, 0%, 100%);
+  transition: all 0.25s ease-out;
+  content: "";
+}
+
+.switch[type=checkbox].is-large + label .switch-active, .switch[type=checkbox].is-large + label .switch-inactive {
+  font-size: 1.285rem;
+  z-index: 1;
+  margin-top: -4px;
+}
+
+.switch[type=checkbox].is-large + label.has-text-inside .switch-inactive {
+  margin-left: -2.5025rem;
+}
+
+.switch[type=checkbox].is-large + label.has-text-inside .switch-active {
+  margin-left: -4.405rem;
+}
+
+.switch[type=checkbox].is-large.is-rtl + label {
+  padding-left: 0;
+  padding-right: 4.655rem;
+}
+
+.switch[type=checkbox].is-large.is-rtl + label::before, .switch[type=checkbox].is-large.is-rtl + label:before {
+  left: auto;
+  right: 0;
+}
+
+.switch[type=checkbox].is-large.is-rtl + label::after, .switch[type=checkbox].is-large.is-rtl + label:after {
+  left: auto;
+  right: 2.2025rem;
+}
+
+.switch[type=checkbox].is-large:checked + label::before, .switch[type=checkbox].is-large:checked + label:before {
+  background: hsl(208, 77%, 40%);
+}
+
+.switch[type=checkbox].is-large:checked + label::after {
+  left: 2.2025rem;
+}
+
+.switch[type=checkbox].is-large:checked.is-rtl + label::after, .switch[type=checkbox].is-large:checked.is-rtl + label:after {
+  left: auto;
+  right: 0.25rem;
+}
+
+.switch[type=checkbox].is-large.is-outlined + label::before, .switch[type=checkbox].is-large.is-outlined + label:before {
+  background-color: transparent;
+  border-color: hsl(0, 0%, 71%);
+}
+
+.switch[type=checkbox].is-large.is-outlined + label::after, .switch[type=checkbox].is-large.is-outlined + label:after {
+  background: hsl(0, 0%, 71%);
+}
+
+.switch[type=checkbox].is-large.is-outlined:checked + label::before, .switch[type=checkbox].is-large.is-outlined:checked + label:before {
+  background-color: transparent;
+  border-color: hsl(208, 77%, 40%);
+}
+
+.switch[type=checkbox].is-large.is-outlined:checked + label::after, .switch[type=checkbox].is-large.is-outlined:checked + label:after {
+  background: hsl(208, 77%, 40%);
+}
+
+.switch[type=checkbox].is-large.is-thin + label::before, .switch[type=checkbox].is-large.is-thin + label:before {
+  top: 0.7554545456rem;
+  height: 0.519375rem;
+}
+
+.switch[type=checkbox].is-large.is-thin + label::after, .switch[type=checkbox].is-large.is-thin + label:after {
+  box-shadow: 0px 0px 3px hsl(0, 0%, 48%);
+}
+
+.switch[type=checkbox].is-large.is-rounded + label::before, .switch[type=checkbox].is-large.is-rounded + label:before {
+  border-radius: 24px;
+}
+
+.switch[type=checkbox].is-large.is-rounded + label::after, .switch[type=checkbox].is-large.is-rounded + label:after {
+  border-radius: 50%;
+}
+
+.switch[type=checkbox].is-white + label .switch-active {
+  display: none;
+}
+
+.switch[type=checkbox].is-white + label .switch-inactive {
+  display: inline-block;
+}
+
+.switch[type=checkbox].is-white:checked + label::before, .switch[type=checkbox].is-white:checked + label:before {
+  background: hsl(0, 0%, 100%);
+}
+
+.switch[type=checkbox].is-white:checked + label .switch-active {
+  display: inline-block;
+}
+
+.switch[type=checkbox].is-white:checked + label .switch-inactive {
+  display: none;
+}
+
+.switch[type=checkbox].is-white.is-outlined:checked + label::before, .switch[type=checkbox].is-white.is-outlined:checked + label:before {
+  background-color: transparent;
+  border-color: hsl(0, 0%, 100%) !important;
+}
+
+.switch[type=checkbox].is-white.is-outlined:checked + label::after, .switch[type=checkbox].is-white.is-outlined:checked + label:after {
+  background: hsl(0, 0%, 100%);
+}
+
+.switch[type=checkbox].is-white.is-thin.is-outlined + label::after, .switch[type=checkbox].is-white.is-thin.is-outlined + label:after {
+  box-shadow: none;
+}
+
+.switch[type=checkbox].is-unchecked-white + label::before, .switch[type=checkbox].is-unchecked-white + label:before {
+  background: hsl(0, 0%, 100%);
+}
+
+.switch[type=checkbox].is-unchecked-white.is-outlined + label::before, .switch[type=checkbox].is-unchecked-white.is-outlined + label:before {
+  background-color: transparent;
+  border-color: hsl(0, 0%, 100%) !important;
+}
+
+.switch[type=checkbox].is-unchecked-white.is-outlined + label::after, .switch[type=checkbox].is-unchecked-white.is-outlined + label:after {
+  background: hsl(0, 0%, 100%);
+}
+
+.switch[type=checkbox].is-black + label .switch-active {
+  display: none;
+}
+
+.switch[type=checkbox].is-black + label .switch-inactive {
+  display: inline-block;
+}
+
+.switch[type=checkbox].is-black:checked + label::before, .switch[type=checkbox].is-black:checked + label:before {
+  background: hsl(0, 0%, 4%);
+}
+
+.switch[type=checkbox].is-black:checked + label .switch-active {
+  display: inline-block;
+}
+
+.switch[type=checkbox].is-black:checked + label .switch-inactive {
+  display: none;
+}
+
+.switch[type=checkbox].is-black.is-outlined:checked + label::before, .switch[type=checkbox].is-black.is-outlined:checked + label:before {
+  background-color: transparent;
+  border-color: hsl(0, 0%, 4%) !important;
+}
+
+.switch[type=checkbox].is-black.is-outlined:checked + label::after, .switch[type=checkbox].is-black.is-outlined:checked + label:after {
+  background: hsl(0, 0%, 4%);
+}
+
+.switch[type=checkbox].is-black.is-thin.is-outlined + label::after, .switch[type=checkbox].is-black.is-thin.is-outlined + label:after {
+  box-shadow: none;
+}
+
+.switch[type=checkbox].is-unchecked-black + label::before, .switch[type=checkbox].is-unchecked-black + label:before {
+  background: hsl(0, 0%, 4%);
+}
+
+.switch[type=checkbox].is-unchecked-black.is-outlined + label::before, .switch[type=checkbox].is-unchecked-black.is-outlined + label:before {
+  background-color: transparent;
+  border-color: hsl(0, 0%, 4%) !important;
+}
+
+.switch[type=checkbox].is-unchecked-black.is-outlined + label::after, .switch[type=checkbox].is-unchecked-black.is-outlined + label:after {
+  background: hsl(0, 0%, 4%);
+}
+
+.switch[type=checkbox].is-light + label .switch-active {
+  display: none;
+}
+
+.switch[type=checkbox].is-light + label .switch-inactive {
+  display: inline-block;
+}
+
+.switch[type=checkbox].is-light:checked + label::before, .switch[type=checkbox].is-light:checked + label:before {
+  background: hsl(0, 0%, 96%);
+}
+
+.switch[type=checkbox].is-light:checked + label .switch-active {
+  display: inline-block;
+}
+
+.switch[type=checkbox].is-light:checked + label .switch-inactive {
+  display: none;
+}
+
+.switch[type=checkbox].is-light.is-outlined:checked + label::before, .switch[type=checkbox].is-light.is-outlined:checked + label:before {
+  background-color: transparent;
+  border-color: hsl(0, 0%, 96%) !important;
+}
+
+.switch[type=checkbox].is-light.is-outlined:checked + label::after, .switch[type=checkbox].is-light.is-outlined:checked + label:after {
+  background: hsl(0, 0%, 96%);
+}
+
+.switch[type=checkbox].is-light.is-thin.is-outlined + label::after, .switch[type=checkbox].is-light.is-thin.is-outlined + label:after {
+  box-shadow: none;
+}
+
+.switch[type=checkbox].is-unchecked-light + label::before, .switch[type=checkbox].is-unchecked-light + label:before {
+  background: hsl(0, 0%, 96%);
+}
+
+.switch[type=checkbox].is-unchecked-light.is-outlined + label::before, .switch[type=checkbox].is-unchecked-light.is-outlined + label:before {
+  background-color: transparent;
+  border-color: hsl(0, 0%, 96%) !important;
+}
+
+.switch[type=checkbox].is-unchecked-light.is-outlined + label::after, .switch[type=checkbox].is-unchecked-light.is-outlined + label:after {
+  background: hsl(0, 0%, 96%);
+}
+
+.switch[type=checkbox].is-dark + label .switch-active {
+  display: none;
+}
+
+.switch[type=checkbox].is-dark + label .switch-inactive {
+  display: inline-block;
+}
+
+.switch[type=checkbox].is-dark:checked + label::before, .switch[type=checkbox].is-dark:checked + label:before {
+  background: hsl(0, 0%, 21%);
+}
+
+.switch[type=checkbox].is-dark:checked + label .switch-active {
+  display: inline-block;
+}
+
+.switch[type=checkbox].is-dark:checked + label .switch-inactive {
+  display: none;
+}
+
+.switch[type=checkbox].is-dark.is-outlined:checked + label::before, .switch[type=checkbox].is-dark.is-outlined:checked + label:before {
+  background-color: transparent;
+  border-color: hsl(0, 0%, 21%) !important;
+}
+
+.switch[type=checkbox].is-dark.is-outlined:checked + label::after, .switch[type=checkbox].is-dark.is-outlined:checked + label:after {
+  background: hsl(0, 0%, 21%);
+}
+
+.switch[type=checkbox].is-dark.is-thin.is-outlined + label::after, .switch[type=checkbox].is-dark.is-thin.is-outlined + label:after {
+  box-shadow: none;
+}
+
+.switch[type=checkbox].is-unchecked-dark + label::before, .switch[type=checkbox].is-unchecked-dark + label:before {
+  background: hsl(0, 0%, 21%);
+}
+
+.switch[type=checkbox].is-unchecked-dark.is-outlined + label::before, .switch[type=checkbox].is-unchecked-dark.is-outlined + label:before {
+  background-color: transparent;
+  border-color: hsl(0, 0%, 21%) !important;
+}
+
+.switch[type=checkbox].is-unchecked-dark.is-outlined + label::after, .switch[type=checkbox].is-unchecked-dark.is-outlined + label:after {
+  background: hsl(0, 0%, 21%);
+}
+
+.switch[type=checkbox].is-primary + label .switch-active {
+  display: none;
+}
+
+.switch[type=checkbox].is-primary + label .switch-inactive {
+  display: inline-block;
+}
+
+.switch[type=checkbox].is-primary:checked + label::before, .switch[type=checkbox].is-primary:checked + label:before {
+  background: hsl(208, 77%, 40%);
+}
+
+.switch[type=checkbox].is-primary:checked + label .switch-active {
+  display: inline-block;
+}
+
+.switch[type=checkbox].is-primary:checked + label .switch-inactive {
+  display: none;
+}
+
+.switch[type=checkbox].is-primary.is-outlined:checked + label::before, .switch[type=checkbox].is-primary.is-outlined:checked + label:before {
+  background-color: transparent;
+  border-color: hsl(208, 77%, 40%) !important;
+}
+
+.switch[type=checkbox].is-primary.is-outlined:checked + label::after, .switch[type=checkbox].is-primary.is-outlined:checked + label:after {
+  background: hsl(208, 77%, 40%);
+}
+
+.switch[type=checkbox].is-primary.is-thin.is-outlined + label::after, .switch[type=checkbox].is-primary.is-thin.is-outlined + label:after {
+  box-shadow: none;
+}
+
+.switch[type=checkbox].is-unchecked-primary + label::before, .switch[type=checkbox].is-unchecked-primary + label:before {
+  background: hsl(208, 77%, 40%);
+}
+
+.switch[type=checkbox].is-unchecked-primary.is-outlined + label::before, .switch[type=checkbox].is-unchecked-primary.is-outlined + label:before {
+  background-color: transparent;
+  border-color: hsl(208, 77%, 40%) !important;
+}
+
+.switch[type=checkbox].is-unchecked-primary.is-outlined + label::after, .switch[type=checkbox].is-unchecked-primary.is-outlined + label:after {
+  background: hsl(208, 77%, 40%);
+}
+
+.switch[type=checkbox].is-link + label .switch-active {
+  display: none;
+}
+
+.switch[type=checkbox].is-link + label .switch-inactive {
+  display: inline-block;
+}
+
+.switch[type=checkbox].is-link:checked + label::before, .switch[type=checkbox].is-link:checked + label:before {
+  background: hsl(229, 53%, 53%);
+}
+
+.switch[type=checkbox].is-link:checked + label .switch-active {
+  display: inline-block;
+}
+
+.switch[type=checkbox].is-link:checked + label .switch-inactive {
+  display: none;
+}
+
+.switch[type=checkbox].is-link.is-outlined:checked + label::before, .switch[type=checkbox].is-link.is-outlined:checked + label:before {
+  background-color: transparent;
+  border-color: hsl(229, 53%, 53%) !important;
+}
+
+.switch[type=checkbox].is-link.is-outlined:checked + label::after, .switch[type=checkbox].is-link.is-outlined:checked + label:after {
+  background: hsl(229, 53%, 53%);
+}
+
+.switch[type=checkbox].is-link.is-thin.is-outlined + label::after, .switch[type=checkbox].is-link.is-thin.is-outlined + label:after {
+  box-shadow: none;
+}
+
+.switch[type=checkbox].is-unchecked-link + label::before, .switch[type=checkbox].is-unchecked-link + label:before {
+  background: hsl(229, 53%, 53%);
+}
+
+.switch[type=checkbox].is-unchecked-link.is-outlined + label::before, .switch[type=checkbox].is-unchecked-link.is-outlined + label:before {
+  background-color: transparent;
+  border-color: hsl(229, 53%, 53%) !important;
+}
+
+.switch[type=checkbox].is-unchecked-link.is-outlined + label::after, .switch[type=checkbox].is-unchecked-link.is-outlined + label:after {
+  background: hsl(229, 53%, 53%);
+}
+
+.switch[type=checkbox].is-info + label .switch-active {
+  display: none;
+}
+
+.switch[type=checkbox].is-info + label .switch-inactive {
+  display: inline-block;
+}
+
+.switch[type=checkbox].is-info:checked + label::before, .switch[type=checkbox].is-info:checked + label:before {
+  background: hsl(217, 71%, 50%);
+}
+
+.switch[type=checkbox].is-info:checked + label .switch-active {
+  display: inline-block;
+}
+
+.switch[type=checkbox].is-info:checked + label .switch-inactive {
+  display: none;
+}
+
+.switch[type=checkbox].is-info.is-outlined:checked + label::before, .switch[type=checkbox].is-info.is-outlined:checked + label:before {
+  background-color: transparent;
+  border-color: hsl(217, 71%, 50%) !important;
+}
+
+.switch[type=checkbox].is-info.is-outlined:checked + label::after, .switch[type=checkbox].is-info.is-outlined:checked + label:after {
+  background: hsl(217, 71%, 50%);
+}
+
+.switch[type=checkbox].is-info.is-thin.is-outlined + label::after, .switch[type=checkbox].is-info.is-thin.is-outlined + label:after {
+  box-shadow: none;
+}
+
+.switch[type=checkbox].is-unchecked-info + label::before, .switch[type=checkbox].is-unchecked-info + label:before {
+  background: hsl(217, 71%, 50%);
+}
+
+.switch[type=checkbox].is-unchecked-info.is-outlined + label::before, .switch[type=checkbox].is-unchecked-info.is-outlined + label:before {
+  background-color: transparent;
+  border-color: hsl(217, 71%, 50%) !important;
+}
+
+.switch[type=checkbox].is-unchecked-info.is-outlined + label::after, .switch[type=checkbox].is-unchecked-info.is-outlined + label:after {
+  background: hsl(217, 71%, 50%);
+}
+
+.switch[type=checkbox].is-success + label .switch-active {
+  display: none;
+}
+
+.switch[type=checkbox].is-success + label .switch-inactive {
+  display: inline-block;
+}
+
+.switch[type=checkbox].is-success:checked + label::before, .switch[type=checkbox].is-success:checked + label:before {
+  background: hsl(141, 53%, 40%);
+}
+
+.switch[type=checkbox].is-success:checked + label .switch-active {
+  display: inline-block;
+}
+
+.switch[type=checkbox].is-success:checked + label .switch-inactive {
+  display: none;
+}
+
+.switch[type=checkbox].is-success.is-outlined:checked + label::before, .switch[type=checkbox].is-success.is-outlined:checked + label:before {
+  background-color: transparent;
+  border-color: hsl(141, 53%, 40%) !important;
+}
+
+.switch[type=checkbox].is-success.is-outlined:checked + label::after, .switch[type=checkbox].is-success.is-outlined:checked + label:after {
+  background: hsl(141, 53%, 40%);
+}
+
+.switch[type=checkbox].is-success.is-thin.is-outlined + label::after, .switch[type=checkbox].is-success.is-thin.is-outlined + label:after {
+  box-shadow: none;
+}
+
+.switch[type=checkbox].is-unchecked-success + label::before, .switch[type=checkbox].is-unchecked-success + label:before {
+  background: hsl(141, 53%, 40%);
+}
+
+.switch[type=checkbox].is-unchecked-success.is-outlined + label::before, .switch[type=checkbox].is-unchecked-success.is-outlined + label:before {
+  background-color: transparent;
+  border-color: hsl(141, 53%, 40%) !important;
+}
+
+.switch[type=checkbox].is-unchecked-success.is-outlined + label::after, .switch[type=checkbox].is-unchecked-success.is-outlined + label:after {
+  background: hsl(141, 53%, 40%);
+}
+
+.switch[type=checkbox].is-warning + label .switch-active {
+  display: none;
+}
+
+.switch[type=checkbox].is-warning + label .switch-inactive {
+  display: inline-block;
+}
+
+.switch[type=checkbox].is-warning:checked + label::before, .switch[type=checkbox].is-warning:checked + label:before {
+  background: hsl(38, 93%, 50%);
+}
+
+.switch[type=checkbox].is-warning:checked + label .switch-active {
+  display: inline-block;
+}
+
+.switch[type=checkbox].is-warning:checked + label .switch-inactive {
+  display: none;
+}
+
+.switch[type=checkbox].is-warning.is-outlined:checked + label::before, .switch[type=checkbox].is-warning.is-outlined:checked + label:before {
+  background-color: transparent;
+  border-color: hsl(38, 93%, 50%) !important;
+}
+
+.switch[type=checkbox].is-warning.is-outlined:checked + label::after, .switch[type=checkbox].is-warning.is-outlined:checked + label:after {
+  background: hsl(38, 93%, 50%);
+}
+
+.switch[type=checkbox].is-warning.is-thin.is-outlined + label::after, .switch[type=checkbox].is-warning.is-thin.is-outlined + label:after {
+  box-shadow: none;
+}
+
+.switch[type=checkbox].is-unchecked-warning + label::before, .switch[type=checkbox].is-unchecked-warning + label:before {
+  background: hsl(38, 93%, 50%);
+}
+
+.switch[type=checkbox].is-unchecked-warning.is-outlined + label::before, .switch[type=checkbox].is-unchecked-warning.is-outlined + label:before {
+  background-color: transparent;
+  border-color: hsl(38, 93%, 50%) !important;
+}
+
+.switch[type=checkbox].is-unchecked-warning.is-outlined + label::after, .switch[type=checkbox].is-unchecked-warning.is-outlined + label:after {
+  background: hsl(38, 93%, 50%);
+}
+
+.switch[type=checkbox].is-danger + label .switch-active {
+  display: none;
+}
+
+.switch[type=checkbox].is-danger + label .switch-inactive {
+  display: inline-block;
+}
+
+.switch[type=checkbox].is-danger:checked + label::before, .switch[type=checkbox].is-danger:checked + label:before {
+  background: hsl(348, 100%, 40%);
+}
+
+.switch[type=checkbox].is-danger:checked + label .switch-active {
+  display: inline-block;
+}
+
+.switch[type=checkbox].is-danger:checked + label .switch-inactive {
+  display: none;
+}
+
+.switch[type=checkbox].is-danger.is-outlined:checked + label::before, .switch[type=checkbox].is-danger.is-outlined:checked + label:before {
+  background-color: transparent;
+  border-color: hsl(348, 100%, 40%) !important;
+}
+
+.switch[type=checkbox].is-danger.is-outlined:checked + label::after, .switch[type=checkbox].is-danger.is-outlined:checked + label:after {
+  background: hsl(348, 100%, 40%);
+}
+
+.switch[type=checkbox].is-danger.is-thin.is-outlined + label::after, .switch[type=checkbox].is-danger.is-thin.is-outlined + label:after {
+  box-shadow: none;
+}
+
+.switch[type=checkbox].is-unchecked-danger + label::before, .switch[type=checkbox].is-unchecked-danger + label:before {
+  background: hsl(348, 100%, 40%);
+}
+
+.switch[type=checkbox].is-unchecked-danger.is-outlined + label::before, .switch[type=checkbox].is-unchecked-danger.is-outlined + label:before {
+  background-color: transparent;
+  border-color: hsl(348, 100%, 40%) !important;
+}
+
+.switch[type=checkbox].is-unchecked-danger.is-outlined + label::after, .switch[type=checkbox].is-unchecked-danger.is-outlined + label:after {
+  background: hsl(348, 100%, 40%);
+}
+
+.field-body .switch[type=checkbox] + label {
+  margin-top: 0.375em;
+}
+
+[data-tooltip]:not(.is-loading), [data-tooltip]:not(.is-disabled), [data-tooltip]:not([disabled]) {
+  cursor: pointer;
+  overflow: visible;
+  position: relative;
+}
+
+[data-tooltip]:not(.is-loading)::before, [data-tooltip]:not(.is-loading)::after, [data-tooltip]:not(.is-disabled)::before, [data-tooltip]:not(.is-disabled)::after, [data-tooltip]:not([disabled])::before, [data-tooltip]:not([disabled])::after {
+  box-sizing: border-box;
+  color: hsl(0, 0%, 100%);
+  display: inline-block;
+  font-family: BlinkMacSystemFont, -apple-system, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", "Helvetica", "Arial", sans-serif;
+  font-size: 0.846rem;
+  hyphens: auto;
+  opacity: 0;
+  overflow: hidden;
+  pointer-events: none;
+  position: absolute;
+  visibility: hidden;
+  z-index: 1020;
+}
+
+[data-tooltip]:not(.is-loading)::after, [data-tooltip]:not(.is-disabled)::after, [data-tooltip]:not([disabled])::after {
+  content: "";
+  border-style: solid;
+  border-width: 6px;
+  border-color: rgba(74, 74, 74, 0.9) transparent transparent transparent;
+  margin-bottom: -5px;
+}
+
+[data-tooltip]:not(.is-loading)::after, [data-tooltip]:not(.is-disabled)::after, [data-tooltip]:not([disabled])::after {
+  top: 0;
+  right: auto;
+  bottom: auto;
+  left: 50%;
+  margin-top: -5px;
+  margin-right: auto;
+  margin-bottom: auto;
+  margin-left: -5px;
+  border-color: rgba(74, 74, 74, 0.9) transparent transparent transparent;
+}
+
+[data-tooltip]:not(.is-loading)::before, [data-tooltip]:not(.is-disabled)::before, [data-tooltip]:not([disabled])::before {
+  background: rgba(74, 74, 74, 0.9);
+  border-radius: 2px;
+  content: attr(data-tooltip);
+  padding: 0.5rem 1rem;
+  text-overflow: ellipsis;
+  white-space: pre;
+}
+
+[data-tooltip]:not(.is-loading)::before, [data-tooltip]:not(.is-disabled)::before, [data-tooltip]:not([disabled])::before {
+  top: 0;
+  right: auto;
+  bottom: auto;
+  left: 50%;
+  top: 0;
+  margin-top: -5px;
+  margin-bottom: auto;
+  transform: translate(-50%, -100%);
+}
+
+[data-tooltip]:not(.is-loading).has-tooltip-bottom::after, [data-tooltip]:not(.is-disabled).has-tooltip-bottom::after, [data-tooltip]:not([disabled]).has-tooltip-bottom::after {
+  top: auto;
+  right: auto;
+  bottom: 0;
+  left: 50%;
+  margin-top: auto;
+  margin-right: auto;
+  margin-bottom: -5px;
+  margin-left: -5px;
+  border-color: transparent transparent rgba(74, 74, 74, 0.9) transparent;
+}
+
+[data-tooltip]:not(.is-loading).has-tooltip-bottom::before, [data-tooltip]:not(.is-disabled).has-tooltip-bottom::before, [data-tooltip]:not([disabled]).has-tooltip-bottom::before {
+  top: auto;
+  right: auto;
+  bottom: 0;
+  left: 50%;
+  margin-top: auto;
+  margin-bottom: -5px;
+  transform: translate(-50%, 100%);
+}
+
+[data-tooltip]:not(.is-loading).has-tooltip-left::after, [data-tooltip]:not(.is-disabled).has-tooltip-left::after, [data-tooltip]:not([disabled]).has-tooltip-left::after {
+  top: auto;
+  right: auto;
+  bottom: 50%;
+  left: 0;
+  margin-top: auto;
+  margin-right: auto;
+  margin-bottom: -6px;
+  margin-left: -11px;
+  border-color: transparent transparent transparent rgba(74, 74, 74, 0.9);
+}
+
+[data-tooltip]:not(.is-loading).has-tooltip-left::before, [data-tooltip]:not(.is-disabled).has-tooltip-left::before, [data-tooltip]:not([disabled]).has-tooltip-left::before {
+  top: auto;
+  right: auto;
+  bottom: 50%;
+  left: -11px;
+  transform: translate(-100%, 50%);
+}
+
+[data-tooltip]:not(.is-loading).has-tooltip-right::after, [data-tooltip]:not(.is-disabled).has-tooltip-right::after, [data-tooltip]:not([disabled]).has-tooltip-right::after {
+  top: auto;
+  right: 0;
+  bottom: 50%;
+  left: auto;
+  margin-top: auto;
+  margin-right: -11px;
+  margin-bottom: -6px;
+  margin-left: auto;
+  border-color: transparent rgba(74, 74, 74, 0.9) transparent transparent;
+}
+
+[data-tooltip]:not(.is-loading).has-tooltip-right::before, [data-tooltip]:not(.is-disabled).has-tooltip-right::before, [data-tooltip]:not([disabled]).has-tooltip-right::before {
+  top: auto;
+  right: -11px;
+  bottom: 50%;
+  left: auto;
+  margin-top: auto;
+  transform: translate(100%, 50%);
+}
+
+[data-tooltip]:not(.is-loading).has-tooltip-multiline::before, [data-tooltip]:not(.is-disabled).has-tooltip-multiline::before, [data-tooltip]:not([disabled]).has-tooltip-multiline::before {
+  height: auto;
+  width: 15rem;
+  max-width: 15rem;
+  text-overflow: clip;
+  white-space: normal;
+  word-break: keep-all;
+}
+
+[data-tooltip]:not(.is-loading).has-tooltip-white.has-tooltip-bottom::after, [data-tooltip]:not(.is-disabled).has-tooltip-white.has-tooltip-bottom::after, [data-tooltip]:not([disabled]).has-tooltip-white.has-tooltip-bottom::after {
+  border-color: transparent transparent rgba(255, 255, 255, 0.9) transparent;
+}
+
+[data-tooltip]:not(.is-loading).has-tooltip-white.has-tooltip-left::after, [data-tooltip]:not(.is-disabled).has-tooltip-white.has-tooltip-left::after, [data-tooltip]:not([disabled]).has-tooltip-white.has-tooltip-left::after {
+  border-color: transparent transparent transparent rgba(255, 255, 255, 0.9);
+}
+
+[data-tooltip]:not(.is-loading).has-tooltip-white.has-tooltip-right::after, [data-tooltip]:not(.is-disabled).has-tooltip-white.has-tooltip-right::after, [data-tooltip]:not([disabled]).has-tooltip-white.has-tooltip-right::after {
+  border-color: transparent rgba(255, 255, 255, 0.9) transparent transparent;
+}
+
+[data-tooltip]:not(.is-loading).has-tooltip-white:not(.has-tooltip-bottom)::after, [data-tooltip]:not(.is-loading).has-tooltip-white:not(.has-tooltip-left)::after, [data-tooltip]:not(.is-loading).has-tooltip-white:not(.has-tooltip-right)::after, [data-tooltip]:not(.is-disabled).has-tooltip-white:not(.has-tooltip-bottom)::after, [data-tooltip]:not(.is-disabled).has-tooltip-white:not(.has-tooltip-left)::after, [data-tooltip]:not(.is-disabled).has-tooltip-white:not(.has-tooltip-right)::after, [data-tooltip]:not([disabled]).has-tooltip-white:not(.has-tooltip-bottom)::after, [data-tooltip]:not([disabled]).has-tooltip-white:not(.has-tooltip-left)::after, [data-tooltip]:not([disabled]).has-tooltip-white:not(.has-tooltip-right)::after {
+  border-color: rgba(255, 255, 255, 0.9) transparent transparent transparent;
+}
+
+[data-tooltip]:not(.is-loading).has-tooltip-white:before, [data-tooltip]:not(.is-disabled).has-tooltip-white:before, [data-tooltip]:not([disabled]).has-tooltip-white:before {
+  background-color: rgba(255, 255, 255, 0.9);
+  color: hsl(0, 0%, 4%);
+}
+
+[data-tooltip]:not(.is-loading).has-tooltip-black.has-tooltip-bottom::after, [data-tooltip]:not(.is-disabled).has-tooltip-black.has-tooltip-bottom::after, [data-tooltip]:not([disabled]).has-tooltip-black.has-tooltip-bottom::after {
+  border-color: transparent transparent rgba(10, 10, 10, 0.9) transparent;
+}
+
+[data-tooltip]:not(.is-loading).has-tooltip-black.has-tooltip-left::after, [data-tooltip]:not(.is-disabled).has-tooltip-black.has-tooltip-left::after, [data-tooltip]:not([disabled]).has-tooltip-black.has-tooltip-left::after {
+  border-color: transparent transparent transparent rgba(10, 10, 10, 0.9);
+}
+
+[data-tooltip]:not(.is-loading).has-tooltip-black.has-tooltip-right::after, [data-tooltip]:not(.is-disabled).has-tooltip-black.has-tooltip-right::after, [data-tooltip]:not([disabled]).has-tooltip-black.has-tooltip-right::after {
+  border-color: transparent rgba(10, 10, 10, 0.9) transparent transparent;
+}
+
+[data-tooltip]:not(.is-loading).has-tooltip-black:not(.has-tooltip-bottom)::after, [data-tooltip]:not(.is-loading).has-tooltip-black:not(.has-tooltip-left)::after, [data-tooltip]:not(.is-loading).has-tooltip-black:not(.has-tooltip-right)::after, [data-tooltip]:not(.is-disabled).has-tooltip-black:not(.has-tooltip-bottom)::after, [data-tooltip]:not(.is-disabled).has-tooltip-black:not(.has-tooltip-left)::after, [data-tooltip]:not(.is-disabled).has-tooltip-black:not(.has-tooltip-right)::after, [data-tooltip]:not([disabled]).has-tooltip-black:not(.has-tooltip-bottom)::after, [data-tooltip]:not([disabled]).has-tooltip-black:not(.has-tooltip-left)::after, [data-tooltip]:not([disabled]).has-tooltip-black:not(.has-tooltip-right)::after {
+  border-color: rgba(10, 10, 10, 0.9) transparent transparent transparent;
+}
+
+[data-tooltip]:not(.is-loading).has-tooltip-black:before, [data-tooltip]:not(.is-disabled).has-tooltip-black:before, [data-tooltip]:not([disabled]).has-tooltip-black:before {
+  background-color: rgba(10, 10, 10, 0.9);
+  color: hsl(0, 0%, 100%);
+}
+
+[data-tooltip]:not(.is-loading).has-tooltip-light.has-tooltip-bottom::after, [data-tooltip]:not(.is-disabled).has-tooltip-light.has-tooltip-bottom::after, [data-tooltip]:not([disabled]).has-tooltip-light.has-tooltip-bottom::after {
+  border-color: transparent transparent rgba(245, 245, 245, 0.9) transparent;
+}
+
+[data-tooltip]:not(.is-loading).has-tooltip-light.has-tooltip-left::after, [data-tooltip]:not(.is-disabled).has-tooltip-light.has-tooltip-left::after, [data-tooltip]:not([disabled]).has-tooltip-light.has-tooltip-left::after {
+  border-color: transparent transparent transparent rgba(245, 245, 245, 0.9);
+}
+
+[data-tooltip]:not(.is-loading).has-tooltip-light.has-tooltip-right::after, [data-tooltip]:not(.is-disabled).has-tooltip-light.has-tooltip-right::after, [data-tooltip]:not([disabled]).has-tooltip-light.has-tooltip-right::after {
+  border-color: transparent rgba(245, 245, 245, 0.9) transparent transparent;
+}
+
+[data-tooltip]:not(.is-loading).has-tooltip-light:not(.has-tooltip-bottom)::after, [data-tooltip]:not(.is-loading).has-tooltip-light:not(.has-tooltip-left)::after, [data-tooltip]:not(.is-loading).has-tooltip-light:not(.has-tooltip-right)::after, [data-tooltip]:not(.is-disabled).has-tooltip-light:not(.has-tooltip-bottom)::after, [data-tooltip]:not(.is-disabled).has-tooltip-light:not(.has-tooltip-left)::after, [data-tooltip]:not(.is-disabled).has-tooltip-light:not(.has-tooltip-right)::after, [data-tooltip]:not([disabled]).has-tooltip-light:not(.has-tooltip-bottom)::after, [data-tooltip]:not([disabled]).has-tooltip-light:not(.has-tooltip-left)::after, [data-tooltip]:not([disabled]).has-tooltip-light:not(.has-tooltip-right)::after {
+  border-color: rgba(245, 245, 245, 0.9) transparent transparent transparent;
+}
+
+[data-tooltip]:not(.is-loading).has-tooltip-light:before, [data-tooltip]:not(.is-disabled).has-tooltip-light:before, [data-tooltip]:not([disabled]).has-tooltip-light:before {
+  background-color: rgba(245, 245, 245, 0.9);
+  color: rgba(0, 0, 0, 0.7);
+}
+
+[data-tooltip]:not(.is-loading).has-tooltip-dark.has-tooltip-bottom::after, [data-tooltip]:not(.is-disabled).has-tooltip-dark.has-tooltip-bottom::after, [data-tooltip]:not([disabled]).has-tooltip-dark.has-tooltip-bottom::after {
+  border-color: transparent transparent rgba(54, 54, 54, 0.9) transparent;
+}
+
+[data-tooltip]:not(.is-loading).has-tooltip-dark.has-tooltip-left::after, [data-tooltip]:not(.is-disabled).has-tooltip-dark.has-tooltip-left::after, [data-tooltip]:not([disabled]).has-tooltip-dark.has-tooltip-left::after {
+  border-color: transparent transparent transparent rgba(54, 54, 54, 0.9);
+}
+
+[data-tooltip]:not(.is-loading).has-tooltip-dark.has-tooltip-right::after, [data-tooltip]:not(.is-disabled).has-tooltip-dark.has-tooltip-right::after, [data-tooltip]:not([disabled]).has-tooltip-dark.has-tooltip-right::after {
+  border-color: transparent rgba(54, 54, 54, 0.9) transparent transparent;
+}
+
+[data-tooltip]:not(.is-loading).has-tooltip-dark:not(.has-tooltip-bottom)::after, [data-tooltip]:not(.is-loading).has-tooltip-dark:not(.has-tooltip-left)::after, [data-tooltip]:not(.is-loading).has-tooltip-dark:not(.has-tooltip-right)::after, [data-tooltip]:not(.is-disabled).has-tooltip-dark:not(.has-tooltip-bottom)::after, [data-tooltip]:not(.is-disabled).has-tooltip-dark:not(.has-tooltip-left)::after, [data-tooltip]:not(.is-disabled).has-tooltip-dark:not(.has-tooltip-right)::after, [data-tooltip]:not([disabled]).has-tooltip-dark:not(.has-tooltip-bottom)::after, [data-tooltip]:not([disabled]).has-tooltip-dark:not(.has-tooltip-left)::after, [data-tooltip]:not([disabled]).has-tooltip-dark:not(.has-tooltip-right)::after {
+  border-color: rgba(54, 54, 54, 0.9) transparent transparent transparent;
+}
+
+[data-tooltip]:not(.is-loading).has-tooltip-dark:before, [data-tooltip]:not(.is-disabled).has-tooltip-dark:before, [data-tooltip]:not([disabled]).has-tooltip-dark:before {
+  background-color: rgba(54, 54, 54, 0.9);
+  color: #fff;
+}
+
+[data-tooltip]:not(.is-loading).has-tooltip-primary.has-tooltip-bottom::after, [data-tooltip]:not(.is-disabled).has-tooltip-primary.has-tooltip-bottom::after, [data-tooltip]:not([disabled]).has-tooltip-primary.has-tooltip-bottom::after {
+  border-color: transparent transparent rgba(23, 107, 181, 0.9) transparent;
+}
+
+[data-tooltip]:not(.is-loading).has-tooltip-primary.has-tooltip-left::after, [data-tooltip]:not(.is-disabled).has-tooltip-primary.has-tooltip-left::after, [data-tooltip]:not([disabled]).has-tooltip-primary.has-tooltip-left::after {
+  border-color: transparent transparent transparent rgba(23, 107, 181, 0.9);
+}
+
+[data-tooltip]:not(.is-loading).has-tooltip-primary.has-tooltip-right::after, [data-tooltip]:not(.is-disabled).has-tooltip-primary.has-tooltip-right::after, [data-tooltip]:not([disabled]).has-tooltip-primary.has-tooltip-right::after {
+  border-color: transparent rgba(23, 107, 181, 0.9) transparent transparent;
+}
+
+[data-tooltip]:not(.is-loading).has-tooltip-primary:not(.has-tooltip-bottom)::after, [data-tooltip]:not(.is-loading).has-tooltip-primary:not(.has-tooltip-left)::after, [data-tooltip]:not(.is-loading).has-tooltip-primary:not(.has-tooltip-right)::after, [data-tooltip]:not(.is-disabled).has-tooltip-primary:not(.has-tooltip-bottom)::after, [data-tooltip]:not(.is-disabled).has-tooltip-primary:not(.has-tooltip-left)::after, [data-tooltip]:not(.is-disabled).has-tooltip-primary:not(.has-tooltip-right)::after, [data-tooltip]:not([disabled]).has-tooltip-primary:not(.has-tooltip-bottom)::after, [data-tooltip]:not([disabled]).has-tooltip-primary:not(.has-tooltip-left)::after, [data-tooltip]:not([disabled]).has-tooltip-primary:not(.has-tooltip-right)::after {
+  border-color: rgba(23, 107, 181, 0.9) transparent transparent transparent;
+}
+
+[data-tooltip]:not(.is-loading).has-tooltip-primary:before, [data-tooltip]:not(.is-disabled).has-tooltip-primary:before, [data-tooltip]:not([disabled]).has-tooltip-primary:before {
+  background-color: rgba(23, 107, 181, 0.9);
+  color: #fff;
+}
+
+[data-tooltip]:not(.is-loading).has-tooltip-link.has-tooltip-bottom::after, [data-tooltip]:not(.is-disabled).has-tooltip-link.has-tooltip-bottom::after, [data-tooltip]:not([disabled]).has-tooltip-link.has-tooltip-bottom::after {
+  border-color: transparent transparent rgba(72, 95, 199, 0.9) transparent;
+}
+
+[data-tooltip]:not(.is-loading).has-tooltip-link.has-tooltip-left::after, [data-tooltip]:not(.is-disabled).has-tooltip-link.has-tooltip-left::after, [data-tooltip]:not([disabled]).has-tooltip-link.has-tooltip-left::after {
+  border-color: transparent transparent transparent rgba(72, 95, 199, 0.9);
+}
+
+[data-tooltip]:not(.is-loading).has-tooltip-link.has-tooltip-right::after, [data-tooltip]:not(.is-disabled).has-tooltip-link.has-tooltip-right::after, [data-tooltip]:not([disabled]).has-tooltip-link.has-tooltip-right::after {
+  border-color: transparent rgba(72, 95, 199, 0.9) transparent transparent;
+}
+
+[data-tooltip]:not(.is-loading).has-tooltip-link:not(.has-tooltip-bottom)::after, [data-tooltip]:not(.is-loading).has-tooltip-link:not(.has-tooltip-left)::after, [data-tooltip]:not(.is-loading).has-tooltip-link:not(.has-tooltip-right)::after, [data-tooltip]:not(.is-disabled).has-tooltip-link:not(.has-tooltip-bottom)::after, [data-tooltip]:not(.is-disabled).has-tooltip-link:not(.has-tooltip-left)::after, [data-tooltip]:not(.is-disabled).has-tooltip-link:not(.has-tooltip-right)::after, [data-tooltip]:not([disabled]).has-tooltip-link:not(.has-tooltip-bottom)::after, [data-tooltip]:not([disabled]).has-tooltip-link:not(.has-tooltip-left)::after, [data-tooltip]:not([disabled]).has-tooltip-link:not(.has-tooltip-right)::after {
+  border-color: rgba(72, 95, 199, 0.9) transparent transparent transparent;
+}
+
+[data-tooltip]:not(.is-loading).has-tooltip-link:before, [data-tooltip]:not(.is-disabled).has-tooltip-link:before, [data-tooltip]:not([disabled]).has-tooltip-link:before {
+  background-color: rgba(72, 95, 199, 0.9);
+  color: #fff;
+}
+
+[data-tooltip]:not(.is-loading).has-tooltip-info.has-tooltip-bottom::after, [data-tooltip]:not(.is-disabled).has-tooltip-info.has-tooltip-bottom::after, [data-tooltip]:not([disabled]).has-tooltip-info.has-tooltip-bottom::after {
+  border-color: transparent transparent rgba(37, 106, 218, 0.9) transparent;
+}
+
+[data-tooltip]:not(.is-loading).has-tooltip-info.has-tooltip-left::after, [data-tooltip]:not(.is-disabled).has-tooltip-info.has-tooltip-left::after, [data-tooltip]:not([disabled]).has-tooltip-info.has-tooltip-left::after {
+  border-color: transparent transparent transparent rgba(37, 106, 218, 0.9);
+}
+
+[data-tooltip]:not(.is-loading).has-tooltip-info.has-tooltip-right::after, [data-tooltip]:not(.is-disabled).has-tooltip-info.has-tooltip-right::after, [data-tooltip]:not([disabled]).has-tooltip-info.has-tooltip-right::after {
+  border-color: transparent rgba(37, 106, 218, 0.9) transparent transparent;
+}
+
+[data-tooltip]:not(.is-loading).has-tooltip-info:not(.has-tooltip-bottom)::after, [data-tooltip]:not(.is-loading).has-tooltip-info:not(.has-tooltip-left)::after, [data-tooltip]:not(.is-loading).has-tooltip-info:not(.has-tooltip-right)::after, [data-tooltip]:not(.is-disabled).has-tooltip-info:not(.has-tooltip-bottom)::after, [data-tooltip]:not(.is-disabled).has-tooltip-info:not(.has-tooltip-left)::after, [data-tooltip]:not(.is-disabled).has-tooltip-info:not(.has-tooltip-right)::after, [data-tooltip]:not([disabled]).has-tooltip-info:not(.has-tooltip-bottom)::after, [data-tooltip]:not([disabled]).has-tooltip-info:not(.has-tooltip-left)::after, [data-tooltip]:not([disabled]).has-tooltip-info:not(.has-tooltip-right)::after {
+  border-color: rgba(37, 106, 218, 0.9) transparent transparent transparent;
+}
+
+[data-tooltip]:not(.is-loading).has-tooltip-info:before, [data-tooltip]:not(.is-disabled).has-tooltip-info:before, [data-tooltip]:not([disabled]).has-tooltip-info:before {
+  background-color: rgba(37, 106, 218, 0.9);
+  color: #fff;
+}
+
+[data-tooltip]:not(.is-loading).has-tooltip-success.has-tooltip-bottom::after, [data-tooltip]:not(.is-disabled).has-tooltip-success.has-tooltip-bottom::after, [data-tooltip]:not([disabled]).has-tooltip-success.has-tooltip-bottom::after {
+  border-color: transparent transparent rgba(48, 156, 86, 0.9) transparent;
+}
+
+[data-tooltip]:not(.is-loading).has-tooltip-success.has-tooltip-left::after, [data-tooltip]:not(.is-disabled).has-tooltip-success.has-tooltip-left::after, [data-tooltip]:not([disabled]).has-tooltip-success.has-tooltip-left::after {
+  border-color: transparent transparent transparent rgba(48, 156, 86, 0.9);
+}
+
+[data-tooltip]:not(.is-loading).has-tooltip-success.has-tooltip-right::after, [data-tooltip]:not(.is-disabled).has-tooltip-success.has-tooltip-right::after, [data-tooltip]:not([disabled]).has-tooltip-success.has-tooltip-right::after {
+  border-color: transparent rgba(48, 156, 86, 0.9) transparent transparent;
+}
+
+[data-tooltip]:not(.is-loading).has-tooltip-success:not(.has-tooltip-bottom)::after, [data-tooltip]:not(.is-loading).has-tooltip-success:not(.has-tooltip-left)::after, [data-tooltip]:not(.is-loading).has-tooltip-success:not(.has-tooltip-right)::after, [data-tooltip]:not(.is-disabled).has-tooltip-success:not(.has-tooltip-bottom)::after, [data-tooltip]:not(.is-disabled).has-tooltip-success:not(.has-tooltip-left)::after, [data-tooltip]:not(.is-disabled).has-tooltip-success:not(.has-tooltip-right)::after, [data-tooltip]:not([disabled]).has-tooltip-success:not(.has-tooltip-bottom)::after, [data-tooltip]:not([disabled]).has-tooltip-success:not(.has-tooltip-left)::after, [data-tooltip]:not([disabled]).has-tooltip-success:not(.has-tooltip-right)::after {
+  border-color: rgba(48, 156, 86, 0.9) transparent transparent transparent;
+}
+
+[data-tooltip]:not(.is-loading).has-tooltip-success:before, [data-tooltip]:not(.is-disabled).has-tooltip-success:before, [data-tooltip]:not([disabled]).has-tooltip-success:before {
+  background-color: rgba(48, 156, 86, 0.9);
+  color: #fff;
+}
+
+[data-tooltip]:not(.is-loading).has-tooltip-warning.has-tooltip-bottom::after, [data-tooltip]:not(.is-disabled).has-tooltip-warning.has-tooltip-bottom::after, [data-tooltip]:not([disabled]).has-tooltip-warning.has-tooltip-bottom::after {
+  border-color: transparent transparent rgba(246, 159, 9, 0.9) transparent;
+}
+
+[data-tooltip]:not(.is-loading).has-tooltip-warning.has-tooltip-left::after, [data-tooltip]:not(.is-disabled).has-tooltip-warning.has-tooltip-left::after, [data-tooltip]:not([disabled]).has-tooltip-warning.has-tooltip-left::after {
+  border-color: transparent transparent transparent rgba(246, 159, 9, 0.9);
+}
+
+[data-tooltip]:not(.is-loading).has-tooltip-warning.has-tooltip-right::after, [data-tooltip]:not(.is-disabled).has-tooltip-warning.has-tooltip-right::after, [data-tooltip]:not([disabled]).has-tooltip-warning.has-tooltip-right::after {
+  border-color: transparent rgba(246, 159, 9, 0.9) transparent transparent;
+}
+
+[data-tooltip]:not(.is-loading).has-tooltip-warning:not(.has-tooltip-bottom)::after, [data-tooltip]:not(.is-loading).has-tooltip-warning:not(.has-tooltip-left)::after, [data-tooltip]:not(.is-loading).has-tooltip-warning:not(.has-tooltip-right)::after, [data-tooltip]:not(.is-disabled).has-tooltip-warning:not(.has-tooltip-bottom)::after, [data-tooltip]:not(.is-disabled).has-tooltip-warning:not(.has-tooltip-left)::after, [data-tooltip]:not(.is-disabled).has-tooltip-warning:not(.has-tooltip-right)::after, [data-tooltip]:not([disabled]).has-tooltip-warning:not(.has-tooltip-bottom)::after, [data-tooltip]:not([disabled]).has-tooltip-warning:not(.has-tooltip-left)::after, [data-tooltip]:not([disabled]).has-tooltip-warning:not(.has-tooltip-right)::after {
+  border-color: rgba(246, 159, 9, 0.9) transparent transparent transparent;
+}
+
+[data-tooltip]:not(.is-loading).has-tooltip-warning:before, [data-tooltip]:not(.is-disabled).has-tooltip-warning:before, [data-tooltip]:not([disabled]).has-tooltip-warning:before {
+  background-color: rgba(246, 159, 9, 0.9);
+  color: #fff;
+}
+
+[data-tooltip]:not(.is-loading).has-tooltip-danger.has-tooltip-bottom::after, [data-tooltip]:not(.is-disabled).has-tooltip-danger.has-tooltip-bottom::after, [data-tooltip]:not([disabled]).has-tooltip-danger.has-tooltip-bottom::after {
+  border-color: transparent transparent rgba(204, 0, 41, 0.9) transparent;
+}
+
+[data-tooltip]:not(.is-loading).has-tooltip-danger.has-tooltip-left::after, [data-tooltip]:not(.is-disabled).has-tooltip-danger.has-tooltip-left::after, [data-tooltip]:not([disabled]).has-tooltip-danger.has-tooltip-left::after {
+  border-color: transparent transparent transparent rgba(204, 0, 41, 0.9);
+}
+
+[data-tooltip]:not(.is-loading).has-tooltip-danger.has-tooltip-right::after, [data-tooltip]:not(.is-disabled).has-tooltip-danger.has-tooltip-right::after, [data-tooltip]:not([disabled]).has-tooltip-danger.has-tooltip-right::after {
+  border-color: transparent rgba(204, 0, 41, 0.9) transparent transparent;
+}
+
+[data-tooltip]:not(.is-loading).has-tooltip-danger:not(.has-tooltip-bottom)::after, [data-tooltip]:not(.is-loading).has-tooltip-danger:not(.has-tooltip-left)::after, [data-tooltip]:not(.is-loading).has-tooltip-danger:not(.has-tooltip-right)::after, [data-tooltip]:not(.is-disabled).has-tooltip-danger:not(.has-tooltip-bottom)::after, [data-tooltip]:not(.is-disabled).has-tooltip-danger:not(.has-tooltip-left)::after, [data-tooltip]:not(.is-disabled).has-tooltip-danger:not(.has-tooltip-right)::after, [data-tooltip]:not([disabled]).has-tooltip-danger:not(.has-tooltip-bottom)::after, [data-tooltip]:not([disabled]).has-tooltip-danger:not(.has-tooltip-left)::after, [data-tooltip]:not([disabled]).has-tooltip-danger:not(.has-tooltip-right)::after {
+  border-color: rgba(204, 0, 41, 0.9) transparent transparent transparent;
+}
+
+[data-tooltip]:not(.is-loading).has-tooltip-danger:before, [data-tooltip]:not(.is-disabled).has-tooltip-danger:before, [data-tooltip]:not([disabled]).has-tooltip-danger:before {
+  background-color: rgba(204, 0, 41, 0.9);
+  color: #fff;
+}
+
+[data-tooltip]:not(.is-loading):focus::before, [data-tooltip]:not(.is-loading):focus::after, [data-tooltip]:not(.is-loading):hover::before, [data-tooltip]:not(.is-loading):hover::after, [data-tooltip]:not(.is-loading).has-tooltip-active::before, [data-tooltip]:not(.is-loading).has-tooltip-active::after, [data-tooltip]:not(.is-disabled):focus::before, [data-tooltip]:not(.is-disabled):focus::after, [data-tooltip]:not(.is-disabled):hover::before, [data-tooltip]:not(.is-disabled):hover::after, [data-tooltip]:not(.is-disabled).has-tooltip-active::before, [data-tooltip]:not(.is-disabled).has-tooltip-active::after, [data-tooltip]:not([disabled]):focus::before, [data-tooltip]:not([disabled]):focus::after, [data-tooltip]:not([disabled]):hover::before, [data-tooltip]:not([disabled]):hover::after, [data-tooltip]:not([disabled]).has-tooltip-active::before, [data-tooltip]:not([disabled]).has-tooltip-active::after {
+  opacity: 1;
+  visibility: visible;
+}
+
+[data-tooltip]:not(.is-loading).has-tooltip-fade::before, [data-tooltip]:not(.is-loading).has-tooltip-fade::after, [data-tooltip]:not(.is-disabled).has-tooltip-fade::before, [data-tooltip]:not(.is-disabled).has-tooltip-fade::after, [data-tooltip]:not([disabled]).has-tooltip-fade::before, [data-tooltip]:not([disabled]).has-tooltip-fade::after {
+  transition: opacity 0.3s linear, visibility 0.3s linear;
+}
+
+@media screen and (max-width: 768px) {
+  .has-tooltip-top-mobile::after {
+    top: 0;
+    right: auto;
+    bottom: auto;
+    left: 50%;
+    margin-top: -5px;
+    margin-right: auto;
+    margin-bottom: auto;
+    margin-left: -5px;
+    border-color: rgba(74, 74, 74, 0.9) transparent transparent transparent;
+  }
+  .has-tooltip-top-mobile::before {
+    top: 0;
+    right: auto;
+    bottom: auto;
+    left: 50%;
+    top: 0;
+    margin-top: -5px;
+    margin-bottom: auto;
+    transform: translate(-50%, -100%);
+  }
+}
+@media screen and (min-width: 769px), print {
+  .has-tooltip-top-tablet::after {
+    top: 0;
+    right: auto;
+    bottom: auto;
+    left: 50%;
+    margin-top: -5px;
+    margin-right: auto;
+    margin-bottom: auto;
+    margin-left: -5px;
+    border-color: rgba(74, 74, 74, 0.9) transparent transparent transparent;
+  }
+  .has-tooltip-top-tablet::before {
+    top: 0;
+    right: auto;
+    bottom: auto;
+    left: 50%;
+    top: 0;
+    margin-top: -5px;
+    margin-bottom: auto;
+    transform: translate(-50%, -100%);
+  }
+}
+@media screen and (min-width: 769px) and (max-width: 1023px) {
+  .has-tooltip-top-tablet-only::after {
+    top: 0;
+    right: auto;
+    bottom: auto;
+    left: 50%;
+    margin-top: -5px;
+    margin-right: auto;
+    margin-bottom: auto;
+    margin-left: -5px;
+    border-color: rgba(74, 74, 74, 0.9) transparent transparent transparent;
+  }
+  .has-tooltip-top-tablet-only::before {
+    top: 0;
+    right: auto;
+    bottom: auto;
+    left: 50%;
+    top: 0;
+    margin-top: -5px;
+    margin-bottom: auto;
+    transform: translate(-50%, -100%);
+  }
+}
+@media screen and (max-width: 1023px) {
+  .has-tooltip-top-touch::after {
+    top: 0;
+    right: auto;
+    bottom: auto;
+    left: 50%;
+    margin-top: -5px;
+    margin-right: auto;
+    margin-bottom: auto;
+    margin-left: -5px;
+    border-color: rgba(74, 74, 74, 0.9) transparent transparent transparent;
+  }
+  .has-tooltip-top-touch::before {
+    top: 0;
+    right: auto;
+    bottom: auto;
+    left: 50%;
+    top: 0;
+    margin-top: -5px;
+    margin-bottom: auto;
+    transform: translate(-50%, -100%);
+  }
+}
+@media screen and (min-width: 1024px) {
+  .has-tooltip-top-desktop::after {
+    top: 0;
+    right: auto;
+    bottom: auto;
+    left: 50%;
+    margin-top: -5px;
+    margin-right: auto;
+    margin-bottom: auto;
+    margin-left: -5px;
+    border-color: rgba(74, 74, 74, 0.9) transparent transparent transparent;
+  }
+  .has-tooltip-top-desktop::before {
+    top: 0;
+    right: auto;
+    bottom: auto;
+    left: 50%;
+    top: 0;
+    margin-top: -5px;
+    margin-bottom: auto;
+    transform: translate(-50%, -100%);
+  }
+}
+@media screen and (min-width: 1024px) and (max-width: 1215px) {
+  .has-tooltip-top-desktop-only::after {
+    top: 0;
+    right: auto;
+    bottom: auto;
+    left: 50%;
+    margin-top: -5px;
+    margin-right: auto;
+    margin-bottom: auto;
+    margin-left: -5px;
+    border-color: rgba(74, 74, 74, 0.9) transparent transparent transparent;
+  }
+  .has-tooltip-top-desktop-only::before {
+    top: 0;
+    right: auto;
+    bottom: auto;
+    left: 50%;
+    top: 0;
+    margin-top: -5px;
+    margin-bottom: auto;
+    transform: translate(-50%, -100%);
+  }
+}
+@media screen and (max-width: 1215px) {
+  .has-tooltip-top-until-widescreen::after {
+    top: 0;
+    right: auto;
+    bottom: auto;
+    left: 50%;
+    margin-top: -5px;
+    margin-right: auto;
+    margin-bottom: auto;
+    margin-left: -5px;
+    border-color: rgba(74, 74, 74, 0.9) transparent transparent transparent;
+  }
+  .has-tooltip-top-until-widescreen::before {
+    top: 0;
+    right: auto;
+    bottom: auto;
+    left: 50%;
+    top: 0;
+    margin-top: -5px;
+    margin-bottom: auto;
+    transform: translate(-50%, -100%);
+  }
+}
+@media screen and (min-width: 1216px) {
+  .has-tooltip-top-widescreen::after {
+    top: 0;
+    right: auto;
+    bottom: auto;
+    left: 50%;
+    margin-top: -5px;
+    margin-right: auto;
+    margin-bottom: auto;
+    margin-left: -5px;
+    border-color: rgba(74, 74, 74, 0.9) transparent transparent transparent;
+  }
+  .has-tooltip-top-widescreen::before {
+    top: 0;
+    right: auto;
+    bottom: auto;
+    left: 50%;
+    top: 0;
+    margin-top: -5px;
+    margin-bottom: auto;
+    transform: translate(-50%, -100%);
+  }
+}
+@media screen and (min-width: 1216px) and (max-width: 1407px) {
+  .has-tooltip-top-widescreen-only::after {
+    top: 0;
+    right: auto;
+    bottom: auto;
+    left: 50%;
+    margin-top: -5px;
+    margin-right: auto;
+    margin-bottom: auto;
+    margin-left: -5px;
+    border-color: rgba(74, 74, 74, 0.9) transparent transparent transparent;
+  }
+  .has-tooltip-top-widescreen-only::before {
+    top: 0;
+    right: auto;
+    bottom: auto;
+    left: 50%;
+    top: 0;
+    margin-top: -5px;
+    margin-bottom: auto;
+    transform: translate(-50%, -100%);
+  }
+}
+@media screen and (max-width: 1407px) {
+  .has-tooltip-top-until-fullhd::after {
+    top: 0;
+    right: auto;
+    bottom: auto;
+    left: 50%;
+    margin-top: -5px;
+    margin-right: auto;
+    margin-bottom: auto;
+    margin-left: -5px;
+    border-color: rgba(74, 74, 74, 0.9) transparent transparent transparent;
+  }
+  .has-tooltip-top-until-fullhd::before {
+    top: 0;
+    right: auto;
+    bottom: auto;
+    left: 50%;
+    top: 0;
+    margin-top: -5px;
+    margin-bottom: auto;
+    transform: translate(-50%, -100%);
+  }
+}
+@media screen and (min-width: 1408px) {
+  .has-tooltip-top-fullhd::after {
+    top: 0;
+    right: auto;
+    bottom: auto;
+    left: 50%;
+    margin-top: -5px;
+    margin-right: auto;
+    margin-bottom: auto;
+    margin-left: -5px;
+    border-color: rgba(74, 74, 74, 0.9) transparent transparent transparent;
+  }
+  .has-tooltip-top-fullhd::before {
+    top: 0;
+    right: auto;
+    bottom: auto;
+    left: 50%;
+    top: 0;
+    margin-top: -5px;
+    margin-bottom: auto;
+    transform: translate(-50%, -100%);
+  }
+}
+@media screen and (max-width: 768px) {
+  .has-tooltip-right-mobile::after {
+    top: auto;
+    right: 0;
+    bottom: 50%;
+    left: auto;
+    margin-top: auto;
+    margin-right: -11px;
+    margin-bottom: -6px;
+    margin-left: auto;
+    border-color: transparent rgba(74, 74, 74, 0.9) transparent transparent;
+  }
+  .has-tooltip-right-mobile::before {
+    top: auto;
+    right: -11px;
+    bottom: 50%;
+    left: auto;
+    margin-top: auto;
+    transform: translate(100%, 50%);
+  }
+}
+@media screen and (min-width: 769px), print {
+  .has-tooltip-right-tablet::after {
+    top: auto;
+    right: 0;
+    bottom: 50%;
+    left: auto;
+    margin-top: auto;
+    margin-right: -11px;
+    margin-bottom: -6px;
+    margin-left: auto;
+    border-color: transparent rgba(74, 74, 74, 0.9) transparent transparent;
+  }
+  .has-tooltip-right-tablet::before {
+    top: auto;
+    right: -11px;
+    bottom: 50%;
+    left: auto;
+    margin-top: auto;
+    transform: translate(100%, 50%);
+  }
+}
+@media screen and (min-width: 769px) and (max-width: 1023px) {
+  .has-tooltip-right-tablet-only::after {
+    top: auto;
+    right: 0;
+    bottom: 50%;
+    left: auto;
+    margin-top: auto;
+    margin-right: -11px;
+    margin-bottom: -6px;
+    margin-left: auto;
+    border-color: transparent rgba(74, 74, 74, 0.9) transparent transparent;
+  }
+  .has-tooltip-right-tablet-only::before {
+    top: auto;
+    right: -11px;
+    bottom: 50%;
+    left: auto;
+    margin-top: auto;
+    transform: translate(100%, 50%);
+  }
+}
+@media screen and (max-width: 1023px) {
+  .has-tooltip-right-touch::after {
+    top: auto;
+    right: 0;
+    bottom: 50%;
+    left: auto;
+    margin-top: auto;
+    margin-right: -11px;
+    margin-bottom: -6px;
+    margin-left: auto;
+    border-color: transparent rgba(74, 74, 74, 0.9) transparent transparent;
+  }
+  .has-tooltip-right-touch::before {
+    top: auto;
+    right: -11px;
+    bottom: 50%;
+    left: auto;
+    margin-top: auto;
+    transform: translate(100%, 50%);
+  }
+}
+@media screen and (min-width: 1024px) {
+  .has-tooltip-right-desktop::after {
+    top: auto;
+    right: 0;
+    bottom: 50%;
+    left: auto;
+    margin-top: auto;
+    margin-right: -11px;
+    margin-bottom: -6px;
+    margin-left: auto;
+    border-color: transparent rgba(74, 74, 74, 0.9) transparent transparent;
+  }
+  .has-tooltip-right-desktop::before {
+    top: auto;
+    right: -11px;
+    bottom: 50%;
+    left: auto;
+    margin-top: auto;
+    transform: translate(100%, 50%);
+  }
+}
+@media screen and (min-width: 1024px) and (max-width: 1215px) {
+  .has-tooltip-right-desktop-only::after {
+    top: auto;
+    right: 0;
+    bottom: 50%;
+    left: auto;
+    margin-top: auto;
+    margin-right: -11px;
+    margin-bottom: -6px;
+    margin-left: auto;
+    border-color: transparent rgba(74, 74, 74, 0.9) transparent transparent;
+  }
+  .has-tooltip-right-desktop-only::before {
+    top: auto;
+    right: -11px;
+    bottom: 50%;
+    left: auto;
+    margin-top: auto;
+    transform: translate(100%, 50%);
+  }
+}
+@media screen and (max-width: 1215px) {
+  .has-tooltip-right-until-widescreen::after {
+    top: auto;
+    right: 0;
+    bottom: 50%;
+    left: auto;
+    margin-top: auto;
+    margin-right: -11px;
+    margin-bottom: -6px;
+    margin-left: auto;
+    border-color: transparent rgba(74, 74, 74, 0.9) transparent transparent;
+  }
+  .has-tooltip-right-until-widescreen::before {
+    top: auto;
+    right: -11px;
+    bottom: 50%;
+    left: auto;
+    margin-top: auto;
+    transform: translate(100%, 50%);
+  }
+}
+@media screen and (min-width: 1216px) {
+  .has-tooltip-right-widescreen::after {
+    top: auto;
+    right: 0;
+    bottom: 50%;
+    left: auto;
+    margin-top: auto;
+    margin-right: -11px;
+    margin-bottom: -6px;
+    margin-left: auto;
+    border-color: transparent rgba(74, 74, 74, 0.9) transparent transparent;
+  }
+  .has-tooltip-right-widescreen::before {
+    top: auto;
+    right: -11px;
+    bottom: 50%;
+    left: auto;
+    margin-top: auto;
+    transform: translate(100%, 50%);
+  }
+}
+@media screen and (min-width: 1216px) and (max-width: 1407px) {
+  .has-tooltip-right-widescreen-only::after {
+    top: auto;
+    right: 0;
+    bottom: 50%;
+    left: auto;
+    margin-top: auto;
+    margin-right: -11px;
+    margin-bottom: -6px;
+    margin-left: auto;
+    border-color: transparent rgba(74, 74, 74, 0.9) transparent transparent;
+  }
+  .has-tooltip-right-widescreen-only::before {
+    top: auto;
+    right: -11px;
+    bottom: 50%;
+    left: auto;
+    margin-top: auto;
+    transform: translate(100%, 50%);
+  }
+}
+@media screen and (max-width: 1407px) {
+  .has-tooltip-right-until-fullhd::after {
+    top: auto;
+    right: 0;
+    bottom: 50%;
+    left: auto;
+    margin-top: auto;
+    margin-right: -11px;
+    margin-bottom: -6px;
+    margin-left: auto;
+    border-color: transparent rgba(74, 74, 74, 0.9) transparent transparent;
+  }
+  .has-tooltip-right-until-fullhd::before {
+    top: auto;
+    right: -11px;
+    bottom: 50%;
+    left: auto;
+    margin-top: auto;
+    transform: translate(100%, 50%);
+  }
+}
+@media screen and (min-width: 1408px) {
+  .has-tooltip-right-fullhd::after {
+    top: auto;
+    right: 0;
+    bottom: 50%;
+    left: auto;
+    margin-top: auto;
+    margin-right: -11px;
+    margin-bottom: -6px;
+    margin-left: auto;
+    border-color: transparent rgba(74, 74, 74, 0.9) transparent transparent;
+  }
+  .has-tooltip-right-fullhd::before {
+    top: auto;
+    right: -11px;
+    bottom: 50%;
+    left: auto;
+    margin-top: auto;
+    transform: translate(100%, 50%);
+  }
+}
+@media screen and (max-width: 768px) {
+  .has-tooltip-bottom-mobile::after {
+    top: auto;
+    right: auto;
+    bottom: 0;
+    left: 50%;
+    margin-top: auto;
+    margin-right: auto;
+    margin-bottom: -5px;
+    margin-left: -5px;
+    border-color: transparent transparent rgba(74, 74, 74, 0.9) transparent;
+  }
+  .has-tooltip-bottom-mobile::before {
+    top: auto;
+    right: auto;
+    bottom: 0;
+    left: 50%;
+    margin-top: auto;
+    margin-bottom: -5px;
+    transform: translate(-50%, 100%);
+  }
+}
+@media screen and (min-width: 769px), print {
+  .has-tooltip-bottom-tablet::after {
+    top: auto;
+    right: auto;
+    bottom: 0;
+    left: 50%;
+    margin-top: auto;
+    margin-right: auto;
+    margin-bottom: -5px;
+    margin-left: -5px;
+    border-color: transparent transparent rgba(74, 74, 74, 0.9) transparent;
+  }
+  .has-tooltip-bottom-tablet::before {
+    top: auto;
+    right: auto;
+    bottom: 0;
+    left: 50%;
+    margin-top: auto;
+    margin-bottom: -5px;
+    transform: translate(-50%, 100%);
+  }
+}
+@media screen and (min-width: 769px) and (max-width: 1023px) {
+  .has-tooltip-bottom-tablet-only::after {
+    top: auto;
+    right: auto;
+    bottom: 0;
+    left: 50%;
+    margin-top: auto;
+    margin-right: auto;
+    margin-bottom: -5px;
+    margin-left: -5px;
+    border-color: transparent transparent rgba(74, 74, 74, 0.9) transparent;
+  }
+  .has-tooltip-bottom-tablet-only::before {
+    top: auto;
+    right: auto;
+    bottom: 0;
+    left: 50%;
+    margin-top: auto;
+    margin-bottom: -5px;
+    transform: translate(-50%, 100%);
+  }
+}
+@media screen and (max-width: 1023px) {
+  .has-tooltip-bottom-touch::after {
+    top: auto;
+    right: auto;
+    bottom: 0;
+    left: 50%;
+    margin-top: auto;
+    margin-right: auto;
+    margin-bottom: -5px;
+    margin-left: -5px;
+    border-color: transparent transparent rgba(74, 74, 74, 0.9) transparent;
+  }
+  .has-tooltip-bottom-touch::before {
+    top: auto;
+    right: auto;
+    bottom: 0;
+    left: 50%;
+    margin-top: auto;
+    margin-bottom: -5px;
+    transform: translate(-50%, 100%);
+  }
+}
+@media screen and (min-width: 1024px) {
+  .has-tooltip-bottom-desktop::after {
+    top: auto;
+    right: auto;
+    bottom: 0;
+    left: 50%;
+    margin-top: auto;
+    margin-right: auto;
+    margin-bottom: -5px;
+    margin-left: -5px;
+    border-color: transparent transparent rgba(74, 74, 74, 0.9) transparent;
+  }
+  .has-tooltip-bottom-desktop::before {
+    top: auto;
+    right: auto;
+    bottom: 0;
+    left: 50%;
+    margin-top: auto;
+    margin-bottom: -5px;
+    transform: translate(-50%, 100%);
+  }
+}
+@media screen and (min-width: 1024px) and (max-width: 1215px) {
+  .has-tooltip-bottom-desktop-only::after {
+    top: auto;
+    right: auto;
+    bottom: 0;
+    left: 50%;
+    margin-top: auto;
+    margin-right: auto;
+    margin-bottom: -5px;
+    margin-left: -5px;
+    border-color: transparent transparent rgba(74, 74, 74, 0.9) transparent;
+  }
+  .has-tooltip-bottom-desktop-only::before {
+    top: auto;
+    right: auto;
+    bottom: 0;
+    left: 50%;
+    margin-top: auto;
+    margin-bottom: -5px;
+    transform: translate(-50%, 100%);
+  }
+}
+@media screen and (max-width: 1215px) {
+  .has-tooltip-bottom-until-widescreen::after {
+    top: auto;
+    right: auto;
+    bottom: 0;
+    left: 50%;
+    margin-top: auto;
+    margin-right: auto;
+    margin-bottom: -5px;
+    margin-left: -5px;
+    border-color: transparent transparent rgba(74, 74, 74, 0.9) transparent;
+  }
+  .has-tooltip-bottom-until-widescreen::before {
+    top: auto;
+    right: auto;
+    bottom: 0;
+    left: 50%;
+    margin-top: auto;
+    margin-bottom: -5px;
+    transform: translate(-50%, 100%);
+  }
+}
+@media screen and (min-width: 1216px) {
+  .has-tooltip-bottom-widescreen::after {
+    top: auto;
+    right: auto;
+    bottom: 0;
+    left: 50%;
+    margin-top: auto;
+    margin-right: auto;
+    margin-bottom: -5px;
+    margin-left: -5px;
+    border-color: transparent transparent rgba(74, 74, 74, 0.9) transparent;
+  }
+  .has-tooltip-bottom-widescreen::before {
+    top: auto;
+    right: auto;
+    bottom: 0;
+    left: 50%;
+    margin-top: auto;
+    margin-bottom: -5px;
+    transform: translate(-50%, 100%);
+  }
+}
+@media screen and (min-width: 1216px) and (max-width: 1407px) {
+  .has-tooltip-bottom-widescreen-only::after {
+    top: auto;
+    right: auto;
+    bottom: 0;
+    left: 50%;
+    margin-top: auto;
+    margin-right: auto;
+    margin-bottom: -5px;
+    margin-left: -5px;
+    border-color: transparent transparent rgba(74, 74, 74, 0.9) transparent;
+  }
+  .has-tooltip-bottom-widescreen-only::before {
+    top: auto;
+    right: auto;
+    bottom: 0;
+    left: 50%;
+    margin-top: auto;
+    margin-bottom: -5px;
+    transform: translate(-50%, 100%);
+  }
+}
+@media screen and (max-width: 1407px) {
+  .has-tooltip-bottom-until-fullhd::after {
+    top: auto;
+    right: auto;
+    bottom: 0;
+    left: 50%;
+    margin-top: auto;
+    margin-right: auto;
+    margin-bottom: -5px;
+    margin-left: -5px;
+    border-color: transparent transparent rgba(74, 74, 74, 0.9) transparent;
+  }
+  .has-tooltip-bottom-until-fullhd::before {
+    top: auto;
+    right: auto;
+    bottom: 0;
+    left: 50%;
+    margin-top: auto;
+    margin-bottom: -5px;
+    transform: translate(-50%, 100%);
+  }
+}
+@media screen and (min-width: 1408px) {
+  .has-tooltip-bottom-fullhd::after {
+    top: auto;
+    right: auto;
+    bottom: 0;
+    left: 50%;
+    margin-top: auto;
+    margin-right: auto;
+    margin-bottom: -5px;
+    margin-left: -5px;
+    border-color: transparent transparent rgba(74, 74, 74, 0.9) transparent;
+  }
+  .has-tooltip-bottom-fullhd::before {
+    top: auto;
+    right: auto;
+    bottom: 0;
+    left: 50%;
+    margin-top: auto;
+    margin-bottom: -5px;
+    transform: translate(-50%, 100%);
+  }
+}
+@media screen and (max-width: 768px) {
+  .has-tooltip-left-mobile::after {
+    top: auto;
+    right: auto;
+    bottom: 50%;
+    left: 0;
+    margin-top: auto;
+    margin-right: auto;
+    margin-bottom: -6px;
+    margin-left: -11px;
+    border-color: transparent transparent transparent rgba(74, 74, 74, 0.9);
+  }
+  .has-tooltip-left-mobile::before {
+    top: auto;
+    right: auto;
+    bottom: 50%;
+    left: -11px;
+    transform: translate(-100%, 50%);
+  }
+}
+@media screen and (min-width: 769px), print {
+  .has-tooltip-left-tablet::after {
+    top: auto;
+    right: auto;
+    bottom: 50%;
+    left: 0;
+    margin-top: auto;
+    margin-right: auto;
+    margin-bottom: -6px;
+    margin-left: -11px;
+    border-color: transparent transparent transparent rgba(74, 74, 74, 0.9);
+  }
+  .has-tooltip-left-tablet::before {
+    top: auto;
+    right: auto;
+    bottom: 50%;
+    left: -11px;
+    transform: translate(-100%, 50%);
+  }
+}
+@media screen and (min-width: 769px) and (max-width: 1023px) {
+  .has-tooltip-left-tablet-only::after {
+    top: auto;
+    right: auto;
+    bottom: 50%;
+    left: 0;
+    margin-top: auto;
+    margin-right: auto;
+    margin-bottom: -6px;
+    margin-left: -11px;
+    border-color: transparent transparent transparent rgba(74, 74, 74, 0.9);
+  }
+  .has-tooltip-left-tablet-only::before {
+    top: auto;
+    right: auto;
+    bottom: 50%;
+    left: -11px;
+    transform: translate(-100%, 50%);
+  }
+}
+@media screen and (max-width: 1023px) {
+  .has-tooltip-left-touch::after {
+    top: auto;
+    right: auto;
+    bottom: 50%;
+    left: 0;
+    margin-top: auto;
+    margin-right: auto;
+    margin-bottom: -6px;
+    margin-left: -11px;
+    border-color: transparent transparent transparent rgba(74, 74, 74, 0.9);
+  }
+  .has-tooltip-left-touch::before {
+    top: auto;
+    right: auto;
+    bottom: 50%;
+    left: -11px;
+    transform: translate(-100%, 50%);
+  }
+}
+@media screen and (min-width: 1024px) {
+  .has-tooltip-left-desktop::after {
+    top: auto;
+    right: auto;
+    bottom: 50%;
+    left: 0;
+    margin-top: auto;
+    margin-right: auto;
+    margin-bottom: -6px;
+    margin-left: -11px;
+    border-color: transparent transparent transparent rgba(74, 74, 74, 0.9);
+  }
+  .has-tooltip-left-desktop::before {
+    top: auto;
+    right: auto;
+    bottom: 50%;
+    left: -11px;
+    transform: translate(-100%, 50%);
+  }
+}
+@media screen and (min-width: 1024px) and (max-width: 1215px) {
+  .has-tooltip-left-desktop-only::after {
+    top: auto;
+    right: auto;
+    bottom: 50%;
+    left: 0;
+    margin-top: auto;
+    margin-right: auto;
+    margin-bottom: -6px;
+    margin-left: -11px;
+    border-color: transparent transparent transparent rgba(74, 74, 74, 0.9);
+  }
+  .has-tooltip-left-desktop-only::before {
+    top: auto;
+    right: auto;
+    bottom: 50%;
+    left: -11px;
+    transform: translate(-100%, 50%);
+  }
+}
+@media screen and (max-width: 1215px) {
+  .has-tooltip-left-until-widescreen::after {
+    top: auto;
+    right: auto;
+    bottom: 50%;
+    left: 0;
+    margin-top: auto;
+    margin-right: auto;
+    margin-bottom: -6px;
+    margin-left: -11px;
+    border-color: transparent transparent transparent rgba(74, 74, 74, 0.9);
+  }
+  .has-tooltip-left-until-widescreen::before {
+    top: auto;
+    right: auto;
+    bottom: 50%;
+    left: -11px;
+    transform: translate(-100%, 50%);
+  }
+}
+@media screen and (min-width: 1216px) {
+  .has-tooltip-left-widescreen::after {
+    top: auto;
+    right: auto;
+    bottom: 50%;
+    left: 0;
+    margin-top: auto;
+    margin-right: auto;
+    margin-bottom: -6px;
+    margin-left: -11px;
+    border-color: transparent transparent transparent rgba(74, 74, 74, 0.9);
+  }
+  .has-tooltip-left-widescreen::before {
+    top: auto;
+    right: auto;
+    bottom: 50%;
+    left: -11px;
+    transform: translate(-100%, 50%);
+  }
+}
+@media screen and (min-width: 1216px) and (max-width: 1407px) {
+  .has-tooltip-left-widescreen-only::after {
+    top: auto;
+    right: auto;
+    bottom: 50%;
+    left: 0;
+    margin-top: auto;
+    margin-right: auto;
+    margin-bottom: -6px;
+    margin-left: -11px;
+    border-color: transparent transparent transparent rgba(74, 74, 74, 0.9);
+  }
+  .has-tooltip-left-widescreen-only::before {
+    top: auto;
+    right: auto;
+    bottom: 50%;
+    left: -11px;
+    transform: translate(-100%, 50%);
+  }
+}
+@media screen and (max-width: 1407px) {
+  .has-tooltip-left-until-fullhd::after {
+    top: auto;
+    right: auto;
+    bottom: 50%;
+    left: 0;
+    margin-top: auto;
+    margin-right: auto;
+    margin-bottom: -6px;
+    margin-left: -11px;
+    border-color: transparent transparent transparent rgba(74, 74, 74, 0.9);
+  }
+  .has-tooltip-left-until-fullhd::before {
+    top: auto;
+    right: auto;
+    bottom: 50%;
+    left: -11px;
+    transform: translate(-100%, 50%);
+  }
+}
+@media screen and (min-width: 1408px) {
+  .has-tooltip-left-fullhd::after {
+    top: auto;
+    right: auto;
+    bottom: 50%;
+    left: 0;
+    margin-top: auto;
+    margin-right: auto;
+    margin-bottom: -6px;
+    margin-left: -11px;
+    border-color: transparent transparent transparent rgba(74, 74, 74, 0.9);
+  }
+  .has-tooltip-left-fullhd::before {
+    top: auto;
+    right: auto;
+    bottom: 50%;
+    left: -11px;
+    transform: translate(-100%, 50%);
+  }
+}
 html,
 body {
   background-color: transparent;
@@ -11837,23 +15599,23 @@ h6 {
 }
 
 h1 {
-  font-size: 3rem;
+  font-size: 2.462rem;
 }
 
 h2 {
-  font-size: 2.5rem;
-}
-
-h3 {
   font-size: 2rem;
 }
 
+h3 {
+  font-size: 1.692rem;
+}
+
 h4 {
-  font-size: 1.5rem;
+  font-size: 1.385rem;
 }
 
 h5 {
-  font-size: 1.25rem;
+  font-size: 1.213rem;
 }
 
 h6 {
@@ -11939,11 +15701,11 @@ strong {
   font-size: 1em;
 }
 
-.has-hover-style {
+.has-hover-style:not(.is-disabled) {
   cursor: pointer;
 }
 
-.has-hover-style::before {
+.has-hover-style:not(.is-disabled)::before {
   content: "";
   position: absolute;
   top: 0;
@@ -11957,7 +15719,7 @@ strong {
   border-color: #1971bd;
 }
 
-.has-hover-style::after {
+.has-hover-style:not(.is-disabled)::after {
   content: "";
   position: absolute;
   top: 0;
@@ -11971,7 +15733,7 @@ strong {
   border-color: #1971bd;
 }
 
-.has-hover-style:hover::before, .has-hover-style:hover::after {
+.has-hover-style:not(.is-disabled):hover::before, .has-hover-style:not(.is-disabled):hover::after {
   transform: scale(1);
 }
 
@@ -21245,6 +25007,10 @@ Responsive Classes
   height: 36px;
 }
 
+.button.ac-button.is-medium.is-square {
+  width: 36px;
+}
+
 .button.ac-button.is-tinny {
   height: 24px;
   padding: 0 8px;
@@ -21268,8 +25034,8 @@ Responsive Classes
 }
 
 .vue-schema-form-array .nested-body .form-left-item {
-  margin-right: 10px;
-  width: calc(100% - 92px);
+  margin-right: 16px;
+  width: calc(100% - 104px);
 }
 
 .nested-header .tabs.ac-tabs {
@@ -21286,12 +25052,6 @@ Responsive Classes
 
 .vue-openapi-form {
   margin-left: -20px;
-}
-
-.vue-openapi-form .is-warning {
-  font-size: 12px;
-  color: hsl(38, 93%, 50%);
-  padding-left: 10px;
 }
 
 .vue-openapi-form .ac-nested-elements:first-child {
@@ -21808,40 +25568,20 @@ Responsive Classes
   padding-right: 10px;
 }
 
-.button.ac-button {
-  padding: 8px 16px;
-  font-weight: 500;
-  line-height: 1;
+.vue-openapi-form .key-value-save > .ac-single-input {
+  margin-left: 0;
 }
 
-.button.ac-button.is-light.is-loading::after {
-  border-color: transparent transparent #1c1c1c #1c1c1c !important;
+.vue-openapi-form .key-value-save > .ac-nested-elements {
+  padding-left: 0;
 }
 
-.button.ac-button.is-ghost {
-  border-color: transparent !important;
+.vue-openapi-form .key-value-save > .ac-nested-elements:after {
+  left: 8px;
 }
 
-.button.ac-button.is-square {
-  border: 1px solid hsl(208, 77%, 95%);
-}
-
-.button.ac-button.is-small {
-  padding: 4px 9px;
-}
-
-.button.ac-button.is-medium {
-  font-size: 1rem;
-  height: 36px;
-}
-
-.button:focus {
-  outline: none;
-  box-shadow: none;
-}
-
-button.is-primary {
-  background-color: hsl(208, 77%, 40%);
+.vue-openapi-form .key-value-save > .ac-nested-elements:before {
+  left: 4px;
 }
 
 .is-refresh i.fa {
@@ -22054,6 +25794,110 @@ button.is-primary {
 
 .bg-green-97 {
   background-color: hsl(141, 53%, 97%);
+}
+
+.text-yellow-10 {
+  color: hsl(38, 93%, 10%);
+}
+
+.text-yellow-20 {
+  color: hsl(38, 93%, 20%);
+}
+
+.text-yellow-30 {
+  color: hsl(38, 93%, 30%);
+}
+
+.text-yellow-40 {
+  color: hsl(38, 93%, 40%);
+}
+
+.text-yellow-50 {
+  color: hsl(38, 93%, 50%);
+}
+
+.text-yellow-60 {
+  color: hsl(38, 93%, 60%);
+}
+
+.text-yellow-70 {
+  color: hsl(38, 93%, 70%);
+}
+
+.text-yellow-80 {
+  color: hsl(38, 93%, 80%);
+}
+
+.text-yellow-90 {
+  color: hsl(38, 93%, 90%);
+}
+
+.bg-yellow-10 {
+  background-color: hsl(38, 93%, 10%);
+}
+
+.bg-yellow-20 {
+  background-color: hsl(38, 93%, 20%);
+}
+
+.bg-yellow-30 {
+  background-color: hsl(38, 93%, 30%);
+}
+
+.bg-yellow-40 {
+  background-color: hsl(38, 93%, 40%);
+}
+
+.bg-yellow-50 {
+  background-color: hsl(38, 93%, 50%);
+}
+
+.bg-yellow-60 {
+  background-color: hsl(38, 93%, 60%);
+}
+
+.bg-yellow-70 {
+  background-color: hsl(38, 93%, 70%);
+}
+
+.bg-yellow-80 {
+  background-color: hsl(38, 93%, 80%);
+}
+
+.bg-yellow-90 {
+  background-color: hsl(38, 93%, 90%);
+}
+
+.text-yellow-5 {
+  color: hsl(38, 93%, 5%);
+}
+
+.bg-yellow-5 {
+  background-color: hsl(38, 93%, 5%);
+}
+
+.text-yellow-93 {
+  color: hsl(38, 93%, 93%);
+}
+
+.text-yellow-95 {
+  color: hsl(38, 93%, 95%);
+}
+
+.text-yellow-97 {
+  color: hsl(38, 93%, 97%);
+}
+
+.bg-yellow-93 {
+  background-color: hsl(38, 93%, 93%);
+}
+
+.bg-yellow-95 {
+  background-color: hsl(38, 93%, 95%);
+}
+
+.bg-yellow-97 {
+  background-color: hsl(38, 93%, 97%);
 }
 
 .text-purple-10 {
