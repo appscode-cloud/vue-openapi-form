@@ -1,7 +1,9 @@
 @import "./../../../node_modules/@appscode/design-system/base/utilities/customize-bulma.scss";
 
 @import 'bulma/bulma.sass';
-@import 'bulma-switch/dist/css/bulma-switch.min.css';
+@import "bulma-checkradio";
+@import "bulma-switch";
+@import "bulma-tooltip";
 @import 'floating-vue/dist/style.css';
 // BASE
 @import './../../../node_modules/@appscode/design-system/base/utilities/all.scss';
