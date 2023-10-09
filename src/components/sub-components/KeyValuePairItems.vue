@@ -106,7 +106,7 @@
       </v-field>
     </template>
     <button
-      class="button ac-button is-medium is-danger is-outlined"
+      class="button ac-button is-medium is-square is-danger is-outlined"
       @click.prevent="deleteProp(index)"
     >
       <span class="icon is-small">

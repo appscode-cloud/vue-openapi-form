@@ -155,7 +155,7 @@
           </v-field>
         </template>
         <button
-          class="button ac-button is-medium is-primary is-outlined"
+          class="button ac-button is-medium is-square is-primary is-outlined"
           @click.prevent="addProp(validate)"
         >
           <span class="icon">
