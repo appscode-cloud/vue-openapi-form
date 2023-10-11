@@ -1,0 +1,632 @@
+.vue-schema-form-array {
+  .nested-body {
+    // margin-bottom: 15px;
+    display: flex;
+
+    .form-left-item {
+      margin-right: 16px;
+      width: calc(100% - 104px);
+    }
+  }
+}
+
+.nested-header {
+  .tabs.ac-tabs {
+    margin-bottom: 0;
+    opacity: 0;
+    visibility: hidden;
+    transition: 0.3s ease-in-out;
+  }
+
+  &:hover {
+    .tabs.ac-tabs {
+      opacity: 1;
+      visibility: visible;
+    }
+  }
+}
+
+.vue-openapi-form {
+  margin-left: -20px;
+
+  .ac-nested-elements {
+    &:first-child {
+      margin-left: 0;
+    }
+
+    .nested-body {
+      padding-left: 0px;
+    }
+
+    .nested-header {
+      width: 100%;
+    }
+  }
+
+  .ac-single-switch {
+    margin-left: -15px;
+    margin-bottom: 35px;
+  }
+
+  .ac-single-input {
+    margin-left: 25px;
+
+    &:last-child {
+      margin-bottom: 16px;
+    }
+  }
+}
+
+.vue-form-scema-body {
+  .left-content {
+    background-color: $primary-97;
+    border-right: 1px solid $primary-90;
+    padding: 30px;
+    width: 500px;
+  }
+
+  .right-content {
+    margin-top: 30px;
+  }
+}
+
+.v-tooltip-open {
+  background-color: $white-100;
+}
+
+.ac-nested-elements::after {
+  top: 25px;
+  width: 1px;
+  height: calc(100% - 50px);
+}
+
+.ac-nested-elements::before {
+  bottom: 12px;
+}
+
+.is-collapsed {
+  &.ac-nested-elements::before,
+  &.ac-nested-elements::after {
+    display: none;
+  }
+}
+
+.ui-builders-wrapper {
+  .ac-nested-elements::before {
+    bottom: 10px !important;
+  }
+}
+
+// for vue-tooltip
+
+.vue-openapi-form {
+  .ac-single-input {
+    position: relative;
+    z-index: 1;
+    margin-bottom: 16px;
+
+    &.is-disable {
+      opacity: 0.5;
+
+      input,
+      .button.is-information,
+      .eye i.fa {
+        cursor: not-allowed;
+      }
+    }
+
+    &.is-information {
+      input {
+        padding-right: 45px;
+
+        &[type="password"] {
+          padding-right: 80px;
+        }
+      }
+
+      span.eye i.fa {
+        right: 35px;
+      }
+    }
+
+    &.is-success {
+      input,
+      .ac-card,
+      textarea {
+        border: 1px solid $primary !important;
+      }
+
+      p {
+        color: $primary;
+      }
+    }
+
+    &.is-danger {
+      input,
+      .ac-card,
+      textarea {
+        border: 1px solid $danger;
+      }
+
+      p {
+        color: $danger;
+      }
+    }
+
+    &.is-loading {
+      input,
+      .ac-card,
+      textarea {
+        border: 1px solid $info;
+        opacity: 0.5;
+      }
+
+      p {
+        color: $info;
+        opacity: 0.5;
+      }
+    }
+
+    &.borderless-input {
+      input {
+        border: none;
+        font-size: 13px;
+        padding: 4px 7px;
+        height: 30px;
+        background-color: $white-100;
+        padding-right: 30px;
+
+        &[type="password"] {
+          padding-right: 30px;
+        }
+
+        &:focus {
+          outline: none;
+          border: none;
+        }
+      }
+
+      span.eye {
+        i.fa {
+          padding: 9px;
+          font-size: 12px;
+        }
+      }
+    }
+
+    &.is-normal {
+      input {
+        height: 45px;
+        font-size: 15px;
+        font-weight: 400;
+      }
+
+      .button {
+        &.is-information {
+          height: 45px;
+          width: 45px;
+          margin-top: 0;
+          &:focus {
+            outline: none;
+            box-shadow: none;
+          }
+        }
+      }
+
+      span.eye i.fa {
+        padding: 14px 10px;
+      }
+
+      .ac-search-button {
+        margin-top: -22.5px;
+      }
+
+      label {
+        top: 13px;
+        font-size: 13px;
+
+        &.show-label {
+          font-size: 12px;
+          color: $black-40;
+          top: -9px;
+          font-weight: 500;
+          background-color: $white-100;
+        }
+      }
+
+      .control {
+        &.has-icons-right {
+          .icon {
+            height: 45px;
+            width: 30px;
+            font-size: 13px;
+          }
+        }
+      }
+    }
+
+    &.is-small {
+      input {
+        height: 36px;
+        font-size: 13px;
+        font-weight: 400;
+      }
+
+      .button {
+        &.is-information {
+          height: 36px;
+          width: 36px;
+          margin-top: 0;
+          padding: 10px;
+        }
+      }
+
+      span.eye i.fa {
+        padding: 10px;
+      }
+
+      .ac-search-button {
+        margin-top: -18px;
+      }
+
+      label {
+        top: 8px;
+        font-size: 13px;
+
+        &.switch-label {
+          top: 0;
+        }
+
+        &.show-label {
+          font-size: 12px;
+          top: -9px;
+          font-weight: 500;
+          color: $black-40;
+
+          &.is-required {
+            &:after {
+              width: calc(100% + 10px);
+            }
+          }
+        }
+      }
+
+      .control {
+        &.has-icons-right {
+          .icon {
+            height: 36px;
+            width: 25px;
+            font-size: 13px;
+          }
+        }
+      }
+    }
+
+    &.is-extra-small {
+      input {
+        height: 32px;
+        font-size: 13px;
+        font-weight: 400;
+      }
+
+      .button {
+        &.is-information {
+          height: 32px;
+          width: 32px;
+          margin-top: 0;
+        }
+      }
+
+      span.eye i.fa {
+        padding: 10px;
+      }
+
+      .ac-search-button {
+        margin-top: 0px;
+        top: 0;
+        display: flex;
+        align-items: center;
+        width: 40px;
+        justify-content: center;
+
+        svg {
+          width: 18px;
+        }
+      }
+
+      label {
+        top: 8px;
+        font-size: 13px;
+
+        &.switch-label {
+          top: 0;
+        }
+
+        &.show-label {
+          font-size: 12px;
+          top: -9px;
+        }
+      }
+
+      .control {
+        &.has-icons-right {
+          .icon {
+            height: 32px;
+            width: 25px;
+            font-size: 13px;
+          }
+        }
+      }
+    }
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+
+    &.is-dark {
+      input {
+        background-color: $primary-10;
+        border-color: transparent;
+        color: $white-100;
+
+        &::placeholder {
+          color: $primary-10;
+        }
+
+        button {
+          i.fa {
+            color: $white-100;
+          }
+        }
+      }
+    }
+
+    label {
+      font-size: 13px;
+      left: 15px;
+      top: 11px;
+      cursor: text;
+      color: $primary-10;
+      position: absolute;
+      z-index: 2;
+      transition: 0.3s ease-in-out;
+
+      .is-required {
+        color: $danger;
+
+        img {
+          position: absolute;
+          top: 7px;
+          padding-left: 3px;
+        }
+      }
+
+      &.show-label {
+        top: -9px;
+        left: 10px;
+        padding: 0 5px;
+        font-size: 13px;
+        color: $black-40;
+
+        &:after {
+          position: absolute;
+          content: "";
+          left: 0;
+          top: 50%;
+          background-color: $white-100;
+          width: 100%;
+          height: 2px;
+          margin-top: -1px;
+          z-index: -1;
+        }
+
+        // &.is-required {
+        //   &:after {
+        //     width: calc(100% + 10px);
+        //   }
+        // }
+      }
+    }
+
+    .button {
+      &.is-information {
+        background-color: transparent;
+        border: none;
+        position: absolute;
+        right: 0;
+        height: 32px;
+        width: 32px;
+        margin-top: 0;
+
+        &:focus {
+          outline: none;
+          box-shadow: none;
+          background-color: #e4e8ef;
+          transform: scale(0.8);
+        }
+      }
+    }
+
+    .ac-search-button {
+      background-color: transparent;
+      border: none;
+      position: absolute;
+      left: 0;
+      top: 50%;
+      width: 32px;
+      height: 100%;
+      margin-top: -15px;
+      color: $primary-20;
+      cursor: pointer;
+    }
+
+    .ac-dropdown-content {
+      position: absolute;
+      background-color: $primary-90;
+      width: 100%;
+      height: auto;
+      box-shadow: 0px 4px 16px rgba(132, 147, 168, 0.6);
+      border-radius: 4px;
+      overflow: hidden;
+
+      ul {
+        li {
+          a {
+            color: $primary-10;
+            display: block;
+            font-size: 13px;
+            padding: 8px 20px;
+            transition: 0.3s;
+
+            &:hover {
+              background-color: hsla(
+                var(--hsl-hue),
+                var(--hsl-saturation),
+                var(--hsl-lightness),
+                0.2
+              );
+              color: $primary;
+            }
+          }
+        }
+      }
+    }
+
+    .ac-textarea {
+      .ac-label {
+        &.is-required {
+          &:after {
+            width: calc(100% + 10px);
+          }
+        }
+      }
+
+      textarea {
+        border: 1px solid $primary-80;
+        background-color: transparent;
+        padding: 10px 16px;
+        min-height: 50px;
+
+        &.bg-white {
+          background-color: transparent;
+        }
+
+        &:focus {
+          outline: none;
+          border: 1px solid $primary;
+        }
+      }
+    }
+
+    input,
+    .ac-card,
+    textarea {
+      background-color: $white-100;
+      color: $primary-10;
+      height: 45px;
+      font-weight: 400;
+      width: 100%;
+      border-radius: 4px;
+      border: 1px solid $primary-80;
+      padding: 8px 16px;
+      font-size: 13px;
+
+      &:hover {
+        border-color: $black-70;
+      }
+
+      &.bg-white {
+        background-color: $white-100;
+      }
+
+      &.StripeElement--focus {
+        border: 1px solid $primary;
+      }
+
+      &:focus {
+        border: 1px solid $primary;
+        outline: none;
+        background-color: $white-100;
+      }
+
+      &[type="password"] {
+        padding-right: 40px;
+      }
+
+      &[type="search"] {
+        padding-left: 30px;
+      }
+
+      transition: background-color 0.3s ease-in-out;
+    }
+
+    .ac-card {
+      height: 36px;
+      padding: 10px 20px;
+    }
+
+    textarea {
+      height: 55px;
+    }
+
+    b.isRequired {
+      color: $danger;
+      font-size: 13px;
+      position: absolute;
+      right: 5px;
+      z-index: 9;
+    }
+
+    span.eye {
+      i.fa {
+        color: $primary-80;
+        position: absolute;
+        cursor: pointer;
+        padding: 15px;
+        right: 0;
+        top: 0;
+      }
+    }
+
+    .is-danger {
+      font-size: 12px;
+      line-height: 22px;
+      color: $danger;
+      text-align: left;
+
+      i.fa {
+        padding-right: 10px;
+      }
+    }
+  }
+
+  .ac-input.ac-search {
+    width: 42px;
+    transition: 0.3s ease-in-out;
+    padding: 0;
+  }
+
+  .ac-search:focus {
+    width: 200px !important;
+    padding-right: 10px;
+  }
+
+  .key-value-save > .ac-single-input {
+    margin-left: 0;
+  }
+  .key-value-save > .ac-nested-elements {
+    padding-left: 0;
+    &:after {
+      left: 8px;
+    }
+    &:before {
+      left: 4px;
+    }
+  }
+}
+
+.is-refresh {
+  i.fa {
+    color: $primary-10;
+  }
+}

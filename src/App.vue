@@ -1,9 +1,9 @@
 <template>
   <div id="app">
-    <div id="header" class="ac-navbar-area is-fixed">
+    <div id="header" class="ac-navbar-area is-fixed ml-0">
       <div class="ac-navbar-inner">
         <!-- navbar start  -->
-        <nav class="ac-navbar">
+        <nav class="ac-navbar is-fullwidth">
           <!-- navbar logo start  -->
           <div class="ac-navbar-brand">
             <a href="https://byte.builders/"
