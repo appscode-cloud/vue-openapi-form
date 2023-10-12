@@ -5,7 +5,7 @@
 
     .form-left-item {
       margin-right: 16px;
-      width: calc(100% - 104px);
+      width: calc(100% - 108px);
     }
   }
 }
@@ -518,55 +518,9 @@
       }
     }
 
-    input,
-    .ac-card,
-    textarea {
-      background-color: $white-100;
-      color: $primary-10;
-      height: 45px;
-      font-weight: 400;
-      width: 100%;
-      border-radius: 4px;
-      border: 1px solid $primary-80;
-      padding: 8px 16px;
-      font-size: 13px;
-
-      &:hover {
-        border-color: $black-70;
-      }
-
-      &.bg-white {
-        background-color: $white-100;
-      }
-
-      &.StripeElement--focus {
-        border: 1px solid $primary;
-      }
-
-      &:focus {
-        border: 1px solid $primary;
-        outline: none;
-        background-color: $white-100;
-      }
-
-      &[type="password"] {
-        padding-right: 40px;
-      }
-
-      &[type="search"] {
-        padding-left: 30px;
-      }
-
-      transition: background-color 0.3s ease-in-out;
-    }
-
     .ac-card {
       height: 36px;
       padding: 10px 20px;
-    }
-
-    textarea {
-      height: 55px;
     }
 
     b.isRequired {
