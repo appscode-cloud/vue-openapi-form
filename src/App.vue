@@ -263,6 +263,9 @@ export default defineComponent({
     z-index: 99;
     user-select: none;
     cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 
     &:after {
       position: absolute;
