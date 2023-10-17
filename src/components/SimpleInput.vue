@@ -100,7 +100,7 @@
               validationOb.errors &&
               validationOb.errors.length > 0
             "
-            class="is-flex gap-4 mt-4 has-text-danger is-italic"
+            class="is-flex gap-4 mt-4 has-text-danger"
           >
             {{ validationOb.errors[0] }}
           </p>
