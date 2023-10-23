@@ -1,8 +1,21 @@
+@import '@appscode/design-system/vue-components/styles/base/utilities/customize-bulma';
+
 @import 'bulma/bulma.sass';
-@import 'bulma-switch/dist/css/bulma-switch.min.css';
+@import 'bulma-checkradio/dist/css/bulma-checkradio.sass';
+@import 'bulma-switch/src/sass/index.sass';
+@import 'bulma-tooltip/src/sass/index.sass';
 @import 'floating-vue/dist/style.css';
 // BASE
-@import './../../../node_modules/@appscode/design-system/base/utilities/all.scss';
+@import '@appscode/design-system/vue-components/styles/base/utilities/all';
+
 // COMPONENTS
-@import './../../../node_modules/@appscode/design-system/components/ui-builder/ui-builder';
-@import './../../../node_modules/@appscode/design-system/components/ui-builder/vue-open-api';
+@import '@appscode/design-system/vue-components/styles/components/navbar/all';
+@import '@appscode/design-system/vue-components/styles/components/form-fields/input';
+@import '@appscode/design-system/vue-components/styles/components/button';
+@import '@appscode/design-system/vue-components/styles/components/modal';
+@import '@appscode/design-system/vue-components/styles/components/table';
+@import '@appscode/design-system/vue-components/styles/components/select-box/multi-select';
+@import '@appscode/design-system/vue-components/styles/components/ac-toaster/ac-toasted';
+
+// Local SCSS
+@import './vue-open-api';

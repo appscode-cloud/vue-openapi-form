@@ -1,6 +1,6 @@
 <template>
   <div
-    class="ac-nested-elements key-value-pairs is-flex is-flex-direction-column gap-16"
+    class="ac-nested-elements key-value-pairs is-flex is-flex-direction-column gap-8"
     :class="{ 'stop-line': isLastChild }"
   >
     <div class="nested-header mb-5">
@@ -155,7 +155,7 @@
           </v-field>
         </template>
         <button
-          class="button ac-button is-medium is-primary is-outlined"
+          class="button ac-button is-medium is-square is-primary is-outlined"
           @click.prevent="addProp(validate)"
         >
           <span class="icon">

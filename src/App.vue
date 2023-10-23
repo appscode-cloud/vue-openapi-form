@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <div id="header" class="ac-navbar-area is-fixed">
+    <div id="header" class="ac-navbar-area is-full is-fixed ml-0">
       <div class="ac-navbar-inner">
         <!-- navbar start  -->
         <nav class="ac-navbar">
@@ -183,7 +183,7 @@ export default defineComponent({
 });
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .ac-navbar-area {
   position: fixed;
   width: 100%;
@@ -196,7 +196,7 @@ export default defineComponent({
     margin-left: 0;
 
     .ac-navbar {
-      grid-template-columns: 250px auto auto;
+      grid-template-columns: 500px auto;
       width: 100%;
       gap: 20px;
       .ac-navbar-brand {
@@ -263,6 +263,9 @@ export default defineComponent({
     z-index: 99;
     user-select: none;
     cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 
     &:after {
       position: absolute;

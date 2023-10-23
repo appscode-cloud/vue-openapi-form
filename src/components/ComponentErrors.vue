@@ -1,5 +1,5 @@
 <template>
-  <span v-show="errors.length > 0" v-tooltip="tooltipObj" class="is-warning">
+  <span v-show="errors.length > 0" v-tooltip="tooltipObj" class="has-text-danger has-text-weight-normal is-italic is-size-6 pl-8">
     <i class="fa fa-warning"></i>
     Error in {{ errors.length }} field{{ errors.length > 1 ? 's' : '' }}
   </span>

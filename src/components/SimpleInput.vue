@@ -100,9 +100,8 @@
               validationOb.errors &&
               validationOb.errors.length > 0
             "
-            class="is-error"
+            class="is-flex gap-4 mt-4 has-text-danger"
           >
-            <span class="warning"><i class="fa fa-warning"></i></span>
             {{ validationOb.errors[0] }}
           </p>
         </div>

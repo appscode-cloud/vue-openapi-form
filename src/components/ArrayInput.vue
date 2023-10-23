@@ -36,7 +36,7 @@
         />
         <!-- for each item add control buttons -->
         <div class="form-right-item">
-          <div class="buttons" style="gap: 4px">
+          <div class="buttons" style="gap: 16px">
             <div
               class="buttons up-down-buttons"
               :class="{ 'is-small': !isMedium }"
@@ -75,7 +75,7 @@
               </button>
             </div>
             <button
-              class="button ac-button is-medium is-danger is-outlined mb-0"
+              class="button ac-button is-medium is-square is-danger is-outlined mb-0"
               @click.prevent="deleteValue(index)"
             >
               <span class="icon">
@@ -200,7 +200,7 @@
             </v-field>
           </template>
           <button
-            class="button ac-button is-medium is-primary is-outlined"
+            class="button ac-button is-medium is-square is-primary is-outlined"
             @click.prevent="addNewValue(validate)"
           >
             <div class="icon">
