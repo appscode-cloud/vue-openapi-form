@@ -26450,6 +26450,7 @@ Responsive Classes
 
 .multi-select-wrapper .multiselect--disabled {
   opacity: unset;
+  background: transparent !important;
 }
 
 .multi-select-wrapper.is-disable {
