@@ -15577,7 +15577,7 @@ body {
   font-family: "Roboto", sans-serif;
   font-weight: 400;
   font-size: 13px;
-  color: hsl(208, 77%, 10%);
+  color: hsl(208, 10%, 10%);
 }
 
 p {
@@ -15595,7 +15595,7 @@ h5,
 h6 {
   font-family: "Roboto", sans-serif;
   font-weight: 600;
-  color: hsl(208, 77%, 5%);
+  color: hsl(208, 10%, 10%);
 }
 
 h1 {
@@ -15652,8 +15652,12 @@ h6.is-medium {
   line-height: 26px;
 }
 
-a {
+a:not(.ac-button) {
   font-family: "Roboto", sans-serif;
+  color: hsl(208, 77%, 40%);
+}
+
+a:not(.ac-button):hover {
   color: hsl(208, 77%, 40%);
 }
 
@@ -15686,7 +15690,7 @@ hr {
 }
 
 strong {
-  color: hsl(208, 77%, 20%);
+  color: hsl(208, 10%, 35%);
 }
 
 .is-font-medium {
@@ -15716,7 +15720,7 @@ strong {
   border-bottom: solid 1px;
   transition: 0.3s;
   transform: scaleX(0);
-  border-color: #1971bd;
+  border-color: hsl(208, 77%, 40%);
 }
 
 .has-hover-style:not(.is-disabled)::after {
@@ -15730,7 +15734,7 @@ strong {
   border-right: solid 1px;
   transition: 0.3s;
   transform: scaleY(0);
-  border-color: #1971bd;
+  border-color: hsl(208, 77%, 40%);
 }
 
 .has-hover-style:not(.is-disabled):hover::before, .has-hover-style:not(.is-disabled):hover::after {
@@ -15754,23 +15758,23 @@ strong {
 }
 
 .b-b-1 {
-  border-bottom: 1px solid hsl(208, 77%, 90%);
+  border-bottom: 1px solid hsl(208, 50%, 90%);
 }
 
 .b-t-1 {
-  border-top: 1px solid hsl(208, 77%, 90%);
+  border-top: 1px solid hsl(208, 50%, 90%);
 }
 
 .b-l-1 {
-  border-left: 1px solid hsl(208, 77%, 90%);
+  border-left: 1px solid hsl(208, 50%, 90%);
 }
 
 .b-r-1 {
-  border-right: 1px solid hsl(208, 77%, 90%);
+  border-right: 1px solid hsl(208, 50%, 90%);
 }
 
 .b-1 {
-  border: 1px solid hsl(208, 77%, 90%);
+  border: 1px solid hsl(208, 50%, 90%);
 }
 
 .is-rounded-0 {
@@ -15950,7 +15954,7 @@ input[type=color]::-moz-color-swatch {
 }
 
 hr {
-  background-color: hsl(208, 77%, 90%);
+  background-color: hsl(208, 50%, 90%);
 }
 
 .is-auto-hight {
@@ -16165,7 +16169,7 @@ p.is-danger {
 }
 
 code {
-  color: hsl(208, 77%, 5%);
+  color: hsl(208, 10%, 10%);
 }
 
 .is-dark-theme code {
@@ -16414,22 +16418,39 @@ button:focus {
   background-color: hsl(348, 100%, 40%);
 }
 
+body:has(.has-info-content):after {
+  position: fixed;
+  content: "";
+  left: 0;
+  top: 0;
+  width: calc(100% - 550px);
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 9999;
+}
+
 .information-center {
-  min-height: calc(100vh - 0px);
+  height: 100vh;
+  overflow-y: auto;
   padding: 20px;
-  border-left: 1px solid hsl(208, 77%, 90%);
-  width: 330px;
+  border-left: 1px solid hsl(208, 50%, 90%);
+  width: 550px;
   margin-left: auto;
   position: fixed;
   right: 0;
   background: #fff;
   top: 0;
-  z-index: 9999;
+  z-index: 99999;
   box-shadow: -3px 2px 10px 3px rgba(0, 0, 0, 0.1);
 }
 
 .information-center .info-title {
   display: flex;
+}
+
+.tag:not(body).is-primary.is-light {
+  color: hsl(208, 77%, 40%);
+  background-color: hsl(208, 77%, 95%);
 }
 
 .grid {
@@ -24468,7 +24489,7 @@ button:focus {
   position: relative;
   z-index: 99;
   user-select: none;
-  border: 1px solid hsl(208, 77%, 80%);
+  border: 1px solid hsl(208, 10%, 80%);
   cursor: pointer;
 }
 
@@ -24490,7 +24511,7 @@ button:focus {
 }
 
 .ac-menu-item .ac-nav-button:hover:after {
-  background-color: hsl(208, 77%, 90%);
+  background-color: hsl(208, 50%, 90%);
 }
 
 .ac-menu-item.ac-profile-button {
@@ -24516,7 +24537,7 @@ button:focus {
   height: 32px;
   border-radius: 50%;
   overflow: hidden;
-  border: 2px solid hsl(208, 77%, 90%);
+  border: 2px solid hsl(208, 50%, 90%);
 }
 
 .ac-menu-item.ac-profile-button button.button.ac-nav-button i.fa {
@@ -24548,20 +24569,20 @@ button:focus {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  border-bottom: 1px solid hsl(208, 77%, 90%);
+  border-bottom: 1px solid hsl(208, 50%, 90%);
   padding-bottom: 20px;
 }
 
 .ac-menu-item .ac-menu-content.quick-access .header p {
   font-size: 13px;
-  color: hsl(208, 77%, 10%);
+  color: hsl(208, 10%, 10%);
 }
 
 .ac-menu-item .ac-menu-content.quick-access .header button {
   background-color: transparent;
   border: none;
   cursor: pointer;
-  color: hsl(208, 77%, 20%);
+  color: hsl(208, 10%, 35%);
 }
 
 .ac-menu-item .ac-menu-content.quick-access .body-content {
@@ -24570,7 +24591,7 @@ button:focus {
 
 .ac-menu-item .ac-menu-content.quick-access .body-content p {
   font-size: 13px;
-  color: hsl(208, 77%, 10%);
+  color: hsl(208, 10%, 10%);
 }
 
 .ac-menu-item .ac-menu-content.quick-access .body-content .organizations .organization {
@@ -24661,7 +24682,7 @@ button:focus {
 
 .ac-menu-item .ac-menu-content.is-notification .notification-body .single-notification-item {
   display: block;
-  border-top: 1px solid hsl(208, 77%, 90%);
+  border-top: 1px solid hsl(208, 50%, 90%);
   padding: 15px 20px;
   font-weight: 500;
 }
@@ -24675,7 +24696,7 @@ button:focus {
 }
 
 .ac-menu-item .ac-menu-content.is-notification .notification-body .single-notification-item p {
-  color: hsl(208, 77%, 10%);
+  color: hsl(208, 10%, 10%);
   font-size: 11px;
 }
 
@@ -24688,7 +24709,7 @@ button:focus {
 
 .ac-menu-item .ac-menu-content.is-notification .notification-body .single-notification-item .notification-status p {
   font-size: 11px;
-  color: hsl(208, 77%, 20%);
+  color: hsl(208, 10%, 35%);
 }
 
 .ac-menu-item .ac-menu-content.is-notification .notification-body .single-notification-item .notification-status p.is-success {
@@ -24704,11 +24725,11 @@ button:focus {
 }
 
 .ac-menu-item .ac-menu-content.is-notification .see-all-message {
-  border-top: 1px solid hsl(208, 77%, 90%);
+  border-top: 1px solid hsl(208, 50%, 90%);
   text-align: center;
   font-weight: 500;
   font-size: 13px;
-  color: hsl(208, 77%, 10%);
+  color: hsl(208, 10%, 10%);
   display: block;
   padding: 10px 20px;
 }
@@ -24722,7 +24743,7 @@ button:focus {
 .ac-menu-item .ac-menu-content ul li a {
   display: block;
   padding: 8px 15px;
-  color: hsl(208, 77%, 10%);
+  color: hsl(208, 10%, 10%);
   transition: 0.3s ease-in-out;
   font-size: 13px;
 }
@@ -24738,13 +24759,13 @@ button:focus {
 .ac-menu-item .ac-menu-content .user-profile-wrapper {
   background-color: hsl(0, 0%, 100%);
   border-radius: 4px;
-  border: 1px solid hsl(208, 77%, 90%);
+  border: 1px solid hsl(208, 50%, 90%);
 }
 
 .ac-menu-item .ac-menu-content .user-profile-wrapper .profile-area {
   display: flex;
   align-items: center;
-  border-bottom: 1px solid hsl(208, 77%, 90%);
+  border-bottom: 1px solid hsl(208, 50%, 90%);
   padding: 16px 16px;
 }
 
@@ -24771,7 +24792,7 @@ button:focus {
 }
 
 .ac-menu-item .ac-menu-content .user-profile-wrapper .profile-area .profile-info p {
-  color: hsl(208, 77%, 10%);
+  color: hsl(208, 10%, 10%);
   font-size: 13px;
   font-weight: 500;
   line-height: 1.3;
@@ -24779,12 +24800,12 @@ button:focus {
 
 .ac-menu-item .ac-menu-content .user-profile-wrapper .profile-area .profile-info a {
   font-size: 1rem;
-  color: hsl(208, 77%, 20%);
+  color: hsl(208, 10%, 35%);
   line-height: 1.3;
 }
 
 .ac-menu-item .ac-menu-content .user-profile-wrapper .list-items {
-  max-height: calc(100vh - 100px);
+  max-height: calc(100vh - 200px);
   overflow-y: auto;
 }
 
@@ -24807,14 +24828,14 @@ button:focus {
 
 .ac-menu-item .ac-menu-content .user-profile-wrapper .list-items li.is-open ul li {
   padding: 0;
-  border: 1px solid hsl(208, 77%, 95%);
+  border: 1px solid hsl(208, 40%, 95%);
 }
 
 .ac-menu-item .ac-menu-content .user-profile-wrapper .list-items li a {
   padding: 8px 16px;
   font-weight: 500;
   display: block;
-  color: hsl(208, 77%, 10%);
+  color: hsl(208, 10%, 10%);
   transition: 0.3s;
   display: flex;
   align-items: center;
@@ -24827,7 +24848,7 @@ button:focus {
 }
 
 .ac-menu-item.is-active .ac-nav-button::after {
-  background-color: hsl(208, 77%, 90%);
+  background-color: hsl(208, 50%, 90%);
 }
 
 .ac-menu-item.is-active .ac-menu-content {
@@ -24864,7 +24885,7 @@ button:focus {
   border-radius: 4px;
   overflow: hidden;
   background-color: hsl(0, 0%, 100%);
-  border: 1px solid hsl(208, 77%, 90%);
+  border: 1px solid hsl(208, 50%, 90%);
   max-height: calc(100vh - 100px);
   overflow-y: auto;
 }
@@ -24880,7 +24901,7 @@ button:focus {
   padding: 10px 20px !important;
   font-size: 13px !important;
   transition: 0.2s;
-  border-bottom: 1px solid hsl(208, 77%, 90%);
+  border-bottom: 1px solid hsl(208, 50%, 90%);
 }
 
 .ac-menu-item .ac-menu-content.navbar-dropdown-wrapper ul.app-drawer li a:hover {
@@ -24892,7 +24913,7 @@ button:focus {
 }
 
 .ac-menu-item .ac-menu-content.navbar-dropdown-wrapper ul.app-drawer li a:hover .media-content .content p {
-  color: hsl(208, 77%, 20%);
+  color: hsl(208, 10%, 35%);
 }
 
 .ac-menu-item .ac-menu-content.navbar-dropdown-wrapper ul.app-drawer li a .media .media-left .image img {
@@ -24940,8 +24961,8 @@ button:focus {
   width: 100%;
   top: 0;
   z-index: 999;
-  background-color: hsl(208, 77%, 97%);
-  border-bottom: 1px solid hsl(208, 77%, 90%);
+  background-color: hsl(208, 30%, 96%);
+  border-bottom: 1px solid hsl(208, 50%, 90%);
 }
 
 .ac-navbar-area.is-full {
@@ -25027,19 +25048,19 @@ button:focus {
   border-radius: 4px;
   overflow: hidden;
   background-color: hsl(0, 0%, 100%);
-  border: 1px solid hsl(208, 77%, 90%);
+  border: 1px solid hsl(208, 50%, 90%);
 }
 
 .notification-header {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  border-bottom: 1px solid hsl(208, 77%, 90%);
+  border-bottom: 1px solid hsl(208, 50%, 90%);
   padding: 8px 16px;
 }
 
 .notification-header h5 {
-  color: hsl(208, 77%, 5%);
+  color: hsl(208, 10%, 10%);
 }
 
 .notification-header span {
@@ -25057,9 +25078,9 @@ button:focus {
 
 .notification-body a {
   display: flex;
-  color: hsl(208, 77%, 20%);
+  color: hsl(208, 10%, 35%);
   padding: 16px;
-  border-bottom: 1px solid hsl(208, 77%, 95%);
+  border-bottom: 1px solid hsl(208, 40%, 95%);
   transition: 0.3s ease-in-out;
   justify-content: space-between;
 }
@@ -25345,7 +25366,7 @@ button:focus {
   left: 15px;
   top: 11px;
   cursor: text;
-  color: hsl(208, 77%, 10%);
+  color: hsl(208, 10%, 10%);
   position: absolute;
   z-index: 2;
   transition: 0.3s ease-in-out;
@@ -25407,13 +25428,13 @@ button:focus {
   width: 32px;
   height: 100%;
   margin-top: -15px;
-  color: hsl(208, 77%, 20%);
+  color: hsl(208, 10%, 35%);
   cursor: pointer;
 }
 
 .ac-single-input .ac-dropdown-content {
   position: absolute;
-  background-color: hsl(208, 77%, 90%);
+  background-color: hsl(208, 50%, 90%);
   width: 100%;
   height: auto;
   box-shadow: 0px 4px 16px rgba(132, 147, 168, 0.6);
@@ -25422,7 +25443,7 @@ button:focus {
 }
 
 .ac-single-input .ac-dropdown-content ul li a {
-  color: hsl(208, 77%, 10%);
+  color: hsl(208, 10%, 10%);
   display: block;
   font-size: 13px;
   padding: 8px 20px;
@@ -25439,7 +25460,7 @@ button:focus {
 }
 
 .ac-single-input .ac-textarea textarea {
-  border: 1px solid hsl(208, 77%, 80%);
+  border: 1px solid hsl(208, 10%, 80%);
   background-color: transparent;
   padding: 10px 15px;
   min-height: 150px;
@@ -25458,12 +25479,12 @@ button:focus {
 .ac-single-input .ac-card,
 .ac-single-input textarea {
   background-color: hsl(0, 0%, 100%);
-  color: hsl(208, 77%, 10%);
+  color: hsl(208, 10%, 10%);
   height: 45px;
   font-weight: 400;
   width: 100%;
   border-radius: 4px;
-  border: 1px solid hsl(208, 77%, 80%);
+  border: 1px solid hsl(208, 10%, 80%);
   padding: 8px 15px;
   font-size: 13px;
   transition: background-color 0.3s ease-in-out;
@@ -25472,7 +25493,7 @@ button:focus {
 .ac-single-input input:hover,
 .ac-single-input .ac-card:hover,
 .ac-single-input textarea:hover {
-  border-color: hsl(208, 77%, 70%);
+  border-color: hsl(208, 77%, 40%);
 }
 
 .ac-single-input input.bg-white,
@@ -25525,7 +25546,7 @@ button:focus {
 }
 
 .ac-single-input span.eye i.fa {
-  color: hsl(208, 77%, 80%);
+  color: hsl(208, 10%, 80%);
   position: absolute;
   cursor: pointer;
   padding: 15px;
@@ -25598,7 +25619,7 @@ button:focus {
 }
 
 .file.ac-file .file-name {
-  border-color: hsl(208, 77%, 80%);
+  border-color: hsl(208, 10%, 80%);
   max-width: 100%;
   width: 100%;
   height: 36px;
@@ -25611,13 +25632,13 @@ button:focus {
 }
 
 .file.ac-file .file-cta {
-  color: hsl(208, 77%, 10%);
+  color: hsl(208, 10%, 10%);
   height: 100%;
   background-color: hsl(208, 77%, 95%);
 }
 
 .file-upload {
-  border: 1px dashed hsl(208, 77%, 80%);
+  border: 1px dashed hsl(208, 10%, 80%);
   border-radius: 4px;
 }
 
@@ -25626,11 +25647,11 @@ button:focus {
 }
 
 .file-upload:hover label .upload-icon {
-  border: 1px solid hsl(208, 77%, 80%);
+  border: 1px solid hsl(208, 10%, 80%);
 }
 
 .file-upload:hover label .upload-icon svg {
-  color: hsl(208, 77%, 10%);
+  color: hsl(208, 10%, 10%);
 }
 
 .file-upload label {
@@ -25640,7 +25661,7 @@ button:focus {
 }
 
 .file-upload label .upload-icon {
-  border: 1px solid hsl(208, 77%, 90%);
+  border: 1px solid hsl(208, 50%, 90%);
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -25656,7 +25677,7 @@ button:focus {
 }
 
 .file-upload label p {
-  color: hsl(208, 77%, 10%);
+  color: hsl(208, 10%, 10%);
 }
 
 .file-upload label p strong {
@@ -25751,7 +25772,7 @@ button.is-primary {
   cursor: pointer;
   border: none;
   color: hsl(208, 77%, 40%);
-  background-color: hsl(208, 77%, 90%);
+  background-color: hsl(208, 50%, 90%);
   transition: 0.3s ease-in-out;
   margin: 0 !important;
   border-radius: 0;
@@ -25833,17 +25854,17 @@ button.is-primary {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  border: 1px solid hsl(208, 77%, 90%);
+  border: 1px solid hsl(208, 50%, 90%);
 }
 
 .ac-modal .ac-modal-inner .ac-modal-header h6 {
-  color: hsl(208, 77%, 10%);
+  color: hsl(208, 10%, 10%);
 }
 
 .ac-modal .ac-modal-inner .ac-modal-header .ms-close-button button {
   cursor: pointer;
   padding: 3px 5px;
-  color: hsl(208, 77%, 10%);
+  color: hsl(208, 10%, 10%);
 }
 
 .ac-modal .ac-modal-inner .ac-modal-body {
@@ -25867,7 +25888,7 @@ button.is-primary {
 
 .ac-modal .ac-modal-inner .ac-modal-body .ac-modal-content .action-message p.is-description {
   font-weight: 400;
-  color: hsl(208, 77%, 10%);
+  color: hsl(208, 10%, 10%);
 }
 
 .ac-modal .ac-modal-inner .ac-modal-body .ac-modal-content .action-message p.is-description strong {
@@ -25875,7 +25896,7 @@ button.is-primary {
 }
 
 .ac-modal .ac-modal-inner .ac-modal-footer {
-  border-top: 1px solid hsl(208, 77%, 90%);
+  border-top: 1px solid hsl(208, 50%, 90%);
   padding: 10px 20px;
 }
 
@@ -25931,18 +25952,17 @@ Responsive Classes
 }
 
 .table.ac-table thead {
-  background-color: hsl(208, 77%, 95%);
   font-size: 13px;
   line-height: initial;
 }
 
 .table.ac-table thead tr {
-  border-bottom: 1px solid hsl(208, 77%, 95%);
+  border-bottom: 1px solid hsl(208, 40%, 95%);
 }
 
 .table.ac-table thead tr th {
   padding: 10px 20px;
-  color: hsl(208, 77%, 5%);
+  color: hsl(208, 10%, 10%);
   border: none;
   font-weight: 500;
   font-weight: 500;
@@ -25954,11 +25974,11 @@ Responsive Classes
 }
 
 .table.ac-table thead tr th.sorting.sorting-asc::before {
-  color: hsl(208, 77%, 5%);
+  color: hsl(208, 10%, 10%);
 }
 
 .table.ac-table thead tr th.sorting.sorting-desc::after {
-  color: hsl(208, 77%, 5%);
+  color: hsl(208, 10%, 10%);
 }
 
 .table.ac-table thead tr th.sorting:after, .table.ac-table thead tr th.sorting::before {
@@ -25989,7 +26009,7 @@ Responsive Classes
 }
 
 .table.ac-table tbody tr {
-  border-bottom: 1px solid hsl(208, 77%, 90%);
+  border-bottom: 1px solid hsl(208, 50%, 90%);
   transition: 0.3s ease-in-out;
 }
 
@@ -26026,7 +26046,7 @@ Responsive Classes
 .table.ac-table tbody tr td {
   font-size: 13px;
   padding: 5px 20px;
-  color: hsl(208, 77%, 10%);
+  color: hsl(208, 10%, 10%);
   border: none;
   white-space: nowrap;
 }
@@ -26045,7 +26065,7 @@ Responsive Classes
 }
 
 .table.ac-table tbody tr td .tags .tag a:hover {
-  color: hsl(208, 77%, 5%);
+  color: hsl(208, 10%, 10%);
 }
 
 .table.ac-table tbody tr td.is-danger {
@@ -26117,15 +26137,15 @@ Responsive Classes
 }
 
 .table.ac-table .increase-width .increase-innner {
-  border-bottom: 1px solid hsl(208, 77%, 90%);
-  border-top: 1px solid hsl(208, 77%, 90%);
+  border-bottom: 1px solid hsl(208, 50%, 90%);
+  border-top: 1px solid hsl(208, 50%, 90%);
   bottom: -1px;
   left: 0;
   position: absolute;
   right: -451px;
   top: -1px;
   visibility: visible;
-  background-color: hsl(208, 77%, 90%);
+  background-color: hsl(208, 50%, 90%);
 }
 
 .table.ac-table td.increase-width .increase-innner {
@@ -26133,10 +26153,10 @@ Responsive Classes
 }
 
 .table.ac-table.is-bordered thead tr th {
-  border-top: 1px solid hsl(208, 77%, 95%);
-  border-bottom: 1px solid hsl(208, 77%, 95%);
-  border-right: 1px solid hsl(208, 77%, 95%);
-  background-color: hsl(208, 77%, 97%);
+  background-color: hsl(208, 30%, 96%);
+  border-top: 1px solid hsl(208, 40%, 95%);
+  border-bottom: 1px solid hsl(208, 40%, 95%);
+  border-right: 1px solid hsl(208, 40%, 95%);
 }
 
 .table.ac-table.is-bordered thead tr th:first-child {
@@ -26153,10 +26173,10 @@ Responsive Classes
 
 .table.ac-table.is-bordered tbody tr td {
   font-size: 13px;
-  color: hsl(208, 77%, 20%);
+  color: hsl(208, 10%, 35%);
   background-color: transparent;
-  border-bottom: 1px solid hsl(208, 77%, 95%);
-  border-right: 1px solid hsl(208, 77%, 95%);
+  border-bottom: 1px solid hsl(208, 40%, 95%);
+  border-right: 1px solid hsl(208, 40%, 95%);
 }
 
 .table.ac-table.is-bordered tbody tr td:last-child {
@@ -26168,7 +26188,7 @@ Responsive Classes
 }
 
 .table.ac-table.is-bordered tbody tr td:first-child {
-  color: hsl(208, 77%, 5%);
+  color: hsl(208, 10%, 10%);
   border-radius: 0;
 }
 
@@ -26177,7 +26197,7 @@ Responsive Classes
 }
 
 .table.ac-table.is-bordered tbody tr td .ac-single-checkbox .is-checkradio[type=checkbox].ac-checkbox + label {
-  color: hsl(208, 77%, 20%);
+  color: hsl(208, 10%, 35%);
 }
 
 .table.ac-table.is-bordered tbody tr td .ac-single-checkbox .is-checkradio[type=checkbox].ac-checkbox + label::before {
@@ -26200,7 +26220,7 @@ Responsive Classes
 }
 
 .table.ac-table.is-bordered tbody tr td .ac-single-checkbox .is-checkradio[type=checkbox]:checked + label::after {
-  border-color: hsl(208, 77%, 90%);
+  border-color: hsl(208, 50%, 90%);
 }
 
 .table.ac-table.is-bordered tbody tr td .is-checkradio[type=checkbox].ac-checkbox:checked + label::before {
@@ -26265,7 +26285,7 @@ Responsive Classes
 
 .table-inner-shadow {
   border-radius: 0px;
-  background: hsl(208, 77%, 90%);
+  background: hsl(208, 50%, 90%);
   box-shadow: inset 5px 5px 10px #e3e6e9, inset -5px -5px 10px #ffffff;
 }
 
@@ -26307,7 +26327,7 @@ Responsive Classes
   font-weight: 500;
   width: 100%;
   border-radius: 4px;
-  border: 1px solid hsl(208, 77%, 80%);
+  border: 1px solid hsl(208, 10%, 80%);
   padding: 6px 30px 8px 20px;
   font-size: 13px;
   border-radius: 4px;
@@ -26352,7 +26372,7 @@ Responsive Classes
   left: 0px;
   font-size: 13px !important;
   font-weight: 500;
-  color: hsl(208, 77%, 10%);
+  color: hsl(208, 10%, 10%);
   line-height: 1.5;
 }
 
@@ -26379,7 +26399,7 @@ Responsive Classes
 
 .multiselect .multiselect__content .multiselect__element .multiselect__option p {
   font-size: 13px;
-  color: hsl(208, 77%, 10%);
+  color: hsl(208, 10%, 10%);
 }
 
 .multiselect .multiselect__content .multiselect__element .multiselect__option p:not(.location) {
@@ -26431,7 +26451,7 @@ Responsive Classes
 }
 
 .multiselect__input::placeholder {
-  color: hsl(208, 77%, 20%);
+  color: hsl(208, 10%, 35%);
   font-weight: 400;
   line-height: 1.6;
   font-size: 13px;
@@ -26440,7 +26460,7 @@ Responsive Classes
 .multiselect__tags > span {
   font-size: 13px;
   line-height: 1.6;
-  color: hsl(208, 77%, 10%);
+  color: hsl(208, 10%, 10%);
 }
 
 .multi-select-wrapper {
@@ -26474,7 +26494,7 @@ Responsive Classes
 
 .multi-select-wrapper.is-small label {
   font-size: 13px;
-  top: 8px;
+  top: 6px;
 }
 
 .multi-select-wrapper.is-small label.show-label {
@@ -26651,7 +26671,7 @@ Responsive Classes
   left: 15px;
   top: 8px;
   cursor: text;
-  color: hsl(208, 77%, 10%);
+  color: hsl(208, 10%, 10%);
   position: absolute;
   z-index: 99;
   transition: 0.3s ease-in-out;
@@ -26693,7 +26713,7 @@ Responsive Classes
 
 li .multiselect__option {
   font-size: 13px;
-  color: hsl(208, 77%, 10%);
+  color: hsl(208, 10%, 10%);
 }
 
 .multiselect__option--selected label {
@@ -26853,7 +26873,7 @@ Responsive Classes
   height: 94px;
   padding: 10px;
   background-color: hsl(0, 0%, 100%);
-  border: 1px solid hsl(208, 77%, 90%);
+  border: 1px solid hsl(208, 50%, 90%);
   box-sizing: border-box;
   border-radius: 4px;
   transition: 0.3s ease-in-out;
@@ -26905,7 +26925,7 @@ Responsive Classes
 .card-select.is-singleline .ac-single-checkbox label {
   font-size: 13px;
   line-height: 20px;
-  color: hsl(208, 77%, 5%);
+  color: hsl(208, 10%, 10%);
   padding-left: 25px !important;
 }
 
@@ -26914,7 +26934,7 @@ Responsive Classes
 }
 
 .card-select.is-singleline.is-disabled label {
-  color: hsl(208, 77%, 10%);
+  color: hsl(208, 10%, 10%);
   cursor: not-allowed;
 }
 
@@ -27029,7 +27049,7 @@ Responsive Classes
 .card-select .r-dropdown-item li a {
   display: block;
   padding: 5px 10px 5px 0;
-  color: hsl(208, 77%, 20%);
+  color: hsl(208, 10%, 35%);
   font-size: 11px;
   text-decoration: underline;
   font-weight: 400;
@@ -27056,7 +27076,7 @@ Responsive Classes
   font-weight: 500;
   font-size: 13px;
   line-height: 24px;
-  color: hsl(208, 77%, 5%);
+  color: hsl(208, 10%, 10%);
 }
 
 .card-select p {
@@ -27065,7 +27085,7 @@ Responsive Classes
   font-weight: normal;
   font-size: 13px;
   line-height: 140%;
-  color: hsl(208, 77%, 10%);
+  color: hsl(208, 10%, 10%);
 }
 
 .card-select p.is-warning {
@@ -27441,8 +27461,8 @@ span.is-error {
 }
 
 .vue-form-scema-body .left-content {
-  background-color: hsl(208, 77%, 97%);
-  border-right: 1px solid hsl(208, 77%, 90%);
+  background-color: hsl(208, 30%, 96%);
+  border-right: 1px solid hsl(208, 50%, 90%);
   padding: 30px;
   width: 500px;
 }
@@ -28309,12 +28329,12 @@ span.is-error {
 }
 
 .tabs.ac-tabs ul {
-  border-color: hsl(208, 77%, 90%);
+  border-color: hsl(208, 50%, 90%);
 }
 
 .tabs.ac-tabs a {
   padding: 8px 20px;
-  color: hsl(208, 77%, 10%);
+  color: hsl(208, 10%, 10%);
   font-weight: 500;
   color: hsl(0, 0%, 40%);
 }
