@@ -13,7 +13,7 @@ export default defineConfig({
   css: {
     preprocessorOptions: {
       scss: {
-        additionalData: '@import "@appscode/design-system/vue-components/styles/base/utilities/colors"; @import "@appscode/design-system/vue-components/styles/theme/appscode";',
+        additionalData: '@import "@appscode/design-system/vue-components/styles/base/utilities/colors";',
       },
     },
   },
