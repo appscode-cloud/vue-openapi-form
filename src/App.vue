@@ -185,12 +185,6 @@ export default defineComponent({
 
 <style lang="scss" scoped>
 .ac-navbar-area {
-  position: fixed;
-  width: 100%;
-  top: 0;
-  z-index: 999;
-  background-color: $primary-97;
-  border-bottom: 1px solid $primary-90;
 
   &.is-full {
     margin-left: 0;
@@ -252,33 +246,4 @@ export default defineComponent({
   }
 }
 
-.ac-menu-item {
-  .ac-nav-button {
-    width: 32px;
-    height: 32px;
-    border-radius: 50%;
-    padding: 5px;
-    transition: all 0.3s ease-in-out;
-    position: relative;
-    z-index: 99;
-    user-select: none;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    &:after {
-      position: absolute;
-      content: '';
-      left: 0;
-      top: 0;
-      background-color: hsl(208, 77%, 80%);
-      opacity: 0.2;
-      width: 100%;
-      height: 100%;
-      border-radius: 50%;
-      transition: 0.3s ease-in-out;
-    }
-  }
-}
 </style>
