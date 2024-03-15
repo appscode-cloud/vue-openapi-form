@@ -21,6 +21,7 @@
             :schema="extendedSchema"
             :reference-model="referenceModel || {}"
             :errors="errors"
+            :showRootTab="true"
             @update:modelValue="handleChange"
           />
         </v-field>
