@@ -1,5 +1,5 @@
 <template>
-  <div class="tabs ac-tabs is-line">
+  <div class="tabs ac-tabs is-line" :style=" showTab ? 'opacity: 1; visibility: visible;': ''">
     <ul>
       <li :class="{ 'is-active': activeTab === 'form' }">
         <a @click.prevent="showForm()">
@@ -42,6 +42,10 @@ export default defineComponent({
       type: String,
       default: 'form',
     },
+    showTab: {
+      type: Boolean,
+      default: false,
+    }
   },
   emits: ['update:modelValue'],
 

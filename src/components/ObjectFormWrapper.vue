@@ -22,7 +22,7 @@
         <!-- show errors-->
         <component-errors :errors="calcFormErrors(errors, fieldName)" />
       </h6>
-      <tabs v-if="!onlyJson" v-model="activeTab" />
+      <tabs v-if="!onlyJson" v-model="activeTab" :showTab="showRootTab"/>
     </div>
     <!-- form for all the object's properties -->
     <object-form
@@ -98,6 +98,10 @@ export default defineComponent({
       type: Number,
       default: 1,
     },
+    showRootTab: {
+      type: Boolean,
+      default: false,
+    }
   },
 });
 </script>

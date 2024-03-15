@@ -23,6 +23,7 @@
           :schema="properties[key]"
           :errors="errors"
           :reference-model="referenceModel[key] || {}"
+          :showRootTab="false"
           @update:modelValue="handleChange"
         />
       </v-field>
