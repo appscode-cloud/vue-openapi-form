@@ -229,16 +229,13 @@ onMounted(() => {
     isMedium.value = true;
   }
   if (modelData.value) labelShow.value = true;
-  const inputField = ref(null)
+  const inputField = ref(null);
   inputField?.value?.addEventListener('keydown', this.handleKeyDownEvent);
 });
 
 onUnmounted(() => {
-  const inputField = ref(null)
-  inputField?.value?.removeEventListener(
-    'keydown',
-    this.handleKeyDownEvent
-  );
+  const inputField = ref(null);
+  inputField?.value?.removeEventListener('keydown', this.handleKeyDownEvent);
 });
 
 watch(
@@ -246,7 +243,7 @@ watch(
   (newVal, oldVal) => {
     if (isMultilineValue.value) {
       setTimeout(() => {
-        const textareaField = ref(null)
+        const textareaField = ref(null);
         textareaField.value.focus();
       }, 0);
     }
@@ -274,10 +271,13 @@ watch(
   { immediate: true, deep: true }
 );
 
-watch(()=>props.modelValue, (newVal, oldVal) => {
-  // do this only once, when the value object is initialized after api call or some delay
-  if (JSON.stringify(oldVal) !== JSON.stringify(newVal)) initModelData();
-});
+watch(
+  () => props.modelValue,
+  (newVal, oldVal) => {
+    // do this only once, when the value object is initialized after api call or some delay
+    if (JSON.stringify(oldVal) !== JSON.stringify(newVal)) initModelData();
+  }
+);
 // to float up label when input is focused
 const triggerInput = () => {
   labelShow.value = true;
@@ -289,7 +289,7 @@ const unTriggerInput = () => {
 // to float up label and input field is focused when label is clicked in placeholder mode
 const focusInput = () => {
   labelShow.value = true;
-  
+
   const inputField = ref(null);
   inputField?.value?.focus();
 };
@@ -297,10 +297,7 @@ const focusInput = () => {
 const onPaste = (evt) => {
   let pasteData = (evt.clipboardData || window.clipboardData).getData('text');
 
-  const finalData = updatedModelDataAfterPasteAndKeyDown(
-    evt.target,
-    pasteData
-  );
+  const finalData = updatedModelDataAfterPasteAndKeyDown(evt.target, pasteData);
 
   if (pasteData.includes('\n')) {
     isMultilineValue.value = true;
@@ -323,7 +320,10 @@ const updatedModelDataAfterPasteAndKeyDown = (el, addedData) => {
   const { selectionStart, selectionEnd } = el;
 
   const prefix = modelData.value.substring(0, selectionStart);
-  const suffix = modelData.value.substring(selectionEnd, modelData.value.length);
+  const suffix = modelData.value.substring(
+    selectionEnd,
+    modelData.value.length
+  );
 
   addedData = addedData ? addedData : '\n';
 
