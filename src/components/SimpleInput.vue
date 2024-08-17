@@ -177,155 +177,250 @@
   </div>
 </template>
 
-<script>
-import { model } from '../mixins/model.js';
-import validation from '../mixins/validation.js';
-import size from '../mixins/size.js';
-import { defineComponent } from 'vue';
+<script setup>
+import { computed, onMounted, onUnmounted, ref, watch } from 'vue';
 
-export default defineComponent({
-  name: 'SimpleInput',
+const isMedium = ref(false);
+const labelShow = ref(false);
+const isIntegerSetToNull = ref(false);
+const isMultilineValue = ref(false);
+const modelData = ref(null);
 
-  mixins: [model, validation, size],
-
-  props: {
-    schema: {
-      type: Object,
-      default: () => ({}),
-    },
-    modelValue: {
-      type: null,
-      default: '',
-    },
-    validationOb: {
-      type: Object,
-      default: () => ({}),
-    },
+const props = defineProps({
+  schema: {
+    type: Object,
+    default: () => ({}),
   },
-  emits: ['update:modelValue'],
-
-  data() {
-    return {
-      labelShow: false,
-      isIntegerSetToNull: false,
-      isMultilineValue: false,
-    };
+  modelValue: {
+    type: null,
+    default: '',
   },
-
-  computed: {
-    ui() {
-      return this.schema.ui || { tag: 'input', type: 'text' };
-    },
-    identifier() {
-      return `id-${this.schema.title.replace(' ', '-')}-${JSON.stringify(
-        new Date().valueOf()
-      )}`;
-    },
+  validationOb: {
+    type: Object,
+    default: () => ({}),
   },
-
-  watch: {
-    modelData: {
-      immediate: true,
-      deep: true,
-      handler(newVal, oldVal) {
-        if (this.isMultilineValue) {
-          setTimeout(() => {
-            this.$refs.textareaField.focus();
-          }, 0);
-        }
-
-        if (typeof newVal === 'string' && newVal.includes('\n')) {
-          this.isMultilineValue = true;
-        }
-
-        if (newVal) this.labelShow = true;
-        else this.labelShow = false;
-
-        if (
-          this.isIntegerSetToNull ||
-          (oldVal !== null && oldVal !== undefined)
-        ) {
-          if (this.isIntegerSetToNull && newVal) {
-            this.isIntegerSetToNull = false;
-          }
-          if (this.type === 'number' || this.type === 'integer') {
-            // if the newVal string is empty, emit null
-            if (newVal === '') {
-              this.isIntegerSetToNull = true;
-              this.$emit('update:modelValue', null);
-            } else this.$emit('update:modelValue', +newVal);
-          } else this.$emit('update:modelValue', newVal);
-        }
-      },
-    },
+  type: {
+    type: String,
+    default: 'string',
   },
-
-  mounted() {
-    if (this.modelData) this.labelShow = true;
-    this.$refs.inputField?.addEventListener('keydown', this.handleKeyDownEvent);
+  referenceModel: {
+    type: null,
+    default: () => ({}),
   },
-  destroyed() {
-    this.$refs.inputField?.removeEventListener(
-      'keydown',
-      this.handleKeyDownEvent
-    );
-  },
-  methods: {
-    // to float up label when input is focused
-    triggerInput() {
-      this.labelShow = true;
-    },
-    // to float down label when input is unfocused and value field is empty
-    unTriggerInput() {
-      if (!this.modelData) this.labelShow = false;
-    },
-    // to float up label and input field is focused when label is clicked in placeholder mode
-    focusInput() {
-      this.labelShow = true;
-      const inputField = this.$refs.inputField;
-      inputField.focus();
-    },
-    onPaste(evt) {
-      let pasteData = (evt.clipboardData || window.clipboardData).getData(
-        'text'
-      );
-
-      const finalData = this.updatedModelDataAfterPasteAndKeyDown(
-        evt.target,
-        pasteData
-      );
-
-      if (pasteData.includes('\n')) {
-        this.isMultilineValue = true;
-
-        this.modelData = finalData;
-      }
-    },
-    handleKeyDownEvent(evt) {
-      if (evt.code === 'Enter' && evt.shiftKey) {
-        evt.preventDefault();
-
-        const finalData = this.updatedModelDataAfterPasteAndKeyDown(evt.target);
-
-        this.isMultilineValue = true;
-
-        this.modelData = finalData;
-      }
-    },
-
-    updatedModelDataAfterPasteAndKeyDown(el, addedData) {
-      const { selectionStart, selectionEnd } = el;
-
-      const prefix = this.modelData.substring(0, selectionStart);
-      const suffix = this.modelData.substring(
-        selectionEnd,
-        this.modelData.length
-      );
-
-      addedData = addedData ? addedData : '\n';
-
-      return prefix + addedData + suffix;
-    },
+  isSelfRequired: {
+    type: Boolean,
+    default: false,
   },
 });
+const emit = defineEmits(['update:modelValue']);
+
+const ui = computed(() => {
+  return props.schema.ui || { tag: 'input', type: 'text' };
+});
+const identifier = computed(() => {
+  return `id-${props.schema.title.replace(' ', '-')}-${JSON.stringify(
+    new Date().valueOf()
+  )}`;
+});
+onMounted(() => {
+  initModelData();
+  const form = document.querySelector('.vue-openapi-form');
+  if (form.classList.contains('is-medium')) {
+    isMedium.value = true;
+  }
+  if (modelData.value) labelShow.value = true;
+  const inputField = ref(null);
+  inputField?.value?.addEventListener('keydown', this.handleKeyDownEvent);
+});
+
+onUnmounted(() => {
+  const inputField = ref(null);
+  inputField?.value?.removeEventListener('keydown', this.handleKeyDownEvent);
+});
+
+watch(
+  modelData,
+  (newVal, oldVal) => {
+    if (isMultilineValue.value) {
+      setTimeout(() => {
+        const textareaField = ref(null);
+        textareaField.value.focus();
+      }, 0);
+    }
+
+    if (typeof newVal === 'string' && newVal.includes('\n')) {
+      isMultilineValue.value = true;
+    }
+
+    if (newVal) labelShow.value = true;
+    else labelShow.value = false;
+
+    if (isIntegerSetToNull.value || (oldVal !== null && oldVal !== undefined)) {
+      if (isIntegerSetToNull.value && newVal) {
+        isIntegerSetToNull.value = false;
+      }
+      if (props.type === 'number' || props.type === 'integer') {
+        // if the newVal string is empty, emit null
+        if (newVal === '') {
+          isIntegerSetToNull.value = true;
+          emit('update:modelValue', null);
+        } else emit('update:modelValue', +newVal);
+      } else emit('update:modelValue', newVal);
+    }
+  },
+  { immediate: true, deep: true }
+);
+
+watch(
+  () => props.modelValue,
+  (newVal, oldVal) => {
+    // do this only once, when the value object is initialized after api call or some delay
+    if (JSON.stringify(oldVal) !== JSON.stringify(newVal)) initModelData();
+  }
+);
+// to float up label when input is focused
+const triggerInput = () => {
+  labelShow.value = true;
+};
+// to float down label when input is unfocused and value field is empty
+const unTriggerInput = () => {
+  if (!modelData.value) labelShow.value = false;
+};
+// to float up label and input field is focused when label is clicked in placeholder mode
+const focusInput = () => {
+  labelShow.value = true;
+
+  const inputField = ref(null);
+  inputField?.value?.focus();
+};
+
+const onPaste = (evt) => {
+  let pasteData = (evt.clipboardData || window.clipboardData).getData('text');
+
+  const finalData = updatedModelDataAfterPasteAndKeyDown(evt.target, pasteData);
+
+  if (pasteData.includes('\n')) {
+    isMultilineValue.value = true;
+
+    modelData.value = finalData;
+  }
+};
+const handleKeyDownEvent = (evt) => {
+  if (evt.code === 'Enter' && evt.shiftKey) {
+    evt.preventDefault();
+
+    const finalData = updatedModelDataAfterPasteAndKeyDown(evt.target);
+
+    isMultilineValue.value = true;
+
+    modelData.value = finalData;
+  }
+};
+const updatedModelDataAfterPasteAndKeyDown = (el, addedData) => {
+  const { selectionStart, selectionEnd } = el;
+
+  const prefix = modelData.value.substring(0, selectionStart);
+  const suffix = modelData.value.substring(
+    selectionEnd,
+    modelData.value.length
+  );
+
+  addedData = addedData ? addedData : '\n';
+
+  return prefix + addedData + suffix;
+};
+const initModelData = () => {
+  if (props.modelValue) {
+    if (
+      (props.type === 'object' || props.type === 'key-value-pairs') &&
+      Object.keys(props.modelValue.value).length > 0
+    )
+      modelData.value = JSON.parse(JSON.stringify(props.modelValue));
+    else if (props.type === 'array' && props.modelValue.length > 0)
+      modelData.value = JSON.parse(JSON.stringify(props.modelValue));
+    else if (props.type === 'boolean' && props.modelValue !== null)
+      modelData.value = props.modelValue;
+    else if (
+      props.type === 'string' ||
+      props.type === 'number' ||
+      props.type === 'integer'
+    )
+      modelData.value = props.modelValue;
+    else modelData.value = initWithBlank();
+  } else modelData.value = initWithBlank();
+};
+const initWithBlank = () => {
+  if (props.type === 'object' || props.type === 'key-value-pairs') return {};
+  else if (props.type === 'array') return [];
+  else if (props.type === 'boolean') return false;
+  else if (props.type === 'number' || props.type === 'integer') return null;
+  else return '';
+};
+const clean = (ob) => {
+  if (props.type === 'object' || props.type === 'key-value-pairs') {
+    Object.keys(ob).forEach((key) => {
+      let stringify = '';
+      if (typeof ob[key] !== 'string') stringify = JSON.stringify(ob[key]);
+      else stringify = ob[key];
+      if (
+        stringify === undefined ||
+        stringify === 'null' ||
+        stringify === '' ||
+        stringify === '{}' ||
+        stringify === '[]'
+      ) {
+        delete ob[key];
+      }
+    });
+  } else if (props.type === 'array') {
+    let arrayOfDeleteIndexes = ob
+      .map((item, idx) => ({ item, idx }))
+      .filter((el) => {
+        const item = el.item;
+        let stringify = '';
+        if (typeof item !== 'string') stringify = JSON.stringify(item);
+        else stringify = item;
+
+        if (
+          stringify === undefined ||
+          stringify === 'null' ||
+          stringify === '' ||
+          stringify === '{}' ||
+          stringify === '[]'
+        ) {
+          return true;
+        } else return false;
+      })
+      .map((item) => item.idx);
+    arrayOfDeleteIndexes.forEach((idx) => ob.splice(idx, 1));
+  }
+};
+const ruleString = (required) => {
+  let ans = '';
+  if (required) ans += 'required';
+  return ans;
+};
+const ruleArray = (required) => {
+  let ans = {};
+  if (required) ans.required = true;
+  return ans;
+};
+const ruleObject = (required) => {
+  let ans = {};
+  if (required) ans.requiredOb = true;
+  return ans;
+};
+const calcFormErrors = (errors, prefix) => {
+  return Object.keys(errors)
+    .filter((key) => key.startsWith(prefix))
+    .map((key) => {
+      const path = key.replace(/^(\$\/)/, '');
+      const prefixedPath = prefix.replace(/^(\$\/)/, '');
+
+      const relativePath = path.replace(prefixedPath + '/', '');
+
+      const pfx = relativePath.includes('/') ? `${relativePath}: ` : '';
+      return `${pfx}${errors[key]}`;
+    });
+};
 </script>

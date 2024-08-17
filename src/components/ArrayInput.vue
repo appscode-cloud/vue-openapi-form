@@ -238,81 +238,236 @@
   </div>
 </template>
 
-<script>
-import { model } from '../mixins/model.js';
-import tabs from '../mixins/tabs.js';
-import validation from '../mixins/validation.js';
-import size from '../mixins/size.js';
-import { defineAsyncComponent, defineComponent } from 'vue';
+<script setup>
+import { computed, defineAsyncComponent, onMounted, watch, ref } from 'vue';
 
-export default defineComponent({
-  name: 'ArrayInput',
-  components: {
-    ArrayInputItems: defineAsyncComponent(() =>
-      import('./sub-components/ArrayInputItems.vue').then(
-        (module) => module.default
-      )
-    ),
+const ArrayInputItems = defineAsyncComponent(() =>
+  import('./sub-components/ArrayInputItems.vue').then(
+    (module) => module.default
+  )
+);
+const ObjectFormWrapper = defineAsyncComponent(() =>
+  import('@/components/ObjectFormWrapper.vue').then((module) => module.default)
+);
+const ArrayInput = defineAsyncComponent(() =>
+  import('@/components/ArrayInput.vue').then((module) => module.default)
+);
+const KeyValuePairs = defineAsyncComponent(() =>
+  import('@/components/KeyValuePairs.vue').then((module) => module.default)
+);
+const SimpleInput = defineAsyncComponent(() =>
+  import('@/components/SimpleInput.vue').then((module) => module.default)
+);
+const VForm = defineAsyncComponent(() =>
+  import('vee-validate').then(({ Form }) => Form)
+);
+const VField = defineAsyncComponent(() =>
+  import('vee-validate').then(({ Field }) => Field)
+);
+const ComponentErrors = defineAsyncComponent(() =>
+  import('../components/ComponentErrors.vue').then((module) => module.default)
+);
+const Tabs = defineAsyncComponent(() =>
+  import('../components/Tabs.vue').then((module) => module.default)
+);
+const JsonForm = defineAsyncComponent(() =>
+  import('../components/JsonForm.vue').then((module) => module.default)
+);
+const YamlForm = defineAsyncComponent(() =>
+  import('../components/YamlForm.vue').then((module) => module.default)
+);
+
+const props = defineProps({
+  isSelfRequired: {
+    type: Boolean,
+    default: false,
   },
-
-  mixins: [model, tabs, validation, size],
-  props: {
-    schema: {
-      type: Object,
-      default: () => ({}),
-    },
-    fieldName: {
-      type: String,
-      default: '',
-    },
-    modelValue: {
-      type: null,
-      default: () => [],
-    },
-    errors: {
-      type: Object,
-      default: () => ({}),
-    },
-    isLastChild: {
-      type: Boolean,
-      default: false,
-    },
+  type: {
+    type: String,
+    default: 'string',
   },
-
-  data() {
-    return {
-      newData: null,
-      updatePass: 0,
-    };
+  referenceModel: {
+    type: null,
+    default: () => ({}),
   },
-
-  computed: {
-    items() {
-      return this.schema.items || {};
-    },
+  schema: {
+    type: Object,
+    default: () => ({}),
   },
-
-  methods: {
-    swapElems(index1, index2) {
-      const temp = JSON.parse(JSON.stringify(this.modelData[index1]));
-      this.modelData[index1] = JSON.parse(JSON.stringify(this.modelData[index2]));
-      this.modelData[index2] = temp;
-      this.updatePass += 1;
-    },
-
-    async addNewValue(validate) {
-      const { valid } = await validate();
-      if (valid) {
-        this.modelData.push(this.newData);
-        this.newData = null;
-        this.updatePass += 1;
-      }
-    },
-
-    deleteValue(index) {
-      this.modelData.splice(index, 1);
-      this.updatePass += 1;
-    },
+  fieldName: {
+    type: String,
+    default: '',
+  },
+  modelValue: {
+    type: null,
+    default: () => [],
+  },
+  errors: {
+    type: Object,
+    default: () => ({}),
+  },
+  isLastChild: {
+    type: Boolean,
+    default: false,
   },
 });
+
+const emit = defineEmits(['update:modelValue']);
+
+const activeTab = ref('form');
+const newData = ref(null);
+const updatePass = ref(0);
+const modelData = ref(null);
+const isMedium = ref(false);
+
+const items = computed(() => {
+  return props.schema.items || {};
+});
+watch(
+  modelData,
+  (newVal, oldVal) => {
+    if (oldVal !== null && oldVal !== undefined) {
+      // clean the newVal if it's array or object if the cleanObject global data is true
+      // if (this.cleanObject) this.clean(newVal);
+
+      // prevent number from converting to string
+      if (props.type === 'number' || props.type === 'integer') {
+        // if the newVal string is empty, emit null
+        if (newVal === '') emit('update:modelValue', null);
+        else emit('update:modelValue', +newVal);
+      } else emit('update:modelValue', newVal);
+    }
+  },
+  { immediate: true, deep: true }
+);
+
+watch(()=>props.modelValue, (newVal, oldVal) => {
+  // do this only once, when the value object is initialized after api call or some delay
+  if (JSON.stringify(oldVal) !== JSON.stringify(newVal)) initModelData();
+});
+onMounted(() => {
+  initModelData();
+  const form = document.querySelector('.vue-openapi-form');
+  if (form.classList.contains('is-medium')) {
+    isMedium.value = true;
+  }
+});
+
+const ruleString = (required) => {
+  let ans = '';
+  if (required) ans += 'required';
+  return ans;
+};
+
+const ruleArray = (required) => {
+  let ans = {};
+  if (required) ans.required = true;
+  return ans;
+};
+
+const ruleObject = (required) => {
+  let ans = {};
+  if (required) ans.requiredOb = true;
+  return ans;
+};
+
+const calcFormErrors = (errors, prefix) => {
+  return Object.keys(errors)
+    .filter((key) => key.startsWith(prefix))
+    .map((key) => {
+      const path = key.replace(/^(\$\/)/, '');
+      const prefixedPath = prefix.replace(/^(\$\/)/, '');
+
+      const relativePath = path.replace(prefixedPath + '/', '');
+
+      const pfx = relativePath.includes('/') ? `${relativePath}: ` : '';
+      return `${pfx}${errors[key]}`;
+    });
+};
+const initModelData = () => {
+  if (props.modelValue) {
+    if (
+      (props.type === 'object' || props.type === 'key-value-pairs') &&
+      Object.keys(props.modelValue).length > 0
+    )
+      modelData.value = JSON.parse(JSON.stringify(props.modelValue));
+    else if (props.type === 'array' && props.modelValue.length > 0)
+      modelData.value = JSON.parse(JSON.stringify(props.modelValue));
+    else if (props.type === 'boolean' && props.modelValue !== null)
+      modelData.value = props.modelValue;
+    else if (
+      props.type === 'string' ||
+      props.type === 'number' ||
+      props.type === 'integer'
+    )
+      modelData.value = props.modelValue;
+    else modelData.value = initWithBlank();
+  } else modelData.value = initWithBlank();
+};
+const initWithBlank = () => {
+  if (props.type === 'object' || props.type === 'key-value-pairs') return {};
+  else if (props.type === 'array') return [];
+  else if (props.type === 'boolean') return false;
+  else if (props.type === 'number' || props.type === 'integer') return null;
+  else return '';
+};
+const clean = (ob) => {
+  if (props.type === 'object' || props.type === 'key-value-pairs') {
+    Object.keys(ob).forEach((key) => {
+      let stringify = '';
+      if (typeof ob[key] !== 'string') stringify = JSON.stringify(ob[key]);
+      else stringify = ob[key];
+      if (
+        stringify === undefined ||
+        stringify === 'null' ||
+        stringify === '' ||
+        stringify === '{}' ||
+        stringify === '[]'
+      ) {
+        delete ob[key];
+      }
+    });
+  } else if (props.type === 'array') {
+    let arrayOfDeleteIndexes = ob
+      .map((item, idx) => ({ item, idx }))
+      .filter((el) => {
+        const item = el.item;
+        let stringify = '';
+        if (typeof item !== 'string') stringify = JSON.stringify(item);
+        else stringify = item;
+
+        if (
+          stringify === undefined ||
+          stringify === 'null' ||
+          stringify === '' ||
+          stringify === '{}' ||
+          stringify === '[]'
+        ) {
+          return true;
+        } else return false;
+      })
+      .map((item) => item.idx);
+    arrayOfDeleteIndexes.forEach((idx) => ob.splice(idx, 1));
+  }
+};
+const swapElems = (index1, index2) => {
+  const temp = JSON.parse(JSON.stringify(modelData.value[index1]));
+  modelData.value[index1] = JSON.parse(JSON.stringify(modelData.value[index2]));
+  modelData.value[index2] = temp;
+  updatePass.value += 1;
+};
+
+const addNewValue = async (validate) => {
+  const { valid } = await validate();
+  if (valid) {
+    modelData.value.push(newData.value);
+    newData.value = null;
+    updatePass.value += 1;
+  }
+};
+
+const deleteValue = (index) => {
+  modelData.value.splice(index, 1);
+  updatePass.value += 1;
+};
 </script>
