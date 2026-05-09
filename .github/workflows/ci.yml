@@ -13,9 +13,22 @@ concurrency:
   group: ${{ github.workflow }}-${{ github.head_ref || github.ref }}
   cancel-in-progress: true
 jobs:
+  label-detector:
+    name: Runner Label
+    runs-on: label-detector
+    outputs:
+      runs-on: ${{ steps.detector.outputs.label }}
+    steps:
+      - name: Detect Label
+        id: detector
+        run: |
+          # https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#jobsjob_idoutputs
+          echo "label=$(curl -fsSL https://this-is-nats.appscode.ninja/runs-on/${{ github.repository_owner }}?visibility=${{ github.repository_visibility }})" >> $GITHUB_OUTPUT
+
   build:
     name: Build
-    runs-on: ubuntu-24.04
+    needs: label-detector
+    runs-on: "${{ needs.label-detector.outputs.runs-on }}"
 
     steps:
       - uses: actions/checkout@v4
