@@ -13,13 +13,17 @@ jobs:
   build:
     name: Build
     runs-on: ubuntu-24.04
+    permissions:
+      contents: write
     steps:
-      - uses: actions/checkout@v1
+      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4.3.1
+        with:
+          fetch-depth: 0
 
       - name: Use Node.js
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
         with:
-          node-version: 22.x
+          node-version: '22'
 
       - name: Install Firebase CLI
         run: |
@@ -31,8 +35,10 @@ jobs:
 
       - name: Deploy
         env:
-          FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
+          FIREBASE_SERVICE_ACCOUNT_KEY: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_PROD }}
         run: |
+          printf '%s' "$FIREBASE_SERVICE_ACCOUNT_KEY" > "$RUNNER_TEMP/firebase-key.json"
+          export GOOGLE_APPLICATION_CREDENTIALS="$RUNNER_TEMP/firebase-key.json"
           npm run build
           npm run deploy
 
