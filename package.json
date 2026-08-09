@@ -26,7 +26,7 @@
     "bulma-tooltip": "^3.0.2",
     "floating-vue": "^2.0.0-beta.15",
     "font-awesome": "^4.7.0",
-    "js-yaml": "^3.14.1",
+    "js-yaml": "^5.2.3",
     "monaco-editor": "^0.41.0",
     "monaco-yaml": "^5.0.0",
     "vee-validate": "^4.4.7",
