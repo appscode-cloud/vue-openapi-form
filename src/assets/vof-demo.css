@@ -1,0 +1,83 @@
+@import 'tailwindcss';
+@import '@mohin4/design-system/theme.css';
+
+/* Demo app */
+.vof-demo-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  height: 50px;
+  padding: 0 20px;
+  border-bottom: 1px solid var(--color-border);
+  background-color: var(--color-surface);
+  color: var(--color-heading);
+}
+
+.vof-demo-header img {
+  height: 30px;
+}
+
+.vof-demo-body {
+  display: flex;
+  gap: 20px;
+  margin-top: 20px;
+}
+
+.vof-demo-left {
+  flex-shrink: 0;
+  width: 500px;
+  padding: 30px;
+  border-right: 1px solid var(--color-border);
+  background-color: var(--color-surface-muted);
+}
+
+.vof-demo-right {
+  flex: 1;
+  min-width: 0;
+  margin-top: 30px;
+}
+
+.vof-demo-section-title {
+  margin: 0 0 12px;
+  font-size: var(--text-lg);
+  font-weight: 600;
+  color: var(--color-heading);
+}
+
+.vof-demo-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.vof-demo-schema-model {
+  margin-top: 30px;
+}
+
+.vof-demo-schema-model-block {
+  margin-bottom: 30px;
+}
+
+.vof-demo-warning {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 10px;
+  color: var(--color-warning);
+}
+
+.vof-demo-warning svg {
+  width: 16px;
+  height: 16px;
+}
+
+.vof-demo-github {
+  margin-left: auto;
+  color: var(--color-heading);
+}
+
+.vof-demo-github svg {
+  width: 20px;
+  height: 20px;
+}

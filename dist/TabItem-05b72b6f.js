@@ -1,1 +1,0 @@
-"use strict";var e=require("vue"),t=e.defineComponent({__name:"TabItem",props:{isActive:{type:Boolean,default:!1}},setup:t=>(t,a)=>(e.openBlock(),e.createElementBlock("li",{class:e.normalizeClass({"is-active":t.isActive}),"data-testid":"tab-item"},[e.renderSlot(t.$slots,"default")],2))});exports.default=t;

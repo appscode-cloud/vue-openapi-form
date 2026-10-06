@@ -1,42 +1,23 @@
 <template>
-  <div class="tabs ac-tabs is-line" :style=" showTab ? 'opacity: 1; visibility: visible;': ''">
-    <ul>
-      <li :class="{ 'is-active': activeTab === 'form' }">
-        <a @click.prevent="showForm()">
-          <span class="icon is-small"
-            ><i
-              class="fa fa-file-text fa-flip-horizontal"
-              aria-hidden="true"
-            ></i
-          ></span>
-          <span>Form</span>
-        </a>
-      </li>
-      <li :class="{ 'is-active': activeTab === 'yaml' }">
-        <a @click.prevent="showYaml()">
-          <span class="icon is-small"
-            ><i class="fa fa-code" aria-hidden="true"></i
-          ></span>
-          <span>YAML</span>
-        </a>
-      </li>
-      <li :class="{ 'is-active': activeTab === 'json' }">
-        <a @click.prevent="showJson()">
-          <span class="icon is-small"
-            ><i class="fa fa-code" aria-hidden="true"></i
-          ></span>
-          <span>JSON</span>
-        </a>
-      </li>
-    </ul>
+  <div class="vof-tabs" :class="{ 'is-visible': showTab }">
+    <ac-segmented-control
+      v-model="activeTab"
+      size="small"
+      label="Editor mode"
+      :options="options"
+      @change="onChange"
+    />
   </div>
 </template>
 
 <script>
 import { defineComponent } from 'vue';
+import { AcSegmentedControl } from '@mohin4/design-system';
+import { Code, FileText } from 'lucide-vue-next';
 
 export default defineComponent({
   name: 'Tabs',
+  components: { AcSegmentedControl },
   props: {
     modelValue: {
       type: String,
@@ -45,28 +26,24 @@ export default defineComponent({
     showTab: {
       type: Boolean,
       default: false,
-    }
+    },
   },
   emits: ['update:modelValue'],
 
   data() {
     return {
       activeTab: 'form',
+      options: [
+        { value: 'form', label: 'Form', icon: FileText },
+        { value: 'yaml', label: 'YAML', icon: Code },
+        { value: 'json', label: 'JSON', icon: Code },
+      ],
     };
   },
 
   methods: {
-    showForm() {
-      this.activeTab = 'form';
-      this.$emit('update:modelValue', 'form');
-    },
-    showJson() {
-      this.activeTab = 'json';
-      this.$emit('update:modelValue', 'json');
-    },
-    showYaml() {
-      this.activeTab = 'yaml';
-      this.$emit('update:modelValue', 'yaml');
+    onChange(tab) {
+      this.$emit('update:modelValue', tab);
     },
   },
 });

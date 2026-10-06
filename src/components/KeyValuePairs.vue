@@ -1,12 +1,11 @@
 <template>
   <div
-    class="ac-nested-elements key-value-pairs is-flex is-flex-direction-column gap-8"
-    :class="{ 'stop-line': isLastChild }"
+    class="vof-nested vof-key-value-pairs"
   >
-    <div class="nested-header mb-5">
-      <h6 class="is-flex is-semi-normal">
-        <div class="collaps-icon is-disabled">
-          <i aria-hidden="true" class="fa fa-minus"></i>
+    <div class="vof-nested-header">
+      <h6 class="vof-nested-title">
+        <div class="vof-collapse-icon is-disabled">
+          <Minus aria-hidden="true" />
         </div>
         {{ schema.title || 'Array Item Description'
         }}<!-- show errors-->
@@ -37,7 +36,7 @@
         v-slot="{ validate, errors: formErrors }"
         :key="updatePass"
         as="div"
-        class="key-value-save"
+        class="vof-key-value-save"
       >
         <v-field
           :id="`${schema.title.replace(/ /g, '-')}-key-provider`"
@@ -154,27 +153,15 @@
             />
           </v-field>
         </template>
-        <button
-          class="button ac-button is-medium is-square is-primary is-outlined"
+        <ac-button
+          class="vof-icon-btn"
+          color="primary"
+          variant="outlined"
+          aria-label="Add"
           @click.prevent="addProp(validate)"
         >
-          <span class="icon">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke-width="1.5"
-              stroke="currentColor"
-              class="w-6 h-6"
-            >
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                d="M12 4.5v15m7.5-7.5h-15"
-              />
-            </svg>
-          </span>
-        </button>
+          <template #icon><Plus aria-hidden="true" /></template>
+        </ac-button>
       </v-form>
     </template>
     <!-- declared in tabs component -->
@@ -200,11 +187,16 @@ import tabs from '../mixins/tabs.js';
 import validation from '../mixins/validation.js';
 import size from '../mixins/size.js';
 import { defineAsyncComponent, defineComponent } from 'vue';
+import { AcButton } from '@mohin4/design-system';
+import { Minus, Plus } from 'lucide-vue-next';
 
 export default defineComponent({
   name: 'KeyValuePairs',
 
   components: {
+    AcButton,
+    Minus,
+    Plus,
     KeyValuePairItems: defineAsyncComponent(() =>
       import('./sub-components/KeyValuePairItems.vue').then(
         (module) => module.default

@@ -1,11 +1,12 @@
 <template>
-  <div class="ml-30">
-    <editor
+  <div class="vof-editor">
+    <ac-code-editor
       :key="theme"
       v-model="editorModel"
-      :original-value="originalValueString"
+      :original="originalValueString"
       language="json"
-      :editor-height="70"
+      height="70vh"
+      label="JSON"
     />
   </div>
 </template>
@@ -18,8 +19,8 @@ export default defineComponent({
   name: 'YamlForm',
 
   components: {
-    Editor: defineAsyncComponent(() =>
-      import('@appscode/design-system/vue-components/v3/editor/Editor.vue')
+    AcCodeEditor: defineAsyncComponent(() =>
+      import('@mohin4/design-system/editor').then((module) => module.AcCodeEditor)
     ),
   },
 

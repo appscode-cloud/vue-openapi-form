@@ -1,7 +1,7 @@
 <template>
   <v-form ref="v-form" v-slot="{ meta, validate, errors }" as="">
-    <ac-form>
-      <div class="vue-openapi-form pl-20" :class="{ 'is-medium': size === 'medium' }">
+    <ac-form width="full">
+      <div class="vue-openapi-form vof-root" :class="{ 'is-medium': size === 'medium' }">
         <v-field
           v-slot="{ field, handleChange }"
           v-model="modelData"
@@ -26,25 +26,25 @@
           />
         </v-field>
       </div>
-      <template #form-left-controls>
-        <form-footer-control>
-          <slot
-            name="left-controls"
-            :validate="validate"
-            :form-status="meta"
-            :errors="errors"
-          />
-        </form-footer-control>
-      </template>
-      <template #form-right-controls>
-        <form-footer-control>
-          <slot
-            name="right-controls"
-            :validate="validate"
-            :form-status="meta"
-            :errors="errors"
-          />
-        </form-footer-control>
+      <template #footer>
+        <div class="vof-footer">
+          <div class="vof-footer-group">
+            <slot
+              name="left-controls"
+              :validate="validate"
+              :form-status="meta"
+              :errors="errors"
+            />
+          </div>
+          <div class="vof-footer-group">
+            <slot
+              name="right-controls"
+              :validate="validate"
+              :form-status="meta"
+              :errors="errors"
+            />
+          </div>
+        </div>
       </template>
     </ac-form>
   </v-form>
@@ -54,19 +54,13 @@
 import ExtendSchema from '../functional-components/extend-schema.js';
 import validation from '../mixins/validation.js';
 import { model } from '../mixins/model.js';
-import { defineAsyncComponent, defineComponent } from 'vue';
+import { defineComponent } from 'vue';
+import { AcForm } from '@mohin4/design-system';
 
 export default defineComponent({
   name: 'VueOpenapiForm',
   components: {
-    AcForm: defineAsyncComponent(() =>
-      import('@appscode/design-system/vue-components/v3/form/Form.vue')
-    ),
-    FormFooterControl: defineAsyncComponent(() =>
-      import(
-        '@appscode/design-system/vue-components/v3/form/FormFooterControl.vue'
-      )
-    ),
+    AcForm,
   },
   mixins: [model, validation],
   provide() {
@@ -115,8 +109,3 @@ export default defineComponent({
   },
 });
 </script>
-
-<style lang="scss">
-@import 'font-awesome/css/font-awesome.min.css';
-@import '../assets/scss/main.scss';
-</style>

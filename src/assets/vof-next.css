@@ -1,0 +1,310 @@
+/*
+ * Layout for vue-openapi-form. The form fields themselves are @mohin4/design-system components;
+ * this file only lays them out. Only design tokens are used (no hard-coded colours), so light and
+ * dark themes follow the app. Import it once in the app: `@bytebuilders/vue-openapi-form/next.css`
+ * (or `@appscode/vue-openapi-form/next.css`).
+ */
+
+.vof-root {
+  width: 100%;
+  color: var(--color-body);
+  font-family: var(--font-sans);
+}
+
+.vof-hidden {
+  display: none !important;
+}
+
+/* Footer (AcForm #footer slot): left and right control groups */
+.vof-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-top: 16px;
+  padding: 8px 20px;
+  border-top: 1px solid var(--color-border-light);
+}
+
+.vof-footer-group {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* Nested object / array / key-value blocks, drawn with a dashed guide line and an end dot */
+.vof-nested {
+  position: relative;
+  z-index: 1;
+  padding-left: 20px;
+}
+
+.vof-nested::after {
+  position: absolute;
+  content: '';
+  left: 27px;
+  top: 25px;
+  width: 1px;
+  height: calc(100% - 50px);
+  border: 1px dashed var(--color-border);
+  z-index: -1;
+}
+
+.vof-nested::before {
+  position: absolute;
+  content: '';
+  left: 22px;
+  bottom: 12px;
+  width: 12px;
+  height: 12px;
+  background-color: var(--color-border);
+  border-radius: 50%;
+  z-index: -1;
+}
+
+.vof-nested.vof-collapsed::before,
+.vof-nested.vof-collapsed::after {
+  display: none;
+}
+
+.vof-nested-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  margin-bottom: 5px;
+}
+
+.vof-nested-title {
+  display: flex;
+  align-items: center;
+  margin: 0;
+  font-size: var(--text-base);
+  font-weight: 500;
+  color: var(--color-heading);
+  cursor: pointer;
+}
+
+.vof-collapse-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 16px;
+  height: 16px;
+  margin-right: 10px;
+  border: 1px solid var(--color-border);
+  border-radius: 50%;
+  background-color: var(--color-surface);
+  color: var(--color-muted);
+  cursor: pointer;
+}
+
+.vof-collapse-icon svg {
+  width: 10px;
+  height: 10px;
+}
+
+.vof-collapse-icon.is-disabled {
+  cursor: not-allowed;
+}
+
+.vof-nested-fields {
+  margin-bottom: 15px;
+}
+
+/* The Form / YAML / JSON switch shows on hover (always on the root form) */
+.vof-tabs {
+  opacity: 0;
+  visibility: hidden;
+  transition: 0.3s ease-in-out;
+}
+
+.vof-tabs.is-visible,
+.vof-nested-header:hover .vof-tabs {
+  opacity: 1;
+  visibility: visible;
+}
+
+.vof-error-count {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding-left: 8px;
+  font-size: var(--text-sm);
+  font-style: italic;
+  font-weight: 400;
+  color: var(--color-danger);
+}
+
+.vof-error-count svg {
+  width: 14px;
+  height: 14px;
+}
+
+/* Inputs */
+.vof-single {
+  position: relative;
+  z-index: 1;
+  margin-bottom: 16px;
+  margin-left: 25px;
+}
+
+.vof-single:last-child {
+  margin-bottom: 16px;
+}
+
+.vof-single-switch {
+  margin-left: -15px;
+  margin-bottom: 35px;
+  padding-bottom: 10px;
+}
+
+.vof-status-ok {
+  color: var(--color-success);
+}
+
+.vof-status-bad {
+  color: var(--color-warning);
+}
+
+.vof-status-ok,
+.vof-status-bad {
+  display: inline-flex;
+  align-items: center;
+  width: 16px;
+  height: 16px;
+}
+
+/* Array */
+.vof-array-body {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.vof-array-item {
+  display: flex;
+}
+
+.vof-array-item-fields {
+  width: calc(100% - 108px);
+  margin-right: 16px;
+}
+
+.vof-array-item-controls {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+}
+
+.vof-updown {
+  display: flex;
+  flex-direction: column;
+  max-width: 36px;
+  overflow: hidden;
+  border-radius: var(--radius-4);
+}
+
+.vof-updown button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 18px;
+  padding: 0;
+  border: 0;
+  background-color: var(--color-border);
+  color: var(--color-primary);
+  cursor: pointer;
+  transition: 0.3s ease-in-out;
+}
+
+.vof-updown button svg {
+  width: 14px;
+  height: 14px;
+}
+
+.vof-updown button:hover {
+  background-color: var(--color-primary-80);
+}
+
+.vof-updown button.is-primary {
+  background-color: var(--color-primary);
+  color: var(--color-surface);
+}
+
+.vof-updown button.is-primary:hover {
+  background-color: var(--color-primary-hover);
+}
+
+.vof-updown button:disabled {
+  cursor: not-allowed;
+}
+
+.vof-icon-btn {
+  width: 32px;
+  padding: 0;
+}
+
+.vof-value-list-save {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 16px;
+}
+
+/* Key-value pairs */
+.vof-key-value-pairs {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.vof-key-value-save {
+  display: grid;
+  grid-template-columns: 1fr 1fr auto;
+  gap: 16px;
+}
+
+.vof-key-value-save > .vof-single {
+  margin-left: 0;
+}
+
+.vof-key-value-save > .vof-nested {
+  padding-left: 0;
+}
+
+.vof-key-value-save > .vof-nested::after {
+  left: 8px;
+}
+
+.vof-key-value-save > .vof-nested::before {
+  left: 4px;
+}
+
+/* YAML / JSON editors */
+.vof-editor {
+  margin-left: 30px;
+}
+
+/* Error list in the tooltip (the tooltip is rendered in <body>, so these are global) */
+.vof-errors-wrapper {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  font-size: var(--text-sm);
+}
+
+.vof-error-element {
+  display: flex;
+  align-items: flex-start;
+  gap: 6px;
+  padding: 2px 0;
+}
+
+.vof-error-element svg {
+  flex-shrink: 0;
+  width: 14px;
+  height: 14px;
+  margin-top: 2px;
+}

@@ -1,67 +1,51 @@
 <template>
-  <div class="schema-model-wrapper mt-30">
-    <div class="schema-input mb-30">
-      <h5 class="mb-15">Schema</h5>
-      <monaco-editor
-        :value="schema"
+  <div class="vof-demo-schema-model">
+    <div class="vof-demo-schema-model-block">
+      <h5 class="vof-demo-section-title">Schema</h5>
+      <ac-code-editor
+        v-model="schema"
         language="json"
-        class="editor-writable vh-50 is-clipped"
-        :options="{
-          minimap: {
-            enabled: false,
-          },
-          theme: editorTheme,
-          readOnly: false,
-        }"
-        @change="onSchemaChange"
+        label="Schema"
+        height="50vh"
       />
 
-      <p v-if="schemaError" class="is-warning mt-10">
-        <span class="warning"><i class="fa fa-warning"></i></span>
+      <p v-if="schemaError" class="vof-demo-warning">
+        <TriangleAlert aria-hidden="true" />
         The format is not correct
       </p>
     </div>
-    <div class="model-input">
-      <h5 class="mb-15">Model</h5>
-      <monaco-editor
-        :value="model"
+    <div class="vof-demo-schema-model-block">
+      <h5 class="vof-demo-section-title">Model</h5>
+      <ac-code-editor
+        v-model="model"
         language="json"
-        class="editor-writable vh-50 is-clipped"
-        :options="{
-          minimap: {
-            enabled: false,
-          },
-          theme: editorTheme,
-          readOnly: false,
-        }"
-        @change="onModelChange"
+        label="Model"
+        height="50vh"
       />
 
-      <p v-if="modelError" class="is-warning mt-10">
-        <span class="warning"><i class="fa fa-warning"></i></span>
+      <p v-if="modelError" class="vof-demo-warning">
+        <TriangleAlert aria-hidden="true" />
         The format is not correct
       </p>
     </div>
 
-    <div class="buttons mt-20">
-      <button class="button ac-button is-primary" @click.prevent="updateForm()">
-        Update
-      </button>
-    </div>
+    <ac-button title="Update" @click.prevent="updateForm()" />
   </div>
 </template>
 
 <script>
 import { defineAsyncComponent, defineComponent } from 'vue';
+import { AcButton } from '@mohin4/design-system';
+import { TriangleAlert } from 'lucide-vue-next';
 
 export default defineComponent({
   name: 'SchemaModel',
 
   components: {
-    MonacoEditor: defineAsyncComponent(() =>
-      import(
-        '@appscode/design-system/vue-components/v3/editor/MonacoEditor.vue'
-      ).then((module) => module.default)
+    AcButton,
+    TriangleAlert,
+    AcCodeEditor: defineAsyncComponent(() =>
+      import('@mohin4/design-system/editor').then((module) => module.AcCodeEditor)
     ),
   },
   props: {
@@ -80,14 +64,6 @@ export default defineComponent({
       schemaError: false,
       modelError: false,
     };
-  },
-
-  computed: {
-    editorTheme() {
-      return document.documentElement.classList.contains('is-dark-theme')
-        ? 'vs-dark'
-        : 'vs';
-    },
   },
 
   watch: {
@@ -137,13 +113,6 @@ export default defineComponent({
       if (!this.schemaError && !this.modelError) {
         this.$emit('submit', newOb);
       }
-    },
-
-    onSchemaChange(e) {
-      if (typeof e === 'string') this.schema = e;
-    },
-    onModelChange(e) {
-      if (typeof e === 'string') this.model = e;
     },
   },
 });
