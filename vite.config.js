@@ -36,7 +36,7 @@ const libConfig = defineConfig({
         '@vee-validate/rules',
         'floating-vue',
         'js-yaml',
-        'lucide-vue-next',
+        '@lucide/vue',
         /^@mohin4\/design-system/,
       ],
       output: {
@@ -47,7 +47,7 @@ const libConfig = defineConfig({
           '@vee-validate/rules': 'VeeValidateRules',
           'floating-vue': 'FloatingVue',
           'js-yaml': 'jsyaml',
-          'lucide-vue-next': 'LucideVueNext',
+          '@lucide/vue': 'LucideVue',
           '@mohin4/design-system': 'MohinDesignSystem',
           '@mohin4/design-system/editor': 'MohinDesignSystemEditor',
         },

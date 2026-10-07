@@ -7,7 +7,7 @@
 
 <script>
 import { defineComponent } from 'vue';
-import { TriangleAlert } from 'lucide-vue-next';
+import { TriangleAlert } from '@lucide/vue';
 
 // Lucide "triangle-alert", inlined because the tooltip content is an HTML string
 const warningIcon =

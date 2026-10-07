@@ -36,7 +36,7 @@
 <script>
 import { defineAsyncComponent, defineComponent } from 'vue';
 import { AcButton } from '@mohin4/design-system';
-import { TriangleAlert } from 'lucide-vue-next';
+import { TriangleAlert } from '@lucide/vue';
 
 export default defineComponent({
   name: 'SchemaModel',

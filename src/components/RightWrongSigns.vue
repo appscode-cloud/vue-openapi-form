@@ -11,7 +11,7 @@
 
 <script>
 import { defineComponent } from 'vue';
-import { Check, X } from 'lucide-vue-next';
+import { Check, X } from '@lucide/vue';
 
 export default defineComponent({
   name: 'RightWrongSigns',

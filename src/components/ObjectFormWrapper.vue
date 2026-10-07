@@ -56,7 +56,7 @@ import fold from '../mixins/fold.js';
 import tabs from '../mixins/tabs.js';
 import validation from '../mixins/validation.js';
 import { defineComponent } from 'vue';
-import { Minus, Plus } from 'lucide-vue-next';
+import { Minus, Plus } from '@lucide/vue';
 
 export default defineComponent({
   name: 'ObjectFormWrapper',

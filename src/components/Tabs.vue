@@ -13,7 +13,7 @@
 <script>
 import { defineComponent } from 'vue';
 import { AcSegmentedControl } from '@mohin4/design-system';
-import { Code, FileText } from 'lucide-vue-next';
+import { Code, FileText } from '@lucide/vue';
 
 export default defineComponent({
   name: 'Tabs',
