@@ -1,7 +1,7 @@
-import { _ as V, m as k, v as h } from "./entry-CiSu1Krq.js";
+import { _ as V, m as k, v as h } from "./entry-Cq-y0fYi.js";
 import { resolveComponent as d, openBlock as m, createElementBlock as P, createVNode as r, withCtx as i, mergeProps as U, createBlock as t, withModifiers as g, defineComponent as D } from "vue";
 import { AcButton as N } from "@mohin4/design-system";
-import { Trash2 as j } from "lucide-vue-next";
+import { Trash2 as j } from "@lucide/vue";
 const M = D({
   name: "KeyValuePairItems",
   components: { AcButton: N, Trash2: j },

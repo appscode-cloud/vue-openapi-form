@@ -1,8 +1,8 @@
-import { _ as b, m as V, v as k } from "./entry-CiSu1Krq.js";
+import { _ as b, m as V, v as k } from "./entry-Cq-y0fYi.js";
 import { s as v } from "./size-BtoaE7vX.js";
 import { resolveComponent as s, openBlock as a, createElementBlock as l, Fragment as f, createVNode as n, createBlock as r, createSlots as M, withCtx as w, createCommentVNode as h, defineComponent as P } from "vue";
 import { AcTextarea as S, AcSwitch as A, AcInput as I } from "@mohin4/design-system";
-import { X as K, Check as $ } from "lucide-vue-next";
+import { X as K, Check as $ } from "@lucide/vue";
 const C = P({
   name: "SimpleInput",
   components: { AcInput: I, AcSwitch: A, AcTextarea: S, Check: $, X: K },

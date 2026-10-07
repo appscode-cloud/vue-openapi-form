@@ -1,6 +1,6 @@
 import { resolveComponent as s, resolveDirective as i, withDirectives as l, openBlock as a, createElementBlock as p, createVNode as c, createTextVNode as h, toDisplayString as o, vShow as d, defineComponent as m } from "vue";
-import { TriangleAlert as u } from "lucide-vue-next";
-import { _ as f } from "./entry-CiSu1Krq.js";
+import { TriangleAlert as u } from "@lucide/vue";
+import { _ as f } from "./entry-Cq-y0fYi.js";
 const v = '<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3"/><path d="M12 9v4"/><path d="M12 17h.01"/></svg>', g = m({
   name: "ComponentErrors",
   components: { TriangleAlert: u },
