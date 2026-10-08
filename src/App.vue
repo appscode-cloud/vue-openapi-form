@@ -86,7 +86,7 @@
 <script>
 import Schemas from '@/json-schema.js';
 import { defineAsyncComponent, defineComponent } from 'vue';
-import { AcButton, AcSelect } from '@mohin4/design-system';
+import { AcButton, AcSelect } from '@ac-design/design-system';
 import { Check, Code } from '@lucide/vue';
 
 export default defineComponent({

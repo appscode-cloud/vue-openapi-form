@@ -187,7 +187,7 @@ import tabs from '../mixins/tabs.js';
 import validation from '../mixins/validation.js';
 import size from '../mixins/size.js';
 import { defineAsyncComponent, defineComponent } from 'vue';
-import { AcButton } from '@mohin4/design-system';
+import { AcButton } from '@ac-design/design-system';
 import { Minus, Plus } from '@lucide/vue';
 
 export default defineComponent({

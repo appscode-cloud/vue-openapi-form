@@ -1,10 +1,10 @@
-import { _ as r, m as i } from "./entry-Cq-y0fYi.js";
+import { _ as r, m as i } from "./entry-Do6WmZZA.js";
 import { resolveComponent as a, openBlock as t, createElementBlock as s, createBlock as m, defineComponent as c, defineAsyncComponent as p } from "vue";
 const u = c({
   name: "YamlForm",
   components: {
     AcCodeEditor: p(
-      () => import("@mohin4/design-system/editor").then((e) => e.AcCodeEditor)
+      () => import("@ac-design/design-system/editor").then((e) => e.AcCodeEditor)
     )
   },
   mixins: [i],

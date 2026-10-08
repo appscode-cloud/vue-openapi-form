@@ -1,8 +1,8 @@
-import { _ as J, m as B, v as E } from "./entry-Cq-y0fYi.js";
-import { t as q } from "./tabs-CS74BSKH.js";
+import { _ as J, m as B, v as E } from "./entry-Do6WmZZA.js";
+import { t as q } from "./tabs-BSCBgGlv.js";
 import { s as z } from "./size-BtoaE7vX.js";
 import { resolveComponent as l, resolveDirective as F, openBlock as s, createElementBlock as p, createElementVNode as i, createVNode as n, createTextVNode as L, toDisplayString as G, Fragment as H, renderList as K, withDirectives as b, withModifiers as c, normalizeClass as w, withCtx as d, createBlock as u, createCommentVNode as Q, defineComponent as R, defineAsyncComponent as W } from "vue";
-import { AcButton as X } from "@mohin4/design-system";
+import { AcButton as X } from "@ac-design/design-system";
 import { Trash2 as Y, Plus as Z, Minus as x, ChevronUp as ee, ChevronDown as ae } from "@lucide/vue";
 const oe = R({
   name: "ArrayInput",
@@ -14,7 +14,7 @@ const oe = R({
     Plus: Z,
     Trash2: Y,
     ArrayInputItems: W(
-      () => import("./ArrayInputItems-CgPhKwkT.js").then(
+      () => import("./ArrayInputItems-_0mV_bA-.js").then(
         (e) => e.default
       )
     )

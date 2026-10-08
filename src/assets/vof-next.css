@@ -1,5 +1,5 @@
 /*
- * Layout for vue-openapi-form. The form fields themselves are @mohin4/design-system components;
+ * Layout for vue-openapi-form. The form fields themselves are @ac-design/design-system components;
  * this file only lays them out. Only design tokens are used (no hard-coded colours), so light and
  * dark themes follow the app. Import it once in the app: `@bytebuilders/vue-openapi-form/next.css`
  * (or `@appscode/vue-openapi-form/next.css`).

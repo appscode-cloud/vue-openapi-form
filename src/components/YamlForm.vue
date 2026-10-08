@@ -21,7 +21,7 @@ export default defineComponent({
 
   components: {
     AcCodeEditor: defineAsyncComponent(() =>
-      import('@mohin4/design-system/editor').then((module) => module.AcCodeEditor)
+      import('@ac-design/design-system/editor').then((module) => module.AcCodeEditor)
     ),
   },
 

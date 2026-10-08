@@ -35,7 +35,7 @@
 
 <script>
 import { defineAsyncComponent, defineComponent } from 'vue';
-import { AcButton } from '@mohin4/design-system';
+import { AcButton } from '@ac-design/design-system';
 import { TriangleAlert } from '@lucide/vue';
 
 export default defineComponent({
@@ -45,7 +45,7 @@ export default defineComponent({
     AcButton,
     TriangleAlert,
     AcCodeEditor: defineAsyncComponent(() =>
-      import('@mohin4/design-system/editor').then((module) => module.AcCodeEditor)
+      import('@ac-design/design-system/editor').then((module) => module.AcCodeEditor)
     ),
   },
   props: {

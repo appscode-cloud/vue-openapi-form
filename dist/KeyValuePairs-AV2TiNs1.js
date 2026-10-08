@@ -1,8 +1,8 @@
-import { _ as M, m as S, v as T } from "./entry-Cq-y0fYi.js";
-import { t as q } from "./tabs-CS74BSKH.js";
+import { _ as M, m as S, v as T } from "./entry-Do6WmZZA.js";
+import { t as q } from "./tabs-BSCBgGlv.js";
 import { s as B } from "./size-BtoaE7vX.js";
 import { resolveComponent as r, openBlock as t, createElementBlock as y, createElementVNode as v, createVNode as o, createTextVNode as J, toDisplayString as R, Fragment as b, renderList as E, createBlock as u, withCtx as m, withModifiers as F, createCommentVNode as w, defineComponent as I, defineAsyncComponent as L } from "vue";
-import { AcButton as z } from "@mohin4/design-system";
+import { AcButton as z } from "@ac-design/design-system";
 import { Plus as G, Minus as H } from "@lucide/vue";
 const Q = I({
   name: "KeyValuePairs",
@@ -11,7 +11,7 @@ const Q = I({
     Minus: H,
     Plus: G,
     KeyValuePairItems: L(
-      () => import("./KeyValuePairItems-BKCJfGYc.js").then(
+      () => import("./KeyValuePairItems-Bh1lBr-W.js").then(
         (e) => e.default
       )
     )

@@ -1,7 +1,7 @@
 import { resolveComponent as l, openBlock as s, createElementBlock as m, normalizeClass as r, createVNode as i, defineComponent as d } from "vue";
-import { AcSegmentedControl as p } from "@mohin4/design-system";
+import { AcSegmentedControl as p } from "@ac-design/design-system";
 import { FileText as c, Code as a } from "@lucide/vue";
-import { _ as u } from "./entry-Cq-y0fYi.js";
+import { _ as u } from "./entry-Do6WmZZA.js";
 const f = d({
   name: "Tabs",
   components: { AcSegmentedControl: p },

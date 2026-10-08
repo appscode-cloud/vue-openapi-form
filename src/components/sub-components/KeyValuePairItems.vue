@@ -121,7 +121,7 @@
 import validation from '../../mixins/validation.js';
 import { model } from '../../mixins/model.js';
 import { defineComponent } from 'vue';
-import { AcButton } from '@mohin4/design-system';
+import { AcButton } from '@ac-design/design-system';
 import { Trash2 } from '@lucide/vue';
 
 export default defineComponent({

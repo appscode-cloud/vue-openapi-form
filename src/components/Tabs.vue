@@ -12,7 +12,7 @@
 
 <script>
 import { defineComponent } from 'vue';
-import { AcSegmentedControl } from '@mohin4/design-system';
+import { AcSegmentedControl } from '@ac-design/design-system';
 import { Code, FileText } from '@lucide/vue';
 
 export default defineComponent({

@@ -54,7 +54,7 @@ import { model } from '../mixins/model.js';
 import validation from '../mixins/validation.js';
 import size from '../mixins/size.js';
 import { defineComponent } from 'vue';
-import { AcInput, AcSwitch, AcTextarea } from '@mohin4/design-system';
+import { AcInput, AcSwitch, AcTextarea } from '@ac-design/design-system';
 import { Check, X } from '@lucide/vue';
 
 export default defineComponent({

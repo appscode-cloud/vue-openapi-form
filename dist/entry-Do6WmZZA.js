@@ -1,5 +1,5 @@
 import { defineComponent as y, defineAsyncComponent as o, resolveComponent as a, openBlock as $, createBlock as D, withCtx as u, createVNode as h, createElementVNode as d, normalizeClass as w, renderSlot as j, getCurrentInstance as k } from "vue";
-import { AcForm as x } from "@mohin4/design-system";
+import { AcForm as x } from "@ac-design/design-system";
 import { defineRule as s } from "vee-validate";
 import { required as P, email as F, image as J } from "@vee-validate/rules";
 const N = function(e) {
@@ -67,12 +67,12 @@ const A = y({
       () => import("vee-validate").then(({ Field: e }) => e)
     ),
     ComponentErrors: o(
-      () => import("./ComponentErrors-BH6zCsrf.js").then(
+      () => import("./ComponentErrors-DKCbgw_N.js").then(
         (e) => e.default
       )
     ),
     RightWrongSigns: o(
-      () => import("./RightWrongSigns-CRLMAceY.js").then(
+      () => import("./RightWrongSigns-CAqFYw_2.js").then(
         (e) => e.default
       )
     )
@@ -106,21 +106,21 @@ const A = y({
 }), C = y({
   components: {
     ObjectFormWrapper: o(
-      () => import("./ObjectFormWrapper-BlPeLORr.js").then(
+      () => import("./ObjectFormWrapper-DX5p9g8z.js").then(
         (e) => e.default
       )
     ),
     ObjectForm: o(
-      () => import("./ObjectForm-B3UltE2O.js").then((e) => e.default)
+      () => import("./ObjectForm-BNpTOPAL.js").then((e) => e.default)
     ),
     ArrayInput: o(
-      () => import("./ArrayInput-D_9zSAOC.js").then((e) => e.default)
+      () => import("./ArrayInput-DGD-H8kB.js").then((e) => e.default)
     ),
     KeyValuePairs: o(
-      () => import("./KeyValuePairs-CTOVvgYp.js").then((e) => e.default)
+      () => import("./KeyValuePairs-AV2TiNs1.js").then((e) => e.default)
     ),
     SimpleInput: o(
-      () => import("./SimpleInput-DQe5KDPa.js").then((e) => e.default)
+      () => import("./SimpleInput-mrF6kFkB.js").then((e) => e.default)
     )
   },
   props: {

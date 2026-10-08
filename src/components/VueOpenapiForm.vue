@@ -55,7 +55,7 @@ import ExtendSchema from '../functional-components/extend-schema.js';
 import validation from '../mixins/validation.js';
 import { model } from '../mixins/model.js';
 import { defineComponent } from 'vue';
-import { AcForm } from '@mohin4/design-system';
+import { AcForm } from '@ac-design/design-system';
 
 export default defineComponent({
   name: 'VueOpenapiForm',
