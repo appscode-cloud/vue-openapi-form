@@ -1,0 +1,4 @@
+/* Demo app: set up the same way a consuming app is */
+@import 'tailwindcss';
+@import '@ac-design/design-system/theme.css';
+@import './vof-next.css';

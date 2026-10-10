@@ -1,11 +1,12 @@
 <template>
-  <div class="ml-30">
-    <editor
+  <div class="ml-8">
+    <ac-code-editor
       :key="theme"
       v-model="editorModel"
-      :original-value="originalValueString"
+      :original="originalValueString"
       language="yaml"
-      :editor-height="70"
+      height="70vh"
+      label="YAML"
     />
   </div>
 </template>
@@ -19,8 +20,8 @@ export default defineComponent({
   name: 'YamlForm',
 
   components: {
-    Editor: defineAsyncComponent(() =>
-      import('@appscode/design-system/vue-components/v3/editor/Editor.vue')
+    AcCodeEditor: defineAsyncComponent(() =>
+      import('@ac-design/design-system/editor').then((module) => module.AcCodeEditor)
     ),
   },
 

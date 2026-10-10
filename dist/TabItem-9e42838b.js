@@ -1,1 +1,0 @@
-import{defineComponent as t,openBlock as e,createElementBlock as a,normalizeClass as s,renderSlot as i}from"vue";var l=t({__name:"TabItem",props:{isActive:{type:Boolean,default:!1}},setup:t=>(t,l)=>(e(),a("li",{class:s({"is-active":t.isActive}),"data-testid":"tab-item"},[i(t.$slots,"default")],2))});export{l as default};

@@ -20,3 +20,5 @@ yarn-error.log*
 *.sw?
 firebase-debug.log
 .firebase/
+
+dist-app

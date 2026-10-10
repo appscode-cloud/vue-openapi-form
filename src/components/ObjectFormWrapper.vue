@@ -1,22 +1,16 @@
 <template>
   <form
-    class="ac-nested-elements object-form-wrapper"
-    :class="{
-      'stop-line': isLastChild,
-      'is-collapsed': isFolded,
-    }"
+    data-vof-nested
+    :class="[cls.nested, isFolded && cls.nestedFolded]"
   >
-    <div class="nested-header mb-5">
-      <h6 class="is-flex is-semi-normal" @click.prevent="toggleFold()">
+    <div :class="cls.header">
+      <h6 :class="[cls.title, 'cursor-pointer']" @click.prevent="toggleFold()">
         <div
           v-if="!isRoot"
-          class="collaps-icon"
+          :class="[cls.foldIcon, 'cursor-pointer']"
           :disabled="activeTab !== 'form'"
         >
-          <i
-            :class="['fa', isFolded ? 'fa-plus' : 'fa-minus']"
-            aria-hidden="true"
-          ></i>
+          <component :is="isFolded ? 'Plus' : 'Minus'" aria-hidden="true" />
         </div>
         {{ schema.title || 'Array Item Description' }}
         <!-- show errors-->
@@ -60,9 +54,12 @@ import fold from '../mixins/fold.js';
 import tabs from '../mixins/tabs.js';
 import validation from '../mixins/validation.js';
 import { defineComponent } from 'vue';
+import { Minus, Plus } from '@lucide/vue';
+import * as cls from './classes.js';
 
 export default defineComponent({
   name: 'ObjectFormWrapper',
+  components: { Minus, Plus },
 
   mixins: [model, fold, tabs, validation],
   props: {
@@ -102,6 +99,9 @@ export default defineComponent({
       type: Boolean,
       default: false,
     }
+  },
+  setup() {
+    return { cls };
   },
 });
 </script>
