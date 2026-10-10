@@ -1,5 +1,13 @@
 <template>
-  <div class="vof-tabs" :class="{ 'is-visible': showTab }">
+  <!-- Shown on hover of the block header (group/header), and always on the root form -->
+  <div
+    class="max-w-full transition-[opacity,visibility] duration-300 ease-in-out motion-reduce:transition-none"
+    :class="
+      showTab
+        ? 'visible opacity-100'
+        : 'invisible opacity-0 group-hover/header:visible group-hover/header:opacity-100'
+    "
+  >
     <ac-segmented-control
       v-model="activeTab"
       size="small"
@@ -13,7 +21,6 @@
 <script>
 import { defineComponent } from 'vue';
 import { AcSegmentedControl } from '@ac-design/design-system';
-import { Code, FileText } from '@lucide/vue';
 
 export default defineComponent({
   name: 'Tabs',
@@ -33,10 +40,11 @@ export default defineComponent({
   data() {
     return {
       activeTab: 'form',
+      // Text-only: the labels say it all, and YAML and JSON would share one icon
       options: [
-        { value: 'form', label: 'Form', icon: FileText },
-        { value: 'yaml', label: 'YAML', icon: Code },
-        { value: 'json', label: 'JSON', icon: Code },
+        { value: 'form', label: 'Form' },
+        { value: 'yaml', label: 'YAML' },
+        { value: 'json', label: 'JSON' },
       ],
     };
   },

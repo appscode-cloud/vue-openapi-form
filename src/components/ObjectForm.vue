@@ -1,5 +1,5 @@
 <template>
-  <div class="vof-nested-fields" :class="{ 'vof-hidden': isSelfFolded }">
+  <div :class="isSelfFolded ? 'hidden' : 'mb-4'">
     <template v-for="(key, idx) in Object.keys(properties)">
       <!-- if the property is another object -->
       <v-field

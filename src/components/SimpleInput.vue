@@ -1,8 +1,9 @@
 <template>
-  <div class="vof-single">
+  <div data-vof-single class="relative z-[1] mb-4 ml-6">
     <template v-if="ui.tag === 'input'">
       <template v-if="ui.type === 'checkbox'">
-        <div class="vof-single-switch">
+        <!-- Same height as an input, so switches keep the fields' rhythm -->
+        <div class="flex min-h-9 items-center">
           <ac-switch v-model="modelData" :label="schema.title" />
         </div>
       </template>
@@ -27,10 +28,10 @@
           @keydown="handleKeyDownEvent"
         >
           <template v-if="validationOb.dirty" #suffix>
-            <span v-if="validationOb.valid" class="vof-status-ok">
+            <span v-if="validationOb.valid" class="inline-flex size-4 items-center text-success">
               <Check aria-hidden="true" />
             </span>
-            <span v-else class="vof-status-bad">
+            <span v-else class="inline-flex size-4 items-center text-warning">
               <X aria-hidden="true" />
             </span>
           </template>

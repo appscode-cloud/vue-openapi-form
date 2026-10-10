@@ -1,12 +1,12 @@
-import { _ as y, m as v, v as b } from "./entry-Do6WmZZA.js";
-import { f as c } from "./fold-D-kLFRsg.js";
-import { t as V } from "./tabs-BSCBgGlv.js";
-import { resolveComponent as a, openBlock as r, createElementBlock as n, normalizeClass as h, createElementVNode as d, withModifiers as T, createBlock as s, resolveDynamicComponent as j, createCommentVNode as t, createTextVNode as D, toDisplayString as k, createVNode as N, withDirectives as w, vShow as B, defineComponent as C } from "vue";
-import { Plus as F, Minus as q } from "@lucide/vue";
-const M = C({
+import { _ as b, m as v, v as c } from "./entry-CF8Lj2uG.js";
+import { f as V } from "./fold-D-kLFRsg.js";
+import { t as T, c as h } from "./classes-BayuRM9v.js";
+import { resolveComponent as s, openBlock as r, createElementBlock as d, normalizeClass as n, createElementVNode as m, withModifiers as j, createBlock as a, resolveDynamicComponent as D, createCommentVNode as t, createTextVNode as k, toDisplayString as F, createVNode as N, withDirectives as w, vShow as B, defineComponent as C } from "vue";
+import { Plus as q, Minus as M } from "@lucide/vue";
+const $ = C({
   name: "ObjectFormWrapper",
-  components: { Minus: q, Plus: F },
-  mixins: [v, c, V, b],
+  components: { Minus: M, Plus: q },
+  mixins: [v, V, T, c],
   props: {
     schema: {
       type: Object,
@@ -44,40 +44,44 @@ const M = C({
       type: Boolean,
       default: !1
     }
+  },
+  setup() {
+    return { cls: h };
   }
-}), $ = { class: "vof-nested-header" }, O = ["disabled"];
+}), O = ["disabled"];
 function R(e, o, g, S, U, E) {
-  const m = a("component-errors"), i = a("tabs"), f = a("object-form"), p = a("yaml-form"), u = a("json-form");
-  return r(), n("form", {
-    class: h(["vof-nested", {
-      "vof-collapsed": e.isFolded
-    }])
+  const i = s("component-errors"), f = s("tabs"), p = s("object-form"), u = s("yaml-form"), y = s("json-form");
+  return r(), d("form", {
+    "data-vof-nested": "",
+    class: n([e.cls.nested, e.isFolded && e.cls.nestedFolded])
   }, [
-    d("div", $, [
-      d("h6", {
-        class: "vof-nested-title",
-        onClick: o[0] || (o[0] = T((l) => e.toggleFold(), ["prevent"]))
+    m("div", {
+      class: n(e.cls.header)
+    }, [
+      m("h6", {
+        class: n([e.cls.title, "cursor-pointer"]),
+        onClick: o[0] || (o[0] = j((l) => e.toggleFold(), ["prevent"]))
       }, [
-        e.isRoot ? t("", !0) : (r(), n("div", {
+        e.isRoot ? t("", !0) : (r(), d("div", {
           key: 0,
-          class: "vof-collapse-icon",
+          class: n([e.cls.foldIcon, "cursor-pointer"]),
           disabled: e.activeTab !== "form"
         }, [
-          (r(), s(j(e.isFolded ? "Plus" : "Minus"), { "aria-hidden": "true" }))
-        ], 8, O)),
-        D(" " + k(e.schema.title || "Array Item Description") + " ", 1),
-        N(m, {
+          (r(), a(D(e.isFolded ? "Plus" : "Minus"), { "aria-hidden": "true" }))
+        ], 10, O)),
+        k(" " + F(e.schema.title || "Array Item Description") + " ", 1),
+        N(i, {
           errors: e.calcFormErrors(e.errors, e.fieldName)
         }, null, 8, ["errors"])
-      ]),
-      e.onlyJson ? t("", !0) : (r(), s(i, {
+      ], 2),
+      e.onlyJson ? t("", !0) : (r(), a(f, {
         key: 0,
         modelValue: e.activeTab,
         "onUpdate:modelValue": o[1] || (o[1] = (l) => e.activeTab = l),
         showTab: e.showRootTab
       }, null, 8, ["modelValue", "showTab"]))
-    ]),
-    w((r(), s(f, {
+    ], 2),
+    w((r(), a(p, {
       key: `${e.schema.title}-form`,
       modelValue: e.modelData,
       "onUpdate:modelValue": o[2] || (o[2] = (l) => e.modelData = l),
@@ -94,12 +98,12 @@ function R(e, o, g, S, U, E) {
     }, null, 8, ["modelValue", "field-name", "properties", "title", "required", "is-self-required", "type", "level", "is-self-folded", "reference-model", "errors"])), [
       [B, !e.onlyJson && e.activeTab === "form"]
     ]),
-    e.activeTab === "yaml" ? (r(), s(p, {
+    e.activeTab === "yaml" ? (r(), a(u, {
       key: 0,
       modelValue: e.modelData,
       "onUpdate:modelValue": o[3] || (o[3] = (l) => e.modelData = l),
       "reference-model": e.referenceModel || {}
-    }, null, 8, ["modelValue", "reference-model"])) : e.activeTab === "json" ? (r(), s(u, {
+    }, null, 8, ["modelValue", "reference-model"])) : e.activeTab === "json" ? (r(), a(y, {
       key: 1,
       modelValue: e.modelData,
       "onUpdate:modelValue": o[4] || (o[4] = (l) => e.modelData = l),
@@ -107,7 +111,7 @@ function R(e, o, g, S, U, E) {
     }, null, 8, ["modelValue", "reference-model"])) : t("", !0)
   ], 2);
 }
-const I = /* @__PURE__ */ y(M, [["render", R]]);
+const A = /* @__PURE__ */ b($, [["render", R]]);
 export {
-  I as default
+  A as default
 };

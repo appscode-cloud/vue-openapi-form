@@ -1,33 +1,39 @@
 <template>
   <div id="app">
-    <div id="header" class="vof-demo-header">
-      <a href="https://byte.builders/"
+    <div
+      id="header"
+      class="flex h-[50px] items-center gap-3 border-b border-border bg-surface px-5 text-heading"
+    >
+      <a href="https://byte.builders/" class="shrink-0"
         ><img
           src="https://cdn.appscode.com/images/products/bytebuilders/bytebuilders.png"
           alt="ByteBuilders"
+          class="h-[30px]"
         />
       </a>
-      <strong>(Vue OpenAPI Form)</strong>
+      <strong class="truncate">(Vue OpenAPI Form)</strong>
       <a
         href="https://github.com/appscode/vue-openapi-form"
-        class="vof-demo-github"
+        class="ml-auto text-heading [&>svg]:size-5"
         aria-label="GitHub"
       >
         <IconGithub aria-hidden="true" />
       </a>
     </div>
 
-    <div class="vof-demo-body">
-      <div class="vof-demo-left">
+    <div class="mt-5 flex flex-col gap-5 lg:flex-row">
+      <div
+        class="border-b border-border bg-surface-muted p-4 lg:w-[500px] lg:shrink-0 lg:border-r lg:border-b-0 lg:p-[30px]"
+      >
         <div v-if="!modifiedSchema">
-          <h5 class="vof-demo-section-title">Select Schema</h5>
+          <h5 class="mb-3 text-lg font-semibold text-heading">Select Schema</h5>
           <ac-select
             v-model="selectedTitle"
             label="Schema"
             :options="schemaOptions"
           />
         </div>
-        <div v-else class="vof-demo-row">
+        <div v-else class="flex items-center justify-between gap-3">
           <div>Schema has been modified</div>
           <ac-button
             title="Reset"
@@ -41,7 +47,7 @@
           @submit="updateSchema"
         />
       </div>
-      <div class="vof-demo-right">
+      <div class="min-w-0 flex-1 px-4 lg:mt-[30px] lg:px-0">
         <vue-openapi-form
           ref="vof"
           :key="JSON.stringify(selectedJsonSchema)"
@@ -70,7 +76,7 @@
         </vue-openapi-form>
       </div>
 
-      <div>
+      <div class="px-4 pb-4 lg:pl-0">
         <ac-button
           title="Call Validate"
           :loading="isLoading"

@@ -1,9 +1,9 @@
 <template>
   <div>
-    <span v-if="valid" class="vof-status-ok">
+    <span v-if="valid" class="inline-flex size-4 items-center text-success">
       <Check aria-hidden="true" />
     </span>
-    <span v-if="invalid" class="vof-status-bad">
+    <span v-if="invalid" class="inline-flex size-4 items-center text-warning">
       <X aria-hidden="true" />
     </span>
   </div>

@@ -1,10 +1,8 @@
 <template>
-  <div
-    class="vof-nested vof-key-value-pairs"
-  >
-    <div class="vof-nested-header">
-      <h6 class="vof-nested-title">
-        <div class="vof-collapse-icon is-disabled">
+  <div data-vof-nested :class="[cls.nested, 'flex flex-col gap-2']">
+    <div :class="cls.header">
+      <h6 :class="cls.title">
+        <div :class="[cls.foldIcon, 'cursor-not-allowed']">
           <Minus aria-hidden="true" />
         </div>
         {{ schema.title || 'Array Item Description'
@@ -36,7 +34,7 @@
         v-slot="{ validate, errors: formErrors }"
         :key="updatePass"
         as="div"
-        class="vof-key-value-save"
+        :class="cls.keyValueRow"
       >
         <v-field
           :id="`${schema.title.replace(/ /g, '-')}-key-provider`"
@@ -154,9 +152,9 @@
           </v-field>
         </template>
         <ac-button
-          class="vof-icon-btn"
-          color="primary"
-          variant="outlined"
+          color="white"
+          size="small"
+          class="mt-1"
           aria-label="Add"
           @click.prevent="addProp(validate)"
         >
@@ -189,6 +187,7 @@ import size from '../mixins/size.js';
 import { defineAsyncComponent, defineComponent } from 'vue';
 import { AcButton } from '@ac-design/design-system';
 import { Minus, Plus } from '@lucide/vue';
+import * as cls from './classes.js';
 
 export default defineComponent({
   name: 'KeyValuePairs',
@@ -226,6 +225,9 @@ export default defineComponent({
       type: Boolean,
       default: false,
     },
+  },
+  setup() {
+    return { cls };
   },
 
   data() {

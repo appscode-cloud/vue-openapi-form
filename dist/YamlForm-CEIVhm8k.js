@@ -1,13 +1,14 @@
-import { _ as r, m as i } from "./entry-Do6WmZZA.js";
-import { resolveComponent as a, openBlock as t, createElementBlock as s, createBlock as m, defineComponent as c, defineAsyncComponent as p } from "vue";
-const u = c({
+import { _ as i, m as r } from "./entry-CF8Lj2uG.js";
+import t from "js-yaml";
+import { resolveComponent as m, openBlock as a, createElementBlock as s, createBlock as p, defineComponent as c, defineAsyncComponent as u } from "vue";
+const h = c({
   name: "YamlForm",
   components: {
-    AcCodeEditor: p(
+    AcCodeEditor: u(
       () => import("@ac-design/design-system/editor").then((e) => e.AcCodeEditor)
     )
   },
-  mixins: [i],
+  mixins: [r],
   inject: ["providedData"],
   props: {
     modelValue: {
@@ -18,19 +19,21 @@ const u = c({
   emits: ["code::model-data-updated"],
   computed: {
     originalValueString() {
-      return JSON.stringify(this.referenceModel, null, 2);
+      return t.safeDump(this.referenceModel, { lineWidth: 2e3 });
     },
     theme() {
       return this.providedData.theme || "light";
     },
     editorModel: {
       get() {
-        return JSON.stringify(this.modelValue, null, 2);
+        return t.safeDump(this.modelValue, { lineWidth: 2e3 });
       },
       set(e) {
         let o = null;
         try {
-          o = JSON.parse(e);
+          o = t.safeLoad(e, {
+            json: !0
+          });
         } catch {
           o = this.modelData;
         }
@@ -38,22 +41,22 @@ const u = c({
       }
     }
   }
-}), h = { class: "vof-editor" };
-function f(e, o, n, g, _, V) {
-  const d = a("ac-code-editor");
-  return t(), s("div", h, [
-    (t(), m(d, {
+}), f = { class: "ml-8" };
+function g(e, o, d, _, V, y) {
+  const l = m("ac-code-editor");
+  return a(), s("div", f, [
+    (a(), p(l, {
       key: e.theme,
       modelValue: e.editorModel,
-      "onUpdate:modelValue": o[0] || (o[0] = (l) => e.editorModel = l),
+      "onUpdate:modelValue": o[0] || (o[0] = (n) => e.editorModel = n),
       original: e.originalValueString,
-      language: "json",
+      language: "yaml",
       height: "70vh",
-      label: "JSON"
+      label: "YAML"
     }, null, 8, ["modelValue", "original"]))
   ]);
 }
-const S = /* @__PURE__ */ r(u, [["render", f]]);
+const M = /* @__PURE__ */ i(h, [["render", g]]);
 export {
-  S as default
+  M as default
 };

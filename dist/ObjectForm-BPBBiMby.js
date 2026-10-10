@@ -1,4 +1,4 @@
-import { _ as U, m as R, v as c } from "./entry-Do6WmZZA.js";
+import { _ as U, m as R, v as c } from "./entry-CF8Lj2uG.js";
 import { f as O } from "./fold-D-kLFRsg.js";
 import { resolveComponent as d, openBlock as a, createElementBlock as m, normalizeClass as N, Fragment as f, renderList as D, createBlock as s, withCtx as i, createVNode as n, defineComponent as g } from "vue";
 const S = g({
@@ -46,10 +46,10 @@ const S = g({
     }
   }
 });
-function w(e, v, u, C, F, M) {
-  const b = d("object-form-wrapper"), p = d("v-field"), h = d("key-value-pairs"), V = d("array-input"), $ = d("simple-input");
+function w(e, b, u, C, F, M) {
+  const v = d("object-form-wrapper"), p = d("v-field"), h = d("key-value-pairs"), V = d("array-input"), $ = d("simple-input");
   return a(), m("div", {
-    class: N(["vof-nested-fields", { "vof-hidden": e.isSelfFolded }])
+    class: N(e.isSelfFolded ? "hidden" : "mb-4")
   }, [
     (a(!0), m(f, null, D(Object.keys(e.properties), (l, t) => (a(), m(f, null, [
       e.properties[l].type === "object" ? (a(), s(p, {
@@ -62,7 +62,7 @@ function w(e, v, u, C, F, M) {
         as: ""
       }, {
         default: i(({ field: r, handleChange: o }) => [
-          n(b, {
+          n(v, {
             "model-value": r.value,
             "field-name": `${e.fieldName}/${l}`,
             "expand-form": e.level < 2,

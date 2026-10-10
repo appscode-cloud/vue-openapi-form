@@ -1,10 +1,11 @@
-import { _ as V, m as k, v as h } from "./entry-Do6WmZZA.js";
-import { resolveComponent as d, openBlock as m, createElementBlock as P, createVNode as r, withCtx as i, mergeProps as U, createBlock as t, withModifiers as g, defineComponent as D } from "vue";
-import { AcButton as N } from "@ac-design/design-system";
-import { Trash2 as j } from "@lucide/vue";
-const M = D({
+import { _ as b, m as k, v as h } from "./entry-CF8Lj2uG.js";
+import { resolveComponent as d, openBlock as m, createElementBlock as P, normalizeClass as U, createVNode as o, withCtx as i, mergeProps as g, createBlock as t, withModifiers as D, defineComponent as N } from "vue";
+import { AcButton as j } from "@ac-design/design-system";
+import { Trash2 as w } from "@lucide/vue";
+import { c as M } from "./classes-BayuRM9v.js";
+const O = N({
   name: "KeyValuePairItems",
-  components: { AcButton: N, Trash2: j },
+  components: { AcButton: j, Trash2: w },
   mixins: [k, h],
   props: {
     modelValue: {
@@ -30,16 +31,21 @@ const M = D({
     }
   },
   emits: ["delete-key-value"],
+  setup() {
+    return { cls: M };
+  },
   methods: {
     deleteProp(e) {
       this.$emit("delete-key-value", e);
     }
   }
-}), O = { class: "vof-key-value-save" };
-function w(e, a, B, C, K, T) {
+});
+function C(e, a, B, K, T, q) {
   const s = d("simple-input"), n = d("v-field"), p = d("object-form-wrapper"), v = d("key-value-pairs"), f = d("array-input"), y = d("Trash2"), $ = d("ac-button");
-  return m(), P("div", O, [
-    r(n, {
+  return m(), P("div", {
+    class: U(e.cls.keyValueRow)
+  }, [
+    o(n, {
       id: `${e.schema.title.replace(/ /g, "-")}-key-${e.index + 1}-provider`,
       modelValue: e.modelData.key,
       "onUpdate:modelValue": a[0] || (a[0] = (l) => e.modelData.key = l),
@@ -48,15 +54,15 @@ function w(e, a, B, C, K, T) {
       label: `${e.schema.title} key ${e.index + 1}`,
       as: "div"
     }, {
-      default: i(({ componentField: l, errors: o, meta: u }) => [
-        r(s, U(l, {
+      default: i(({ componentField: l, errors: r, meta: u }) => [
+        o(s, g(l, {
           schema: {
             title: "Key",
             type: "string",
             ui: { tag: "input", type: "text" }
           },
           type: "string",
-          "validation-ob": { errors: o, ...u },
+          "validation-ob": { errors: r, ...u },
           "reference-model": e.referenceModel.key || ""
         }), null, 16, ["validation-ob", "reference-model"])
       ]),
@@ -72,8 +78,8 @@ function w(e, a, B, C, K, T) {
       label: `${e.schema.title} value ${e.index + 1}`,
       as: ""
     }, {
-      default: i(({ field: l, handleChange: o }) => [
-        r(p, {
+      default: i(({ field: l, handleChange: r }) => [
+        o(p, {
           "field-name": `${e.fieldName}/value/${e.index + 1}`,
           "model-value": l.value,
           schema: e.additionalProperties,
@@ -81,7 +87,7 @@ function w(e, a, B, C, K, T) {
           type: e.additionalProperties.type,
           errors: e.errors,
           "reference-model": e.referenceModel.value || {},
-          "onUpdate:modelValue": o
+          "onUpdate:modelValue": r
         }, null, 8, ["field-name", "model-value", "schema", "type", "errors", "reference-model", "onUpdate:modelValue"])
       ]),
       _: 1
@@ -95,15 +101,15 @@ function w(e, a, B, C, K, T) {
       label: `${e.schema.title} value ${e.index + 1}`,
       as: ""
     }, {
-      default: i(({ field: l, handleChange: o }) => [
-        r(v, {
+      default: i(({ field: l, handleChange: r }) => [
+        o(v, {
           "field-name": `${e.fieldName}/value/${e.index + 1}`,
           "model-value": l.value,
           schema: e.additionalProperties,
           type: e.additionalProperties.type,
           errors: e.errors,
           "reference-model": e.referenceModel.value || {},
-          "onUpdate:modelValue": o
+          "onUpdate:modelValue": r
         }, null, 8, ["field-name", "model-value", "schema", "type", "errors", "reference-model", "onUpdate:modelValue"])
       ]),
       _: 1
@@ -117,15 +123,15 @@ function w(e, a, B, C, K, T) {
       label: `${e.schema.title} value ${e.index + 1}`,
       as: ""
     }, {
-      default: i(({ field: l, handleChange: o }) => [
-        r(f, {
+      default: i(({ field: l, handleChange: r }) => [
+        o(f, {
           "field-name": `${e.fieldName}/value/${e.index + 1}`,
           "model-value": l.value,
           schema: e.additionalProperties,
           type: e.additionalProperties.type,
           errors: e.errors,
           "reference-model": e.referenceModel.value || [],
-          "onUpdate:modelValue": o
+          "onUpdate:modelValue": r
         }, null, 8, ["field-name", "model-value", "schema", "type", "errors", "reference-model", "onUpdate:modelValue"])
       ]),
       _: 1
@@ -139,33 +145,36 @@ function w(e, a, B, C, K, T) {
       label: `${e.schema.title} value ${e.index + 1}`,
       as: ""
     }, {
-      default: i(({ field: l, handleChange: o, errors: u, meta: b }) => [
-        r(s, {
+      default: i(({ field: l, handleChange: r, errors: u, meta: V }) => [
+        o(s, {
           "model-value": l.value,
           schema: e.additionalProperties,
           type: e.additionalProperties.type,
-          "validation-ob": { errors: u, ...b },
+          "validation-ob": { errors: u, ...V },
           "reference-model": e.referenceModel.value || "",
-          "onUpdate:modelValue": o
+          "onUpdate:modelValue": r
         }, null, 8, ["model-value", "schema", "type", "validation-ob", "reference-model", "onUpdate:modelValue"])
       ]),
       _: 1
     }, 8, ["id", "modelValue", "rules", "name", "label"])),
-    r($, {
-      class: "vof-icon-btn",
-      color: "danger",
-      variant: "outlined",
+    o($, {
+      color: "white",
+      size: "small",
+      class: "mt-1",
       "aria-label": "Delete",
-      onClick: a[5] || (a[5] = g((l) => e.deleteProp(e.index), ["prevent"]))
+      onClick: a[5] || (a[5] = D((l) => e.deleteProp(e.index), ["prevent"]))
     }, {
       icon: i(() => [
-        r(y, { "aria-hidden": "true" })
+        o(y, {
+          class: "text-danger",
+          "aria-hidden": "true"
+        })
       ]),
       _: 1
     })
-  ]);
+  ], 2);
 }
-const E = /* @__PURE__ */ V(M, [["render", w]]);
+const R = /* @__PURE__ */ b(O, [["render", C]]);
 export {
-  E as default
+  R as default
 };

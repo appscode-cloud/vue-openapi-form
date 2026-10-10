@@ -1,7 +1,7 @@
 <template>
-  <div class="vof-demo-schema-model">
-    <div class="vof-demo-schema-model-block">
-      <h5 class="vof-demo-section-title">Schema</h5>
+  <div class="mt-8">
+    <div class="mb-8">
+      <h5 class="mb-3 text-lg font-semibold text-heading">Schema</h5>
       <ac-code-editor
         v-model="schema"
         language="json"
@@ -9,13 +9,12 @@
         height="50vh"
       />
 
-      <p v-if="schemaError" class="vof-demo-warning">
-        <TriangleAlert aria-hidden="true" />
+      <ac-alert v-if="schemaError" color="warning" class="mt-2.5">
         The format is not correct
-      </p>
+      </ac-alert>
     </div>
-    <div class="vof-demo-schema-model-block">
-      <h5 class="vof-demo-section-title">Model</h5>
+    <div class="mb-8">
+      <h5 class="mb-3 text-lg font-semibold text-heading">Model</h5>
       <ac-code-editor
         v-model="model"
         language="json"
@@ -23,10 +22,9 @@
         height="50vh"
       />
 
-      <p v-if="modelError" class="vof-demo-warning">
-        <TriangleAlert aria-hidden="true" />
+      <ac-alert v-if="modelError" color="warning" class="mt-2.5">
         The format is not correct
-      </p>
+      </ac-alert>
     </div>
 
     <ac-button title="Update" @click.prevent="updateForm()" />
@@ -35,15 +33,14 @@
 
 <script>
 import { defineAsyncComponent, defineComponent } from 'vue';
-import { AcButton } from '@ac-design/design-system';
-import { TriangleAlert } from '@lucide/vue';
+import { AcAlert, AcButton } from '@ac-design/design-system';
 
 export default defineComponent({
   name: 'SchemaModel',
 
   components: {
+    AcAlert,
     AcButton,
-    TriangleAlert,
     AcCodeEditor: defineAsyncComponent(() =>
       import('@ac-design/design-system/editor').then((module) => module.AcCodeEditor)
     ),

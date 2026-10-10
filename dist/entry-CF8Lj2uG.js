@@ -1,20 +1,20 @@
-import { defineComponent as y, defineAsyncComponent as o, resolveComponent as a, openBlock as $, createBlock as D, withCtx as u, createVNode as h, createElementVNode as d, normalizeClass as w, renderSlot as j, getCurrentInstance as k } from "vue";
-import { AcForm as x } from "@ac-design/design-system";
-import { defineRule as s } from "vee-validate";
-import { required as P, email as F, image as J } from "@vee-validate/rules";
-const N = function(e) {
+import { defineComponent as h, defineAsyncComponent as o, resolveComponent as u, openBlock as $, createBlock as D, withCtx as s, createVNode as d, createElementVNode as w, normalizeClass as k, renderSlot as O, getCurrentInstance as x } from "vue";
+import { AcFormFooter as F, AcForm as P } from "@ac-design/design-system";
+import { defineRule as a } from "vee-validate";
+import { required as A, email as J, image as N } from "@vee-validate/rules";
+const q = function(e) {
   return e = e.charAt(0).toUpperCase() + e.slice(1), e.replace(/([a-z0-9])([A-Z])/g, "$1 $2");
-}, p = function(e, t) {
+}, f = function(e, t) {
   let r = Object.assign({}, { title: t }, { ...e });
   if (e.type === "object") {
     let i = {};
     try {
       e.properties ? (Object.keys(e.properties).forEach((n) => {
-        const l = N(n);
+        const l = q(n);
         i = Object.assign(
           {},
           { ...i },
-          { [`${n}`]: { ...p(e.properties[n], l) } }
+          { [`${n}`]: { ...f(e.properties[n], l) } }
         );
       }), r = Object.assign(
         {},
@@ -28,7 +28,7 @@ const N = function(e) {
         {},
         { ...e.additionalProperties },
         {
-          ...p(e.additionalProperties, "Value")
+          ...f(e.additionalProperties, "Value")
         }
       ));
     } catch {
@@ -38,7 +38,7 @@ const N = function(e) {
     i = Object.assign(
       {},
       { ...i },
-      { ...p(e.items, "") }
+      { ...f(e.items, "") }
     ), r = Object.assign({}, { ...r }, { items: { ...i } });
   } else {
     let i = "";
@@ -55,10 +55,10 @@ const N = function(e) {
   }
   return r;
 };
-function q(e, t) {
-  return p(e, t);
+function C(e, t) {
+  return f(e, t);
 }
-const A = y({
+const B = h({
   components: {
     VForm: o(
       () => import("vee-validate").then(({ Form: e }) => e)
@@ -67,12 +67,12 @@ const A = y({
       () => import("vee-validate").then(({ Field: e }) => e)
     ),
     ComponentErrors: o(
-      () => import("./ComponentErrors-DKCbgw_N.js").then(
+      () => import("./ComponentErrors-RChpiBII.js").then(
         (e) => e.default
       )
     ),
     RightWrongSigns: o(
-      () => import("./RightWrongSigns-CAqFYw_2.js").then(
+      () => import("./RightWrongSigns-CLrx2_KE.js").then(
         (e) => e.default
       )
     )
@@ -103,24 +103,24 @@ const A = y({
       });
     }
   }
-}), C = y({
+}), E = h({
   components: {
     ObjectFormWrapper: o(
-      () => import("./ObjectFormWrapper-DX5p9g8z.js").then(
+      () => import("./ObjectFormWrapper-BRP0wrB9.js").then(
         (e) => e.default
       )
     ),
     ObjectForm: o(
-      () => import("./ObjectForm-BNpTOPAL.js").then((e) => e.default)
+      () => import("./ObjectForm-BPBBiMby.js").then((e) => e.default)
     ),
     ArrayInput: o(
-      () => import("./ArrayInput-DGD-H8kB.js").then((e) => e.default)
+      () => import("./ArrayInput-C_GPm0vu.js").then((e) => e.default)
     ),
     KeyValuePairs: o(
-      () => import("./KeyValuePairs-AV2TiNs1.js").then((e) => e.default)
+      () => import("./KeyValuePairs-BqnxrIQT.js").then((e) => e.default)
     ),
     SimpleInput: o(
-      () => import("./SimpleInput-mrF6kFkB.js").then((e) => e.default)
+      () => import("./SimpleInput-DKkqRZD2.js").then((e) => e.default)
     )
   },
   props: {
@@ -175,17 +175,18 @@ const A = y({
       }).map((r) => r.idx).forEach((r) => e.splice(r, 1));
     }
   }
-}), B = (e, t) => {
+}), M = (e, t) => {
   const r = e.__vccOpts || e;
   for (const [i, n] of t)
     r[i] = n;
   return r;
-}, E = y({
+}, I = h({
   name: "VueOpenapiForm",
   components: {
-    AcForm: x
+    AcForm: P,
+    AcFormFooter: F
   },
-  mixins: [C, A],
+  mixins: [E, B],
   provide() {
     const e = {};
     return Object.defineProperty(e, "theme", {
@@ -223,41 +224,42 @@ const A = y({
   },
   computed: {
     extendedSchema() {
-      return q(this.schema, this.formTitle);
+      return C(this.schema, this.formTitle);
     }
   }
-}), M = { class: "vof-footer" }, I = { class: "vof-footer-group" }, W = { class: "vof-footer-group" };
-function R(e, t, r, i, n, l) {
-  const g = a("object-form-wrapper"), v = a("v-field"), V = a("ac-form"), _ = a("v-form");
-  return $(), D(_, {
+});
+function W(e, t, r, i, n, l) {
+  const y = u("object-form-wrapper"), j = u("v-field"), V = u("ac-form-footer"), _ = u("ac-form"), S = u("v-form");
+  return $(), D(S, {
     ref: "v-form",
     as: ""
   }, {
-    default: u(({ meta: b, validate: O, errors: m }) => [
-      h(V, { width: "full" }, {
-        footer: u(() => [
-          d("div", M, [
-            d("div", I, [
-              j(e.$slots, "left-controls", {
-                validate: O,
-                formStatus: b,
+    default: s(({ meta: g, validate: b, errors: m }) => [
+      d(_, { width: "full" }, {
+        footer: s(() => [
+          d(V, { sticky: "none" }, {
+            left: s(() => [
+              O(e.$slots, "left-controls", {
+                validate: b,
+                formStatus: g,
                 errors: m
               })
             ]),
-            d("div", W, [
-              j(e.$slots, "right-controls", {
-                validate: O,
-                formStatus: b,
+            right: s(() => [
+              O(e.$slots, "right-controls", {
+                validate: b,
+                formStatus: g,
                 errors: m
               })
-            ])
-          ])
+            ]),
+            _: 2
+          }, 1024)
         ]),
-        default: u(() => [
-          d("div", {
-            class: w(["vue-openapi-form vof-root", { "is-medium": e.size === "medium" }])
+        default: s(() => [
+          w("div", {
+            class: k(["vue-openapi-form w-full font-sans text-body", { "is-medium": e.size === "medium" }])
           }, [
-            h(v, {
+            d(j, {
               modelValue: e.modelData,
               "onUpdate:modelValue": t[0] || (t[0] = (c) => e.modelData = c),
               name: e.extendedSchema.title,
@@ -265,8 +267,8 @@ function R(e, t, r, i, n, l) {
               rules: e.ruleObject(!0),
               as: ""
             }, {
-              default: u(({ field: c, handleChange: S }) => [
-                h(g, {
+              default: s(({ field: c, handleChange: v }) => [
+                d(y, {
                   "field-name": "$",
                   "model-value": c.value,
                   "expand-form": !0,
@@ -278,7 +280,7 @@ function R(e, t, r, i, n, l) {
                   "reference-model": e.referenceModel || {},
                   errors: m,
                   showRootTab: !0,
-                  "onUpdate:modelValue": S
+                  "onUpdate:modelValue": v
                 }, null, 8, ["model-value", "only-json", "schema", "reference-model", "errors", "onUpdate:modelValue"])
               ]),
               _: 2
@@ -291,9 +293,9 @@ function R(e, t, r, i, n, l) {
     _: 3
   }, 512);
 }
-const L = /* @__PURE__ */ B(E, [["render", R]]), T = function() {
-  s("required", P), s("requiredArray", (e) => e !== null && typeof e == "object" && Array.isArray(e) && e.length < 2 ? "{_field_} array must contain more than one element" : !0), s("requiredOb", (e) => e !== null && typeof e == "object" && Object.keys(e).length === 0 ? "{_field_} object must not be empty" : !0), s("email", F), s("image", J), s("private_username", async (e) => {
-    const { app: t } = k(), r = t?.appContext.config.globalProperties.$axios, i = e.length;
+const H = /* @__PURE__ */ M(I, [["render", W]]), R = function() {
+  a("required", A), a("requiredArray", (e) => e !== null && typeof e == "object" && Array.isArray(e) && e.length < 2 ? "{_field_} array must contain more than one element" : !0), a("requiredOb", (e) => e !== null && typeof e == "object" && Object.keys(e).length === 0 ? "{_field_} object must not be empty" : !0), a("email", J), a("image", N), a("private_username", async (e) => {
+    const { app: t } = x(), r = t?.appContext.config.globalProperties.$axios, i = e.length;
     if (i < 5 || i > 40)
       return "{_field_} length must be between 5 and 40 characters";
     {
@@ -302,12 +304,12 @@ const L = /* @__PURE__ */ B(E, [["render", R]]), T = function() {
       const { data: l } = await r.post("/user/validate/username", n);
       return l.valid ? !0 : l.message;
     }
-  }), s("password", (e, [t]) => {
+  }), a("password", (e, [t]) => {
     if (e !== t)
       return "The passwords do not match.";
   });
-}, z = (e, t) => {
-  T(), e.mixin({
+}, T = (e, t) => {
+  R(), e.mixin({
     data: function() {
       return {
         get cleanObject() {
@@ -316,16 +318,16 @@ const L = /* @__PURE__ */ B(E, [["render", R]]), T = function() {
       };
     }
   });
-}, U = {
-  install: z
+}, z = {
+  install: T
 };
-let f = null;
-typeof window < "u" ? f = window.Vue : typeof global < "u" && (f = global.Vue);
-f && f.use(U);
+let p = null;
+typeof window < "u" ? p = window.Vue : typeof global < "u" && (p = global.Vue);
+p && p.use(z);
 export {
-  L as V,
-  B as _,
-  C as m,
-  U as p,
-  A as v
+  H as V,
+  M as _,
+  E as m,
+  z as p,
+  B as v
 };

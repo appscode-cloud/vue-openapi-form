@@ -1,8 +1,8 @@
 <template>
-  <div class="vof-nested">
-    <div class="vof-nested-header">
-      <h6 class="vof-nested-title">
-        <div class="vof-collapse-icon is-disabled">
+  <div data-vof-nested :class="cls.nested">
+    <div :class="cls.header">
+      <h6 :class="cls.title">
+        <div :class="[cls.foldIcon, 'cursor-not-allowed']">
           <Minus aria-hidden="true" />
         </div>
         {{ schema.title || 'Array Item Description' }}
@@ -10,12 +10,12 @@
       </h6>
       <tabs v-model="activeTab" />
     </div>
-    <div v-if="activeTab === 'form'" class="vof-array-body">
+    <div v-if="activeTab === 'form'" class="flex flex-col gap-4">
       <!-- existing values form -->
       <div
         v-for="(item, index) in modelData"
         :key="`${index}-${schema.title}-form`"
-        class="vof-array-item"
+        class="flex items-start gap-4"
       >
         <!-- for each item generate form -->
         <array-input-items
@@ -28,52 +28,41 @@
           :reference-model="referenceModel || []"
         />
         <!-- for each item add control buttons -->
-        <div>
-          <div class="vof-array-item-controls">
-            <div class="vof-updown">
-              <button
-                v-tooltip="{
-                  content: 'move up',
-                  placement: 'top',
-                }"
-                type="button"
-                aria-label="Move up"
-                :class="{ 'is-primary': index !== 0 }"
-                :disabled="index === 0"
-                @click.prevent="swapElems(index - 1, index)"
-              >
-                <ChevronUp aria-hidden="true" />
-              </button>
-              <button
-                v-tooltip="{
-                  content: 'move down',
-                  placement: 'bottom',
-                }"
-                type="button"
-                aria-label="Move down"
-                :class="{ 'is-primary': index !== modelData.length - 1 }"
-                :disabled="index === modelData.length - 1"
-                @click.prevent="swapElems(index, index + 1)"
-              >
-                <ChevronDown aria-hidden="true" />
-              </button>
-            </div>
+        <div :class="cls.rowActions">
+          <ac-buttons attached inline label="Reorder">
             <ac-button
-              class="vof-icon-btn"
-              color="danger"
-              variant="outlined"
-              aria-label="Delete"
-              @click.prevent="deleteValue(index)"
+              color="white"
+              size="small"
+              aria-label="Move up"
+              :disabled="index === 0"
+              @click.prevent="swapElems(index - 1, index)"
             >
-              <template #icon><Trash2 aria-hidden="true" /></template>
+              <template #icon><ChevronUp aria-hidden="true" /></template>
             </ac-button>
-          </div>
+            <ac-button
+              color="white"
+              size="small"
+              aria-label="Move down"
+              :disabled="index === modelData.length - 1"
+              @click.prevent="swapElems(index, index + 1)"
+            >
+              <template #icon><ChevronDown aria-hidden="true" /></template>
+            </ac-button>
+          </ac-buttons>
+          <ac-button
+            color="white"
+            size="small"
+            aria-label="Delete"
+            @click.prevent="deleteValue(index)"
+          >
+            <template #icon><Trash2 class="text-danger" aria-hidden="true" /></template>
+          </ac-button>
         </div>
       </div>
 
       <!-- new value input form -->
       <v-form v-slot="{ validate, errors: formErrors }" :key="updatePass" as="">
-        <div class="vof-value-list-save">
+        <div class="grid grid-cols-[minmax(0,1fr)_auto] items-start gap-4">
           <template v-if="items.type === 'object'">
             <v-field
               v-slot="{ field, handleChange }"
@@ -172,9 +161,9 @@
             </v-field>
           </template>
           <ac-button
-            class="vof-icon-btn"
-            color="primary"
-            variant="outlined"
+            color="white"
+            size="small"
+            class="mt-1"
             aria-label="Add"
             @click.prevent="addNewValue(validate)"
           >
@@ -204,13 +193,15 @@ import tabs from '../mixins/tabs.js';
 import validation from '../mixins/validation.js';
 import size from '../mixins/size.js';
 import { defineAsyncComponent, defineComponent } from 'vue';
-import { AcButton } from '@ac-design/design-system';
+import { AcButton, AcButtons } from '@ac-design/design-system';
 import { ChevronDown, ChevronUp, Minus, Plus, Trash2 } from '@lucide/vue';
+import * as cls from './classes.js';
 
 export default defineComponent({
   name: 'ArrayInput',
   components: {
     AcButton,
+    AcButtons,
     ChevronDown,
     ChevronUp,
     Minus,
@@ -245,6 +236,9 @@ export default defineComponent({
       type: Boolean,
       default: false,
     },
+  },
+  setup() {
+    return { cls };
   },
 
   data() {

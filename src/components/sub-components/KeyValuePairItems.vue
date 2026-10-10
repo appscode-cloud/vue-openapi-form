@@ -1,5 +1,5 @@
 <template>
-  <div class="vof-key-value-save">
+  <div :class="cls.keyValueRow">
     <v-field
       :id="`${schema.title.replace(/ /g, '-')}-key-${index + 1}-provider`"
       v-slot="{ componentField, errors: fieldErrors, meta }"
@@ -106,13 +106,13 @@
       </v-field>
     </template>
     <ac-button
-      class="vof-icon-btn"
-      color="danger"
-      variant="outlined"
+      color="white"
+      size="small"
+      class="mt-1"
       aria-label="Delete"
       @click.prevent="deleteProp(index)"
     >
-      <template #icon><Trash2 aria-hidden="true" /></template>
+      <template #icon><Trash2 class="text-danger" aria-hidden="true" /></template>
     </ac-button>
   </div>
 </template>
@@ -123,6 +123,7 @@ import { model } from '../../mixins/model.js';
 import { defineComponent } from 'vue';
 import { AcButton } from '@ac-design/design-system';
 import { Trash2 } from '@lucide/vue';
+import * as cls from '../classes.js';
 
 export default defineComponent({
   name: 'KeyValuePairItems',
@@ -152,6 +153,9 @@ export default defineComponent({
     },
   },
   emits: ['delete-key-value'],
+  setup() {
+    return { cls };
+  },
   methods: {
     deleteProp(index) {
       this.$emit('delete-key-value', index);

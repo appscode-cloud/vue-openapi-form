@@ -1,12 +1,12 @@
-import { _ as b, m as V, v as k } from "./entry-Do6WmZZA.js";
-import { s as v } from "./size-BtoaE7vX.js";
-import { resolveComponent as s, openBlock as a, createElementBlock as l, Fragment as f, createVNode as n, createBlock as r, createSlots as M, withCtx as w, createCommentVNode as h, defineComponent as P } from "vue";
+import { _ as b, m as V, v as k } from "./entry-CF8Lj2uG.js";
+import { s as M } from "./size-BtoaE7vX.js";
+import { resolveComponent as i, openBlock as a, createElementBlock as o, Fragment as f, createVNode as n, createBlock as r, createSlots as v, withCtx as w, createCommentVNode as h, defineComponent as P } from "vue";
 import { AcTextarea as S, AcSwitch as A, AcInput as I } from "@ac-design/design-system";
 import { X as K, Check as $ } from "@lucide/vue";
 const C = P({
   name: "SimpleInput",
   components: { AcInput: I, AcSwitch: A, AcTextarea: S, Check: $, X: K },
-  mixins: [V, k, v],
+  mixins: [V, k, M],
   props: {
     schema: {
       type: Object,
@@ -54,12 +54,12 @@ const C = P({
       let t = (e.clipboardData || window.clipboardData).getData(
         "text"
       );
-      const i = this.updatedModelDataAfterPasteAndKeyDown(
+      const s = this.updatedModelDataAfterPasteAndKeyDown(
         e.target,
         t
       );
       t.includes(`
-`) && (this.isMultilineValue = !0, this.modelData = i);
+`) && (this.isMultilineValue = !0, this.modelData = s);
     },
     handleKeyDownEvent(e) {
       if (e.code === "Enter" && e.shiftKey) {
@@ -69,7 +69,7 @@ const C = P({
       }
     },
     updatedModelDataAfterPasteAndKeyDown(e, t) {
-      const { selectionStart: i, selectionEnd: u } = e, d = this.modelData.substring(0, i), m = this.modelData.substring(
+      const { selectionStart: s, selectionEnd: u } = e, d = this.modelData.substring(0, s), m = this.modelData.substring(
         u,
         this.modelData.length
       );
@@ -77,32 +77,35 @@ const C = P({
 `, d + t + m;
     }
   }
-}), N = { class: "vof-single" }, O = {
+}), N = {
+  "data-vof-single": "",
+  class: "relative z-[1] mb-4 ml-6"
+}, O = {
   key: 0,
-  class: "vof-single-switch"
+  class: "flex min-h-9 items-center"
 }, T = {
   key: 0,
-  class: "vof-status-ok"
+  class: "inline-flex size-4 items-center text-success"
 }, E = {
   key: 1,
-  class: "vof-status-bad"
+  class: "inline-flex size-4 items-center text-warning"
 };
-function F(e, t, i, u, d, m) {
-  const c = s("ac-switch"), p = s("ac-textarea"), g = s("Check"), y = s("X"), D = s("ac-input");
-  return a(), l("div", N, [
-    e.ui.tag === "input" ? (a(), l(f, { key: 0 }, [
-      e.ui.type === "checkbox" ? (a(), l("div", O, [
+function z(e, t, s, u, d, m) {
+  const c = i("ac-switch"), p = i("ac-textarea"), g = i("Check"), y = i("X"), D = i("ac-input");
+  return a(), o("div", N, [
+    e.ui.tag === "input" ? (a(), o(f, { key: 0 }, [
+      e.ui.type === "checkbox" ? (a(), o("div", O, [
         n(c, {
           modelValue: e.modelData,
-          "onUpdate:modelValue": t[0] || (t[0] = (o) => e.modelData = o),
+          "onUpdate:modelValue": t[0] || (t[0] = (l) => e.modelData = l),
           label: e.schema.title
         }, null, 8, ["modelValue", "label"])
-      ])) : (a(), l(f, { key: 1 }, [
+      ])) : (a(), o(f, { key: 1 }, [
         e.isMultilineValue ? (a(), r(p, {
           key: 0,
           ref: "textareaField",
           modelValue: e.modelData,
-          "onUpdate:modelValue": t[1] || (t[1] = (o) => e.modelData = o),
+          "onUpdate:modelValue": t[1] || (t[1] = (l) => e.modelData = l),
           label: e.schema.title,
           rows: 4,
           "error-msg": e.errorMessage,
@@ -111,19 +114,19 @@ function F(e, t, i, u, d, m) {
           key: 1,
           ref: "inputField",
           modelValue: e.modelData,
-          "onUpdate:modelValue": t[2] || (t[2] = (o) => e.modelData = o),
+          "onUpdate:modelValue": t[2] || (t[2] = (l) => e.modelData = l),
           label: e.schema.title,
           type: e.ui.type,
           "error-msg": e.errorMessage,
           onPaste: e.onPaste,
           onKeydown: e.handleKeyDownEvent
-        }, M({ _: 2 }, [
+        }, v({ _: 2 }, [
           e.validationOb.dirty ? {
             name: "suffix",
             fn: w(() => [
-              e.validationOb.valid ? (a(), l("span", T, [
+              e.validationOb.valid ? (a(), o("span", T, [
                 n(g, { "aria-hidden": "true" })
-              ])) : (a(), l("span", E, [
+              ])) : (a(), o("span", E, [
                 n(y, { "aria-hidden": "true" })
               ]))
             ]),
@@ -135,14 +138,14 @@ function F(e, t, i, u, d, m) {
     e.ui.tag === "textarea" ? (a(), r(p, {
       key: 1,
       modelValue: e.modelData,
-      "onUpdate:modelValue": t[3] || (t[3] = (o) => e.modelData = o),
+      "onUpdate:modelValue": t[3] || (t[3] = (l) => e.modelData = l),
       label: e.schema.title,
       rows: 4,
       "error-msg": e.errorMessage
     }, null, 8, ["modelValue", "label", "error-msg"])) : h("", !0)
   ]);
 }
-const q = /* @__PURE__ */ b(C, [["render", F]]);
+const q = /* @__PURE__ */ b(C, [["render", z]]);
 export {
   q as default
 };

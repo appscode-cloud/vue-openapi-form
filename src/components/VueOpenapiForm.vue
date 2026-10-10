@@ -1,7 +1,11 @@
 <template>
   <v-form ref="v-form" v-slot="{ meta, validate, errors }" as="">
     <ac-form width="full">
-      <div class="vue-openapi-form vof-root" :class="{ 'is-medium': size === 'medium' }">
+      <!-- `vue-openapi-form` and `is-medium` carry no styles; mixins/size.js looks them up -->
+      <div
+        class="vue-openapi-form w-full font-sans text-body"
+        :class="{ 'is-medium': size === 'medium' }"
+      >
         <v-field
           v-slot="{ field, handleChange }"
           v-model="modelData"
@@ -27,24 +31,24 @@
         </v-field>
       </div>
       <template #footer>
-        <div class="vof-footer">
-          <div class="vof-footer-group">
+        <ac-form-footer sticky="none">
+          <template #left>
             <slot
               name="left-controls"
               :validate="validate"
               :form-status="meta"
               :errors="errors"
             />
-          </div>
-          <div class="vof-footer-group">
+          </template>
+          <template #right>
             <slot
               name="right-controls"
               :validate="validate"
               :form-status="meta"
               :errors="errors"
             />
-          </div>
-        </div>
+          </template>
+        </ac-form-footer>
       </template>
     </ac-form>
   </v-form>
@@ -55,12 +59,13 @@ import ExtendSchema from '../functional-components/extend-schema.js';
 import validation from '../mixins/validation.js';
 import { model } from '../mixins/model.js';
 import { defineComponent } from 'vue';
-import { AcForm } from '@ac-design/design-system';
+import { AcForm, AcFormFooter } from '@ac-design/design-system';
 
 export default defineComponent({
   name: 'VueOpenapiForm',
   components: {
     AcForm,
+    AcFormFooter,
   },
   mixins: [model, validation],
   provide() {

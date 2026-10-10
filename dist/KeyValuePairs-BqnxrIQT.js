@@ -1,22 +1,22 @@
-import { _ as M, m as S, v as T } from "./entry-Do6WmZZA.js";
-import { t as q } from "./tabs-BSCBgGlv.js";
-import { s as B } from "./size-BtoaE7vX.js";
-import { resolveComponent as r, openBlock as t, createElementBlock as y, createElementVNode as v, createVNode as o, createTextVNode as J, toDisplayString as R, Fragment as b, renderList as E, createBlock as u, withCtx as m, withModifiers as F, createCommentVNode as w, defineComponent as I, defineAsyncComponent as L } from "vue";
-import { AcButton as z } from "@ac-design/design-system";
-import { Plus as G, Minus as H } from "@lucide/vue";
-const Q = I({
+import { _ as S, m as T, v as q } from "./entry-CF8Lj2uG.js";
+import { t as B, c as J } from "./classes-BayuRM9v.js";
+import { s as R } from "./size-BtoaE7vX.js";
+import { resolveComponent as r, openBlock as t, createElementBlock as V, normalizeClass as y, createElementVNode as v, createVNode as o, createTextVNode as z, toDisplayString as I, Fragment as b, renderList as E, createBlock as u, withCtx as m, withModifiers as F, createCommentVNode as k, defineComponent as L, defineAsyncComponent as G } from "vue";
+import { AcButton as H } from "@ac-design/design-system";
+import { Plus as Q, Minus as W } from "@lucide/vue";
+const X = L({
   name: "KeyValuePairs",
   components: {
-    AcButton: z,
-    Minus: H,
-    Plus: G,
-    KeyValuePairItems: L(
-      () => import("./KeyValuePairItems-Bh1lBr-W.js").then(
+    AcButton: H,
+    Minus: W,
+    Plus: Q,
+    KeyValuePairItems: G(
+      () => import("./KeyValuePairItems-C5Exca61.js").then(
         (e) => e.default
       )
     )
   },
-  mixins: [S, q, T, B],
+  mixins: [T, B, q, R],
   props: {
     schema: {
       type: Object,
@@ -38,6 +38,9 @@ const Q = I({
       type: Boolean,
       default: !1
     }
+  },
+  setup() {
+    return { cls: J };
   },
   data() {
     return {
@@ -72,8 +75,8 @@ const Q = I({
       deep: !0,
       immediate: !0,
       handler(e, a) {
-        const s = JSON.stringify(e), c = JSON.stringify(a);
-        s !== c && this.initKeyValueArray(), this.initReferenceKeyValueArray();
+        const s = JSON.stringify(e), h = JSON.stringify(a);
+        s !== h && this.initKeyValueArray(), this.initReferenceKeyValueArray();
       }
     }
   },
@@ -121,30 +124,39 @@ const Q = I({
       this.keyValueArray.splice(e, 1), this.updatePass += 1;
     }
   }
-}), W = { class: "vof-nested vof-key-value-pairs" }, X = { class: "vof-nested-header" }, Y = { class: "vof-nested-title" }, Z = { class: "vof-collapse-icon is-disabled" };
-function _(e, a, s, c, x, ee) {
-  const k = r("Minus"), P = r("component-errors"), A = r("tabs"), U = r("key-value-pair-items"), h = r("simple-input"), p = r("v-field"), K = r("object-form-wrapper"), g = r("key-value-pairs", !0), $ = r("array-input"), j = r("Plus"), O = r("ac-button"), D = r("v-form"), C = r("yaml-form"), N = r("json-form");
-  return t(), y("div", W, [
-    v("div", X, [
-      v("h6", Y, [
-        v("div", Z, [
-          o(k, { "aria-hidden": "true" })
-        ]),
-        J(" " + R(e.schema.title || "Array Item Description") + " ", 1),
-        o(P, {
+});
+function Y(e, a, s, h, Z, _) {
+  const P = r("Minus"), A = r("component-errors"), U = r("tabs"), K = r("key-value-pair-items"), w = r("simple-input"), p = r("v-field"), g = r("object-form-wrapper"), $ = r("key-value-pairs", !0), j = r("array-input"), O = r("Plus"), D = r("ac-button"), C = r("v-form"), N = r("yaml-form"), M = r("json-form");
+  return t(), V("div", {
+    "data-vof-nested": "",
+    class: y([e.cls.nested, "flex flex-col gap-2"])
+  }, [
+    v("div", {
+      class: y(e.cls.header)
+    }, [
+      v("h6", {
+        class: y(e.cls.title)
+      }, [
+        v("div", {
+          class: y([e.cls.foldIcon, "cursor-not-allowed"])
+        }, [
+          o(P, { "aria-hidden": "true" })
+        ], 2),
+        z(" " + I(e.schema.title || "Array Item Description") + " ", 1),
+        o(A, {
           errors: e.calcFormErrors(e.errors, e.fieldName)
         }, null, 8, ["errors"])
-      ]),
-      o(A, {
+      ], 2),
+      o(U, {
         modelValue: e.activeTab,
         "onUpdate:modelValue": a[0] || (a[0] = (i) => e.activeTab = i)
       }, null, 8, ["modelValue"])
-    ]),
-    e.activeTab === "form" ? (t(), y(b, { key: 0 }, [
-      (t(!0), y(b, null, E(e.keyValueArray, (i, n) => (t(), y("div", {
+    ], 2),
+    e.activeTab === "form" ? (t(), V(b, { key: 0 }, [
+      (t(!0), V(b, null, E(e.keyValueArray, (i, n) => (t(), V("div", {
         key: `${n}-${e.schema.title}-form`
       }, [
-        o(U, {
+        o(K, {
           modelValue: e.keyValueArray[n],
           "onUpdate:modelValue": (l) => e.keyValueArray[n] = l,
           "field-name": e.fieldName,
@@ -156,11 +168,11 @@ function _(e, a, s, c, x, ee) {
           onDeleteKeyValue: e.deleteProp
         }, null, 8, ["modelValue", "onUpdate:modelValue", "field-name", "reference-model", "index", "schema", "additional-properties", "errors", "onDeleteKeyValue"])
       ]))), 128)),
-      (t(), u(D, {
+      (t(), u(C, {
         id: `${e.schema.title.replace(/ /g, "-")}-new-observer`,
         key: e.updatePass,
         as: "div",
-        class: "vof-key-value-save"
+        class: y(e.cls.keyValueRow)
       }, {
         default: m(({ validate: i, errors: n }) => [
           o(p, {
@@ -172,8 +184,8 @@ function _(e, a, s, c, x, ee) {
             label: `${e.schema.title} new key`,
             as: "div"
           }, {
-            default: m(({ field: l, handleChange: d, errors: V, meta: f }) => [
-              o(h, {
+            default: m(({ field: l, handleChange: d, errors: f, meta: c }) => [
+              o(w, {
                 "model-value": l.value,
                 schema: {
                   title: "Key",
@@ -181,7 +193,7 @@ function _(e, a, s, c, x, ee) {
                   ui: { tag: "input", type: "text" }
                 },
                 type: "string",
-                "validation-ob": { errors: V, ...f },
+                "validation-ob": { errors: f, ...c },
                 "reference-model": "",
                 "onUpdate:modelValue": d
               }, null, 8, ["model-value", "validation-ob", "onUpdate:modelValue"])
@@ -199,7 +211,7 @@ function _(e, a, s, c, x, ee) {
             as: ""
           }, {
             default: m(({ field: l, handleChange: d }) => [
-              o(K, {
+              o(g, {
                 "field-name": "newValue",
                 "model-value": l.value,
                 "is-last-child": !0,
@@ -223,7 +235,7 @@ function _(e, a, s, c, x, ee) {
             as: ""
           }, {
             default: m(({ field: l, handleChange: d }) => [
-              o(g, {
+              o($, {
                 "field-name": "newValue",
                 "model-value": l.value,
                 "is-last-child": !0,
@@ -246,7 +258,7 @@ function _(e, a, s, c, x, ee) {
             as: ""
           }, {
             default: m(({ field: l, handleChange: d }) => [
-              o($, {
+              o(j, {
                 "field-name": "newValue",
                 "model-value": l.value,
                 "is-last-child": !0,
@@ -268,50 +280,50 @@ function _(e, a, s, c, x, ee) {
             label: `${e.schema.title} new value`,
             as: ""
           }, {
-            default: m(({ field: l, handleChange: d, errors: V, meta: f }) => [
-              o(h, {
+            default: m(({ field: l, handleChange: d, errors: f, meta: c }) => [
+              o(w, {
                 "model-value": l.value,
                 schema: e.additionalProperties,
                 type: e.additionalProperties.type,
-                "validation-ob": { errors: V, ...f },
+                "validation-ob": { errors: f, ...c },
                 "reference-model": "",
                 "onUpdate:modelValue": d
               }, null, 8, ["model-value", "schema", "type", "validation-ob", "onUpdate:modelValue"])
             ]),
             _: 1
           }, 8, ["id", "modelValue", "label"])),
-          o(O, {
-            class: "vof-icon-btn",
-            color: "primary",
-            variant: "outlined",
+          o(D, {
+            color: "white",
+            size: "small",
+            class: "mt-1",
             "aria-label": "Add",
             onClick: F((l) => e.addProp(i), ["prevent"])
           }, {
             icon: m(() => [
-              o(j, { "aria-hidden": "true" })
+              o(O, { "aria-hidden": "true" })
             ]),
             _: 1
           }, 8, ["onClick"])
         ]),
         _: 1
-      }, 8, ["id"]))
-    ], 64)) : w("", !0),
-    e.activeTab === "yaml" ? (t(), u(C, {
+      }, 8, ["id", "class"]))
+    ], 64)) : k("", !0),
+    e.activeTab === "yaml" ? (t(), u(N, {
       key: 1,
       modelValue: e.modelData,
       "onUpdate:modelValue": a[6] || (a[6] = (i) => e.modelData = i),
       "reference-model": e.referenceModel || {},
       "onCode::modelDataUpdated": e.updateKeyValueArray
-    }, null, 8, ["modelValue", "reference-model", "onCode::modelDataUpdated"])) : e.activeTab === "json" ? (t(), u(N, {
+    }, null, 8, ["modelValue", "reference-model", "onCode::modelDataUpdated"])) : e.activeTab === "json" ? (t(), u(M, {
       key: 2,
       modelValue: e.modelData,
       "onUpdate:modelValue": a[7] || (a[7] = (i) => e.modelData = i),
       "reference-model": e.referenceModel || {},
       "onCode::modelDataUpdated": e.updateKeyValueArray
-    }, null, 8, ["modelValue", "reference-model", "onCode::modelDataUpdated"])) : w("", !0)
-  ]);
+    }, null, 8, ["modelValue", "reference-model", "onCode::modelDataUpdated"])) : k("", !0)
+  ], 2);
 }
-const de = /* @__PURE__ */ M(Q, [["render", _]]);
+const te = /* @__PURE__ */ S(X, [["render", Y]]);
 export {
-  de as default
+  te as default
 };

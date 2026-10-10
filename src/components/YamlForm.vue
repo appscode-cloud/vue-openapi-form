@@ -1,5 +1,5 @@
 <template>
-  <div class="vof-editor">
+  <div class="ml-8">
     <ac-code-editor
       :key="theme"
       v-model="editorModel"

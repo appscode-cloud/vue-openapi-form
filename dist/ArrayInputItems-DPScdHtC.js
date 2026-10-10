@@ -1,5 +1,5 @@
-import { _ as v, m as V, v as b } from "./entry-Do6WmZZA.js";
-import { resolveComponent as r, openBlock as o, createElementBlock as h, createBlock as n, withCtx as i, createVNode as s, defineComponent as U } from "vue";
+import { _ as v, m as V, v as b } from "./entry-CF8Lj2uG.js";
+import { resolveComponent as o, openBlock as r, createElementBlock as h, createBlock as n, withCtx as i, createVNode as s, defineComponent as U } from "vue";
 const k = U({
   name: "ArrayInputItems",
   mixins: [V, b],
@@ -29,11 +29,11 @@ const k = U({
       default: () => ({})
     }
   }
-}), N = { class: "vof-array-item-fields" };
-function j(e, a, D, O, I, M) {
-  const u = r("object-form-wrapper"), m = r("v-field"), t = r("key-value-pairs"), p = r("array-input"), f = r("simple-input");
-  return o(), h("div", N, [
-    e.items.type === "object" ? (o(), n(m, {
+}), N = { class: "min-w-0 flex-1" };
+function j(e, a, D, O, w, I) {
+  const u = o("object-form-wrapper"), m = o("v-field"), t = o("key-value-pairs"), p = o("array-input"), f = o("simple-input");
+  return r(), h("div", N, [
+    e.items.type === "object" ? (r(), n(m, {
       key: 0,
       modelValue: e.modelData[e.index],
       "onUpdate:modelValue": a[0] || (a[0] = (l) => e.modelData[e.index] = l),
@@ -58,7 +58,7 @@ function j(e, a, D, O, I, M) {
         }, null, 8, ["field-name", "model-value", "schema", "type", "errors", "reference-model", "onUpdate:modelValue"])
       ]),
       _: 1
-    }, 8, ["modelValue", "rules", "name", "label"])) : e.items.type === "key-value-pairs" ? (o(), n(m, {
+    }, 8, ["modelValue", "rules", "name", "label"])) : e.items.type === "key-value-pairs" ? (r(), n(m, {
       key: 1,
       modelValue: e.modelData[e.index],
       "onUpdate:modelValue": a[1] || (a[1] = (l) => e.modelData[e.index] = l),
@@ -82,7 +82,7 @@ function j(e, a, D, O, I, M) {
         }, null, 8, ["field-name", "model-value", "errors", "schema", "type", "reference-model", "onUpdate:modelValue"])
       ]),
       _: 1
-    }, 8, ["modelValue", "rules", "name", "label"])) : e.items.type === "array" ? (o(), n(m, {
+    }, 8, ["modelValue", "rules", "name", "label"])) : e.items.type === "array" ? (r(), n(m, {
       key: 2,
       modelValue: e.modelData[e.index],
       "onUpdate:modelValue": a[2] || (a[2] = (l) => e.modelData[e.index] = l),
@@ -106,7 +106,7 @@ function j(e, a, D, O, I, M) {
         }, null, 8, ["field-name", "model-value", "schema", "type", "errors", "reference-model", "onUpdate:modelValue"])
       ]),
       _: 1
-    }, 8, ["modelValue", "rules", "name", "label"])) : (o(), n(m, {
+    }, 8, ["modelValue", "rules", "name", "label"])) : (r(), n(m, {
       key: 3,
       modelValue: e.modelData[e.index],
       "onUpdate:modelValue": a[3] || (a[3] = (l) => e.modelData[e.index] = l),
