@@ -1,5 +1,5 @@
-import { _ as z, m as B, v as J } from "./entry-CF8Lj2uG.js";
-import { t as E, c as q } from "./classes-BayuRM9v.js";
+import { _ as z, m as B, v as J } from "./entry-BPe3zgVM.js";
+import { t as E, c as q } from "./classes-Bjjgf3hO.js";
 import { s as F } from "./size-BtoaE7vX.js";
 import { resolveComponent as o, openBlock as n, createElementBlock as v, normalizeClass as u, createElementVNode as p, createVNode as t, createTextVNode as L, toDisplayString as R, Fragment as G, renderList as H, withCtx as r, withModifiers as h, createBlock as d, createCommentVNode as K, defineComponent as Q, defineAsyncComponent as W } from "vue";
 import { AcButtons as X, AcButton as Y } from "@ac-design/design-system";
@@ -15,7 +15,7 @@ const le = Q({
     Plus: _,
     Trash2: Z,
     ArrayInputItems: W(
-      () => import("./ArrayInputItems-DPScdHtC.js").then(
+      () => import("./ArrayInputItems-CEQbIGvR.js").then(
         (e) => e.default
       )
     )
@@ -55,6 +55,10 @@ const le = Q({
   computed: {
     items() {
       return this.schema.items || {};
+    },
+    // An input has its label above the field; a block or a switch starts with a 36px row
+    itemIsInput() {
+      return !["object", "key-value-pairs", "array", "boolean"].includes(this.items.type);
     }
   },
   methods: {
@@ -75,7 +79,7 @@ const le = Q({
   class: "flex flex-col gap-4"
 }, te = { class: "grid grid-cols-[minmax(0,1fr)_auto] items-start gap-4" };
 function se(e, a, y, ne, re, me) {
-  const w = o("Minus"), b = o("component-errors"), V = o("tabs"), D = o("array-input-items"), k = o("ChevronUp"), c = o("ac-button"), C = o("ChevronDown"), U = o("ac-buttons"), $ = o("Trash2"), N = o("object-form-wrapper"), f = o("v-field"), g = o("key-value-pairs"), I = o("array-input", !0), j = o("simple-input"), A = o("Plus"), O = o("v-form"), M = o("yaml-form"), S = o("json-form");
+  const w = o("Minus"), b = o("component-errors"), V = o("tabs"), D = o("array-input-items"), k = o("ChevronUp"), c = o("ac-button"), C = o("ChevronDown"), I = o("ac-buttons"), U = o("Trash2"), $ = o("object-form-wrapper"), f = o("v-field"), N = o("key-value-pairs"), g = o("array-input", !0), j = o("simple-input"), A = o("Plus"), O = o("v-form"), M = o("yaml-form"), S = o("json-form");
   return n(), v("div", {
     "data-vof-nested": "",
     class: u(e.cls.nested)
@@ -116,9 +120,9 @@ function se(e, a, y, ne, re, me) {
           "reference-model": e.referenceModel || []
         }, null, 8, ["field-name", "items", "schema", "index", "model-value", "errors", "reference-model"]),
         p("div", {
-          class: u(e.cls.rowActions)
+          class: u([e.cls.rowActions, { [e.cls.besideInput]: e.itemIsInput }])
         }, [
-          t(U, {
+          t(I, {
             attached: "",
             inline: "",
             label: "Reorder"
@@ -158,7 +162,7 @@ function se(e, a, y, ne, re, me) {
             onClick: h((l) => e.deleteValue(s), ["prevent"])
           }, {
             icon: r(() => [
-              t($, {
+              t(U, {
                 class: "text-danger",
                 "aria-hidden": "true"
               })
@@ -183,7 +187,7 @@ function se(e, a, y, ne, re, me) {
               as: ""
             }, {
               default: r(({ field: l, handleChange: i }) => [
-                t(N, {
+                t($, {
                   "field-name": "newItem",
                   "model-value": l.value,
                   "is-last-child": !0,
@@ -210,7 +214,7 @@ function se(e, a, y, ne, re, me) {
               as: ""
             }, {
               default: r(({ field: l, handleChange: i }) => [
-                t(g, {
+                t(N, {
                   "field-name": "newItem",
                   "model-value": l.value,
                   "is-last-child": !0,
@@ -235,7 +239,7 @@ function se(e, a, y, ne, re, me) {
               as: ""
             }, {
               default: r(({ field: l, handleChange: i }) => [
-                t(I, {
+                t(g, {
                   "field-name": "newItem",
                   "model-value": l.value,
                   "is-last-child": !0,
@@ -278,7 +282,7 @@ function se(e, a, y, ne, re, me) {
             t(c, {
               color: "white",
               size: "small",
-              class: "mt-1",
+              class: u({ [e.cls.besideInput]: e.itemIsInput }),
               "aria-label": "Add",
               onClick: h((l) => e.addNewValue(m), ["prevent"])
             }, {
@@ -286,7 +290,7 @@ function se(e, a, y, ne, re, me) {
                 t(A, { "aria-hidden": "true" })
               ]),
               _: 1
-            }, 8, ["onClick"])
+            }, 8, ["class", "onClick"])
           ])
         ]),
         _: 1

@@ -2,13 +2,13 @@ import { defineComponent as r, defineAsyncComponent as t } from "vue";
 const m = r({
   components: {
     Tabs: t(
-      () => import("./Tabs-CfTdShhK.js").then((e) => e.default)
+      () => import("./Tabs-BZKbpA27.js").then((e) => e.default)
     ),
     JsonForm: t(
-      () => import("./JsonForm-TaAt9Ak5.js").then((e) => e.default)
+      () => import("./JsonForm-Bwolb8Rx.js").then((e) => e.default)
     ),
     YamlForm: t(
-      () => import("./YamlForm-CEIVhm8k.js").then((e) => e.default)
+      () => import("./YamlForm-uxaMSu5p.js").then((e) => e.default)
     )
   },
   data() {
@@ -24,8 +24,9 @@ const m = r({
   "grid grid-cols-[minmax(0,1fr)_minmax(0,1fr)_auto] items-start gap-4",
   "[&>[data-vof-single]]:ml-0",
   "[&>[data-vof-nested]]:pl-0 [&>[data-vof-nested]]:after:left-2 [&>[data-vof-nested]]:before:left-1"
-].join(" "), l = "mt-1 flex shrink-0 items-center gap-2", b = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
+].join(" "), l = "flex shrink-0 items-center gap-2", i = "mt-7.75", c = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
   __proto__: null,
+  besideInput: i,
   foldIcon: d,
   header: a,
   keyValueRow: s,
@@ -35,6 +36,6 @@ const m = r({
   title: f
 }, Symbol.toStringTag, { value: "Module" }));
 export {
-  b as c,
+  c,
   m as t
 };

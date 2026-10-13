@@ -12,9 +12,12 @@
     "lint": "eslint --ext .js,.vue --ignore-path .gitignore src",
     "deploy": "firebase use default && firebase deploy"
   },
-  "dependencies": {},
   "devDependencies": {
-    "@ac-design/design-system": "~1.0.0",
+    "@ac-design/design-system": "~2.4.0",
+    "@fontsource-variable/google-sans-flex": "^5.3.2",
+    "@fontsource-variable/jetbrains-mono": "^5.3.0",
+    "@fontsource-variable/roboto": "^5.3.0",
+    "@lucide/vue": "^1.0.0",
     "@tailwindcss/vite": "^4.3.3",
     "@vee-validate/rules": "^4.5.11",
     "@vitejs/plugin-vue": "^6.0.3",
@@ -23,21 +26,18 @@
     "eslint-plugin-html": "^6.2.0",
     "eslint-plugin-vue": "^9.23.0",
     "js-yaml": "^3.14.1",
-    "@lucide/vue": "^1.0.0",
     "prettier": "2.6.2",
     "tailwindcss": "^4.3.3",
     "vee-validate": "^4.4.7",
     "vite": "^7.3.1",
     "vue": "^3.5.0",
-    "vuex": "^4.0.2",
-    "@fontsource-variable/geist": "^5.3.0",
-    "@fontsource-variable/geist-mono": "^5.3.0"
+    "vuex": "^4.0.2"
   },
   "peerDependencies": {
-    "@ac-design/design-system": "~1.0.0",
+    "@ac-design/design-system": "~2.4.0",
+    "@lucide/vue": "^1.0.0",
     "@vee-validate/rules": "^4.5.11",
     "js-yaml": "^3.14.1",
-    "@lucide/vue": "^1.0.0",
     "vee-validate": "^4.4.7",
     "vue": "^3.5.0"
   },

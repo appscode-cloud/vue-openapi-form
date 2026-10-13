@@ -2,7 +2,7 @@
   <div data-vof-single class="relative z-[1] mb-4 ml-6">
     <template v-if="ui.tag === 'input'">
       <template v-if="ui.type === 'checkbox'">
-        <!-- Same height as an input, so switches keep the fields' rhythm -->
+        <!-- 36px, the height of a block header, so array row actions line up with a switch too -->
         <div class="flex min-h-9 items-center">
           <ac-switch v-model="modelData" :label="schema.title" />
         </div>

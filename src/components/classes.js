@@ -26,5 +26,9 @@ export const keyValueRow = [
   '[&>[data-vof-nested]]:pl-0 [&>[data-vof-nested]]:after:left-2 [&>[data-vof-nested]]:before:left-1',
 ].join(' ');
 
-// Per-item actions (reorder group, delete): `mt-1` centres the 28px small buttons on a 36px input
-export const rowActions = 'mt-1 flex shrink-0 items-center gap-2';
+// Per-item actions (reorder group, delete)
+export const rowActions = 'flex shrink-0 items-center gap-2';
+
+// Small buttons are 36px tall, like a block's header and a switch row, so beside those they need no margin.
+// Beside an input they drop past its label (20px line + 8px gap) and centre on the 42px field: 28px + 3px.
+export const besideInput = 'mt-7.75';

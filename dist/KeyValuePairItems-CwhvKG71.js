@@ -1,12 +1,12 @@
-import { _ as b, m as k, v as h } from "./entry-CF8Lj2uG.js";
-import { resolveComponent as d, openBlock as m, createElementBlock as P, normalizeClass as U, createVNode as o, withCtx as i, mergeProps as g, createBlock as t, withModifiers as D, defineComponent as N } from "vue";
+import { _ as k, m as h, v as P } from "./entry-BPe3zgVM.js";
+import { resolveComponent as d, openBlock as m, createElementBlock as U, normalizeClass as p, createVNode as o, withCtx as i, mergeProps as g, createBlock as t, withModifiers as D, defineComponent as N } from "vue";
 import { AcButton as j } from "@ac-design/design-system";
 import { Trash2 as w } from "@lucide/vue";
-import { c as M } from "./classes-BayuRM9v.js";
+import { c as M } from "./classes-Bjjgf3hO.js";
 const O = N({
   name: "KeyValuePairItems",
   components: { AcButton: j, Trash2: w },
-  mixins: [k, h],
+  mixins: [h, P],
   props: {
     modelValue: {
       type: Object,
@@ -40,10 +40,10 @@ const O = N({
     }
   }
 });
-function C(e, a, B, K, T, q) {
-  const s = d("simple-input"), n = d("v-field"), p = d("object-form-wrapper"), v = d("key-value-pairs"), f = d("array-input"), y = d("Trash2"), $ = d("ac-button");
-  return m(), P("div", {
-    class: U(e.cls.keyValueRow)
+function C(e, a, B, I, K, T) {
+  const s = d("simple-input"), n = d("v-field"), v = d("object-form-wrapper"), f = d("key-value-pairs"), y = d("array-input"), $ = d("Trash2"), b = d("ac-button");
+  return m(), U("div", {
+    class: p(e.cls.keyValueRow)
   }, [
     o(n, {
       id: `${e.schema.title.replace(/ /g, "-")}-key-${e.index + 1}-provider`,
@@ -79,7 +79,7 @@ function C(e, a, B, K, T, q) {
       as: ""
     }, {
       default: i(({ field: l, handleChange: r }) => [
-        o(p, {
+        o(v, {
           "field-name": `${e.fieldName}/value/${e.index + 1}`,
           "model-value": l.value,
           schema: e.additionalProperties,
@@ -102,7 +102,7 @@ function C(e, a, B, K, T, q) {
       as: ""
     }, {
       default: i(({ field: l, handleChange: r }) => [
-        o(v, {
+        o(f, {
           "field-name": `${e.fieldName}/value/${e.index + 1}`,
           "model-value": l.value,
           schema: e.additionalProperties,
@@ -124,7 +124,7 @@ function C(e, a, B, K, T, q) {
       as: ""
     }, {
       default: i(({ field: l, handleChange: r }) => [
-        o(f, {
+        o(y, {
           "field-name": `${e.fieldName}/value/${e.index + 1}`,
           "model-value": l.value,
           schema: e.additionalProperties,
@@ -157,24 +157,24 @@ function C(e, a, B, K, T, q) {
       ]),
       _: 1
     }, 8, ["id", "modelValue", "rules", "name", "label"])),
-    o($, {
+    o(b, {
       color: "white",
       size: "small",
-      class: "mt-1",
+      class: p(e.cls.besideInput),
       "aria-label": "Delete",
       onClick: a[5] || (a[5] = D((l) => e.deleteProp(e.index), ["prevent"]))
     }, {
       icon: i(() => [
-        o(y, {
+        o($, {
           class: "text-danger",
           "aria-hidden": "true"
         })
       ]),
       _: 1
-    })
+    }, 8, ["class"])
   ], 2);
 }
-const R = /* @__PURE__ */ b(O, [["render", C]]);
+const R = /* @__PURE__ */ k(O, [["render", C]]);
 export {
   R as default
 };

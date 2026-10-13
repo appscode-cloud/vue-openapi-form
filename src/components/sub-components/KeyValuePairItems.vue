@@ -108,7 +108,7 @@
     <ac-button
       color="white"
       size="small"
-      class="mt-1"
+      :class="cls.besideInput"
       aria-label="Delete"
       @click.prevent="deleteProp(index)"
     >

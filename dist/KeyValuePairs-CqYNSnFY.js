@@ -1,7 +1,7 @@
-import { _ as S, m as T, v as q } from "./entry-CF8Lj2uG.js";
-import { t as B, c as J } from "./classes-BayuRM9v.js";
-import { s as R } from "./size-BtoaE7vX.js";
-import { resolveComponent as r, openBlock as t, createElementBlock as V, normalizeClass as y, createElementVNode as v, createVNode as o, createTextVNode as z, toDisplayString as I, Fragment as b, renderList as E, createBlock as u, withCtx as m, withModifiers as F, createCommentVNode as k, defineComponent as L, defineAsyncComponent as G } from "vue";
+import { _ as S, m as T, v as q } from "./entry-BPe3zgVM.js";
+import { t as B, c as I } from "./classes-Bjjgf3hO.js";
+import { s as J } from "./size-BtoaE7vX.js";
+import { resolveComponent as r, openBlock as t, createElementBlock as V, normalizeClass as p, createElementVNode as v, createVNode as o, createTextVNode as R, toDisplayString as z, Fragment as w, renderList as E, createBlock as u, withCtx as m, withModifiers as F, createCommentVNode as k, defineComponent as L, defineAsyncComponent as G } from "vue";
 import { AcButton as H } from "@ac-design/design-system";
 import { Plus as Q, Minus as W } from "@lucide/vue";
 const X = L({
@@ -11,12 +11,12 @@ const X = L({
     Minus: W,
     Plus: Q,
     KeyValuePairItems: G(
-      () => import("./KeyValuePairItems-C5Exca61.js").then(
+      () => import("./KeyValuePairItems-CwhvKG71.js").then(
         (e) => e.default
       )
     )
   },
-  mixins: [T, B, q, R],
+  mixins: [T, B, q, J],
   props: {
     schema: {
       type: Object,
@@ -40,7 +40,7 @@ const X = L({
     }
   },
   setup() {
-    return { cls: J };
+    return { cls: I };
   },
   data() {
     return {
@@ -126,23 +126,23 @@ const X = L({
   }
 });
 function Y(e, a, s, h, Z, _) {
-  const P = r("Minus"), A = r("component-errors"), U = r("tabs"), K = r("key-value-pair-items"), w = r("simple-input"), p = r("v-field"), g = r("object-form-wrapper"), $ = r("key-value-pairs", !0), j = r("array-input"), O = r("Plus"), D = r("ac-button"), C = r("v-form"), N = r("yaml-form"), M = r("json-form");
+  const P = r("Minus"), A = r("component-errors"), U = r("tabs"), K = r("key-value-pair-items"), b = r("simple-input"), y = r("v-field"), g = r("object-form-wrapper"), $ = r("key-value-pairs", !0), j = r("array-input"), O = r("Plus"), D = r("ac-button"), C = r("v-form"), N = r("yaml-form"), M = r("json-form");
   return t(), V("div", {
     "data-vof-nested": "",
-    class: y([e.cls.nested, "flex flex-col gap-2"])
+    class: p([e.cls.nested, "flex flex-col gap-2"])
   }, [
     v("div", {
-      class: y(e.cls.header)
+      class: p(e.cls.header)
     }, [
       v("h6", {
-        class: y(e.cls.title)
+        class: p(e.cls.title)
       }, [
         v("div", {
-          class: y([e.cls.foldIcon, "cursor-not-allowed"])
+          class: p([e.cls.foldIcon, "cursor-not-allowed"])
         }, [
           o(P, { "aria-hidden": "true" })
         ], 2),
-        z(" " + I(e.schema.title || "Array Item Description") + " ", 1),
+        R(" " + z(e.schema.title || "Array Item Description") + " ", 1),
         o(A, {
           errors: e.calcFormErrors(e.errors, e.fieldName)
         }, null, 8, ["errors"])
@@ -152,8 +152,8 @@ function Y(e, a, s, h, Z, _) {
         "onUpdate:modelValue": a[0] || (a[0] = (i) => e.activeTab = i)
       }, null, 8, ["modelValue"])
     ], 2),
-    e.activeTab === "form" ? (t(), V(b, { key: 0 }, [
-      (t(!0), V(b, null, E(e.keyValueArray, (i, n) => (t(), V("div", {
+    e.activeTab === "form" ? (t(), V(w, { key: 0 }, [
+      (t(!0), V(w, null, E(e.keyValueArray, (i, n) => (t(), V("div", {
         key: `${n}-${e.schema.title}-form`
       }, [
         o(K, {
@@ -172,10 +172,10 @@ function Y(e, a, s, h, Z, _) {
         id: `${e.schema.title.replace(/ /g, "-")}-new-observer`,
         key: e.updatePass,
         as: "div",
-        class: y(e.cls.keyValueRow)
+        class: p(e.cls.keyValueRow)
       }, {
         default: m(({ validate: i, errors: n }) => [
-          o(p, {
+          o(y, {
             id: `${e.schema.title.replace(/ /g, "-")}-key-provider`,
             modelValue: e.newKey,
             "onUpdate:modelValue": a[1] || (a[1] = (l) => e.newKey = l),
@@ -185,7 +185,7 @@ function Y(e, a, s, h, Z, _) {
             as: "div"
           }, {
             default: m(({ field: l, handleChange: d, errors: f, meta: c }) => [
-              o(w, {
+              o(b, {
                 "model-value": l.value,
                 schema: {
                   title: "Key",
@@ -200,7 +200,7 @@ function Y(e, a, s, h, Z, _) {
             ]),
             _: 1
           }, 8, ["id", "modelValue", "label"]),
-          e.additionalProperties.type === "object" ? (t(), u(p, {
+          e.additionalProperties.type === "object" ? (t(), u(y, {
             key: 0,
             id: `${e.schema.title.replace(/ /g, "-")}-value-provider`,
             modelValue: e.newValue,
@@ -224,7 +224,7 @@ function Y(e, a, s, h, Z, _) {
               }, null, 8, ["model-value", "schema", "type", "errors", "onUpdate:modelValue"])
             ]),
             _: 2
-          }, 1032, ["id", "modelValue", "label"])) : e.additionalProperties.type === "key-value-pairs" ? (t(), u(p, {
+          }, 1032, ["id", "modelValue", "label"])) : e.additionalProperties.type === "key-value-pairs" ? (t(), u(y, {
             key: 1,
             id: `${e.schema.title.replace(/ /g, "-")}-value-provider`,
             modelValue: e.newValue,
@@ -247,7 +247,7 @@ function Y(e, a, s, h, Z, _) {
               }, null, 8, ["model-value", "schema", "type", "errors", "onUpdate:modelValue"])
             ]),
             _: 2
-          }, 1032, ["id", "modelValue", "label"])) : e.additionalProperties.type === "array" ? (t(), u(p, {
+          }, 1032, ["id", "modelValue", "label"])) : e.additionalProperties.type === "array" ? (t(), u(y, {
             key: 2,
             id: `${e.schema.title.replace(/ /g, "-")}-value-provider`,
             modelValue: e.newValue,
@@ -270,7 +270,7 @@ function Y(e, a, s, h, Z, _) {
               }, null, 8, ["model-value", "schema", "type", "errors", "onUpdate:modelValue"])
             ]),
             _: 2
-          }, 1032, ["id", "modelValue", "label"])) : (t(), u(p, {
+          }, 1032, ["id", "modelValue", "label"])) : (t(), u(y, {
             key: 3,
             id: `${e.schema.title.replace(/ /g, "-")}-value-provider`,
             modelValue: e.newValue,
@@ -281,7 +281,7 @@ function Y(e, a, s, h, Z, _) {
             as: ""
           }, {
             default: m(({ field: l, handleChange: d, errors: f, meta: c }) => [
-              o(w, {
+              o(b, {
                 "model-value": l.value,
                 schema: e.additionalProperties,
                 type: e.additionalProperties.type,
@@ -295,7 +295,7 @@ function Y(e, a, s, h, Z, _) {
           o(D, {
             color: "white",
             size: "small",
-            class: "mt-1",
+            class: p(e.cls.besideInput),
             "aria-label": "Add",
             onClick: F((l) => e.addProp(i), ["prevent"])
           }, {
@@ -303,7 +303,7 @@ function Y(e, a, s, h, Z, _) {
               o(O, { "aria-hidden": "true" })
             ]),
             _: 1
-          }, 8, ["onClick"])
+          }, 8, ["class", "onClick"])
         ]),
         _: 1
       }, 8, ["id", "class"]))

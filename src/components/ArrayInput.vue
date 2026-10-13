@@ -28,7 +28,7 @@
           :reference-model="referenceModel || []"
         />
         <!-- for each item add control buttons -->
-        <div :class="cls.rowActions">
+        <div :class="[cls.rowActions, { [cls.besideInput]: itemIsInput }]">
           <ac-buttons attached inline label="Reorder">
             <ac-button
               color="white"
@@ -163,7 +163,7 @@
           <ac-button
             color="white"
             size="small"
-            class="mt-1"
+            :class="{ [cls.besideInput]: itemIsInput }"
             aria-label="Add"
             @click.prevent="addNewValue(validate)"
           >
@@ -251,6 +251,10 @@ export default defineComponent({
   computed: {
     items() {
       return this.schema.items || {};
+    },
+    // An input has its label above the field; a block or a switch starts with a 36px row
+    itemIsInput() {
+      return !['object', 'key-value-pairs', 'array', 'boolean'].includes(this.items.type);
     },
   },
 

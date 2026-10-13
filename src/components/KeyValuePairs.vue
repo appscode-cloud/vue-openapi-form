@@ -154,7 +154,7 @@
         <ac-button
           color="white"
           size="small"
-          class="mt-1"
+          :class="cls.besideInput"
           aria-label="Add"
           @click.prevent="addProp(validate)"
         >
