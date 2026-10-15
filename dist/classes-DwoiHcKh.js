@@ -2,13 +2,13 @@ import { defineComponent as r, defineAsyncComponent as t } from "vue";
 const m = r({
   components: {
     Tabs: t(
-      () => import("./Tabs-BZKbpA27.js").then((e) => e.default)
+      () => import("./Tabs-ByeE8URj.js").then((e) => e.default)
     ),
     JsonForm: t(
-      () => import("./JsonForm-Bwolb8Rx.js").then((e) => e.default)
+      () => import("./JsonForm-yUk-hqt9.js").then((e) => e.default)
     ),
     YamlForm: t(
-      () => import("./YamlForm-uxaMSu5p.js").then((e) => e.default)
+      () => import("./YamlForm-C4ioDSWh.js").then((e) => e.default)
     )
   },
   data() {
