@@ -1,0 +1,10 @@
+/*
+ * vue-openapi-form is styled with Tailwind utilities and @ac-design/design-system tokens; it ships no CSS rules.
+ * This file makes the app's Tailwind build scan its components. Import it from the app's Tailwind entry,
+ * after the design-system theme:
+ *
+ *   @import 'tailwindcss';
+ *   @import '@ac-design/design-system/theme.css';
+ *   @import '@bytebuilders/vue-openapi-form/next.css';
+ */
+@source "../components";

@@ -1,1 +1,0 @@
-"use strict";var e=require("vue");const t={class:"ac-tabs-body is-content-available"};const r={render:function(r,n){return e.openBlock(),e.createElementBlock("div",t,[e.renderSlot(r.$slots,"default")])}};exports.default=r;

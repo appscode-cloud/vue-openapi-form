@@ -1,1 +1,0 @@
-"use strict";var e=require("vue");const t={class:"tabs ac-tabs"};const r={render:function(r,l){return e.openBlock(),e.createElementBlock("div",t,[e.createElementVNode("ul",null,[e.renderSlot(r.$slots,"default")])])}};exports.default=r;

@@ -1,42 +1,30 @@
 <template>
-  <div class="tabs ac-tabs is-line" :style=" showTab ? 'opacity: 1; visibility: visible;': ''">
-    <ul>
-      <li :class="{ 'is-active': activeTab === 'form' }">
-        <a @click.prevent="showForm()">
-          <span class="icon is-small"
-            ><i
-              class="fa fa-file-text fa-flip-horizontal"
-              aria-hidden="true"
-            ></i
-          ></span>
-          <span>Form</span>
-        </a>
-      </li>
-      <li :class="{ 'is-active': activeTab === 'yaml' }">
-        <a @click.prevent="showYaml()">
-          <span class="icon is-small"
-            ><i class="fa fa-code" aria-hidden="true"></i
-          ></span>
-          <span>YAML</span>
-        </a>
-      </li>
-      <li :class="{ 'is-active': activeTab === 'json' }">
-        <a @click.prevent="showJson()">
-          <span class="icon is-small"
-            ><i class="fa fa-code" aria-hidden="true"></i
-          ></span>
-          <span>JSON</span>
-        </a>
-      </li>
-    </ul>
+  <!-- Shown on hover of the block header (group/header), and always on the root form -->
+  <div
+    class="max-w-full transition-[opacity,visibility] duration-300 ease-in-out motion-reduce:transition-none"
+    :class="
+      showTab
+        ? 'visible opacity-100'
+        : 'invisible opacity-0 group-hover/header:visible group-hover/header:opacity-100'
+    "
+  >
+    <ac-segmented-control
+      v-model="activeTab"
+      size="small"
+      label="Editor mode"
+      :options="options"
+      @change="onChange"
+    />
   </div>
 </template>
 
 <script>
 import { defineComponent } from 'vue';
+import { AcSegmentedControl } from '@ac-design/design-system';
 
 export default defineComponent({
   name: 'Tabs',
+  components: { AcSegmentedControl },
   props: {
     modelValue: {
       type: String,
@@ -45,28 +33,25 @@ export default defineComponent({
     showTab: {
       type: Boolean,
       default: false,
-    }
+    },
   },
   emits: ['update:modelValue'],
 
   data() {
     return {
       activeTab: 'form',
+      // Text-only: the labels say it all, and YAML and JSON would share one icon
+      options: [
+        { value: 'form', label: 'Form' },
+        { value: 'yaml', label: 'YAML' },
+        { value: 'json', label: 'JSON' },
+      ],
     };
   },
 
   methods: {
-    showForm() {
-      this.activeTab = 'form';
-      this.$emit('update:modelValue', 'form');
-    },
-    showJson() {
-      this.activeTab = 'json';
-      this.$emit('update:modelValue', 'json');
-    },
-    showYaml() {
-      this.activeTab = 'yaml';
-      this.$emit('update:modelValue', 'yaml');
+    onChange(tab) {
+      this.$emit('update:modelValue', tab);
     },
   },
 });

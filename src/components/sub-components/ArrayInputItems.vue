@@ -1,5 +1,5 @@
 <template>
-  <div class="form-left-item">
+  <div class="min-w-0 flex-1">
     <template v-if="items.type === 'object'">
       <v-field
         v-slot="{ field, handleChange }"

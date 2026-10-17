@@ -1,52 +1,59 @@
 <template>
   <v-form ref="v-form" v-slot="{ meta, validate, errors }" as="">
-    <ac-form>
-      <div class="vue-openapi-form pl-20" :class="{ 'is-medium': size === 'medium' }">
-        <v-field
-          v-slot="{ field, handleChange }"
-          v-model="modelData"
-          :name="extendedSchema.title"
-          :label="extendedSchema.title"
-          :rules="ruleObject(true)"
-          as=""
+    <!-- surface (white) card around the fields and the footer -->
+    <ac-card>
+      <ac-form width="full" variant="plain">
+        <!-- `vue-openapi-form` and `is-medium` carry no styles; mixins/size.js looks them up -->
+        <div
+          class="vue-openapi-form w-full font-sans text-body"
+          :class="{ 'is-medium': size === 'medium' }"
         >
-          <object-form-wrapper
-            field-name="$"
-            :model-value="field.value"
-            :expand-form="true"
-            :is-root="true"
-            :level="1"
-            :is-self-required="true"
-            :only-json="onlyJson"
-            :schema="extendedSchema"
-            :reference-model="referenceModel || {}"
-            :errors="errors"
-            :showRootTab="true"
-            @update:modelValue="handleChange"
-          />
-        </v-field>
-      </div>
-      <template #form-left-controls>
-        <form-footer-control>
-          <slot
-            name="left-controls"
-            :validate="validate"
-            :form-status="meta"
-            :errors="errors"
-          />
-        </form-footer-control>
-      </template>
-      <template #form-right-controls>
-        <form-footer-control>
-          <slot
-            name="right-controls"
-            :validate="validate"
-            :form-status="meta"
-            :errors="errors"
-          />
-        </form-footer-control>
-      </template>
-    </ac-form>
+          <v-field
+            v-slot="{ field, handleChange }"
+            v-model="modelData"
+            :name="extendedSchema.title"
+            :label="extendedSchema.title"
+            :rules="ruleObject(true)"
+            as=""
+          >
+            <object-form-wrapper
+              field-name="$"
+              :model-value="field.value"
+              :expand-form="true"
+              :is-root="true"
+              :level="1"
+              :is-self-required="true"
+              :only-json="onlyJson"
+              :schema="extendedSchema"
+              :reference-model="referenceModel || {}"
+              :errors="errors"
+              :showRootTab="true"
+              @update:modelValue="handleChange"
+            />
+          </v-field>
+        </div>
+        <template #footer>
+          <ac-form-footer sticky="none">
+            <template #left>
+              <slot
+                name="left-controls"
+                :validate="validate"
+                :form-status="meta"
+                :errors="errors"
+              />
+            </template>
+            <template #right>
+              <slot
+                name="right-controls"
+                :validate="validate"
+                :form-status="meta"
+                :errors="errors"
+              />
+            </template>
+          </ac-form-footer>
+        </template>
+      </ac-form>
+    </ac-card>
   </v-form>
 </template>
 
@@ -54,19 +61,15 @@
 import ExtendSchema from '../functional-components/extend-schema.js';
 import validation from '../mixins/validation.js';
 import { model } from '../mixins/model.js';
-import { defineAsyncComponent, defineComponent } from 'vue';
+import { defineComponent } from 'vue';
+import { AcCard, AcForm, AcFormFooter } from '@ac-design/design-system';
 
 export default defineComponent({
   name: 'VueOpenapiForm',
   components: {
-    AcForm: defineAsyncComponent(() =>
-      import('@appscode/design-system/vue-components/v3/form/Form.vue')
-    ),
-    FormFooterControl: defineAsyncComponent(() =>
-      import(
-        '@appscode/design-system/vue-components/v3/form/FormFooterControl.vue'
-      )
-    ),
+    AcCard,
+    AcForm,
+    AcFormFooter,
   },
   mixins: [model, validation],
   provide() {
@@ -115,8 +118,3 @@ export default defineComponent({
   },
 });
 </script>
-
-<style lang="scss">
-@import 'font-awesome/css/font-awesome.min.css';
-@import '../assets/scss/main.scss';
-</style>
