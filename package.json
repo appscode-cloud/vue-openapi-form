@@ -13,7 +13,7 @@
     "deploy": "firebase use default && firebase deploy"
   },
   "devDependencies": {
-    "@ac-design/design-system": "^2.5.0",
+    "@ac-design/design-system": "^2.10.0",
     "@fontsource-variable/google-sans-flex": "^5.3.2",
     "@fontsource-variable/jetbrains-mono": "^5.3.0",
     "@fontsource-variable/roboto": "^5.3.0",
