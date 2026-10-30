@@ -13,7 +13,7 @@
     "deploy": "firebase use default && firebase deploy"
   },
   "devDependencies": {
-    "@ac-design/design-system": "^2.10.0",
+    "@ac-design/design-system": "^2.10.3",
     "@fontsource-variable/google-sans-flex": "^5.3.2",
     "@fontsource-variable/jetbrains-mono": "^5.3.0",
     "@fontsource-variable/roboto": "^5.3.0",
@@ -34,7 +34,7 @@
     "vuex": "^4.0.2"
   },
   "peerDependencies": {
-    "@ac-design/design-system": "^2.5.0",
+    "@ac-design/design-system": "^2.10.3",
     "@lucide/vue": "^1.0.0",
     "@vee-validate/rules": "^4.5.11",
     "js-yaml": "^3.14.1",
