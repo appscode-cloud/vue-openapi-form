@@ -30,8 +30,7 @@
     "tailwindcss": "^4.3.3",
     "vee-validate": "^4.4.7",
     "vite": "^7.3.1",
-    "vue": "^3.5.0",
-    "vuex": "^4.0.2"
+    "vue": "^3.5.0"
   },
   "peerDependencies": {
     "@ac-design/design-system": "^2.18.0",
