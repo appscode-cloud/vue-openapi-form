@@ -5,9 +5,8 @@ import '@fontsource-variable/jetbrains-mono';
 
 import { createApp } from 'vue';
 import App from './App.vue';
-import store from './store';
 import { registerValidationRules } from '@/plugins/vee-validate';
 
 registerValidationRules();
 
-createApp(App).use(store).mount('#app');
+createApp(App).mount('#app');
